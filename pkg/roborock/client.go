@@ -140,6 +140,10 @@ type DeviceSession struct {
 
 // OpenDevice opens a fresh connection; it never reuses another account's session.
 func (c *Client) OpenDevice(ctx context.Context, request OpenDeviceRequest) (*DeviceSession, error) {
+	if request.Protocol == "" {
+		return nil, roborockerrors.New(roborockerrors.InvalidArgument, "open_device", "device protocol is required", nil)
+	}
+
 	auth := request.Auth.Mqtt
 
 	rpc, err := mqtt.Open(ctx, mqtt.Config{BrokerURL: auth.BrokerURL,

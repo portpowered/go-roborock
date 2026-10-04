@@ -24,14 +24,16 @@ import (
 )
 
 type replayExchange struct {
-	Method   string            `json:"method"`
-	Origin   string            `json:"origin"`
-	Path     string            `json:"path"`
-	Query    url.Values        `json:"query"`
-	Form     url.Values        `json:"form"`
-	Headers  map[string]string `json:"headers"`
-	Hawk     bool              `json:"hawk"`
-	Response json.RawMessage   `json:"response"`
+	Method          string            `json:"method"`
+	Origin          string            `json:"origin"`
+	Path            string            `json:"path"`
+	Query           url.Values        `json:"query"`
+	Form            url.Values        `json:"form"`
+	Headers         map[string]string `json:"headers"`
+	Hawk            bool              `json:"hawk"`
+	Response        json.RawMessage   `json:"response"`
+	ResponseStatus  int               `json:"responseStatus"`
+	ResponseHeaders http.Header       `json:"responseHeaders"`
 }
 type replayFixture struct {
 	Provenance string           `json:"provenance"`
@@ -60,13 +62,7 @@ func (d *replayDoer) Do(request *http.Request) (*http.Response, error) {
 		verifyHawk(d.t, request.Header.Get("Authorization"), expected.Path)
 	}
 
-	var response http.Response
-
-	response.StatusCode = http.StatusOK
-	response.Header = http.Header{"Content-Type": {"application/json"}}
-	response.Body = io.NopCloser(bytes.NewReader(expected.Response))
-
-	return &response, nil
+	return pairedFixtureResponse(d.t, expected.ResponseStatus, expected.ResponseHeaders, expected.Response), nil
 }
 
 func (d *replayDoer) verifyRequest(request *http.Request, expected replayExchange) {

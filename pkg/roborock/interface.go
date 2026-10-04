@@ -54,6 +54,7 @@ type OpenDeviceRequest struct {
 	DeviceID string
 	// LocalKey is required by device encryption and comes from discovery.
 	LocalKey string
+	// Protocol is required; use the protocol returned by discovery.
 	Protocol ProtocolVersion
 }
 

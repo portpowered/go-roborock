@@ -4,6 +4,7 @@ package replay_test
 import (
 	"encoding/json"
 	"io"
+	"mime"
 	"net/http"
 	"net/url"
 	"os"
@@ -18,13 +19,15 @@ import (
 const accountFixtureProvenance = "synthetic"
 
 type exchange struct {
-	Method   string            `json:"method"`
-	Origin   string            `json:"origin"`
-	Path     string            `json:"path"`
-	Form     url.Values        `json:"form"`
-	Query    url.Values        `json:"query"`
-	Headers  map[string]string `json:"headers"`
-	Response json.RawMessage   `json:"response"`
+	Method          string            `json:"method"`
+	Origin          string            `json:"origin"`
+	Path            string            `json:"path"`
+	Form            url.Values        `json:"form"`
+	Query           url.Values        `json:"query"`
+	Headers         map[string]string `json:"headers"`
+	Response        json.RawMessage   `json:"response"`
+	ResponseStatus  int               `json:"responseStatus"`
+	ResponseHeaders http.Header       `json:"responseHeaders"`
 }
 
 type fixture struct {
@@ -52,13 +55,7 @@ func (p *pairedHTTP) Do(request *http.Request) (*http.Response, error) {
 	p.matchHeaders(request, expected.Headers)
 	p.matchBody(request, expected.Form)
 
-	var response http.Response
-
-	response.StatusCode = http.StatusOK
-	response.Header = http.Header{"Content-Type": {"application/json"}}
-	response.Body = io.NopCloser(strings.NewReader(string(expected.Response)))
-
-	return &response, nil
+	return pairedFixtureResponse(p.t, expected.ResponseStatus, expected.ResponseHeaders, expected.Response), nil
 }
 
 func (p *pairedHTTP) matchTarget(request *http.Request, expected exchange) {
@@ -251,5 +248,96 @@ func verifyAdvertisedProperties(t *testing.T, devices []roborock.Device) {
 
 	if devices[0].Online == nil || !*devices[0].Online || devices[1].Online != nil {
 		t.Fatal("online state lost presence information")
+	}
+}
+
+const (
+	jsonResponseContentType = "application/json"
+	minimumResponseStatus   = 100
+	maximumResponseStatus   = 599
+)
+
+func validResponseMetadata(status int, headers http.Header) bool {
+	if status < minimumResponseStatus || status > maximumResponseStatus {
+		return false
+	}
+
+	mediaType, _, err := mime.ParseMediaType(headers.Get("Content-Type"))
+
+	return err == nil && mediaType == jsonResponseContentType
+}
+
+func pairedFixtureResponse(t *testing.T, status int, headers http.Header, body json.RawMessage) *http.Response {
+	t.Helper()
+
+	if !validResponseMetadata(status, headers) {
+		t.Fatal("missing or invalid fixture response status or Content-Type")
+	}
+
+	var response http.Response
+
+	response.StatusCode = status
+	response.Header = headers.Clone()
+	response.Body = io.NopCloser(strings.NewReader(string(body)))
+
+	return &response
+}
+
+func TestResponseFixtureMetadata(t *testing.T) {
+	t.Parallel()
+
+	cases := []struct {
+		name        string
+		status      int
+		contentType string
+		valid       bool
+	}{
+		{name: "json", status: http.StatusOK, contentType: jsonResponseContentType, valid: true},
+		{name: "json parameters", status: http.StatusAccepted, contentType: "application/json; charset=utf-8", valid: true},
+		{name: "missing status", status: 0, contentType: jsonResponseContentType, valid: false},
+		{name: "below status range", status: minimumResponseStatus - 1, contentType: jsonResponseContentType, valid: false},
+		{name: "invalid status", status: maximumResponseStatus + 1, contentType: jsonResponseContentType, valid: false},
+		{name: "missing headers", status: http.StatusOK, contentType: "", valid: false},
+		{name: "invalid media type", status: http.StatusOK, contentType: "application/json; broken", valid: false},
+		{name: "wrong media type", status: http.StatusOK, contentType: "text/plain", valid: false},
+	}
+	for _, test := range cases {
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+
+			headers := http.Header{"Content-Type": {test.contentType}}
+			if validResponseMetadata(test.status, headers) != test.valid {
+				t.Fatal("response metadata validation mismatch")
+			}
+		})
+	}
+}
+
+func TestStoredResponseMetadataIsReturned(t *testing.T) {
+	t.Parallel()
+
+	headers := http.Header{
+		"Content-Type":   {"application/json; charset=utf-8"},
+		"Retry-After":    {"30"},
+		"X-Replay-Order": {"first", "second"},
+	}
+	body := json.RawMessage(`{"code":429}`)
+
+	response := pairedFixtureResponse(t, http.StatusTooManyRequests, headers, body)
+	defer func() {
+		err := response.Body.Close()
+		if err != nil {
+			t.Error(err)
+		}
+	}()
+
+	actual, err := io.ReadAll(response.Body)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response.StatusCode != http.StatusTooManyRequests || !reflect.DeepEqual(response.Header, headers) ||
+		string(actual) != string(body) {
+		t.Fatal("stored response status, headers, or body changed")
 	}
 }

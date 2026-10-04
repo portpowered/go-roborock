@@ -21,6 +21,12 @@
           "country": "GB",
           "countrycode": 44
         }
+      },
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ]
       }
     },
     {
@@ -45,6 +51,12 @@
       },
       "response": {
         "code": 200
+      },
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ]
       }
     },
     {
@@ -64,6 +76,12 @@
         "data": {
           "k": "signed-mercy"
         }
+      },
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ]
       }
     },
     {
@@ -84,6 +102,12 @@
           "majorVersion": 19,
           "minorVersion": 1
         }
+      },
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ]
       }
     },
     {
@@ -134,6 +158,12 @@
           "token": "synthetic-token",
           "uid": 123
         }
+      },
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ]
       }
     },
     {
@@ -170,6 +200,12 @@
           "token": "synthetic-token",
           "uid": 456
         }
+      },
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ]
       }
     },
     {
@@ -206,6 +242,12 @@
           "token": "synthetic-token",
           "uid": 123
         }
+      },
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ]
       }
     },
     {
@@ -222,6 +264,12 @@
           "rrHomeId": 42,
           "name": "Synthetic home"
         }
+      },
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ]
       }
     },
     {
@@ -275,6 +323,12 @@
             }
           ]
         }
+      },
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ]
       }
     },
     {
@@ -328,6 +382,12 @@
             }
           ]
         }
+      },
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ]
       }
     },
     {
@@ -381,6 +441,12 @@
             }
           ]
         }
+      },
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ]
       }
     }
   ]

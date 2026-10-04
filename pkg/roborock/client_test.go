@@ -3,6 +3,7 @@ package roborock_test
 import (
 	"context"
 	"errors"
+	"net"
 	"net/http"
 	"testing"
 
@@ -171,5 +172,36 @@ func TestUnsupportedDeviceProtocol(t *testing.T) {
 	_, err = client.OpenDevice(t.Context(), request)
 	if !errors.Is(err, roborockerrors.New(roborockerrors.Unsupported, "", "", nil)) {
 		t.Fatalf("unsupported device protocol: %v", err)
+	}
+}
+
+func TestOpenDeviceRequiresProtocolBeforeDial(t *testing.T) {
+	t.Parallel()
+
+	calls := 0
+
+	client, err := roborock.NewClient(roborock.WithMQTTDial(
+		func(_ context.Context, _, _ string) (net.Conn, error) {
+			calls++
+
+			return nil, roborockerrors.New(roborockerrors.Unavailable, "synthetic", "unexpected dial", nil)
+		},
+	))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	var request roborock.OpenDeviceRequest
+
+	request.Auth.Mqtt.BrokerURL = "ssl://broker.example.test:8883"
+	request.Auth.Mqtt.User = "synthetic-user"
+	request.Auth.Mqtt.Secret = "synthetic-secret"
+	request.Auth.Mqtt.Key = "synthetic-key"
+	request.DeviceID = "synthetic-device"
+	request.LocalKey = "0123456789abcdef"
+
+	_, err = client.OpenDevice(t.Context(), request)
+	if !errors.Is(err, roborockerrors.New(roborockerrors.InvalidArgument, "", "", nil)) || calls != 0 {
+		t.Fatalf("empty protocol: error %v, dial calls %d", err, calls)
 	}
 }
