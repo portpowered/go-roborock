@@ -13,18 +13,15 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/portpowered/go-roborock/internal/protocol"
 	"github.com/portpowered/go-roborock/pkg/dependencymodels"
 	"github.com/portpowered/go-roborock/pkg/roborockerrors"
 )
 
-const mercyCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-const mercyNonceLength = 16
-const hawkEntropyBytes = 6
-
 func (c *Client) mercyNonce() (string, error) {
-	nonceBytes := make([]byte, mercyNonceLength)
+	nonceBytes := make([]byte, protocol.RESTMercyNonceLength)
 
-	limit := big.NewInt(int64(len(mercyCharacters)))
+	limit := big.NewInt(int64(len(protocol.RESTMercyCharacters)))
 
 	for index := range nonceBytes {
 		n, err := rand.Int(c.random, limit)
@@ -32,18 +29,18 @@ func (c *Client) mercyNonce() (string, error) {
 			return "", roborockerrors.New(roborockerrors.Unavailable, "sign_key", "entropy unavailable", err)
 		}
 
-		nonceBytes[index] = mercyCharacters[n.Int64()]
+		nonceBytes[index] = protocol.RESTMercyCharacters[n.Int64()]
 	}
 
 	return string(nonceBytes), nil
 }
 func validMercyNonce(s string) bool {
-	if len(s) != mercyNonceLength {
+	if len(s) != protocol.RESTMercyNonceLength {
 		return false
 	}
 
 	for _, character := range s {
-		if !strings.ContainsRune(mercyCharacters, character) {
+		if !strings.ContainsRune(protocol.RESTMercyCharacters, character) {
 			return false
 		}
 	}
@@ -56,7 +53,7 @@ func (c *Client) hawk(request dependencymodels.RRiot, path string) (string, erro
 		return "", roborockerrors.New(roborockerrors.InvalidArgument, "hawk", "invalid Hawk credentials", nil)
 	}
 
-	entropy := make([]byte, hawkEntropyBytes)
+	entropy := make([]byte, protocol.RESTHawkEntropyBytes)
 
 	_, err := io.ReadFull(c.random, entropy)
 	if err != nil {
@@ -66,10 +63,11 @@ func (c *Client) hawk(request dependencymodels.RRiot, path string) (string, erro
 	nonce := base64.RawURLEncoding.EncodeToString(entropy)
 	timestamp := strconv.FormatInt(c.clock().Unix(), 10)
 	digest := md5.Sum([]byte(path))
-	input := strings.Join([]string{request.U, request.S, nonce, timestamp, hex.EncodeToString(digest[:]), "", ""}, ":")
+	input := fmt.Sprintf(protocol.RESTHawkMACInputFormat,
+		request.U, request.S, nonce, timestamp, hex.EncodeToString(digest[:]))
 	mac := hmac.New(sha256.New, []byte(request.H))
 	_, _ = mac.Write([]byte(input))
 
-	return fmt.Sprintf(`Hawk id="%s",s="%s",ts="%s",nonce="%s",mac="%s"`,
+	return fmt.Sprintf(protocol.RESTHawkHeaderFormat,
 		request.U, request.S, timestamp, nonce, base64.StdEncoding.EncodeToString(mac.Sum(nil))), nil
 }

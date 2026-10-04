@@ -539,6 +539,8 @@ func TestSessionRPCFailures(t *testing.T) {
 			kind: roborockerrors.Protocol, code: -10003, closes: false},
 		{name: "unsupported command", body: `{"id":%d,"result":"unknown_method"}`,
 			kind: roborockerrors.Unsupported, code: 0, closes: false},
+		{name: "escaped unsupported command", body: `{"id":%d,"result":"unknown_\u006dethod"}`,
+			kind: roborockerrors.Unsupported, code: 0, closes: false},
 		{name: "id without result", body: `{"id":%d}`, kind: roborockerrors.Protocol, code: 0, closes: true},
 		{name: "null result", body: `{"id":%d,"result":null}`, kind: roborockerrors.Protocol, code: 0, closes: true},
 	}

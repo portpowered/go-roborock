@@ -6,6 +6,7 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"math"
+	"regexp"
 	"time"
 
 	"github.com/portpowered/go-roborock/internal/protocol"
@@ -24,7 +25,7 @@ func (s *Session) Call(ctx context.Context, method string, params json.RawMessag
 	}
 
 	if len(params) == 0 {
-		params = json.RawMessage("[]")
+		params = json.RawMessage(protocol.MQTTEmptyParamsJSON)
 	}
 
 	ctx, cancel := context.WithTimeout(ctx, commandTimeout)
@@ -141,20 +142,6 @@ func (s *Session) send(ctx context.Context, payload []byte) error {
 	return s.write(ctx, publishPacket(s.publishTopic, encoded))
 }
 
-func validMethod(method string) bool {
-	if method == "" {
-		return false
-	}
+var methodPattern = regexp.MustCompile(protocol.MQTTRPCMethodPattern)
 
-	for _, char := range method {
-		if !validMethodCharacter(char) {
-			return false
-		}
-	}
-
-	return true
-}
-
-func validMethodCharacter(char rune) bool {
-	return char == '_' || (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z') || (char >= '0' && char <= '9')
-}
+func validMethod(method string) bool { return methodPattern.MatchString(method) }

@@ -47,7 +47,7 @@ func packet(header byte, body []byte) []byte {
 }
 
 func readPacket(reader io.Reader) (byte, []byte, error) {
-	var header [1]byte
+	var header [protocol.MQTTOctetSize]byte
 
 	_, err := io.ReadFull(reader, header[:])
 	if err != nil {
@@ -58,7 +58,7 @@ func readPacket(reader io.Reader) (byte, []byte, error) {
 	multiplier := 1
 
 	for range protocol.MQTTMaxRemainingLengthOctets {
-		var digit [1]byte
+		var digit [protocol.MQTTOctetSize]byte
 
 		_, err = io.ReadFull(reader, digit[:])
 		if err != nil {
@@ -88,8 +88,10 @@ func readPacket(reader io.Reader) (byte, []byte, error) {
 }
 
 func connectPacket(clientID, username, password string) []byte {
-	body := append(mqttString(protocol.MQTTProtocolName),
-		protocol.MQTTProtocolLevel, protocol.MQTTConnectFlags, 0, protocol.MQTTKeepaliveSeconds)
+	body := append(mqttString(protocol.MQTTProtocolName), protocol.MQTTProtocolLevel, protocol.MQTTConnectFlags)
+	keepalive := make([]byte, protocol.MQTTUint16Size)
+	binary.BigEndian.PutUint16(keepalive, protocol.MQTTKeepaliveSeconds)
+	body = append(body, keepalive...)
 	body = append(body, mqttString(clientID)...)
 	body = append(body, mqttString(username)...)
 	body = append(body, mqttString(password)...)
@@ -98,7 +100,9 @@ func connectPacket(clientID, username, password string) []byte {
 }
 
 func subscribePacket(topic string) []byte {
-	body := append([]byte{0, 1}, mqttString(topic)...)
+	body := make([]byte, protocol.MQTTUint16Size)
+	binary.BigEndian.PutUint16(body, protocol.MQTTSubscribeIdentifier)
+	body = append(body, mqttString(topic)...)
 
 	return packet(protocol.MQTTSubscribe, append(body, protocol.MQTTQoSAtMostOnce))
 }

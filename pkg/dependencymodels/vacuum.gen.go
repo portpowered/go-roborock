@@ -6,6 +6,8 @@ package dependencymodels
 import (
 	"encoding/json"
 	"fmt"
+
+	"github.com/oapi-codegen/runtime"
 )
 
 // Defines values for ChargeStatus.
@@ -367,6 +369,22 @@ type CleanRecord struct {
 	AdditionalProperties map[string]json.RawMessage `json:"-"`
 }
 
+// CleanRecordLegacy Legacy numeric record tuple: begin Unix time, end Unix time, duration seconds, area square millimeters. Additional numeric columns have unknown meaning and are not projected.
+type CleanRecordLegacy = []int64
+
+// CleanRecordParts Ordered multipart record response. Each part is an object or a legacy numeric tuple; deeper arbitrary array recursion is unsupported.
+type CleanRecordParts = []CleanRecordParts_Item
+
+// CleanRecordParts_Item defines model for CleanRecordParts.Item.
+type CleanRecordParts_Item struct {
+	union json.RawMessage
+}
+
+// CleanRecordRPCResult One record object, a legacy numeric tuple, or ordered multipart record objects and nested legacy tuples.
+type CleanRecordRPCResult struct {
+	union json.RawMessage
+}
+
 // CleanStartType Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.
 type CleanStartType int64
 
@@ -387,8 +405,25 @@ type CleaningSummary struct {
 	AdditionalProperties map[string]json.RawMessage `json:"-"`
 }
 
-// CleaningSummaryLegacy Ordered clean_time, clean_area, clean_count, records; fourth entry is an array of record IDs.
+// CleaningSummaryCounter Legacy tuple counter; null means unavailable.
+type CleaningSummaryCounter = int64
+
+// CleaningSummaryDuration Total cleaning time in seconds when the device returns only a scalar duration.
+type CleaningSummaryDuration = int64
+
+// CleaningSummaryLegacy Ordered clean_time, clean_area, clean_count, records; fourth entry is an array of record IDs. OpenAPI 3.0 represents the heterogeneous array elements; the SDK additionally enforces numeric counters in the first three positions and record IDs in the fourth.
 type CleaningSummaryLegacy = []json.RawMessage
+
+// CleaningSummaryRPCResult Object, single duration, ordered legacy tuple, or singleton object array as supported by the pinned Python V1 converter.
+type CleaningSummaryRPCResult struct {
+	union json.RawMessage
+}
+
+// CleaningSummaryRecordIDs Legacy tuple fourth position contains cleaning record IDs.
+type CleaningSummaryRecordIDs = []int64
+
+// CleaningSummarySingletonResult defines model for CleaningSummarySingletonResult.
+type CleaningSummarySingletonResult = []CleaningSummary
 
 // CommandAcceptance Device command acceptance token. Unknown tokens are rejected by the public operation.
 type CommandAcceptance string
@@ -407,6 +442,14 @@ type Consumables struct {
 	AdditionalProperties    map[string]json.RawMessage `json:"-"`
 }
 
+// ConsumablesRPCResult Device returns an object or an array containing exactly one object. Unknown firmware fields remain available as raw JSON properties.
+type ConsumablesRPCResult struct {
+	union json.RawMessage
+}
+
+// ConsumablesSingletonResult defines model for ConsumablesSingletonResult.
+type ConsumablesSingletonResult = []Consumables
+
 // DND defines model for DND.
 type DND struct {
 	Enabled              *int64                     `json:"enabled,omitempty"`
@@ -416,6 +459,14 @@ type DND struct {
 	StartMinute          *int64                     `json:"start_minute,omitempty"`
 	AdditionalProperties map[string]json.RawMessage `json:"-"`
 }
+
+// DNDRPCResult Device returns an object or an array containing exactly one object. Unknown firmware fields remain available as raw JSON properties.
+type DNDRPCResult struct {
+	union json.RawMessage
+}
+
+// DNDSingletonResult defines model for DNDSingletonResult.
+type DNDSingletonResult = []DND
 
 // DeviceErrorCode Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.
 type DeviceErrorCode int64
@@ -548,6 +599,14 @@ type Status struct {
 	WaterShortageStatus  *int64                     `json:"water_shortage_status,omitempty"`
 	AdditionalProperties map[string]json.RawMessage `json:"-"`
 }
+
+// StatusRPCResult Device returns an object or an array containing exactly one object. Unknown firmware fields remain available as raw JSON properties.
+type StatusRPCResult struct {
+	union json.RawMessage
+}
+
+// StatusSingletonResult defines model for StatusSingletonResult.
+type StatusSingletonResult = []Status
 
 // WaterMode Open device-dependent numeric enum; future values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.
 type WaterMode int
@@ -2243,4 +2302,454 @@ func (a Status) MarshalJSON() ([]byte, error) {
 		}
 	}
 	return json.Marshal(object)
+}
+
+// AsCleanRecord returns the union data inside the CleanRecordParts_Item as a CleanRecord
+func (t CleanRecordParts_Item) AsCleanRecord() (CleanRecord, error) {
+	var body CleanRecord
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromCleanRecord overwrites any union data inside the CleanRecordParts_Item as the provided CleanRecord
+func (t *CleanRecordParts_Item) FromCleanRecord(v CleanRecord) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeCleanRecord performs a merge with any union data inside the CleanRecordParts_Item, using the provided CleanRecord
+func (t *CleanRecordParts_Item) MergeCleanRecord(v CleanRecord) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsCleanRecordLegacy returns the union data inside the CleanRecordParts_Item as a CleanRecordLegacy
+func (t CleanRecordParts_Item) AsCleanRecordLegacy() (CleanRecordLegacy, error) {
+	var body CleanRecordLegacy
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromCleanRecordLegacy overwrites any union data inside the CleanRecordParts_Item as the provided CleanRecordLegacy
+func (t *CleanRecordParts_Item) FromCleanRecordLegacy(v CleanRecordLegacy) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeCleanRecordLegacy performs a merge with any union data inside the CleanRecordParts_Item, using the provided CleanRecordLegacy
+func (t *CleanRecordParts_Item) MergeCleanRecordLegacy(v CleanRecordLegacy) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t CleanRecordParts_Item) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *CleanRecordParts_Item) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsCleanRecord returns the union data inside the CleanRecordRPCResult as a CleanRecord
+func (t CleanRecordRPCResult) AsCleanRecord() (CleanRecord, error) {
+	var body CleanRecord
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromCleanRecord overwrites any union data inside the CleanRecordRPCResult as the provided CleanRecord
+func (t *CleanRecordRPCResult) FromCleanRecord(v CleanRecord) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeCleanRecord performs a merge with any union data inside the CleanRecordRPCResult, using the provided CleanRecord
+func (t *CleanRecordRPCResult) MergeCleanRecord(v CleanRecord) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsCleanRecordLegacy returns the union data inside the CleanRecordRPCResult as a CleanRecordLegacy
+func (t CleanRecordRPCResult) AsCleanRecordLegacy() (CleanRecordLegacy, error) {
+	var body CleanRecordLegacy
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromCleanRecordLegacy overwrites any union data inside the CleanRecordRPCResult as the provided CleanRecordLegacy
+func (t *CleanRecordRPCResult) FromCleanRecordLegacy(v CleanRecordLegacy) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeCleanRecordLegacy performs a merge with any union data inside the CleanRecordRPCResult, using the provided CleanRecordLegacy
+func (t *CleanRecordRPCResult) MergeCleanRecordLegacy(v CleanRecordLegacy) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsCleanRecordParts returns the union data inside the CleanRecordRPCResult as a CleanRecordParts
+func (t CleanRecordRPCResult) AsCleanRecordParts() (CleanRecordParts, error) {
+	var body CleanRecordParts
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromCleanRecordParts overwrites any union data inside the CleanRecordRPCResult as the provided CleanRecordParts
+func (t *CleanRecordRPCResult) FromCleanRecordParts(v CleanRecordParts) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeCleanRecordParts performs a merge with any union data inside the CleanRecordRPCResult, using the provided CleanRecordParts
+func (t *CleanRecordRPCResult) MergeCleanRecordParts(v CleanRecordParts) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t CleanRecordRPCResult) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *CleanRecordRPCResult) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsCleaningSummary returns the union data inside the CleaningSummaryRPCResult as a CleaningSummary
+func (t CleaningSummaryRPCResult) AsCleaningSummary() (CleaningSummary, error) {
+	var body CleaningSummary
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromCleaningSummary overwrites any union data inside the CleaningSummaryRPCResult as the provided CleaningSummary
+func (t *CleaningSummaryRPCResult) FromCleaningSummary(v CleaningSummary) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeCleaningSummary performs a merge with any union data inside the CleaningSummaryRPCResult, using the provided CleaningSummary
+func (t *CleaningSummaryRPCResult) MergeCleaningSummary(v CleaningSummary) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsCleaningSummaryDuration returns the union data inside the CleaningSummaryRPCResult as a CleaningSummaryDuration
+func (t CleaningSummaryRPCResult) AsCleaningSummaryDuration() (CleaningSummaryDuration, error) {
+	var body CleaningSummaryDuration
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromCleaningSummaryDuration overwrites any union data inside the CleaningSummaryRPCResult as the provided CleaningSummaryDuration
+func (t *CleaningSummaryRPCResult) FromCleaningSummaryDuration(v CleaningSummaryDuration) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeCleaningSummaryDuration performs a merge with any union data inside the CleaningSummaryRPCResult, using the provided CleaningSummaryDuration
+func (t *CleaningSummaryRPCResult) MergeCleaningSummaryDuration(v CleaningSummaryDuration) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsCleaningSummaryLegacy returns the union data inside the CleaningSummaryRPCResult as a CleaningSummaryLegacy
+func (t CleaningSummaryRPCResult) AsCleaningSummaryLegacy() (CleaningSummaryLegacy, error) {
+	var body CleaningSummaryLegacy
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromCleaningSummaryLegacy overwrites any union data inside the CleaningSummaryRPCResult as the provided CleaningSummaryLegacy
+func (t *CleaningSummaryRPCResult) FromCleaningSummaryLegacy(v CleaningSummaryLegacy) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeCleaningSummaryLegacy performs a merge with any union data inside the CleaningSummaryRPCResult, using the provided CleaningSummaryLegacy
+func (t *CleaningSummaryRPCResult) MergeCleaningSummaryLegacy(v CleaningSummaryLegacy) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsCleaningSummarySingletonResult returns the union data inside the CleaningSummaryRPCResult as a CleaningSummarySingletonResult
+func (t CleaningSummaryRPCResult) AsCleaningSummarySingletonResult() (CleaningSummarySingletonResult, error) {
+	var body CleaningSummarySingletonResult
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromCleaningSummarySingletonResult overwrites any union data inside the CleaningSummaryRPCResult as the provided CleaningSummarySingletonResult
+func (t *CleaningSummaryRPCResult) FromCleaningSummarySingletonResult(v CleaningSummarySingletonResult) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeCleaningSummarySingletonResult performs a merge with any union data inside the CleaningSummaryRPCResult, using the provided CleaningSummarySingletonResult
+func (t *CleaningSummaryRPCResult) MergeCleaningSummarySingletonResult(v CleaningSummarySingletonResult) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t CleaningSummaryRPCResult) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *CleaningSummaryRPCResult) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsConsumables returns the union data inside the ConsumablesRPCResult as a Consumables
+func (t ConsumablesRPCResult) AsConsumables() (Consumables, error) {
+	var body Consumables
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromConsumables overwrites any union data inside the ConsumablesRPCResult as the provided Consumables
+func (t *ConsumablesRPCResult) FromConsumables(v Consumables) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeConsumables performs a merge with any union data inside the ConsumablesRPCResult, using the provided Consumables
+func (t *ConsumablesRPCResult) MergeConsumables(v Consumables) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsConsumablesSingletonResult returns the union data inside the ConsumablesRPCResult as a ConsumablesSingletonResult
+func (t ConsumablesRPCResult) AsConsumablesSingletonResult() (ConsumablesSingletonResult, error) {
+	var body ConsumablesSingletonResult
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromConsumablesSingletonResult overwrites any union data inside the ConsumablesRPCResult as the provided ConsumablesSingletonResult
+func (t *ConsumablesRPCResult) FromConsumablesSingletonResult(v ConsumablesSingletonResult) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeConsumablesSingletonResult performs a merge with any union data inside the ConsumablesRPCResult, using the provided ConsumablesSingletonResult
+func (t *ConsumablesRPCResult) MergeConsumablesSingletonResult(v ConsumablesSingletonResult) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t ConsumablesRPCResult) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *ConsumablesRPCResult) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsDND returns the union data inside the DNDRPCResult as a DND
+func (t DNDRPCResult) AsDND() (DND, error) {
+	var body DND
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDND overwrites any union data inside the DNDRPCResult as the provided DND
+func (t *DNDRPCResult) FromDND(v DND) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDND performs a merge with any union data inside the DNDRPCResult, using the provided DND
+func (t *DNDRPCResult) MergeDND(v DND) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDNDSingletonResult returns the union data inside the DNDRPCResult as a DNDSingletonResult
+func (t DNDRPCResult) AsDNDSingletonResult() (DNDSingletonResult, error) {
+	var body DNDSingletonResult
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDNDSingletonResult overwrites any union data inside the DNDRPCResult as the provided DNDSingletonResult
+func (t *DNDRPCResult) FromDNDSingletonResult(v DNDSingletonResult) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDNDSingletonResult performs a merge with any union data inside the DNDRPCResult, using the provided DNDSingletonResult
+func (t *DNDRPCResult) MergeDNDSingletonResult(v DNDSingletonResult) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t DNDRPCResult) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *DNDRPCResult) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsStatus returns the union data inside the StatusRPCResult as a Status
+func (t StatusRPCResult) AsStatus() (Status, error) {
+	var body Status
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromStatus overwrites any union data inside the StatusRPCResult as the provided Status
+func (t *StatusRPCResult) FromStatus(v Status) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeStatus performs a merge with any union data inside the StatusRPCResult, using the provided Status
+func (t *StatusRPCResult) MergeStatus(v Status) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsStatusSingletonResult returns the union data inside the StatusRPCResult as a StatusSingletonResult
+func (t StatusRPCResult) AsStatusSingletonResult() (StatusSingletonResult, error) {
+	var body StatusSingletonResult
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromStatusSingletonResult overwrites any union data inside the StatusRPCResult as the provided StatusSingletonResult
+func (t *StatusRPCResult) FromStatusSingletonResult(v StatusSingletonResult) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeStatusSingletonResult performs a merge with any union data inside the StatusRPCResult, using the provided StatusSingletonResult
+func (t *StatusRPCResult) MergeStatusSingletonResult(v StatusSingletonResult) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t StatusRPCResult) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *StatusRPCResult) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
 }

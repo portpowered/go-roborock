@@ -2,8 +2,13 @@
 package protocol
 
 const (
-	RESTHeaderAccept      = "Accept"
-	RESTHeaderContentType = "Content-Type"
-	RESTMediaForm         = "application/x-www-form-urlencoded"
-	RESTMediaJSON         = "application/json"
+	RESTHawkEntropyBytes   = 6
+	RESTHawkHeaderFormat   = "Hawk id=\"%s\",s=\"%s\",ts=\"%s\",nonce=\"%s\",mac=\"%s\""
+	RESTHawkMACInputFormat = "%s:%s:%s:%s:%s::"
+	RESTHeaderAccept       = "Accept"
+	RESTHeaderContentType  = "Content-Type"
+	RESTMediaForm          = "application/x-www-form-urlencoded"
+	RESTMediaJSON          = "application/json"
+	RESTMercyCharacters    = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	RESTMercyNonceLength   = 16
 )

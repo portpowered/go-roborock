@@ -77,6 +77,9 @@ linters:
       # LIB-05/GO-10: These named codec/session tests inject private framing and lifecycle seams under the race detector.
       - path: '^pkg[\\/]dependencies[\\/]mqtt[\\/](codec|session)_test\.go$'
         linters: [testpackage]
+      # LIB-08/GO-10: This exact liveness test injects private controlled ticks and pending queues without public test-only APIs.
+      - path: '^pkg[\\/]dependencies[\\/]mqtt[\\/]liveness_test\.go$'
+        linters: [testpackage]
 
 formatters:
   enable:

@@ -35,7 +35,7 @@ func (s *Session) receivePublish(owner context.Context, header byte, body []byte
 }
 
 func (s *Session) acknowledgePublish(owner context.Context, header byte, payload []byte) ([]byte, error) {
-	qos := (header >> 1) & protocol.MQTTQoSMask
+	qos := (header >> protocol.MQTTQoSShift) & protocol.MQTTQoSMask
 	if qos > protocol.MQTTQoSAtLeastOnce {
 		return nil, errUnsupportedIncomingMQTTQoS
 	}
@@ -152,7 +152,7 @@ func rpcResult(result dependencymodels.MQTTRPCResponse) response {
 	var reply response
 	if result.Result != nil {
 		reply.value = *result.Result
-		if string(reply.value) == `"unknown_method"` {
+		if isUnknownMethod(reply.value) {
 			reply.err = unsupported("call")
 		}
 	}
@@ -162,6 +162,11 @@ func rpcResult(result dependencymodels.MQTTRPCResponse) response {
 	}
 
 	return reply
+}
+
+func isUnknownMethod(value json.RawMessage) bool {
+	var result string
+	return json.Unmarshal(value, &result) == nil && result == protocol.MQTTUnknownMethodResult
 }
 
 func rpcRejection(rejection dependencymodels.MQTTRPCError) error {

@@ -21,8 +21,31 @@ x-wire-constants:
   MQTTRPCRequestDatapoint: '101'
   MQTTRPCResponseDatapoint: '102'
   MQTTQueryDatapoint: '10000'
-  MQTTPublishTopicPrefix: rr/m/i/
-  MQTTSubscribeTopicPrefix: rr/m/o/
+  MQTTPublishTopicFormat: rr/m/i/%s/%s/%s
+  MQTTSubscribeTopicFormat: rr/m/o/%s/%s/%s
+  MQTTTimestampHexFormat: '%08x'
+  MQTTA01IVInputFormat: '%08x%s'
+  MQTTAccountDigestInputFormat: '%s:%s'
+  MQTTTimestampPermutation: '56371204'
+  MQTTA01IVHexStart: 8
+  MQTTA01IVHexEnd: 24
+  MQTTSecurityEndpointDigestStart: 8
+  MQTTSecurityEndpointDigestEnd: 14
+  MQTTUsernameDigestHexStart: 2
+  MQTTUsernameDigestHexEnd: 10
+  MQTTPasswordDigestHexStart: 16
+  MQTTClientRandomBytes: 8
+  MQTTSecurityNonceBytes: 16
+  MQTTLocalKeyBytes: 16
+  MQTTUnknownMethodResult: unknown_method
+  MQTTEmptyParamsJSON: '[]'
+  MQTTRPCMethodPattern: &mqttRPCMethodPattern '^[a-zA-Z0-9_]+$'
+  MQTTBrokerSchemeSSL: ssl
+  MQTTBrokerSchemeMQTTS: mqtts
+  MQTTNetwork: tcp
+  MQTTForbiddenTopicCharacters: '+#/'
+  MQTTNullRune: 0
+  MQTTMaxCipherPayload: 65520
   MQTTProtocolName: MQTT
   MQTTProtocolLevel: 4
   MQTTConnectFlags: 194
@@ -43,14 +66,18 @@ x-wire-constants:
   MQTTVarintContinuation: 128
   MQTTMaxRemainingLengthOctets: 4
   MQTTQoSMask: 3
+  MQTTQoSShift: 1
   MQTTKindShift: 4
   MQTTKindPublish: 3
   MQTTConnAckLength: 2
   MQTTSubAckLength: 3
   MQTTSubscribeIdentifier: 1
   MQTTMaxStringLength: 65535
-  MQTTUsernameLength: 8
-  MQTTTopicSeparators: 2
+  MQTTConnAckSessionOffset: 0
+  MQTTConnAckReturnCodeOffset: 1
+  MQTTConnAckNoSession: 0
+  MQTTConnAckAccepted: 0
+  MQTTOctetSize: 1
   MQTTBadUsernamePassword: 4
   MQTTNotAuthorized: 5
 components:
@@ -112,7 +139,7 @@ components:
           format: int64
         method:
           type: string
-          pattern: '^[a-zA-Z0-9_]+$'
+          pattern: *mqttRPCMethodPattern
         params:
           x-go-type: json.RawMessage
         security:

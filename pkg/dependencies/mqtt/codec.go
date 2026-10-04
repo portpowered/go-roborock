@@ -15,34 +15,34 @@ import (
 	"github.com/portpowered/go-roborock/pkg/dependencymodels"
 )
 
-const (
-	maxCipherPayload = math.MaxUint16 - math.MaxUint16%aes.BlockSize
-	a01IVHexStart    = 8
-	a01IVHexEnd      = 24
-)
+const maxCipherPayload = protocol.MQTTMaxCipherPayload
 
 type deviceFrame = dependencymodels.MQTTDeviceFrame
 
 func frameCipher(frame deviceFrame, localKey string) (cipher.Block, []byte, error) {
 	if frame.Version == protocol.MQTTVersionA01 {
 		// A01 derives its IV from this exact MD5 digest.
-		digest := md5.Sum([]byte(fmt.Sprintf("%08x%s", frame.Random, protocol.MQTTA01Hash))) //nolint:gosec
+		ivInput := fmt.Sprintf(protocol.MQTTA01IVInputFormat, frame.Random, protocol.MQTTA01Hash)
+		digest := md5.Sum([]byte(ivInput)) //nolint:gosec
 
 		block, err := aes.NewCipher([]byte(localKey))
 		if err != nil {
 			return nil, nil, fmt.Errorf("create A01 device cipher: %w", err)
 		}
 
-		return block, []byte(hex.EncodeToString(digest[:])[a01IVHexStart:a01IVHexEnd]), nil
+		initializationVector := hex.EncodeToString(digest[:])[protocol.MQTTA01IVHexStart:protocol.MQTTA01IVHexEnd]
+		return block, []byte(initializationVector), nil
 	}
 
 	if frame.Version != protocol.MQTTVersionV1 {
 		return nil, nil, errUnsupportedDeviceProtocol
 	}
 
-	stamp := fmt.Sprintf("%08x", frame.Timestamp)
+	stamp := fmt.Sprintf(protocol.MQTTTimestampHexFormat, frame.Timestamp)
 	reordered := make([]byte, 0, len(stamp)+len(localKey)+len(protocol.MQTTWireSalt))
-	reordered = append(reordered, stamp[5], stamp[6], stamp[3], stamp[7], stamp[1], stamp[2], stamp[0], stamp[4])
+	for _, index := range protocol.MQTTTimestampPermutation {
+		reordered = append(reordered, stamp[index-'0'])
+	}
 	// V1 derives its AES key from this exact MD5 digest.
 	digest := md5.Sum(append(append(reordered, []byte(localKey)...), []byte(protocol.MQTTWireSalt)...)) //nolint:gosec
 

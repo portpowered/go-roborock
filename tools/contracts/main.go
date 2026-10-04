@@ -312,7 +312,7 @@ func generatedModel(name string) bool {
 func generatedArtifact(name string) bool {
 	return generatedModel(name) || slices.Contains([]string{
 		"pkg/dependencymodels/auth_constants.gen.go", "pkg/dependencymodels/devices_constants.gen.go",
-		"internal/protocol/auth.gen.go", "internal/protocol/client-models.gen.go",
+		"internal/protocol/a01-wire.gen.go", "internal/protocol/auth.gen.go", "internal/protocol/client-models.gen.go",
 		"internal/protocol/mqtt.gen.go", "internal/protocol/rest.gen.go",
 	}, name)
 }

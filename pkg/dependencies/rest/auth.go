@@ -239,7 +239,7 @@ func (c *Client) LoginCode(ctx context.Context, request LoginCodeRequest) (Login
 		protocol.RESTFormMinorVersion: {strconv.FormatInt(request.Agreement.MinorVersion, 10)},
 	}
 
-	return c.login(ctx, request.Login, protocol.RESTPathLoginCode, nil, form, headers)
+	return c.login(ctx, request.Login, protocol.RESTMethodLoginCode, protocol.RESTPathLoginCode, nil, form, headers)
 }
 
 // LoginPassword uses the legacy v1 password exchange evidenced by the reference.
@@ -259,7 +259,8 @@ func (c *Client) LoginPassword(ctx context.Context, request LoginPasswordRequest
 		protocol.RESTQueryNeedtwostepauth: {string(dependencymodels.LoginPasswordParamsNeedtwostepauthFalse)},
 	}
 
-	return c.login(ctx, request.Login, protocol.RESTPathLoginPassword, query, nil, loginHeaders(request.Login))
+	return c.login(ctx, request.Login, protocol.RESTMethodLoginPassword,
+		protocol.RESTPathLoginPassword, query, nil, loginHeaders(request.Login))
 }
 
 // LoginLegacyCode submits an explicitly selected v1 email code login.
@@ -279,14 +280,15 @@ func (c *Client) LoginLegacyCode(ctx context.Context, request LoginLegacyCodeReq
 		protocol.RESTQueryVerifycodetype: {string(dependencymodels.AUTHEMAILCODE)},
 	}
 
-	return c.login(ctx, request.Login, protocol.RESTPathLoginLegacyCode, query, nil, loginHeaders(request.Login))
+	return c.login(ctx, request.Login, protocol.RESTMethodLoginLegacyCode,
+		protocol.RESTPathLoginLegacyCode, query, nil, loginHeaders(request.Login))
 }
 func (c *Client) login(
-	ctx context.Context, login LoginContext, path string, query, form url.Values, headers http.Header,
+	ctx context.Context, login LoginContext, method, path string, query, form url.Values, headers http.Header,
 ) (LoginResult, error) {
 	var out dependencymodels.LoginResponse
 
-	err := c.exchange(ctx, login.BaseURL, http.MethodPost, path, query, form, headers, &out)
+	err := c.exchange(ctx, login.BaseURL, method, path, query, form, headers, &out)
 	if err == nil {
 		err = checkCode("login", out.Code)
 	}

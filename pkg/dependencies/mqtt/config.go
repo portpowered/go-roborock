@@ -1,7 +1,7 @@
 package mqtt
 
 import (
-	"crypto/aes"
+	"fmt"
 	"net/url"
 	"strings"
 
@@ -33,7 +33,7 @@ func validateConfig(config Config) (*url.URL, error) {
 }
 
 func validateEndpoint(endpoint *url.URL) error {
-	if endpoint.Scheme != "ssl" && endpoint.Scheme != "mqtts" {
+	if endpoint.Scheme != protocol.MQTTBrokerSchemeSSL && endpoint.Scheme != protocol.MQTTBrokerSchemeMQTTS {
 		return errMQTTBrokerRequiresTLSSslOrMqtts
 	}
 
@@ -50,24 +50,23 @@ func validateEndpoint(endpoint *url.URL) error {
 
 func validateCredentials(config Config) error {
 	for _, value := range []string{config.User, config.Secret, config.Key, config.DeviceID, config.LocalKey} {
-		if value == "" || len(value) > protocol.MQTTMaxStringLength || strings.ContainsRune(value, '\x00') {
+		if value == "" || len(value) > protocol.MQTTMaxStringLength || strings.ContainsRune(value, protocol.MQTTNullRune) {
 			return errInvalidMQTTCredentialsOrDeviceIdentifier
 		}
 	}
 
-	if strings.ContainsAny(config.User+config.DeviceID, "+#/") {
+	if strings.ContainsAny(config.User+config.DeviceID, protocol.MQTTForbiddenTopicCharacters) {
 		return errInvalidMQTTAccountOrDeviceTopicIdentifier
 	}
 
-	topicLength := len(protocol.MQTTSubscribeTopicPrefix) + len(config.User) + len(config.DeviceID)
-
-	topicLength += protocol.MQTTUsernameLength + protocol.MQTTTopicSeparators
+	topicLength := len(fmt.Sprintf(protocol.MQTTSubscribeTopicFormat, config.User, "", config.DeviceID))
+	topicLength += protocol.MQTTUsernameDigestHexEnd - protocol.MQTTUsernameDigestHexStart
 
 	if topicLength > protocol.MQTTMaxStringLength {
 		return invalid("open", "device topic exceeds MQTT wire limit")
 	}
 
-	if len(config.LocalKey) != aes.BlockSize {
+	if len(config.LocalKey) != protocol.MQTTLocalKeyBytes {
 		return errDeviceLocalKeyMustContain16Bytes
 	}
 

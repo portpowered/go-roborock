@@ -91,16 +91,20 @@ func (s *Session) writeAll(ctx context.Context, data []byte) error {
 }
 
 func (s *Session) keepalive(owner context.Context) {
-	defer close(s.keepaliveStopped)
-
 	ticker := time.NewTicker(pingInterval)
 	defer ticker.Stop()
+
+	s.keepaliveTicks(owner, ticker.C)
+}
+
+func (s *Session) keepaliveTicks(owner context.Context, ticks <-chan time.Time) {
+	defer close(s.keepaliveStopped)
 
 	for {
 		select {
 		case <-s.done:
 			return
-		case <-ticker.C:
+		case <-ticks:
 			ctx, cancel := context.WithTimeout(owner, handshakeTimeout)
 			err := s.write(ctx, packet(protocol.MQTTPingReq, nil))
 

@@ -2,13 +2,13 @@ package mqtt
 
 import (
 	"context"
-	"crypto/aes"
 	"crypto/md5" //nolint:gosec // Roborock's mandated account authentication uses MD5.
 	"crypto/rand"
 	"crypto/tls"
 	"encoding/base64"
 	"encoding/binary"
 	"encoding/hex"
+	"fmt"
 	"net"
 
 	"github.com/portpowered/go-roborock/internal/protocol"
@@ -35,7 +35,7 @@ func Open(ctx context.Context, config Config, dial DialFunc) (*Session, error) {
 	opening, cancel := context.WithTimeout(ctx, handshakeTimeout)
 	defer cancel()
 
-	conn, err := dial(opening, "tcp", endpoint.Host)
+	conn, err := dial(opening, protocol.MQTTNetwork, endpoint.Host)
 	if err != nil {
 		return nil, transportError("connect", err)
 	}
@@ -90,7 +90,7 @@ func newSession(conn net.Conn, config Config) (*Session, string, string, error) 
 	session.a01Gate = make(chan struct{}, 1)
 	session.pending = make(map[int64]chan response)
 
-	var nonce [aes.BlockSize]byte
+	var nonce [protocol.MQTTSecurityNonceBytes]byte
 
 	_, err := rand.Read(nonce[:])
 	if err != nil {
@@ -99,17 +99,25 @@ func newSession(conn net.Conn, config Config) (*Session, string, string, error) 
 
 	endpointHash := md5.Sum([]byte(config.Key)) //nolint:gosec // Wire security endpoint uses MD5 bytes 8:14.
 	session.security = dependencymodels.MQTTRPCSecurity{
-		Endpoint: base64.StdEncoding.EncodeToString(endpointHash[8:14]),
-		Nonce:    hex.EncodeToString(nonce[:]),
+		Endpoint: base64.StdEncoding.EncodeToString(
+			endpointHash[protocol.MQTTSecurityEndpointDigestStart:protocol.MQTTSecurityEndpointDigestEnd]),
+		Nonce: hex.EncodeToString(nonce[:]),
 	}
-	userHash := md5.Sum([]byte(config.User + ":" + config.Key))     //nolint:gosec // Vendor username derivation.
-	secretHash := md5.Sum([]byte(config.Secret + ":" + config.Key)) //nolint:gosec // Vendor password derivation.
-	username := hex.EncodeToString(userHash[:])[2:10]
-	password := hex.EncodeToString(secretHash[:])[16:]
-	session.publishTopic = protocol.MQTTPublishTopicPrefix + config.User + "/" + username + "/" + config.DeviceID
-	session.subscribeTopic = protocol.MQTTSubscribeTopicPrefix + config.User + "/" + username + "/" + config.DeviceID
+	username, password := mqttCredentials(config)
+	session.publishTopic = fmt.Sprintf(protocol.MQTTPublishTopicFormat, config.User, username, config.DeviceID)
+	session.subscribeTopic = fmt.Sprintf(protocol.MQTTSubscribeTopicFormat, config.User, username, config.DeviceID)
 
 	return &session, username, password, nil
+}
+
+func mqttCredentials(config Config) (string, string) {
+	userInput := fmt.Sprintf(protocol.MQTTAccountDigestInputFormat, config.User, config.Key)
+	secretInput := fmt.Sprintf(protocol.MQTTAccountDigestInputFormat, config.Secret, config.Key)
+	userHash := md5.Sum([]byte(userInput))     //nolint:gosec // Vendor username derivation.
+	secretHash := md5.Sum([]byte(secretInput)) //nolint:gosec // Vendor password derivation.
+	username := hex.EncodeToString(userHash[:])[protocol.MQTTUsernameDigestHexStart:protocol.MQTTUsernameDigestHexEnd]
+	password := hex.EncodeToString(secretHash[:])[protocol.MQTTPasswordDigestHexStart:]
+	return username, password
 }
 
 func defaultDial(ctx context.Context, network, address string) (net.Conn, error) {
@@ -127,7 +135,7 @@ func defaultDial(ctx context.Context, network, address string) (net.Conn, error)
 }
 
 func (s *Session) handshake(ctx context.Context, username, password string) error {
-	var client [8]byte
+	var client [protocol.MQTTClientRandomBytes]byte
 
 	_, err := rand.Read(client[:])
 	if err != nil {
@@ -167,11 +175,12 @@ func checkConnAck(header byte, body []byte) error {
 		return errBrokerRejectedMQTTConnection
 	}
 
-	if body[1] == protocol.MQTTBadUsernamePassword || body[1] == protocol.MQTTNotAuthorized {
+	code := body[protocol.MQTTConnAckReturnCodeOffset]
+	if code == protocol.MQTTBadUsernamePassword || code == protocol.MQTTNotAuthorized {
 		return roborockerrors.New(roborockerrors.Unauthorized, "mqtt handshake", "broker rejected credentials", nil)
 	}
 
-	if body[0] != 0 || body[1] != 0 {
+	if body[protocol.MQTTConnAckSessionOffset] != protocol.MQTTConnAckNoSession || code != protocol.MQTTConnAckAccepted {
 		return errBrokerRejectedMQTTConnection
 	}
 

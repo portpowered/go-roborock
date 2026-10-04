@@ -629,7 +629,10 @@
           "200": {
             "type": "boolean",
             "x-go-name": "Start",
-            "description": "Appliance boolean datapoint."
+            "description": "Schema-owned true start signal; bundled with nonzero mode and program.",
+            "enum": [
+              true
+            ]
           },
           "204": {
             "type": "integer",
@@ -788,5 +791,8 @@
       "name": "a01",
       "description": "Typed wet-cleaner and washer operations over an account-bound MQTT device session."
     }
-  ]
+  ],
+  "x-wire-constants": {
+    "A01ZeoStartEnabled": true
+  }
 }

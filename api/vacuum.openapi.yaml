@@ -27,7 +27,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Status"
+                  "$ref": "#/components/schemas/StatusRPCResult"
                 }
               }
             }
@@ -59,7 +59,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Consumables"
+                  "$ref": "#/components/schemas/ConsumablesRPCResult"
                 }
               }
             }
@@ -91,7 +91,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CleaningSummary"
+                  "$ref": "#/components/schemas/CleaningSummaryRPCResult"
                 }
               }
             }
@@ -123,7 +123,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CleanRecord"
+                  "$ref": "#/components/schemas/CleanRecordRPCResult"
                 }
               }
             }
@@ -155,7 +155,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DND"
+                  "$ref": "#/components/schemas/DNDRPCResult"
                 }
               }
             }
@@ -690,7 +690,12 @@
               "schema": {
                 "$ref": "#/components/schemas/IntegerParameters"
               },
-              "example": [22, 0, 8, 0]
+              "example": [
+                22,
+                0,
+                8,
+                0
+              ]
             }
           }
         },
@@ -1550,11 +1555,19 @@
       "CleaningSummaryLegacy": {
         "type": "array",
         "items": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/CleaningSummaryCounter"
+            },
+            {
+              "$ref": "#/components/schemas/CleaningSummaryRecordIDs"
+            }
+          ],
           "x-go-type": "json.RawMessage"
         },
         "minItems": 1,
         "maxItems": 4,
-        "description": "Ordered clean_time, clean_area, clean_count, records; fourth entry is an array of record IDs."
+        "description": "Ordered clean_time, clean_area, clean_count, records; fourth entry is an array of record IDs. OpenAPI 3.0 represents the heterogeneous array elements; the SDK additionally enforces numeric counters in the first three positions and record IDs in the fourth."
       },
       "DeviceState": {
         "type": "integer",
@@ -2106,6 +2119,147 @@
           "CommandAcceptanceOK"
         ],
         "description": "Device command acceptance token. Unknown tokens are rejected by the public operation."
+      },
+      "StatusSingletonResult": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Status"
+        },
+        "minItems": 1,
+        "maxItems": 1
+      },
+      "StatusRPCResult": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/Status"
+          },
+          {
+            "$ref": "#/components/schemas/StatusSingletonResult"
+          }
+        ],
+        "description": "Device returns an object or an array containing exactly one object. Unknown firmware fields remain available as raw JSON properties."
+      },
+      "ConsumablesSingletonResult": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Consumables"
+        },
+        "minItems": 1,
+        "maxItems": 1
+      },
+      "ConsumablesRPCResult": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/Consumables"
+          },
+          {
+            "$ref": "#/components/schemas/ConsumablesSingletonResult"
+          }
+        ],
+        "description": "Device returns an object or an array containing exactly one object. Unknown firmware fields remain available as raw JSON properties."
+      },
+      "DNDSingletonResult": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/DND"
+        },
+        "minItems": 1,
+        "maxItems": 1
+      },
+      "DNDRPCResult": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/DND"
+          },
+          {
+            "$ref": "#/components/schemas/DNDSingletonResult"
+          }
+        ],
+        "description": "Device returns an object or an array containing exactly one object. Unknown firmware fields remain available as raw JSON properties."
+      },
+      "CleaningSummaryDuration": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Total cleaning time in seconds when the device returns only a scalar duration."
+      },
+      "CleaningSummaryCounter": {
+        "type": "integer",
+        "format": "int64",
+        "nullable": true,
+        "description": "Legacy tuple counter; null means unavailable."
+      },
+      "CleaningSummaryRecordIDs": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nullable": true,
+        "description": "Legacy tuple fourth position contains cleaning record IDs."
+      },
+      "CleaningSummarySingletonResult": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/CleaningSummary"
+        },
+        "minItems": 1,
+        "maxItems": 1
+      },
+      "CleaningSummaryRPCResult": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/CleaningSummary"
+          },
+          {
+            "$ref": "#/components/schemas/CleaningSummaryDuration"
+          },
+          {
+            "$ref": "#/components/schemas/CleaningSummaryLegacy"
+          },
+          {
+            "$ref": "#/components/schemas/CleaningSummarySingletonResult"
+          }
+        ],
+        "description": "Object, single duration, ordered legacy tuple, or singleton object array as supported by the pinned Python V1 converter."
+      },
+      "CleanRecordLegacy": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64",
+          "nullable": true
+        },
+        "minItems": 4,
+        "description": "Legacy numeric record tuple: begin Unix time, end Unix time, duration seconds, area square millimeters. Additional numeric columns have unknown meaning and are not projected."
+      },
+      "CleanRecordParts": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/CleanRecord"
+            },
+            {
+              "$ref": "#/components/schemas/CleanRecordLegacy"
+            }
+          ]
+        },
+        "description": "Ordered multipart record response. Each part is an object or a legacy numeric tuple; deeper arbitrary array recursion is unsupported."
+      },
+      "CleanRecordRPCResult": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/CleanRecord"
+          },
+          {
+            "$ref": "#/components/schemas/CleanRecordLegacy"
+          },
+          {
+            "$ref": "#/components/schemas/CleanRecordParts"
+          }
+        ],
+        "description": "One record object, a legacy numeric tuple, or ordered multipart record objects and nested legacy tuples."
       }
     }
   },
@@ -2116,5 +2270,3 @@
     }
   ]
 }
-
-

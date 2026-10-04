@@ -9,6 +9,11 @@ import (
 	"github.com/oapi-codegen/runtime"
 )
 
+// Defines values for StartZeoWire200.
+const (
+	True StartZeoWire200 = true
+)
+
 // A01QueryDatapoints A01 ID_QUERY payload. The numeric-key value is a JSON string containing the ordered property ID array, matching pinned Python behavior.
 type A01QueryDatapoints struct {
 	// PropertyIDs JSON-encoded property ID array, for example "[201,209]". The value is a string, not an array.
@@ -234,8 +239,8 @@ type SetZeoSettingsWire struct {
 
 // StartZeoWire Bundled Zeo START command.
 type StartZeoWire struct {
-	// Start Appliance boolean datapoint.
-	Start bool `json:"200"`
+	// Start Schema-owned true start signal; bundled with nonzero mode and program.
+	Start StartZeoWire200 `json:"200"`
 
 	// Mode Mode appliance datapoint.
 	Mode int `json:"204"`
@@ -267,6 +272,9 @@ type StartZeoWire struct {
 	// SteamVolume SteamVolume appliance datapoint.
 	SteamVolume *int `json:"257,omitempty"`
 }
+
+// StartZeoWire200 Schema-owned true start signal; bundled with nonzero mode and program.
+type StartZeoWire200 bool
 
 // ZeoStateWire Numeric-key A01 appliance datapoints.
 type ZeoStateWire struct {

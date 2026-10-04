@@ -3,6 +3,7 @@ package roborock
 import (
 	"context"
 	"encoding/json"
+	"github.com/portpowered/go-roborock/internal/protocol"
 
 	"github.com/portpowered/go-roborock/pkg/dependencymodels"
 	"github.com/portpowered/go-roborock/pkg/roborockerrors"
@@ -84,7 +85,13 @@ func (s *DeviceSession) StartZeo(ctx context.Context, request StartZeoRequest) e
 		return roborockerrors.New(roborockerrors.InvalidArgument, operation, "invalid cycle parameters", err)
 	}
 
-	values[int(ZeoPropertyStart)] = json.RawMessage("true")
+	var start dependencymodels.StartZeoWire
+	start.Start = protocol.A01ZeoStartEnabled
+	encodedStart, err := json.Marshal(start.Start)
+	if err != nil {
+		return roborockerrors.New(roborockerrors.InvalidArgument, operation, "invalid start signal", err)
+	}
+	values[int(ZeoPropertyStart)] = encodedStart
 
 	return publishA01(ctx, s, values, operation)
 }
