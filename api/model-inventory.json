@@ -265,11 +265,186 @@
       ]
     },
     {
+      "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKind",
+      "kind": "alias",
+      "definition": {
+        "file": "internal/mapmodel/models.gen.go",
+        "line": 58,
+        "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKind"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapAreaKind"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": [
+        {
+          "file": "pkg/dependencies/mapdata/v1.go",
+          "line": 226,
+          "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKind"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindCurrent",
+      "kind": "constant",
+      "definition": {
+        "file": "internal/mapmodel/models_constants.gen.go",
+        "line": 5,
+        "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindCurrent"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapAreaKind/x-known-values/MapAreaKindCurrent"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"current\"",
+      "productionUses": [
+        {
+          "file": "pkg/dependencies/mapdata/v1.go",
+          "line": 229,
+          "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindCurrent"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindErase",
+      "kind": "constant",
+      "definition": {
+        "file": "internal/mapmodel/models_constants.gen.go",
+        "line": 6,
+        "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindErase"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapAreaKind/x-known-values/MapAreaKindErase"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"erase\"",
+      "productionUses": [
+        {
+          "file": "pkg/dependencies/mapdata/q10.go",
+          "line": 219,
+          "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindErase"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindNoCarpet",
+      "kind": "constant",
+      "definition": {
+        "file": "internal/mapmodel/models_constants.gen.go",
+        "line": 7,
+        "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindNoCarpet"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapAreaKind/x-known-values/MapAreaKindNoCarpet"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"no-carpet\"",
+      "productionUses": [
+        {
+          "file": "pkg/dependencies/mapdata/v1.go",
+          "line": 241,
+          "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindNoCarpet"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindNoGo",
+      "kind": "constant",
+      "definition": {
+        "file": "internal/mapmodel/models_constants.gen.go",
+        "line": 8,
+        "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindNoGo"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapAreaKind/x-known-values/MapAreaKindNoGo"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"no-go\"",
+      "productionUses": [
+        {
+          "file": "pkg/dependencies/mapdata/v1.go",
+          "line": 235,
+          "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindNoGo"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindNoMop",
+      "kind": "constant",
+      "definition": {
+        "file": "internal/mapmodel/models_constants.gen.go",
+        "line": 9,
+        "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindNoMop"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapAreaKind/x-known-values/MapAreaKindNoMop"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"no-mop\"",
+      "productionUses": [
+        {
+          "file": "pkg/dependencies/mapdata/v1.go",
+          "line": 238,
+          "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindNoMop"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindUnknown",
+      "kind": "constant",
+      "definition": {
+        "file": "internal/mapmodel/models_constants.gen.go",
+        "line": 10,
+        "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindUnknown"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapAreaKind/x-known-values/MapAreaKindUnknown"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"unknown\"",
+      "productionUses": [
+        {
+          "file": "pkg/dependencies/mapdata/q7.go",
+          "line": 128,
+          "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindUnknown"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindWall",
+      "kind": "constant",
+      "definition": {
+        "file": "internal/mapmodel/models_constants.gen.go",
+        "line": 11,
+        "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindWall"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapAreaKind/x-known-values/MapAreaKindWall"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"wall\"",
+      "productionUses": [
+        {
+          "file": "pkg/dependencies/mapdata/v1.go",
+          "line": 233,
+          "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindWall"
+        }
+      ]
+    },
+    {
       "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapFormat",
       "kind": "model",
       "definition": {
         "file": "internal/mapmodel/models.gen.go",
-        "line": 58,
+        "line": 61,
         "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapFormat"
       },
       "schema": {
@@ -401,7 +576,7 @@
       "kind": "model",
       "definition": {
         "file": "internal/mapmodel/models.gen.go",
-        "line": 61,
+        "line": 64,
         "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapFrame"
       },
       "schema": {
@@ -581,7 +756,7 @@
       "kind": "model",
       "definition": {
         "file": "internal/mapmodel/models.gen.go",
-        "line": 64,
+        "line": 67,
         "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapGrid"
       },
       "schema": {
@@ -647,7 +822,7 @@
       "kind": "model",
       "definition": {
         "file": "internal/mapmodel/models.gen.go",
-        "line": 93,
+        "line": 96,
         "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapGridRowYDirection"
       },
       "schema": {
@@ -662,7 +837,7 @@
       "kind": "model",
       "definition": {
         "file": "internal/mapmodel/models.gen.go",
-        "line": 96,
+        "line": 99,
         "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPath"
       },
       "schema": {
@@ -694,11 +869,119 @@
       ]
     },
     {
+      "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPathKind",
+      "kind": "alias",
+      "definition": {
+        "file": "internal/mapmodel/models.gen.go",
+        "line": 110,
+        "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPathKind"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapPathKind"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPathKindClean",
+      "kind": "constant",
+      "definition": {
+        "file": "internal/mapmodel/models_constants.gen.go",
+        "line": 12,
+        "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPathKindClean"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapPathKind/x-known-values/MapPathKindClean"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"clean\"",
+      "productionUses": [
+        {
+          "file": "pkg/dependencies/mapdata/q7.go",
+          "line": 104,
+          "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPathKindClean"
+        },
+        {
+          "file": "pkg/dependencies/mapdata/v1.go",
+          "line": 207,
+          "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPathKindClean"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPathKindGoto",
+      "kind": "constant",
+      "definition": {
+        "file": "internal/mapmodel/models_constants.gen.go",
+        "line": 13,
+        "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPathKindGoto"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapPathKind/x-known-values/MapPathKindGoto"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"goto\"",
+      "productionUses": [
+        {
+          "file": "pkg/dependencies/mapdata/v1.go",
+          "line": 209,
+          "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPathKindGoto"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPathKindPredicted",
+      "kind": "constant",
+      "definition": {
+        "file": "internal/mapmodel/models_constants.gen.go",
+        "line": 14,
+        "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPathKindPredicted"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapPathKind/x-known-values/MapPathKindPredicted"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"predicted\"",
+      "productionUses": [
+        {
+          "file": "pkg/dependencies/mapdata/v1.go",
+          "line": 213,
+          "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPathKindPredicted"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPathKindTrace",
+      "kind": "constant",
+      "definition": {
+        "file": "internal/mapmodel/models_constants.gen.go",
+        "line": 15,
+        "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPathKindTrace"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapPathKind/x-known-values/MapPathKindTrace"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"trace\"",
+      "productionUses": [
+        {
+          "file": "pkg/dependencies/mapdata/q10.go",
+          "line": 167,
+          "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPathKindTrace"
+        }
+      ]
+    },
+    {
       "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPoint",
       "kind": "model",
       "definition": {
         "file": "internal/mapmodel/models.gen.go",
-        "line": 107,
+        "line": 113,
         "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPoint"
       },
       "schema": {
@@ -924,7 +1207,7 @@
       "kind": "model",
       "definition": {
         "file": "internal/mapmodel/models.gen.go",
-        "line": 116,
+        "line": 122,
         "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPose"
       },
       "schema": {
@@ -970,7 +1253,7 @@
       "kind": "model",
       "definition": {
         "file": "internal/mapmodel/models.gen.go",
-        "line": 128,
+        "line": 134,
         "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPoseHeadingUnit"
       },
       "schema": {
@@ -985,7 +1268,7 @@
       "kind": "model",
       "definition": {
         "file": "internal/mapmodel/models.gen.go",
-        "line": 131,
+        "line": 137,
         "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapRectangle"
       },
       "schema": {
@@ -1051,7 +1334,7 @@
       "kind": "model",
       "definition": {
         "file": "internal/mapmodel/models.gen.go",
-        "line": 137,
+        "line": 143,
         "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapRoom"
       },
       "schema": {
@@ -1097,7 +1380,7 @@
       "kind": "model",
       "definition": {
         "file": "internal/mapmodel/models.gen.go",
-        "line": 155,
+        "line": 161,
         "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapSnapshot"
       },
       "schema": {
@@ -1223,7 +1506,7 @@
       "kind": "model",
       "definition": {
         "file": "internal/mapmodel/models.gen.go",
-        "line": 173,
+        "line": 179,
         "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapUnit"
       },
       "schema": {
@@ -1369,7 +1652,7 @@
       "kind": "model",
       "definition": {
         "file": "internal/mapmodel/models.gen.go",
-        "line": 176,
+        "line": 182,
         "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapUnknownBlock"
       },
       "schema": {
@@ -8851,7 +9134,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/b01.gen.go",
-        "line": 24,
+        "line": 49,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Envelope"
       },
       "schema": {
@@ -8878,11 +9161,26 @@
       ]
     },
     {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01KnownEmptyObject",
+      "kind": "alias",
+      "definition": {
+        "file": "pkg/dependencymodels/b01.gen.go",
+        "line": 54,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01KnownEmptyObject"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/components/schemas/B01KnownEmptyObject"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Method",
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/b01.gen.go",
-        "line": 29,
+        "line": 57,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Method"
       },
       "schema": {
@@ -8909,11 +9207,284 @@
       ]
     },
     {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10RoomCleanCommand",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/b01.gen.go",
+        "line": 60,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10RoomCleanCommand"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/components/schemas/B01Q10RoomCleanCommand"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10RoomCleanCommandCmd",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/b01.gen.go",
+        "line": 67,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10RoomCleanCommandCmd"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/components/schemas/B01Q10RoomCleanCommand/properties/cmd"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10RoomCleanCommandPropertiesCmd0Value",
+      "kind": "constant",
+      "definition": {
+        "file": "pkg/dependencymodels/b01.gen.go",
+        "line": 19,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10RoomCleanCommandPropertiesCmd0Value"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/components/schemas/B01Q10RoomCleanCommand/properties/cmd"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "2",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10RoomCleanEnvelope",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/b01.gen.go",
+        "line": 70,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10RoomCleanEnvelope"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/components/schemas/B01Q10RoomCleanEnvelope"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10RoomCleanEnvelopeDatapoints",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/b01.gen.go",
+        "line": 75,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10RoomCleanEnvelopeDatapoints"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/components/schemas/B01Q10RoomCleanEnvelopeDatapoints"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10RoomIDs",
+      "kind": "alias",
+      "definition": {
+        "file": "pkg/dependencymodels/b01.gen.go",
+        "line": 80,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10RoomIDs"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/components/schemas/B01Q10RoomIDs"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10ZoneCleanCommand",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/b01.gen.go",
+        "line": 83,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10ZoneCleanCommand"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/components/schemas/B01Q10ZoneCleanCommand"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10ZoneCleanCommandCmd",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/b01.gen.go",
+        "line": 90,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10ZoneCleanCommandCmd"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/components/schemas/B01Q10ZoneCleanCommand/properties/cmd"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10ZoneCleanCommandPropertiesCmd0Value",
+      "kind": "constant",
+      "definition": {
+        "file": "pkg/dependencymodels/b01.gen.go",
+        "line": 24,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10ZoneCleanCommandPropertiesCmd0Value"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/components/schemas/B01Q10ZoneCleanCommand/properties/cmd"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "3",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10ZoneCleanEnvelope",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/b01.gen.go",
+        "line": 93,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10ZoneCleanEnvelope"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/components/schemas/B01Q10ZoneCleanEnvelope"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10ZoneCleanEnvelopeDatapoints",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/b01.gen.go",
+        "line": 98,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10ZoneCleanEnvelopeDatapoints"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/components/schemas/B01Q10ZoneCleanEnvelopeDatapoints"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10ZonePayload",
+      "kind": "alias",
+      "definition": {
+        "file": "pkg/dependencymodels/b01.gen.go",
+        "line": 103,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q10ZonePayload"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/components/schemas/B01Q10ZonePayload"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q7CommandReply",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/b01.gen.go",
+        "line": 106,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q7CommandReply"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/components/schemas/B01Q7CommandReply"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q7RoomCleanEnvelope",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/b01.gen.go",
+        "line": 115,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q7RoomCleanEnvelope"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/components/schemas/B01Q7RoomCleanEnvelope"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q7RoomCleanEnvelopeDatapoints",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/b01.gen.go",
+        "line": 120,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q7RoomCleanEnvelopeDatapoints"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/components/schemas/B01Q7RoomCleanEnvelopeDatapoints"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q7RoomCleanRPC",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/b01.gen.go",
+        "line": 125,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q7RoomCleanRPC"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/components/schemas/B01Q7RoomCleanRPC"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q7RoomCleanRPCMethod",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/b01.gen.go",
+        "line": 132,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q7RoomCleanRPCMethod"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/components/schemas/B01Q7RoomCleanRPC/properties/method"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q7RoomCleanRPCPropertiesMethod0Value",
+      "kind": "constant",
+      "definition": {
+        "file": "pkg/dependencymodels/b01.gen.go",
+        "line": 29,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01Q7RoomCleanRPCPropertiesMethod0Value"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/components/schemas/B01Q7RoomCleanRPC/properties/method"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"service.set_room_clean\"",
+      "productionUses": []
+    },
+    {
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01RPCRequest",
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/b01.gen.go",
-        "line": 32,
+        "line": 135,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01RPCRequest"
       },
       "schema": {
@@ -8934,7 +9505,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/b01.gen.go",
-        "line": 39,
+        "line": 142,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01RPCResponse"
       },
       "schema": {
@@ -14918,7 +15489,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 18,
+        "line": 38,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsBinaryPayload"
       },
       "schema": {
@@ -14929,11 +15500,56 @@
       "productionUses": []
     },
     {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsKnownEmptyObject",
+      "kind": "alias",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 41,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsKnownEmptyObject"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsKnownEmptyObject"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListCommonReply",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 44,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListCommonReply"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ10ListCommonReply"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListCommonRequest",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 49,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListCommonRequest"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ10ListCommonRequest"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListEntry",
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 21,
+        "line": 54,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListEntry"
       },
       "schema": {
@@ -14944,11 +15560,86 @@
       "productionUses": []
     },
     {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListEnvelope",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 61,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListEnvelope"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ10ListEnvelope"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListEnvelopeDatapoints",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 66,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListEnvelopeDatapoints"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ10ListEnvelopeDatapoints"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListReply",
+      "kind": "alias",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 71,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListReply"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ10ListReply"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListReplyEnvelope",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 74,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListReplyEnvelope"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ10ListReplyEnvelope"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListReplyEnvelopeDatapoints",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 79,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListReplyEnvelopeDatapoints"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ10ListReplyEnvelopeDatapoints"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListRequest",
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 28,
+        "line": 84,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListRequest"
       },
       "schema": {
@@ -14963,7 +15654,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 33,
+        "line": 89,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListRequestOp"
       },
       "schema": {
@@ -14978,7 +15669,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 36,
+        "line": 92,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListResult"
       },
       "schema": {
@@ -15010,11 +15701,148 @@
       ]
     },
     {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListSuccess",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 99,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListSuccess"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ10ListSuccess"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListSuccessOp",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 106,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListSuccessOp"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ10ListSuccess/properties/op"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListSuccessOpList",
+      "kind": "constant",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 19,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListSuccessOpList"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ10ListSuccess/properties/op"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"list\"",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListSuccessResult",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 109,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListSuccessResult"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ10ListSuccess/properties/result"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListSuccessResultAccepted",
+      "kind": "constant",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 24,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListSuccessResultAccepted"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ10ListSuccess/properties/result"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "1",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10NestedListReplyEnvelope",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 112,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10NestedListReplyEnvelope"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ10NestedListReplyEnvelope"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10NestedListReplyEnvelopeDatapoints",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 117,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10NestedListReplyEnvelopeDatapoints"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ10NestedListReplyEnvelopeDatapoints"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ReadEnvelope",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 122,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ReadEnvelope"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ10ReadEnvelope"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ReadEnvelopeDatapoints",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 127,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ReadEnvelopeDatapoints"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ10ReadEnvelopeDatapoints"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7ListEntry",
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 43,
+        "line": 132,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7ListEntry"
       },
       "schema": {
@@ -15025,11 +15853,102 @@
       "productionUses": []
     },
     {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7ListEnvelope",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 138,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7ListEnvelope"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ7ListEnvelope"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7ListEnvelopeDatapoints",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 143,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7ListEnvelopeDatapoints"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ7ListEnvelopeDatapoints"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7ListRPC",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 148,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7ListRPC"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ7ListRPC"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7ListRPCMethod",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 155,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7ListRPCMethod"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ7ListRPC/properties/method"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7ListRPCPropertiesMethod0Value",
+      "kind": "constant",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 29,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7ListRPCPropertiesMethod0Value"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ7ListRPC/properties/method"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"service.get_map_list\"",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7ListReply",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 158,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7ListReply"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ7ListReply"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7ListRequest",
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 49,
+        "line": 165,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7ListRequest"
       },
       "schema": {
@@ -15050,7 +15969,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 52,
+        "line": 168,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7ListResult"
       },
       "schema": {
@@ -15067,11 +15986,87 @@
       ]
     },
     {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7UploadEnvelope",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 173,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7UploadEnvelope"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ7UploadEnvelope"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7UploadEnvelopeDatapoints",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 178,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7UploadEnvelopeDatapoints"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ7UploadEnvelopeDatapoints"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7UploadRPC",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 183,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7UploadRPC"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ7UploadRPC"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7UploadRPCMethod",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 190,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7UploadRPCMethod"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ7UploadRPC/properties/method"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7UploadRPCPropertiesMethod0Value",
+      "kind": "constant",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 34,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7UploadRPCPropertiesMethod0Value"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsQ7UploadRPC/properties/method"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"service.upload_by_mapid\"",
+      "productionUses": []
+    },
+    {
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7UploadRequest",
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 57,
+        "line": 193,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7UploadRequest"
       },
       "schema": {
@@ -15092,7 +16087,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 62,
+        "line": 198,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1Backup"
       },
       "schema": {
@@ -15107,7 +16102,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 68,
+        "line": 204,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1Entry"
       },
       "schema": {
@@ -15122,7 +16117,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 78,
+        "line": 214,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1List"
       },
       "schema": {
@@ -15137,7 +16132,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 86,
+        "line": 222,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1ListResult"
       },
       "schema": {
@@ -15158,7 +16153,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 89,
+        "line": 225,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1LoadRequest"
       },
       "schema": {
@@ -15179,7 +16174,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 92,
+        "line": 228,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1Room"
       },
       "schema": {
@@ -15194,7 +16189,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 100,
+        "line": 236,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1RoomMappingPair"
       },
       "schema": {
@@ -15220,7 +16215,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 103,
+        "line": 239,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1RoomMappingValue"
       },
       "schema": {
@@ -15235,7 +16230,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 106,
+        "line": 242,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1RoomMappings"
       },
       "schema": {
@@ -15256,7 +16251,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 109,
+        "line": 245,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1RoomsResult"
       },
       "schema": {
@@ -15356,7 +16351,7 @@
       "kind": "constant",
       "definition": {
         "file": "pkg/dependencymodels/b01.gen.go",
-        "line": 19,
+        "line": 34,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.N2"
       },
       "schema": {
@@ -15378,7 +16373,7 @@
       "kind": "constant",
       "definition": {
         "file": "pkg/dependencymodels/b01.gen.go",
-        "line": 20,
+        "line": 35,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.N3"
       },
       "schema": {
@@ -15919,7 +16914,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/b01.gen.go",
-        "line": 46,
+        "line": 149,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.Q10CleanCommand"
       },
       "schema": {
@@ -15955,7 +16950,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/b01.gen.go",
-        "line": 52,
+        "line": 155,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.Q10CleanCommandCmd"
       },
       "schema": {
@@ -15970,7 +16965,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/b01.gen.go",
-        "line": 55,
+        "line": 158,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.Q7RoomCleanRequest"
       },
       "schema": {
@@ -15985,6 +16980,68 @@
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.Q7RoomCleanRequest"
         }
       ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.Q7RoomCleanRequestCleanType",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/b01.gen.go",
+        "line": 165,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.Q7RoomCleanRequestCleanType"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/components/schemas/Q7RoomCleanRequest/properties/clean_type"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.Q7RoomCleanRequestCtrlValue",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/b01.gen.go",
+        "line": 168,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.Q7RoomCleanRequestCtrlValue"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/components/schemas/Q7RoomCleanRequest/properties/ctrl_value"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.Q7RoomCleanRequestPropertiesCleanType0Value",
+      "kind": "constant",
+      "definition": {
+        "file": "pkg/dependencymodels/b01.gen.go",
+        "line": 40,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.Q7RoomCleanRequestPropertiesCleanType0Value"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/components/schemas/Q7RoomCleanRequest/properties/clean_type"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "1",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.Q7RoomCleanRequestPropertiesCtrlValue0Value",
+      "kind": "constant",
+      "definition": {
+        "file": "pkg/dependencymodels/b01.gen.go",
+        "line": 45,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.Q7RoomCleanRequestPropertiesCtrlValue0Value"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/components/schemas/Q7RoomCleanRequest/properties/ctrl_value"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "1",
+      "productionUses": []
     },
     {
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.QueryA01ValuesJSONRequestBody",
@@ -18448,22 +19505,6 @@
       "kind": "constant",
       "definition": {
         "file": "pkg/dependencymodels/mapproto/b01_scmap.pb.go",
-        "line": 21,
-        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels/mapproto._"
-      },
-      "schema": {
-        "file": "api/external/b01_scmap.proto",
-        "pointer": "#"
-      },
-      "generator": "go run ./tools/protogen (protoc-gen-go v1.36.11)",
-      "value": "16",
-      "productionUses": []
-    },
-    {
-      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels/mapproto._",
-      "kind": "constant",
-      "definition": {
-        "file": "pkg/dependencymodels/mapproto/b01_scmap.pb.go",
         "line": 19,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels/mapproto._"
       },
@@ -18473,6 +19514,22 @@
       },
       "generator": "go run ./tools/protogen (protoc-gen-go v1.36.11)",
       "value": "20",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels/mapproto._",
+      "kind": "constant",
+      "definition": {
+        "file": "pkg/dependencymodels/mapproto/b01_scmap.pb.go",
+        "line": 21,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels/mapproto._"
+      },
+      "schema": {
+        "file": "api/external/b01_scmap.proto",
+        "pointer": "#"
+      },
+      "generator": "go run ./tools/protogen (protoc-gen-go v1.36.11)",
+      "value": "16",
       "productionUses": []
     },
     {
@@ -26477,11 +27534,138 @@
       "productionUses": []
     },
     {
-      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapFormat",
+      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapAreaKind",
       "kind": "public-projection-alias",
       "definition": {
         "file": "pkg/roborock/maps_models.gen.go",
         "line": 56,
+        "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapAreaKind"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapAreaKind"
+      },
+      "generator": "go run ./tools/generate (public aliases of schema-owned mapmodel)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapAreaKindCurrent",
+      "kind": "public-projection-constant",
+      "definition": {
+        "file": "pkg/roborock/maps_models.gen.go",
+        "line": 101,
+        "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapAreaKindCurrent"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapAreaKind/x-known-values/MapAreaKindCurrent"
+      },
+      "generator": "go run ./tools/generate (public aliases of schema-owned mapmodel)",
+      "value": "\"current\"",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapAreaKindErase",
+      "kind": "public-projection-constant",
+      "definition": {
+        "file": "pkg/roborock/maps_models.gen.go",
+        "line": 104,
+        "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapAreaKindErase"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapAreaKind/x-known-values/MapAreaKindErase"
+      },
+      "generator": "go run ./tools/generate (public aliases of schema-owned mapmodel)",
+      "value": "\"erase\"",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapAreaKindNoCarpet",
+      "kind": "public-projection-constant",
+      "definition": {
+        "file": "pkg/roborock/maps_models.gen.go",
+        "line": 107,
+        "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapAreaKindNoCarpet"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapAreaKind/x-known-values/MapAreaKindNoCarpet"
+      },
+      "generator": "go run ./tools/generate (public aliases of schema-owned mapmodel)",
+      "value": "\"no-carpet\"",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapAreaKindNoGo",
+      "kind": "public-projection-constant",
+      "definition": {
+        "file": "pkg/roborock/maps_models.gen.go",
+        "line": 110,
+        "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapAreaKindNoGo"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapAreaKind/x-known-values/MapAreaKindNoGo"
+      },
+      "generator": "go run ./tools/generate (public aliases of schema-owned mapmodel)",
+      "value": "\"no-go\"",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapAreaKindNoMop",
+      "kind": "public-projection-constant",
+      "definition": {
+        "file": "pkg/roborock/maps_models.gen.go",
+        "line": 113,
+        "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapAreaKindNoMop"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapAreaKind/x-known-values/MapAreaKindNoMop"
+      },
+      "generator": "go run ./tools/generate (public aliases of schema-owned mapmodel)",
+      "value": "\"no-mop\"",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapAreaKindUnknown",
+      "kind": "public-projection-constant",
+      "definition": {
+        "file": "pkg/roborock/maps_models.gen.go",
+        "line": 116,
+        "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapAreaKindUnknown"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapAreaKind/x-known-values/MapAreaKindUnknown"
+      },
+      "generator": "go run ./tools/generate (public aliases of schema-owned mapmodel)",
+      "value": "\"unknown\"",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapAreaKindWall",
+      "kind": "public-projection-constant",
+      "definition": {
+        "file": "pkg/roborock/maps_models.gen.go",
+        "line": 119,
+        "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapAreaKindWall"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapAreaKind/x-known-values/MapAreaKindWall"
+      },
+      "generator": "go run ./tools/generate (public aliases of schema-owned mapmodel)",
+      "value": "\"wall\"",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapFormat",
+      "kind": "public-projection-alias",
+      "definition": {
+        "file": "pkg/roborock/maps_models.gen.go",
+        "line": 59,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapFormat"
       },
       "schema": {
@@ -26544,7 +27728,7 @@
       "kind": "public-projection-alias",
       "definition": {
         "file": "pkg/roborock/maps_models.gen.go",
-        "line": 59,
+        "line": 62,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapFrame"
       },
       "schema": {
@@ -26639,7 +27823,7 @@
       "kind": "public-projection-alias",
       "definition": {
         "file": "pkg/roborock/maps_models.gen.go",
-        "line": 62,
+        "line": 65,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapGrid"
       },
       "schema": {
@@ -26670,7 +27854,7 @@
       "kind": "public-projection-alias",
       "definition": {
         "file": "pkg/roborock/maps_models.gen.go",
-        "line": 65,
+        "line": 68,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapGridRowYDirection"
       },
       "schema": {
@@ -26746,7 +27930,7 @@
       "kind": "public-projection-alias",
       "definition": {
         "file": "pkg/roborock/maps_models.gen.go",
-        "line": 68,
+        "line": 71,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapPath"
       },
       "schema": {
@@ -26757,11 +27941,90 @@
       "productionUses": []
     },
     {
+      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapPathKind",
+      "kind": "public-projection-alias",
+      "definition": {
+        "file": "pkg/roborock/maps_models.gen.go",
+        "line": 74,
+        "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapPathKind"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapPathKind"
+      },
+      "generator": "go run ./tools/generate (public aliases of schema-owned mapmodel)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapPathKindClean",
+      "kind": "public-projection-constant",
+      "definition": {
+        "file": "pkg/roborock/maps_models.gen.go",
+        "line": 122,
+        "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapPathKindClean"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapPathKind/x-known-values/MapPathKindClean"
+      },
+      "generator": "go run ./tools/generate (public aliases of schema-owned mapmodel)",
+      "value": "\"clean\"",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapPathKindGoto",
+      "kind": "public-projection-constant",
+      "definition": {
+        "file": "pkg/roborock/maps_models.gen.go",
+        "line": 125,
+        "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapPathKindGoto"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapPathKind/x-known-values/MapPathKindGoto"
+      },
+      "generator": "go run ./tools/generate (public aliases of schema-owned mapmodel)",
+      "value": "\"goto\"",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapPathKindPredicted",
+      "kind": "public-projection-constant",
+      "definition": {
+        "file": "pkg/roborock/maps_models.gen.go",
+        "line": 128,
+        "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapPathKindPredicted"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapPathKind/x-known-values/MapPathKindPredicted"
+      },
+      "generator": "go run ./tools/generate (public aliases of schema-owned mapmodel)",
+      "value": "\"predicted\"",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapPathKindTrace",
+      "kind": "public-projection-constant",
+      "definition": {
+        "file": "pkg/roborock/maps_models.gen.go",
+        "line": 131,
+        "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapPathKindTrace"
+      },
+      "schema": {
+        "file": "api/maps-models.openapi.yaml",
+        "pointer": "#/components/schemas/MapPathKind/x-known-values/MapPathKindTrace"
+      },
+      "generator": "go run ./tools/generate (public aliases of schema-owned mapmodel)",
+      "value": "\"trace\"",
+      "productionUses": []
+    },
+    {
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapPoint",
       "kind": "public-projection-alias",
       "definition": {
         "file": "pkg/roborock/maps_models.gen.go",
-        "line": 71,
+        "line": 77,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapPoint"
       },
       "schema": {
@@ -26807,7 +28070,7 @@
       "kind": "public-projection-alias",
       "definition": {
         "file": "pkg/roborock/maps_models.gen.go",
-        "line": 74,
+        "line": 80,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapPose"
       },
       "schema": {
@@ -26822,7 +28085,7 @@
       "kind": "public-projection-alias",
       "definition": {
         "file": "pkg/roborock/maps_models.gen.go",
-        "line": 77,
+        "line": 83,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapPoseHeadingUnit"
       },
       "schema": {
@@ -26837,7 +28100,7 @@
       "kind": "public-projection-alias",
       "definition": {
         "file": "pkg/roborock/maps_models.gen.go",
-        "line": 80,
+        "line": 86,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRectangle"
       },
       "schema": {
@@ -26868,7 +28131,7 @@
       "kind": "public-projection-alias",
       "definition": {
         "file": "pkg/roborock/maps_models.gen.go",
-        "line": 83,
+        "line": 89,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoom"
       },
       "schema": {
@@ -27050,7 +28313,7 @@
       "kind": "public-projection-alias",
       "definition": {
         "file": "pkg/roborock/maps_models.gen.go",
-        "line": 86,
+        "line": 92,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapSnapshot"
       },
       "schema": {
@@ -27121,7 +28384,7 @@
       "kind": "public-projection-alias",
       "definition": {
         "file": "pkg/roborock/maps_models.gen.go",
-        "line": 89,
+        "line": 95,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapUnit"
       },
       "schema": {
@@ -27184,7 +28447,7 @@
       "kind": "public-projection-alias",
       "definition": {
         "file": "pkg/roborock/maps_models.gen.go",
-        "line": 92,
+        "line": 98,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapUnknownBlock"
       },
       "schema": {
@@ -33753,7 +35016,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 165,
+        "line": 301,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1RoomsResult.MarshalJSON"
       },
       "schema": {
@@ -33764,7 +35027,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 170,
+        "line": 306,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1RoomsResult.UnmarshalJSON"
       },
       "schema": {
@@ -41373,7 +42636,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 116,
+        "line": 252,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -41384,7 +42647,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 122,
+        "line": 258,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41394,7 +42657,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 129,
+        "line": 265,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41404,7 +42667,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 142,
+        "line": 278,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -41415,7 +42678,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 148,
+        "line": 284,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41425,7 +42688,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 155,
+        "line": 291,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41435,7 +42698,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 166,
+        "line": 302,
         "symbol": "encoding/json.MarshalJSON"
       },
       "argumentTypes": []
@@ -41443,7 +42706,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 171,
+        "line": 307,
         "symbol": "encoding/json.UnmarshalJSON"
       },
       "argumentTypes": [
