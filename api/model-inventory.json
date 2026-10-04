@@ -9609,17 +9609,17 @@
         },
         {
           "file": "pkg/dependencies/mqtt/b01.go",
-          "line": 184,
+          "line": 185,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01RPCResponse"
         },
         {
           "file": "pkg/dependencies/mqtt/b01.go",
-          "line": 208,
+          "line": 209,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01RPCResponse"
         },
         {
           "file": "pkg/dependencies/mqtt/b01.go",
-          "line": 216,
+          "line": 217,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01RPCResponse"
         }
       ]
@@ -15479,7 +15479,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/b01.go",
-          "line": 194,
+          "line": 195,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MQTTRPCError"
         },
         {
@@ -36017,7 +36017,7 @@
     {
       "site": {
         "file": "pkg/dependencies/mqtt/b01.go",
-        "line": 204,
+        "line": 205,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
