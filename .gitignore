@@ -1,0 +1,6 @@
+/reference/python-roborock/
+/site/
+/coverage*.out
+*.exe
+*.log
+/tmp/
