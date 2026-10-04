@@ -122,18 +122,30 @@ func (s *Session) deliver(payload []byte) error {
 		return err
 	}
 
-	s.mu.Lock()
-	pending := s.pending[result.Id]
-	s.mu.Unlock()
+	s.deliverReply(result.Id, rpcResult(result))
 
-	if pending != nil {
+	return nil
+}
+
+func (s *Session) deliverReply(requestID int64, reply response) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	if query := s.mapQuery; query != nil && query.id == requestID && reply.err != nil {
 		select {
-		case pending <- rpcResult(result):
+		case query.reply <- reply:
+		default:
+		}
+
+		return
+	}
+
+	if pending := s.pending[requestID]; pending != nil {
+		select {
+		case pending <- reply:
 		default:
 		}
 	}
-
-	return nil
 }
 
 func decodeRPCResponse(encoded json.RawMessage) (dependencymodels.MQTTRPCResponse, error) {
@@ -164,7 +176,7 @@ func rpcResult(result dependencymodels.MQTTRPCResponse) response {
 	if result.Result != nil {
 		reply.value = *result.Result
 		if isUnknownMethod(reply.value) {
-			reply.err = unsupported("call")
+			reply.err = unknownMethodResult("call")
 		}
 	}
 
@@ -179,6 +191,11 @@ func isUnknownMethod(value json.RawMessage) bool {
 	var result string
 
 	return json.Unmarshal(value, &result) == nil && result == protocol.MQTTUnknownMethodResult
+}
+
+func unknownMethodResult(operation string) error {
+	return roborockerrors.New(roborockerrors.Unsupported, "mqtt "+operation, "device does not recognize RPC method",
+		&RPCError{Code: 0, Message: protocol.MQTTUnknownMethodResult})
 }
 
 func rpcRejection(rejection dependencymodels.MQTTRPCError) error {

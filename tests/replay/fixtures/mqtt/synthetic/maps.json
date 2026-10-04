@@ -132,6 +132,50 @@
           "protocol": 0
         }
       ]
+    },
+    {
+      "name": "q7",
+      "steps": [
+        {
+          "operation": "map",
+          "request": {
+            "dps": {
+              "10000": {
+                "method": "service.upload_by_mapid",
+                "msgId": "100000000001",
+                "params": {
+                  "map_id": 7
+                }
+              }
+            }
+          },
+          "protocol": 102,
+          "responseFrameHex": "423031000000c80000002a6553f100006600501ce41781f99b3375201b68149a5be9b77bbf109aab276bc7e0f1c6bbae68d6f6107784f4d1c14b6114dd3e7c8a038f21a929e6273f9a0d6f9a45d3cf2746fd387fd710ab472d13d93032a8bca79231fbf189ebe0",
+          "resultErrorKind": "protocol"
+        }
+      ]
+    },
+    {
+      "name": "q7",
+      "steps": [
+        {
+          "operation": "map",
+          "request": {
+            "dps": {
+              "10000": {
+                "method": "service.upload_by_mapid",
+                "msgId": "100000000001",
+                "params": {
+                  "map_id": 7
+                }
+              }
+            }
+          },
+          "protocol": 102,
+          "responseFrameHex": "423031000000c80000002a6553f100006600601ce41781f99b3375201b68149a5be9b77bbf109aab276bc7e0f1c6bbae68d6f6107784f4d1c14b6114dd3e7c8a038f21b0e5aa833da5106e5044a1309bacb20eb1c65fb33793bdd78eaddad487c226ca5fe769804d643d2a44967c8122aec050f24be8a3",
+          "resultErrorKind": "unsupported"
+        }
+      ]
     }
   ],
   "q7MapKey": "b0ba0cccdc99036e",

@@ -20,6 +20,7 @@ import (
 
 	"github.com/portpowered/go-roborock/pkg/dependencies/mqtt"
 	"github.com/portpowered/go-roborock/pkg/dependencymodels"
+	"github.com/portpowered/go-roborock/pkg/roborockerrors"
 )
 
 const (
@@ -35,6 +36,7 @@ type mapReplayStep struct {
 	ResponseFrameHex string          `json:"responseFrameHex"`
 	Result           json.RawMessage `json:"result"`
 	ResultBase64     string          `json:"resultBase64"`
+	ResultErrorKind  string          `json:"resultErrorKind"`
 }
 
 type mapReplayCase struct {
@@ -113,16 +115,7 @@ func runMapReplay(t *testing.T, fixture mapReplayFixture, replay mapReplayCase) 
 
 	t.Cleanup(func() { _ = session.Close() })
 
-	for _, step := range replay.Steps {
-		var result []byte
-
-		result, err = executeMapReplay(ctx, session, fixture, replay.Name, step.Operation)
-		if err != nil {
-			t.Fatalf("%s: %v", step.Operation, err)
-		}
-
-		assertMapReplayResult(t, step, result)
-	}
+	executeMapReplaySteps(ctx, t, session, fixture, replay)
 
 	err = session.Close()
 	if err != nil {
@@ -132,6 +125,40 @@ func runMapReplay(t *testing.T, fixture mapReplayFixture, replay mapReplayCase) 
 	err = <-completed
 	if err != nil {
 		t.Fatal(err)
+	}
+}
+
+func executeMapReplaySteps(
+	ctx context.Context, t *testing.T, session *mqtt.Session, fixture mapReplayFixture, replay mapReplayCase,
+) {
+	t.Helper()
+
+	for _, step := range replay.Steps {
+		result, err := executeMapReplay(ctx, session, fixture, replay.Name, step.Operation)
+		if step.ResultErrorKind != "" {
+			assertMapReplayError(t, err, step.ResultErrorKind)
+
+			continue
+		}
+
+		if err != nil {
+			t.Fatalf("%s: %v", step.Operation, err)
+		}
+
+		assertMapReplayResult(t, step, result)
+	}
+}
+
+func assertMapReplayError(t *testing.T, err error, kind string) {
+	t.Helper()
+
+	var typed *roborockerrors.Error
+	if !errors.As(err, &typed) || string(typed.Kind) != kind {
+		t.Fatalf("error=%v expected kind=%s", err, kind)
+	}
+
+	if typed.Cause == nil {
+		t.Fatalf("missing rejection cause: %v", err)
 	}
 }
 

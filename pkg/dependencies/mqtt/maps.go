@@ -8,6 +8,7 @@ import (
 
 	"github.com/portpowered/go-roborock/internal/protocol"
 	"github.com/portpowered/go-roborock/pkg/dependencymodels"
+	"github.com/portpowered/go-roborock/pkg/roborockerrors"
 )
 
 type mapQuery struct {
@@ -32,9 +33,10 @@ func (s *Session) FetchMapV1(ctx context.Context) ([]byte, error) {
 
 	defer s.endMap()
 
-	s.mu.Lock()
-	query.id = int64(s.sequence.Add(1)%protocol.MapsV1RequestIDRange) + 1
-	s.mu.Unlock()
+	err = s.registerMapRPC(query, false)
+	if err != nil {
+		return nil, err
+	}
 
 	payload, err := s.rpcPayload(query.id, protocol.MapsV1GetMethod, json.RawMessage(protocol.MQTTEmptyParamsJSON))
 	if err != nil {
@@ -77,9 +79,12 @@ func (s *Session) FetchMapQ7(ctx context.Context, mapID int64, serial, model str
 		return nil, transportError("Q7 map parameters", err)
 	}
 
-	id := int64(protocol.B01Q7MessageIDBase) + int64(s.sequence.Add(1))
+	err = s.registerMapRPC(query, true)
+	if err != nil {
+		return nil, err
+	}
 
-	payload, err := b01RPCPayload(id, dependencymodels.ServiceUploadByMapid, params)
+	payload, err := b01RPCPayload(query.id, dependencymodels.ServiceUploadByMapid, params)
 	if err != nil {
 		return nil, err
 	}
@@ -154,9 +159,43 @@ func (s *Session) beginMap(ctx context.Context, prefix byte) (*mapQuery, error) 
 
 func (s *Session) endMap() {
 	s.mu.Lock()
+	if query := s.mapQuery; query != nil && query.id != 0 {
+		delete(s.pending, query.id)
+	}
+
 	s.mapQuery = nil
 	s.mu.Unlock()
 	<-s.mapGate
+}
+
+func (s *Session) registerMapRPC(query *mapQuery, isQ7 bool) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	if len(s.pending) >= maxPendingCommands {
+		return roborockerrors.New(roborockerrors.Backpressure, "mqtt map", "too many pending commands", nil)
+	}
+
+	for range maxPendingCommands + 1 {
+		sequence := s.sequence.Add(1)
+
+		requestID := int64((sequence-1)%protocol.MapsV1RequestIDRange) + 1
+
+		if isQ7 {
+			requestID = int64(protocol.B01Q7MessageIDBase) + int64(sequence)
+		}
+
+		if _, exists := s.pending[requestID]; !exists {
+			query.id = requestID
+			// A nil channel reserves the ID without allowing successful RPC ACKs
+			// to replace the binary map completion.
+			s.pending[requestID] = nil
+
+			return nil
+		}
+	}
+
+	return roborockerrors.New(roborockerrors.Backpressure, "mqtt map", "no available map request identifier", nil)
 }
 
 func (s *Session) awaitMap(ctx context.Context, query *mapQuery) ([]byte, error) {

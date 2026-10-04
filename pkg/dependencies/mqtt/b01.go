@@ -152,7 +152,7 @@ func (s *Session) deliverB01RPC(value []byte) error {
 	err := json.Unmarshal(value, &result)
 	if err != nil {
 		// Unsolicited Q7 datapoint strings need not be RPC response objects.
-		return nil
+		return nil //nolint:nilerr // Unknown Q7 pushes are not correlated RPC response objects.
 	}
 
 	if result.MsgId == "" {
@@ -165,17 +165,7 @@ func (s *Session) deliverB01RPC(value []byte) error {
 		return invalid("B01 response", "invalid message identifier")
 	}
 
-	reply := b01Result(result)
-
-	s.mu.Lock()
-	defer s.mu.Unlock()
-
-	if pending := s.pending[requestID]; pending != nil {
-		select {
-		case pending <- reply:
-		default:
-		}
-	}
+	s.deliverReply(requestID, b01Result(result))
 
 	return nil
 }
@@ -184,6 +174,9 @@ func b01Result(result dependencymodels.B01RPCResponse) response {
 	var reply response
 	if result.Data != nil {
 		reply.value = *result.Data
+		if isUnknownMethod(reply.value) {
+			reply.err = unknownMethodResult("B01 call")
+		}
 	}
 
 	if result.Code != nil && *result.Code != 0 {

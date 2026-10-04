@@ -94,7 +94,7 @@ func TestMapIndependentCryptoVectors(t *testing.T) {
 	}
 
 	v1, err := decodeV1Map(encrypted, hex.EncodeToString([]byte(syntheticKey)))
-	if err != nil || string(v1) != "synthetic-v1-map" {
+	if err != nil || string(v1) != syntheticV1Map {
 		t.Fatalf("V1 map=%q err=%v", v1, err)
 	}
 

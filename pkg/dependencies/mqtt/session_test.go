@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"io"
 	"net"
+	"strconv"
 	"sync"
 	"sync/atomic"
 	"testing"
@@ -21,6 +22,10 @@ import (
 )
 
 const syntheticKey = "0123456789abcdef"
+const syntheticV1Map = "synthetic-v1-map"
+const mapRPCOutcomeACK = "ack"
+const mapRPCOutcomeRejected = "rejected"
+const mapRPCOutcomeUnknown = "unknown"
 
 var errSyntheticBroker = errors.New("synthetic MQTT broker mismatch")
 
@@ -40,7 +45,7 @@ func TestSessionCanceledB01MapRetiresConnection(t *testing.T) {
 			t.Parallel()
 
 			published := make(chan struct{})
-			session, completed := openTestSession(t, "B01", func(active broker) error {
+			session, completed := openTestSession(t, protocol.B01Version, func(active broker) error {
 				_, err := active.command()
 				if err != nil {
 					return err
@@ -111,7 +116,7 @@ func canceledB01Operation(ctx context.Context, session *Session, operation strin
 func TestSessionB01RPCBackpressure(t *testing.T) {
 	t.Parallel()
 
-	session, completed := openTestSession(t, "B01", waitForBrokerClose)
+	session, completed := openTestSession(t, protocol.B01Version, waitForBrokerClose)
 	for requestID := int64(1); requestID <= maxPendingCommands; requestID++ {
 		_, err := session.beginRPC(requestID)
 		if err != nil {
@@ -155,7 +160,7 @@ func TestSessionQ10NextObservedPushHasNoCausalFreshness(t *testing.T) {
 
 	payload := []byte{protocol.MapsQ10CurrentPrefix, protocol.MapsQ10PrefixVersion, 'A'}
 
-	session, completed := openTestSession(t, "B01", func(active broker) error {
+	session, completed := openTestSession(t, protocol.B01Version, func(active broker) error {
 		for range 2 {
 			frame, err := active.command()
 			if err != nil {
@@ -192,7 +197,7 @@ func TestSessionQ10IgnoresOtherMapKinds(t *testing.T) {
 	t.Parallel()
 
 	want := []byte{protocol.MapsQ10CurrentPrefix, protocol.MapsQ10PrefixVersion, 'M'}
-	session, completed := openTestSession(t, "B01", func(active broker) error {
+	session, completed := openTestSession(t, protocol.B01Version, func(active broker) error {
 		frame, err := active.command()
 		if err != nil {
 			return err
@@ -236,14 +241,14 @@ func TestSessionV1MapEndpointAndRequestCorrelation(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	session, completed := openTestSession(t, "1.0", func(active broker) error {
+	session, completed := openTestSession(t, protocol.MQTTVersionV1, func(active broker) error {
 		return sendV1MapOracle(active, encrypted)
 	})
 	// A fixed nonce enables a precomputed independent Python AES/gzip response.
 	session.security.Nonce = hex.EncodeToString([]byte(syntheticKey))
 
 	observed, err := session.FetchMapV1(context.Background())
-	if err != nil || string(observed) != "synthetic-v1-map" {
+	if err != nil || string(observed) != syntheticV1Map {
 		t.Fatalf("observed=%q err=%v", observed, err)
 	}
 
@@ -256,6 +261,349 @@ func TestSessionV1MapEndpointAndRequestCorrelation(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+}
+
+func TestSessionMapCorrelatedRPCFailuresAndAcknowledgement(t *testing.T) {
+	t.Parallel()
+
+	for _, version := range []string{protocol.MQTTVersionV1, protocol.B01Version} {
+		for _, outcome := range []string{mapRPCOutcomeRejected, mapRPCOutcomeUnknown, mapRPCOutcomeACK} {
+			t.Run(version+"/"+outcome, func(t *testing.T) {
+				t.Parallel()
+				fixture := loadMapCryptoFixture(t)
+				session, completed := openTestSession(t, version, func(active broker) error {
+					return mapRPCOutcomeExchange(active, fixture, outcome)
+				})
+				session.security.Nonce = hex.EncodeToString([]byte(syntheticKey))
+
+				var (
+					observed []byte
+					err      error
+				)
+
+				if version == protocol.MQTTVersionV1 {
+					observed, err = session.FetchMapV1(context.Background())
+				} else {
+					observed, err = session.FetchMapQ7(context.Background(), 7, fixture.Serial, fixture.Model)
+				}
+
+				assertMapRPCOutcome(t, observed, err, outcome, version)
+				assertSessionClosed(t, session, false)
+
+				err = session.Close()
+				if err != nil {
+					t.Fatal(err)
+				}
+
+				err = <-completed
+				if err != nil {
+					t.Fatal(err)
+				}
+			})
+		}
+	}
+}
+
+func TestSessionConcurrentV1MapAndRPCUseDistinctIdentifiers(t *testing.T) {
+	t.Parallel()
+	fixture := loadMapCryptoFixture(t)
+	published := make(chan struct{})
+	session, completed := openTestSession(t, protocol.MQTTVersionV1, func(active broker) error {
+		return concurrentMapRPCExchange(active, fixture, published)
+	})
+	session.security.Nonce = hex.EncodeToString([]byte(syntheticKey))
+	mapResult := make(chan response, 1)
+
+	go func() {
+		value, err := session.FetchMapV1(context.Background())
+		mapResult <- response{value: value, err: err}
+	}()
+
+	<-published
+
+	_, err := session.Call(context.Background(), "get_status", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	mapReply := <-mapResult
+	if mapReply.err != nil || string(mapReply.value) != syntheticV1Map {
+		t.Fatalf("map=%q error=%v", mapReply.value, mapReply.err)
+	}
+
+	err = session.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = <-completed
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func concurrentMapRPCExchange(active broker, fixture mapCryptoFixture, published chan struct{}) error {
+	mapFrame, err := active.command()
+	if err != nil {
+		return err
+	}
+
+	mapID, err := mapCommandID(mapFrame)
+	if err != nil {
+		return err
+	}
+
+	close(published)
+
+	frame, err := active.command()
+	if err != nil {
+		return err
+	}
+
+	command, err := request(frame)
+	if err != nil {
+		return err
+	}
+
+	if command.Id == mapID || !validRPCRequest(command) {
+		return errSyntheticBroker
+	}
+
+	err = active.replyRPC(frame, command.Id, json.RawMessage(`[]`), active.topic)
+	if err != nil {
+		return err
+	}
+
+	payload, err := mapRPCPayload(mapFrame, fixture)
+	if err != nil {
+		return err
+	}
+
+	err = active.mapPush(mapFrame, payload)
+	if err != nil {
+		return err
+	}
+
+	return waitForBrokerClose(active)
+}
+func TestSessionMapRequestSharesPendingLimit(t *testing.T) {
+	t.Parallel()
+
+	for _, version := range []string{protocol.MQTTVersionV1, protocol.B01Version} {
+		t.Run(version, func(t *testing.T) {
+			t.Parallel()
+
+			session, completed := openTestSession(t, version, waitForBrokerClose)
+			for requestID := int64(1); requestID <= maxPendingCommands; requestID++ {
+				_, err := session.beginRPC(requestID)
+				if err != nil {
+					t.Fatal(err)
+				}
+			}
+
+			var err error
+			if version == protocol.MQTTVersionV1 {
+				_, err = session.FetchMapV1(context.Background())
+			} else {
+				_, err = session.FetchMapQ7(context.Background(), 7, "synthetic-serial", "sc01")
+			}
+
+			_ = assertErrorKind(t, err, roborockerrors.Backpressure)
+
+			err = session.Close()
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			err = <-completed
+			if err != nil {
+				t.Fatal(err)
+			}
+		})
+	}
+}
+
+func assertMapRPCOutcome(t *testing.T, observed []byte, err error, outcome, version string) {
+	t.Helper()
+
+	switch outcome {
+	case mapRPCOutcomeACK:
+		want := syntheticV1Map
+		if version == protocol.B01Version {
+			want = "synthetic-q7-map"
+		}
+
+		if err != nil || string(observed) != want {
+			t.Fatalf("map=%q err=%v", observed, err)
+		}
+	case mapRPCOutcomeUnknown:
+		_ = assertErrorKind(t, err, roborockerrors.Unsupported)
+	default:
+		_ = assertErrorKind(t, err, roborockerrors.Protocol)
+
+		var rejection *RPCError
+		if !errors.As(err, &rejection) || rejection.Code != -1 {
+			t.Fatalf("missing device rejection cause: %v", err)
+		}
+	}
+}
+
+func mapRPCOutcomeExchange(active broker, fixture mapCryptoFixture, outcome string) error {
+	frame, err := active.command()
+	if err != nil {
+		return err
+	}
+
+	requestID, err := mapCommandID(frame)
+	if err != nil {
+		return err
+	}
+
+	err = active.mapRPCReply(frame, requestID+1, mapRPCOutcomeRejected)
+	if err != nil {
+		return err
+	}
+
+	err = active.mapRPCReply(frame, requestID, outcome)
+	if err != nil {
+		return err
+	}
+
+	if outcome == mapRPCOutcomeACK {
+		payload, payloadErr := mapRPCPayload(frame, fixture)
+		if payloadErr != nil {
+			return payloadErr
+		}
+
+		err = active.mapPush(frame, payload)
+		if err != nil {
+			return err
+		}
+	}
+
+	return waitForBrokerClose(active)
+}
+
+func mapRPCPayload(frame deviceFrame, fixture mapCryptoFixture) ([]byte, error) {
+	if frame.Version != protocol.MQTTVersionV1 {
+		return []byte(fixture.Q7EncryptedMap), nil
+	}
+
+	encrypted, err := hex.DecodeString(fixture.V1EncryptedMap)
+	if err != nil {
+		return nil, fmt.Errorf("decode map fixture: %w", err)
+	}
+
+	command, err := request(frame)
+	if err != nil {
+		return nil, err
+	}
+
+	payload := make([]byte, protocol.MapsV1HeaderSize+len(encrypted))
+	copy(payload, command.Security.Endpoint)
+	requestID := uint16(command.Id) //nolint:gosec // FetchMapV1 bounds IDs to uint16.
+	binary.LittleEndian.PutUint16(payload[protocol.MapsV1RequestIDOffset:protocol.MapsV1RequestIDEnd], requestID)
+	copy(payload[protocol.MapsV1HeaderSize:], encrypted)
+
+	return payload, nil
+}
+
+func mapCommandID(frame deviceFrame) (int64, error) {
+	if frame.Version == protocol.MQTTVersionV1 {
+		command, err := request(frame)
+		if err != nil {
+			return 0, err
+		}
+
+		if command.Method != protocol.MapsV1GetMethod || string(command.Params) != "[]" {
+			return 0, errSyntheticBroker
+		}
+
+		return command.Id, nil
+	}
+
+	return q7MapCommandID(frame)
+}
+
+func q7MapCommandID(frame deviceFrame) (int64, error) {
+	payload, err := unpadPayload(frame.Payload)
+	if err != nil {
+		return 0, err
+	}
+
+	var envelope dependencymodels.B01Envelope
+
+	err = json.Unmarshal(payload, &envelope)
+	if err != nil {
+		return 0, fmt.Errorf("decode Q7 map envelope: %w", err)
+	}
+
+	var command dependencymodels.B01RPCRequest
+
+	err = json.Unmarshal(envelope.Dps[protocol.B01Q7Datapoint], &command)
+	if err != nil {
+		return 0, fmt.Errorf("decode Q7 map command: %w", err)
+	}
+
+	if command.Method != dependencymodels.ServiceUploadByMapid || string(command.Params) != `{"map_id":7}` {
+		return 0, errSyntheticBroker
+	}
+
+	requestID, err := strconv.ParseInt(command.MsgId, 10, 64)
+	if err != nil {
+		return 0, fmt.Errorf("decode Q7 map identifier: %w", err)
+	}
+
+	return requestID, nil
+}
+
+func (activeBroker broker) mapRPCReply(frame deviceFrame, requestID int64, outcome string) error {
+	value := json.RawMessage(`"ok"`)
+	if outcome == mapRPCOutcomeUnknown {
+		value = json.RawMessage(`"unknown_method"`)
+	}
+
+	code := -1
+
+	if frame.Version == protocol.MQTTVersionV1 {
+		if outcome != mapRPCOutcomeRejected {
+			return activeBroker.replyRPC(frame, requestID, value, activeBroker.topic)
+		}
+
+		inner, err := json.Marshal(dependencymodels.MQTTRPCResponse{
+			Id: requestID, Result: nil, Error: &dependencymodels.MQTTRPCError{Code: &code, Message: nil},
+		})
+		if err != nil {
+			return fmt.Errorf("marshal V1 rejection: %w", err)
+		}
+
+		return activeBroker.replyRPCBody(frame, inner, activeBroker.topic)
+	}
+
+	if outcome != mapRPCOutcomeRejected {
+		code = 0
+	}
+
+	inner, err := json.Marshal(dependencymodels.B01RPCResponse{
+		MsgId: strconv.FormatInt(requestID, 10), Code: &code, Data: &value,
+	})
+	if err != nil {
+		return fmt.Errorf("marshal Q7 rejection: %w", err)
+	}
+
+	text, err := json.Marshal(string(inner))
+	if err != nil {
+		return fmt.Errorf("marshal Q7 rejection string: %w", err)
+	}
+
+	payload, err := json.Marshal(dependencymodels.B01Envelope{
+		Dps: map[string]json.RawMessage{protocol.B01Q7Datapoint: text},
+	})
+	if err != nil {
+		return fmt.Errorf("marshal Q7 rejection envelope: %w", err)
+	}
+
+	return activeBroker.reply(frame, payload, activeBroker.topic)
 }
 
 func sendV1MapOracle(active broker, encrypted []byte) error {
@@ -517,7 +865,7 @@ func request(frame deviceFrame) (dependencymodels.MQTTRPCRequest, error) {
 
 func TestSessionRPCDeviceAndRequestCorrelation(t *testing.T) {
 	t.Parallel()
-	session, completed := openTestSession(t, "1.0", func(activeBroker broker) error {
+	session, completed := openTestSession(t, protocol.MQTTVersionV1, func(activeBroker broker) error {
 		frame, err := activeBroker.command()
 		if err != nil {
 			return err
@@ -617,7 +965,7 @@ func TestSessionCanceledRPCAndConcurrentClose(t *testing.T) {
 	t.Parallel()
 
 	published := make(chan struct{})
-	session, completed := openTestSession(t, "1.0", func(activeBroker broker) error {
+	session, completed := openTestSession(t, protocol.MQTTVersionV1, func(activeBroker broker) error {
 		_, err := activeBroker.command()
 		if err != nil {
 			return err
@@ -673,7 +1021,7 @@ func TestSessionConcurrentRPCCorrelation(t *testing.T) {
 
 	const commands = 8
 
-	session, completed := openTestSession(t, "1.0", func(activeBroker broker) error {
+	session, completed := openTestSession(t, protocol.MQTTVersionV1, func(activeBroker broker) error {
 		frames := make([]deviceFrame, commands)
 		requests := make([]dependencymodels.MQTTRPCRequest, commands)
 
@@ -737,7 +1085,9 @@ func TestOpenCancellationDuringHandshake(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Millisecond)
 	defer cancel()
 
-	_, err := Open(ctx, testConfig("1.0"), func(context.Context, string, string) (net.Conn, error) { return counted, nil })
+	_, err := Open(ctx, testConfig(protocol.MQTTVersionV1), func(context.Context, string, string) (net.Conn, error) {
+		return counted, nil
+	})
 
 	if !errors.Is(err, context.DeadlineExceeded) {
 		t.Fatalf("expected deadline, got %v", err)
@@ -751,7 +1101,7 @@ func TestOpenCancellationDuringHandshake(t *testing.T) {
 func TestOpenRejectsPlaintext(t *testing.T) {
 	t.Parallel()
 
-	config := testConfig("1.0")
+	config := testConfig(protocol.MQTTVersionV1)
 	config.BrokerURL = "tcp://broker.example:1883"
 
 	_, err := Open(context.Background(), config, func(context.Context, string, string) (net.Conn, error) {
@@ -810,7 +1160,7 @@ func TestSessionRPCFailures(t *testing.T) {
 	for _, testCase := range cases {
 		t.Run(testCase.name, func(t *testing.T) {
 			t.Parallel()
-			session, completed := openTestSession(t, "1.0", rpcFailureExchange(testCase.body))
+			session, completed := openTestSession(t, protocol.MQTTVersionV1, rpcFailureExchange(testCase.body))
 
 			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 			defer cancel()
@@ -917,7 +1267,7 @@ func TestOpenRejectsUnauthorizedConnAck(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 			defer cancel()
 
-			_, err := Open(ctx, testConfig("1.0"), func(context.Context, string, string) (net.Conn, error) {
+			_, err := Open(ctx, testConfig(protocol.MQTTVersionV1), func(context.Context, string, string) (net.Conn, error) {
 				return client, nil
 			})
 			_ = assertErrorKind(t, err, roborockerrors.Unauthorized)
