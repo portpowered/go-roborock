@@ -13,6 +13,8 @@ const (
 	B01Q10MapListRequestJSON  = "{\"61\":{\"op\":\"list\"}}"
 	B01Q10MapListSuccess      = 1
 	B01Q10RoomCleanCommand    = 2
+	B01Q10RoomIDMaximum       = 65535
+	B01Q10RoomIDMinimum       = 0
 	B01Q10StartCleanDatapoint = "201"
 	B01Q10ZoneCleanCommand    = 3
 	B01Q7CleanStart           = 1
@@ -26,6 +28,8 @@ const (
 	B01Q7ModelKeyBytes        = 16
 	B01Q7ModelKeyPadding      = "0"
 	B01Q7RoomCleanType        = 1
+	B01Q7RoomIDMaximum        = 4294967295
+	B01Q7RoomIDMinimum        = 0
 	B01Version                = "B01"
 	DeviceCategoryVacuum      = "robot.vacuum.cleaner"
 	DeviceCategoryWasher      = "roborock.wm"

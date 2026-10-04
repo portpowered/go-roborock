@@ -532,6 +532,287 @@
       },
       "valid": false,
       "reply": false
+    },
+    {
+      "name": "q7-rooms-zero",
+      "contract": "b01",
+      "operation": "CleanQ7Rooms",
+      "payload": {
+        "dps": {
+          "10000": {
+            "method": "service.set_room_clean",
+            "msgId": "100000000005",
+            "params": {
+              "clean_type": 1,
+              "ctrl_value": 1,
+              "room_ids": [
+                0
+              ]
+            }
+          }
+        }
+      },
+      "valid": true,
+      "reply": false
+    },
+    {
+      "name": "q7-rooms-upper-bound",
+      "contract": "b01",
+      "operation": "CleanQ7Rooms",
+      "payload": {
+        "dps": {
+          "10000": {
+            "method": "service.set_room_clean",
+            "msgId": "100000000005",
+            "params": {
+              "clean_type": 1,
+              "ctrl_value": 1,
+              "room_ids": [
+                4294967295
+              ]
+            }
+          }
+        }
+      },
+      "valid": true,
+      "reply": false
+    },
+    {
+      "name": "q7-rooms-negative",
+      "contract": "b01",
+      "operation": "CleanQ7Rooms",
+      "payload": {
+        "dps": {
+          "10000": {
+            "method": "service.set_room_clean",
+            "msgId": "100000000005",
+            "params": {
+              "clean_type": 1,
+              "ctrl_value": 1,
+              "room_ids": [
+                -1
+              ]
+            }
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q7-rooms-overflow",
+      "contract": "b01",
+      "operation": "CleanQ7Rooms",
+      "payload": {
+        "dps": {
+          "10000": {
+            "method": "service.set_room_clean",
+            "msgId": "100000000005",
+            "params": {
+              "clean_type": 1,
+              "ctrl_value": 1,
+              "room_ids": [
+                4294967296
+              ]
+            }
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q7-rooms-empty",
+      "contract": "b01",
+      "operation": "CleanQ7Rooms",
+      "payload": {
+        "dps": {
+          "10000": {
+            "method": "service.set_room_clean",
+            "msgId": "100000000005",
+            "params": {
+              "clean_type": 1,
+              "ctrl_value": 1,
+              "room_ids": []
+            }
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q10-rooms-zero",
+      "contract": "b01",
+      "operation": "CleanQ10Rooms",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 2,
+            "clean_paramters": [
+              0
+            ]
+          }
+        }
+      },
+      "valid": true,
+      "reply": false
+    },
+    {
+      "name": "q10-rooms-upper-bound",
+      "contract": "b01",
+      "operation": "CleanQ10Rooms",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 2,
+            "clean_paramters": [
+              65535
+            ]
+          }
+        }
+      },
+      "valid": true,
+      "reply": false
+    },
+    {
+      "name": "q10-rooms-negative",
+      "contract": "b01",
+      "operation": "CleanQ10Rooms",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 2,
+            "clean_paramters": [
+              -1
+            ]
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q10-rooms-overflow",
+      "contract": "b01",
+      "operation": "CleanQ10Rooms",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 2,
+            "clean_paramters": [
+              65536
+            ]
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q10-rooms-empty",
+      "contract": "b01",
+      "operation": "CleanQ10Rooms",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 2,
+            "clean_paramters": []
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q10-zones-negative-origin",
+      "contract": "b01",
+      "operation": "CleanQ10Zones",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 3,
+            "clean_paramters": "AQEBBP////8AAP//AAAAAP//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+          }
+        }
+      },
+      "valid": true,
+      "reply": false
+    },
+    {
+      "name": "q10-zones-high-coordinate-bits",
+      "contract": "b01",
+      "operation": "CleanQ10Zones",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 3,
+            "clean_paramters": "AQEBBBAAAAAQAQAAEAEAARAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+          }
+        }
+      },
+      "valid": true,
+      "reply": false
+    },
+    {
+      "name": "q10-zones-vector-bounds",
+      "contract": "b01",
+      "operation": "CleanQ10Zones",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 3,
+            "clean_paramters": "AQMBBIAAgAB//4AAf/9//4AAf/8AAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+          }
+        }
+      },
+      "valid": true,
+      "reply": false
+    },
+    {
+      "name": "q10-zones-bad-version",
+      "contract": "b01",
+      "operation": "CleanQ10Zones",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 3,
+            "clean_paramters": "AgIBBAAAAAAAFAAAABQAKAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q10-zones-repeat-above-bound",
+      "contract": "b01",
+      "operation": "CleanQ10Zones",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 3,
+            "clean_paramters": "AQQBBAAAAAAAFAAAABQAKAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q10-zones-nonzero-footer",
+      "contract": "b01",
+      "operation": "CleanQ10Zones",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 3,
+            "clean_paramters": "AQIBBAAAAAAAFAAAABQAKAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAQ=="
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
     }
   ]
 }

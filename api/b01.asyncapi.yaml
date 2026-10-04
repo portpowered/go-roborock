@@ -384,9 +384,12 @@
             "type": "array",
             "items": {
               "type": "integer",
-              "minimum": 1
+              "minimum": 0,
+              "format": "int64",
+              "maximum": 4294967295
             },
-            "minItems": 1
+            "minItems": 1,
+            "description": "Room IDs from the selected Q7 map, represented as unsigned 32-bit integers; individual firmware acceptance is not established."
           },
           "clean_type": {
             "type": "integer",
@@ -484,17 +487,18 @@
         "minItems": 1,
         "items": {
           "type": "integer",
-          "minimum": 1,
-          "maximum": 255
+          "minimum": 0,
+          "maximum": 65535,
+          "format": "int64"
         },
-        "description": "Room segment IDs from the selected Q10 map."
+        "description": "Room IDs from the selected Q10 map, represented as unsigned 16-bit integers; individual firmware acceptance is not established."
       },
       "B01Q10ZonePayload": {
         "type": "string",
         "format": "byte",
         "minLength": 56,
         "maxLength": 56,
-        "pattern": "^(AQEBBA|AQIBBA|AQMBBA)[A-Za-z0-9+/]{21}A{27}==$",
+        "pattern": "^(AQEBB|AQIBB|AQMBB)[A-P][A-Za-z0-9+/]{20}[AEIMQUYcgkosw048]A{27}==$",
         "description": "Base64 of the 40-byte zone vector: version 1, repeat 1 through 3, one four-vertex polygon, eight signed big-endian 16-bit coordinates in 5 mm units relative to (25500,25500), zero name length, and 19 zero bytes."
       },
       "B01Q10RoomCleanCommand": {
@@ -633,6 +637,10 @@
     "Q10ZoneCoordinateOffsetMM": 25500,
     "Q10ZoneVectorUnitMM": 5,
     "Q10ZoneMinRepeat": 1,
-    "Q10ZoneMaxRepeat": 3
+    "Q10ZoneMaxRepeat": 3,
+    "B01Q7RoomIDMinimum": 0,
+    "B01Q7RoomIDMaximum": 4294967295,
+    "B01Q10RoomIDMinimum": 0,
+    "B01Q10RoomIDMaximum": 65535
   }
 }

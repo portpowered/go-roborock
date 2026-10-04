@@ -58,7 +58,7 @@ type B01Method string
 
 // B01Q10RoomCleanCommand defines model for B01Q10RoomCleanCommand.
 type B01Q10RoomCleanCommand struct {
-	// CleanParamters Room segment IDs from the selected Q10 map.
+	// CleanParamters Room IDs from the selected Q10 map, represented as unsigned 16-bit integers; individual firmware acceptance is not established.
 	CleanParamters B01Q10RoomIDs             `json:"clean_paramters"`
 	Cmd            B01Q10RoomCleanCommandCmd `json:"cmd"`
 }
@@ -76,8 +76,8 @@ type B01Q10RoomCleanEnvelopeDatapoints struct {
 	N201 B01Q10RoomCleanCommand `json:"201"`
 }
 
-// B01Q10RoomIDs Room segment IDs from the selected Q10 map.
-type B01Q10RoomIDs = []int
+// B01Q10RoomIDs Room IDs from the selected Q10 map, represented as unsigned 16-bit integers; individual firmware acceptance is not established.
+type B01Q10RoomIDs = []int64
 
 // B01Q10ZoneCleanCommand defines model for B01Q10ZoneCleanCommand.
 type B01Q10ZoneCleanCommand struct {
@@ -158,7 +158,9 @@ type Q10CleanCommandCmd int
 type Q7RoomCleanRequest struct {
 	CleanType Q7RoomCleanRequestCleanType `json:"clean_type"`
 	CtrlValue Q7RoomCleanRequestCtrlValue `json:"ctrl_value"`
-	RoomIds   []int                       `json:"room_ids"`
+
+	// RoomIds Room IDs from the selected Q7 map, represented as unsigned 32-bit integers; individual firmware acceptance is not established.
+	RoomIds []int64 `json:"room_ids"`
 }
 
 // Q7RoomCleanRequestCleanType defines model for Q7RoomCleanRequest.CleanType.

@@ -8,10 +8,52 @@ import (
 
 	"github.com/getkin/kin-openapi/openapi3"
 	"github.com/portpowered/go-roborock/internal/schemaadapter"
+	"github.com/portpowered/go-roborock/pkg/dependencies/mqtt"
 )
 
 const b01ContractPath = "../../api/b01.asyncapi.yaml"
 const mapsContractPath = "../../api/maps.asyncapi.yaml"
+
+func TestQ10ZoneBoundaryExamplesMatchEncoder(t *testing.T) {
+	t.Parallel()
+
+	zones := map[string]mqtt.Q10Zone{
+		"q10-zones-negative-origin":      {X1: 25495, Y1: 25495, X2: 25500, Y2: 25500, Repeats: 1},
+		"q10-zones-high-coordinate-bits": {X1: 45980, Y1: 25500, X2: 45985, Y2: 25505, Repeats: 1},
+		"q10-zones-vector-bounds":        {X1: -138340, Y1: -138340, X2: 189335, Y2: 189335, Repeats: 3},
+	}
+	fixture := loadB01ShapeFixture(t)
+	checked := 0
+
+	for _, testCase := range fixture.Cases {
+		zone, present := zones[testCase.Name]
+		if !present {
+			continue
+		}
+
+		checked++
+
+		encoded, err := mqtt.EncodeQ10Zone(zone)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		var payload map[string]map[string]map[string]any
+
+		err = json.Unmarshal(testCase.Payload, &payload)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if payload["dps"]["201"]["clean_paramters"] != encoded { //nolint:misspell // Exact provider wire key.
+			t.Fatalf("%s fixture does not match the zone encoder", testCase.Name)
+		}
+	}
+
+	if checked != len(zones) {
+		t.Fatal("missing zone boundary fixture")
+	}
+}
 
 type b01ShapeFixture struct {
 	Provenance string         `json:"provenance"`
