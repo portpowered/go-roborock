@@ -1,0 +1,2118 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Roborock V1 vacuum RPC inventory",
+    "version": "1.0.0",
+    "description": "Device MQTT JSON RPC inventory represented using OpenAPI for model generation and documentation. The path names are RPC method names and POST indicates a request/result exchange; these are not HTTP endpoints."
+  },
+  "paths": {
+    "/get_status": {
+      "post": {
+        "operationId": "GetStatusRPC",
+        "summary": "GetStatus on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.GetStatus through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for get_status. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/get_consumable": {
+      "post": {
+        "operationId": "GetConsumablesRPC",
+        "summary": "GetConsumables on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.GetConsumables through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for get_consumable. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Consumables"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/get_clean_summary": {
+      "post": {
+        "operationId": "GetCleaningSummaryRPC",
+        "summary": "GetCleaningSummary on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.GetCleaningSummary through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for get_clean_summary. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CleaningSummary"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/get_clean_record": {
+      "post": {
+        "operationId": "GetCleanRecordRPC",
+        "summary": "GetCleanRecord on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.GetCleanRecord through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for get_clean_record. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IntegerParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CleanRecord"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/get_dnd_timer": {
+      "post": {
+        "operationId": "GetDNDRPC",
+        "summary": "GetDND on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.GetDND through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for get_dnd_timer. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DND"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/app_start": {
+      "post": {
+        "operationId": "StartCleaningRPC",
+        "summary": "StartCleaning on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.StartCleaning through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for app_start. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/app_stop": {
+      "post": {
+        "operationId": "StopCleaningRPC",
+        "summary": "StopCleaning on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.StopCleaning through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for app_stop. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/app_pause": {
+      "post": {
+        "operationId": "PauseCleaningRPC",
+        "summary": "PauseCleaning on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.PauseCleaning through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for app_pause. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/app_charge": {
+      "post": {
+        "operationId": "ReturnToDockRPC",
+        "summary": "ReturnToDock on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.ReturnToDock through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for app_charge. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/app_spot": {
+      "post": {
+        "operationId": "SpotCleanRPC",
+        "summary": "SpotClean on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.SpotClean through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for app_spot. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/app_start_collect_dust": {
+      "post": {
+        "operationId": "StartDustCollectionRPC",
+        "summary": "StartDustCollection on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.StartDustCollection through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for app_start_collect_dust. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/app_stop_collect_dust": {
+      "post": {
+        "operationId": "StopDustCollectionRPC",
+        "summary": "StopDustCollection on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.StopDustCollection through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for app_stop_collect_dust. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/app_start_wash": {
+      "post": {
+        "operationId": "StartMopWashingRPC",
+        "summary": "StartMopWashing on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.StartMopWashing through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for app_start_wash. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/app_stop_wash": {
+      "post": {
+        "operationId": "StopMopWashingRPC",
+        "summary": "StopMopWashing on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.StopMopWashing through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for app_stop_wash. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/app_rc_start": {
+      "post": {
+        "operationId": "RCStartRPC",
+        "summary": "RCStart on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.RCStart through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for app_rc_start. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/app_rc_stop": {
+      "post": {
+        "operationId": "RCStopRPC",
+        "summary": "RCStop on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.RCStop through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for app_rc_stop. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/app_rc_end": {
+      "post": {
+        "operationId": "RCEndRPC",
+        "summary": "RCEnd on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.RCEnd through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for app_rc_end. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/close_dnd_timer": {
+      "post": {
+        "operationId": "DisableDNDRPC",
+        "summary": "DisableDND on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.DisableDND through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for close_dnd_timer. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/set_custom_mode": {
+      "post": {
+        "operationId": "SetFanSpeedRPC",
+        "summary": "SetFanSpeed on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.SetFanSpeed through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for set_custom_mode. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IntegerParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/set_water_box_custom_mode": {
+      "post": {
+        "operationId": "SetWaterModeRPC",
+        "summary": "SetWaterMode on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.SetWaterMode through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for set_water_box_custom_mode. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IntegerParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/set_mop_mode": {
+      "post": {
+        "operationId": "SetMopModeRPC",
+        "summary": "SetMopMode on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.SetMopMode through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for set_mop_mode. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IntegerParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/set_dnd_timer": {
+      "post": {
+        "operationId": "SetDNDRPC",
+        "summary": "SetDND on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.SetDND through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for set_dnd_timer. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IntegerParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/app_zoned_clean": {
+      "post": {
+        "operationId": "CleanZonesRPC",
+        "summary": "CleanZones on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.CleanZones through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for app_zoned_clean. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ZoneParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/app_segment_clean": {
+      "post": {
+        "operationId": "CleanSegmentsRPC",
+        "summary": "CleanSegments on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.CleanSegments through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for app_segment_clean. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SegmentParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    },
+    "/app_rc_move": {
+      "post": {
+        "operationId": "RCMoveRPC",
+        "summary": "RCMove on a vacuum",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.RCMove through the Go SDK. See the vacuum guide at https://portpowered.github.io/go-roborock/docs/guides/vacuum. JSON RPC inventory entry for app_rc_move. Commands acknowledge acceptance without implying physical completion.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RCParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device RPC result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Acknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "vacuum"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Status": {
+        "type": "object",
+        "properties": {
+          "msg_ver": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "msg_seq": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "state": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DeviceState"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DeviceState",
+            "description": "Open DeviceState value; future firmware values are accepted."
+          },
+          "battery": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "clean_time": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "clean_area": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DeviceErrorCode"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DeviceErrorCode",
+            "description": "Open DeviceErrorCode value; future firmware values are accepted."
+          },
+          "map_present": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "in_cleaning": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CleaningState"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "CleaningState",
+            "description": "Open CleaningState value; future firmware values are accepted."
+          },
+          "in_returning": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "in_fresh_state": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "lab_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "water_box_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "back_type": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "wash_phase": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "wash_ready": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "fan_power": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FanSpeed"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "FanSpeed",
+            "description": "Open FanSpeed value; future firmware values are accepted."
+          },
+          "dnd_enabled": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "map_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "is_locating": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "lock_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "water_box_mode": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WaterMode"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "WaterMode",
+            "description": "Open WaterMode value; future firmware values are accepted."
+          },
+          "water_box_carriage_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "mop_forbidden_enable": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "camera_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "is_exploring": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "home_sec_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "home_sec_enable_password": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "adbumper_status": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "water_shortage_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "dock_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DockType"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DockType",
+            "description": "Open DockType value; future firmware values are accepted."
+          },
+          "dust_collection_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "auto_dust_collection": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "avoid_count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "mop_mode": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MopMode"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "MopMode",
+            "description": "Open MopMode value; future firmware values are accepted."
+          },
+          "debug_mode": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "collision_avoid_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "switch_map_mode": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "dock_error_status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DockErrorCode"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DockErrorCode",
+            "description": "Open DockErrorCode value; future firmware values are accepted."
+          },
+          "charge_status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ChargeStatus"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ChargeStatus",
+            "description": "Open ChargeStatus value; future firmware values are accepted."
+          },
+          "unsave_map_reason": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "unsave_map_flag": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "wash_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "distance_off": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "in_warmup": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "dry_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "rdt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "clean_percent": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "rss": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "dss": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "common_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "corner_clean_mode": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "last_clean_t": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "replenish_mode": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "repeat": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "kct": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "subdivision_sets": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "description": "Presence-aware Status inventory from pinned Python V1 containers; absent fields stay absent. Cleaning area is square millimeters and durations are seconds.",
+        "minProperties": 1
+      },
+      "Consumables": {
+        "type": "object",
+        "properties": {
+          "main_brush_work_time": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "side_brush_work_time": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "filter_work_time": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "filter_element_work_time": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "sensor_dirty_time": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "strainer_work_times": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "dust_collection_work_times": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "cleaning_brush_work_times": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "moproller_work_time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "description": "Presence-aware Consumables inventory from pinned Python V1 containers; absent fields stay absent. Cleaning area is square millimeters and durations are seconds.",
+        "minProperties": 1
+      },
+      "CleaningSummary": {
+        "type": "object",
+        "properties": {
+          "clean_time": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "clean_area": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "clean_count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "dust_collection_count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "records": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "last_clean_t": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "description": "Presence-aware CleaningSummary inventory from pinned Python V1 containers; absent fields stay absent. Cleaning area is square millimeters and durations are seconds.",
+        "minProperties": 1
+      },
+      "CleanRecord": {
+        "type": "object",
+        "properties": {
+          "begin": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "end": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "area": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "error": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "complete": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "start_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CleanStartType"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "CleanStartType",
+            "description": "Open CleanStartType value; future firmware values are accepted."
+          },
+          "clean_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CleanType"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "CleanType",
+            "description": "Open CleanType value; future firmware values are accepted."
+          },
+          "finish_reason": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CleanFinishReason"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "CleanFinishReason",
+            "description": "Open CleanFinishReason value; future firmware values are accepted."
+          },
+          "dust_collection_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "avoid_count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "wash_count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "map_flag": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "description": "Presence-aware CleanRecord inventory from pinned Python V1 containers; absent fields stay absent. Cleaning area is square millimeters and durations are seconds.",
+        "minProperties": 1
+      },
+      "DND": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "start_hour": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 23
+          },
+          "start_minute": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 59
+          },
+          "end_hour": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 23
+          },
+          "end_minute": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 59
+          }
+        },
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "minProperties": 1
+      },
+      "FanSpeed": {
+        "type": "integer",
+        "description": "Open device-dependent numeric enum; future values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          101,
+          102,
+          103,
+          104,
+          105,
+          108
+        ],
+        "x-enum-varnames": [
+          "FanSpeedQuiet",
+          "FanSpeedBalanced",
+          "FanSpeedTurbo",
+          "FanSpeedMax",
+          "FanSpeedOff",
+          "FanSpeedMaxPlus"
+        ]
+      },
+      "WaterMode": {
+        "type": "integer",
+        "description": "Open device-dependent numeric enum; future values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          200,
+          201,
+          202,
+          203
+        ],
+        "x-enum-varnames": [
+          "WaterModeOff",
+          "WaterModeLow",
+          "WaterModeMedium",
+          "WaterModeHigh"
+        ]
+      },
+      "MopMode": {
+        "type": "integer",
+        "description": "Open device-dependent numeric enum; future values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          300,
+          301,
+          302,
+          303
+        ],
+        "x-enum-varnames": [
+          "MopModeStandard",
+          "MopModeDeep",
+          "MopModeCustom",
+          "MopModeDeepPlus"
+        ]
+      },
+      "NoParameters": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "maxItems": 0
+      },
+      "IntegerParameters": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "ZoneParameters": {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "minItems": 5,
+          "maxItems": 5
+        }
+      },
+      "SegmentParameters": {
+        "type": "array",
+        "minItems": 1,
+        "maxItems": 1,
+        "items": {
+          "$ref": "#/components/schemas/SegmentCommand"
+        }
+      },
+      "SegmentCommand": {
+        "type": "object",
+        "properties": {
+          "segments": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "repeat": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "segments",
+          "repeat"
+        ]
+      },
+      "RCParameters": {
+        "type": "array",
+        "minItems": 1,
+        "maxItems": 1,
+        "items": {
+          "$ref": "#/components/schemas/RCCommand"
+        }
+      },
+      "RCCommand": {
+        "type": "object",
+        "properties": {
+          "velocity": {
+            "type": "number",
+            "minimum": -0.3,
+            "maximum": 0.3,
+            "description": "Linear velocity in meters per second, from -0.3 through 0.3."
+          },
+          "omega": {
+            "type": "number",
+            "minimum": -0.8,
+            "maximum": 0.8,
+            "description": "Angular velocity in radians per second, from -0.8 through 0.8."
+          },
+          "duration": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5000,
+            "description": "Movement duration in milliseconds, from 1 through 5000."
+          },
+          "seqnum": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "velocity",
+          "omega",
+          "duration",
+          "seqnum"
+        ]
+      },
+      "RPCMethod": {
+        "type": "string",
+        "enum": [
+          "get_status",
+          "get_consumable",
+          "get_clean_summary",
+          "get_clean_record",
+          "get_dnd_timer",
+          "app_start",
+          "app_stop",
+          "app_pause",
+          "app_charge",
+          "app_spot",
+          "app_start_collect_dust",
+          "app_stop_collect_dust",
+          "app_start_wash",
+          "app_stop_wash",
+          "app_rc_start",
+          "app_rc_stop",
+          "app_rc_end",
+          "close_dnd_timer",
+          "set_custom_mode",
+          "set_water_box_custom_mode",
+          "set_mop_mode",
+          "set_dnd_timer",
+          "app_zoned_clean",
+          "app_segment_clean",
+          "app_rc_move"
+        ],
+        "x-enum-varnames": [
+          "RPCGetStatus",
+          "RPCGetConsumables",
+          "RPCGetCleaningSummary",
+          "RPCGetCleanRecord",
+          "RPCGetDND",
+          "RPCStartCleaning",
+          "RPCStopCleaning",
+          "RPCPauseCleaning",
+          "RPCReturnToDock",
+          "RPCSpotClean",
+          "RPCStartDustCollection",
+          "RPCStopDustCollection",
+          "RPCStartMopWashing",
+          "RPCStopMopWashing",
+          "RPCRCStart",
+          "RPCRCStop",
+          "RPCRCEnd",
+          "RPCDisableDND",
+          "RPCSetFanSpeed",
+          "RPCSetWaterMode",
+          "RPCSetMopMode",
+          "RPCSetDND",
+          "RPCCleanZones",
+          "RPCCleanSegments",
+          "RPCRCMove"
+        ]
+      },
+      "Acknowledgement": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/CommandAcceptance"
+        },
+        "description": "Expected command acceptance is [\"ok\"]."
+      },
+      "CleaningSummaryLegacy": {
+        "type": "array",
+        "items": {
+          "x-go-type": "json.RawMessage"
+        },
+        "minItems": 1,
+        "maxItems": 4,
+        "description": "Ordered clean_time, clean_area, clean_count, records; fourth entry is an array of record IDs."
+      },
+      "DeviceState": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          22,
+          23,
+          25,
+          26,
+          28,
+          29,
+          30,
+          32,
+          33,
+          34,
+          100,
+          101,
+          103,
+          202,
+          6301,
+          6302,
+          6303,
+          6304,
+          6305,
+          6306,
+          6307,
+          6308,
+          6309,
+          6310
+        ],
+        "x-enum-varnames": [
+          "DeviceStateUnknown",
+          "DeviceStateStarting",
+          "DeviceStateChargerDisconnected",
+          "DeviceStateIdle",
+          "DeviceStateRemoteControlActive",
+          "DeviceStateCleaning",
+          "DeviceStateReturningHome",
+          "DeviceStateManualMode",
+          "DeviceStateCharging",
+          "DeviceStateChargingProblem",
+          "DeviceStatePaused",
+          "DeviceStateSpotCleaning",
+          "DeviceStateError",
+          "DeviceStateShuttingDown",
+          "DeviceStateUpdating",
+          "DeviceStateDocking",
+          "DeviceStateGoingToTarget",
+          "DeviceStateZonedCleaning",
+          "DeviceStateSegmentCleaning",
+          "DeviceStateEmptyingTheBin",
+          "DeviceStateWashingTheMop",
+          "DeviceStateWashingTheMop2",
+          "DeviceStateGoingToWashTheMop",
+          "DeviceStateInCall",
+          "DeviceStateMapping",
+          "DeviceStateEggAttack",
+          "DeviceStatePatrol",
+          "DeviceStateAttachingTheMop",
+          "DeviceStateDetachingTheMop",
+          "DeviceStateChargingComplete",
+          "DeviceStateDeviceOffline",
+          "DeviceStateLocked",
+          "DeviceStateAirDryingStopping",
+          "DeviceStateRobotStatusMopping",
+          "DeviceStateCleanMopCleaning",
+          "DeviceStateCleanMopMopping",
+          "DeviceStateSegmentMopping",
+          "DeviceStateSegmentCleanMopCleaning",
+          "DeviceStateSegmentCleanMopMopping",
+          "DeviceStateZonedMopping",
+          "DeviceStateZonedCleanMopCleaning",
+          "DeviceStateZonedCleanMopMopping",
+          "DeviceStateBackToDockWashingDuster"
+        ]
+      },
+      "DeviceErrorCode": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          48,
+          49,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56
+        ],
+        "x-enum-varnames": [
+          "DeviceErrorCodeNone",
+          "DeviceErrorCodeLidarBlocked",
+          "DeviceErrorCodeBumperStuck",
+          "DeviceErrorCodeWheelsSuspended",
+          "DeviceErrorCodeCliffSensorError",
+          "DeviceErrorCodeMainBrushJammed",
+          "DeviceErrorCodeSideBrushJammed",
+          "DeviceErrorCodeWheelsJammed",
+          "DeviceErrorCodeRobotTrapped",
+          "DeviceErrorCodeNoDustbin",
+          "DeviceErrorCodeStrainerError",
+          "DeviceErrorCodeCompassError",
+          "DeviceErrorCodeLowBattery",
+          "DeviceErrorCodeChargingError",
+          "DeviceErrorCodeBatteryError",
+          "DeviceErrorCodeWallSensorDirty",
+          "DeviceErrorCodeRobotTilted",
+          "DeviceErrorCodeSideBrushError",
+          "DeviceErrorCodeFanError",
+          "DeviceErrorCodeDock",
+          "DeviceErrorCodeOpticalFlowSensorDirt",
+          "DeviceErrorCodeVerticalBumperPressed",
+          "DeviceErrorCodeDockLocatorError",
+          "DeviceErrorCodeReturnToDockFail",
+          "DeviceErrorCodeNogoZoneDetected",
+          "DeviceErrorCodeVisualSensor",
+          "DeviceErrorCodeLightTouch",
+          "DeviceErrorCodeVibrariseJammed",
+          "DeviceErrorCodeRobotOnCarpet",
+          "DeviceErrorCodeFilterBlocked",
+          "DeviceErrorCodeInvisibleWallDetected",
+          "DeviceErrorCodeCannotCrossCarpet",
+          "DeviceErrorCodeInternalError",
+          "DeviceErrorCodeCollectDustError3",
+          "DeviceErrorCodeCollectDustError4",
+          "DeviceErrorCodeMoppingRoller1",
+          "DeviceErrorCodeMoppingRollerError2",
+          "DeviceErrorCodeClearWaterBoxHoare",
+          "DeviceErrorCodeDirtyWaterBoxHoare",
+          "DeviceErrorCodeSinkStrainerHoare",
+          "DeviceErrorCodeClearWaterBoxException",
+          "DeviceErrorCodeClearBrushException",
+          "DeviceErrorCodeClearBrushException2",
+          "DeviceErrorCodeFilterScreenException",
+          "DeviceErrorCodeMoppingRoller2",
+          "DeviceErrorCodeUpWaterException",
+          "DeviceErrorCodeDrainWaterException",
+          "DeviceErrorCodeTemperatureProtection",
+          "DeviceErrorCodeCleanCarouselException",
+          "DeviceErrorCodeCleanCarouselWaterFull",
+          "DeviceErrorCodeWaterCarriageDrop",
+          "DeviceErrorCodeCheckCleanCarouse",
+          "DeviceErrorCodeAudioError"
+        ]
+      },
+      "DockType": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          -9999,
+          0,
+          1,
+          2,
+          3,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46
+        ],
+        "x-enum-varnames": [
+          "DockTypeUnknown",
+          "DockTypeO0Dock",
+          "DockTypeO1Dock",
+          "DockTypeO2Dock",
+          "DockTypeO3Dock",
+          "DockTypeOcDock",
+          "DockTypeO3PlusDock",
+          "DockTypeO4Dock",
+          "DockTypePearlDock",
+          "DockTypePearlPlusDock",
+          "DockTypeO5Dock",
+          "DockTypeShell2SDock",
+          "DockTypeCoupleDock",
+          "DockTypeShell3Dock",
+          "DockTypeShell2CDock",
+          "DockTypeShell3SDock",
+          "DockTypeK1Dock",
+          "DockTypeO6Dock",
+          "DockTypeK1CDock",
+          "DockTypeK1SDock",
+          "DockTypeShellEDock",
+          "DockTypeShell2EDock",
+          "DockTypeShell3CDock",
+          "DockTypeHeraDock",
+          "DockTypeK1SProDock",
+          "DockTypeType27Dock",
+          "DockTypeK1CLiteDock",
+          "DockTypeK1RDock",
+          "DockTypeShell2ELiteDock",
+          "DockTypeShell4RcDock",
+          "DockTypeShell4RDock",
+          "DockTypeShell4PDock",
+          "DockTypeShell4SDock",
+          "DockTypeO7Dock",
+          "DockTypeK1DDock",
+          "DockTypeShell3PDock",
+          "DockTypeShell4DDock",
+          "DockTypeShell2EHeatDock",
+          "DockTypeF1Dock",
+          "DockTypeF1RDock",
+          "DockTypeF2RDock",
+          "DockTypeF1SDock",
+          "DockTypeO7HDock",
+          "DockTypeF1CDock"
+        ]
+      },
+      "DockErrorCode": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          0,
+          32,
+          33,
+          34,
+          35,
+          38,
+          39,
+          42,
+          44,
+          46,
+          53
+        ],
+        "x-enum-varnames": [
+          "DockErrorCodeOk",
+          "DockErrorCodeNoDustbinOrFilter",
+          "DockErrorCodeAutoEmptyDockFanError",
+          "DockErrorCodeDuctBlockage",
+          "DockErrorCodeAutoEmptyDockVoltageError",
+          "DockErrorCodeWaterEmpty",
+          "DockErrorCodeWasteWaterTankFull",
+          "DockErrorCodeMaintenanceBrushJammed",
+          "DockErrorCodeDirtyTankLatchOpen",
+          "DockErrorCodeNoDustbin",
+          "DockErrorCodeCleaningTankFullOrBlocked"
+        ]
+      },
+      "ChargeStatus": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          -1,
+          0,
+          1
+        ],
+        "x-enum-varnames": [
+          "ChargeStatusUnknown",
+          "ChargeStatusChargeWaiting",
+          "ChargeStatusCharging"
+        ]
+      },
+      "CleaningState": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "x-enum-varnames": [
+          "CleaningStateComplete",
+          "CleaningStateGlobalCleanNotComplete",
+          "CleaningStateZoneCleanNotComplete",
+          "CleaningStateSegmentCleanNotComplete"
+        ]
+      },
+      "CleanStartType": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          13,
+          101,
+          801,
+          802,
+          803,
+          804,
+          805,
+          806,
+          807,
+          808,
+          809,
+          810,
+          811,
+          901,
+          902,
+          903,
+          904,
+          905,
+          820,
+          821
+        ],
+        "x-enum-varnames": [
+          "CleanStartTypeButton",
+          "CleanStartTypeApp",
+          "CleanStartTypeSchedule",
+          "CleanStartTypeMiHome",
+          "CleanStartTypeQuickStart",
+          "CleanStartTypeVoiceControl",
+          "CleanStartTypeRoutines",
+          "CleanStartTypeAlexa",
+          "CleanStartTypeGoogle",
+          "CleanStartTypeIfttt",
+          "CleanStartTypeYandex",
+          "CleanStartTypeHomekit",
+          "CleanStartTypeXiaoai",
+          "CleanStartTypeTmallGenie",
+          "CleanStartTypeDuer",
+          "CleanStartTypeDingdong",
+          "CleanStartTypeSiri",
+          "CleanStartTypeClova",
+          "CleanStartTypeWechat",
+          "CleanStartTypeAlipay",
+          "CleanStartTypeAqara",
+          "CleanStartTypeHisense",
+          "CleanStartTypeHuawei",
+          "CleanStartTypeWidgetLaunch",
+          "CleanStartTypeSmartWatch"
+        ]
+      },
+      "CleanType": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "x-enum-varnames": [
+          "CleanTypeAllZone",
+          "CleanTypeDrawZone",
+          "CleanTypeSelectZone",
+          "CleanTypeQuickBuild",
+          "CleanTypeVideoPatrol",
+          "CleanTypePetPatrol"
+        ]
+      },
+      "CleanFinishReason": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          21,
+          24,
+          21,
+          29,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          43,
+          45,
+          64,
+          65,
+          48,
+          49,
+          50,
+          51,
+          52,
+          54,
+          55,
+          56,
+          57,
+          60,
+          61,
+          62,
+          67,
+          68,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          109,
+          110,
+          114,
+          115,
+          116,
+          117
+        ],
+        "x-enum-varnames": [
+          "CleanFinishReasonManualInterrupt",
+          "CleanFinishReasonCleanupInterrupted",
+          "CleanFinishReasonManualInterrupt2",
+          "CleanFinishReasonManualInterrupt12",
+          "CleanFinishReasonBreakpoint",
+          "CleanFinishReasonBreakpoint2",
+          "CleanFinishReasonCleanupInterrupted2",
+          "CleanFinishReasonManualInterrupt3",
+          "CleanFinishReasonManualInterrupt4",
+          "CleanFinishReasonManualInterrupt5",
+          "CleanFinishReasonManualInterrupt6",
+          "CleanFinishReasonLocateFail",
+          "CleanFinishReasonCleanupInterrupted3",
+          "CleanFinishReasonLocateFail2",
+          "CleanFinishReasonManualInterrupt7",
+          "CleanFinishReasonManualInterrupt8",
+          "CleanFinishReasonManualInterrupt9",
+          "CleanFinishReasonCleanupInterrupted4",
+          "CleanFinishReasonFinishedCleaning",
+          "CleanFinishReasonFinishedCleaning2",
+          "CleanFinishReasonFinishedCleaning3",
+          "CleanFinishReasonFinishedCleaning4",
+          "CleanFinishReasonFinishedClenaing5",
+          "CleanFinishReasonManualInterrupt10",
+          "CleanFinishReasonAreaUnreachable",
+          "CleanFinishReasonAreaUnreachable2",
+          "CleanFinishReasonWashingError",
+          "CleanFinishReasonBackToWashFailure",
+          "CleanFinishReasonCleanupInterrupted5",
+          "CleanFinishReasonBreakpoint4",
+          "CleanFinishReasonManualInterrupt11",
+          "CleanFinishReasonCleanupInterrupted6",
+          "CleanFinishReasonCleanupInterrupted7",
+          "CleanFinishReasonCleanupInterrupted8",
+          "CleanFinishReasonCleanupInterrupted9",
+          "CleanFinishReasonCleanupInterrupted10",
+          "CleanFinishReasonCleanupInterrupted11",
+          "CleanFinishReasonPatrolSuccess",
+          "CleanFinishReasonPatrolFail",
+          "CleanFinishReasonPetPatrolSuccess",
+          "CleanFinishReasonPetPatrolFail"
+        ]
+      },
+      "CommandAcceptance": {
+        "type": "string",
+        "enum": [
+          "ok"
+        ],
+        "x-enum-varnames": [
+          "CommandAcceptanceOK"
+        ],
+        "description": "Device command acceptance token. Unknown tokens are rejected by the public operation."
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "vacuum",
+      "description": "Typed vacuum operations over the device MQTT JSON RPC channel."
+    }
+  ]
+}
+
