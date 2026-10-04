@@ -170,7 +170,7 @@ func decodeRecordParts(values []json.RawMessage) ([]CleanRecord, error) {
 	var result []CleanRecord
 
 	for _, value := range values {
-		records, err := decodeRecords(value)
+		records, err := decodeRecordPart(value)
 		if err != nil {
 			return nil, err
 		}
@@ -181,20 +181,54 @@ func decodeRecordParts(values []json.RawMessage) ([]CleanRecord, error) {
 	return result, nil
 }
 
+func decodeRecordPart(raw json.RawMessage) ([]CleanRecord, error) {
+	raw = bytes.TrimSpace(raw)
+	if len(raw) == 0 {
+		return nil, errResultShape
+	}
+
+	if raw[0] == '{' {
+		_, err := objectResult(raw)
+		if err != nil {
+			return nil, err
+		}
+
+		record, err := projectResult[dependencymodels.CleanRecord, CleanRecord](raw)
+
+		return []CleanRecord{record}, err
+	}
+
+	var values []json.RawMessage
+
+	err := json.Unmarshal(raw, &values)
+	if err != nil {
+		return nil, fmt.Errorf("decode record part: %w", err)
+	}
+
+	return decodeRecordTuple(values)
+}
+
 func decodeRecordTuple(values []json.RawMessage) ([]CleanRecord, error) {
 	if len(values) < legacyTupleFields {
 		return nil, errResultShape
 	}
 
-	var record CleanRecord
+	columns := make([]*int64, len(values))
 
-	fields := []**int64{&record.Begin, &record.End, &record.Duration, &record.Area}
-	for index, field := range fields {
-		err := json.Unmarshal(values[index], field)
+	for index, value := range values {
+		if bytes.Equal(bytes.TrimSpace(value), []byte("null")) {
+			return nil, errResultShape
+		}
+
+		err := json.Unmarshal(value, &columns[index])
 		if err != nil {
 			return nil, fmt.Errorf("decode record tuple: %w", err)
 		}
 	}
+
+	var record CleanRecord
+
+	record.Begin, record.End, record.Duration, record.Area = columns[0], columns[1], columns[2], columns[3]
 
 	return []CleanRecord{record}, nil
 }

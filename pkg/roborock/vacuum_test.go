@@ -17,6 +17,8 @@ const (
 	fixtureSDPOffer          = "v=0 offer"
 	fixtureICECandidate      = "candidate:1"
 	fixtureVendorFailureCode = 142
+	fixtureRecordParameters  = "[123]"
+	fixtureRecordMethod      = "get_clean_record"
 )
 
 type rpcExchange struct {
@@ -142,7 +144,6 @@ func TestVacuumCommandPairs(t *testing.T) {
 	}
 
 	_, err = session.SetFanSpeed(context.Background(), SetFanSpeedRequest{Speed: 102})
-
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -151,19 +152,16 @@ func TestVacuumCommandPairs(t *testing.T) {
 		context.Background(),
 		CleanZonesRequest{Zones: []Zone{{X1: 1, Y1: 2, X2: 3, Y2: 4, Repeats: 2}}},
 	)
-
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	_, err = session.CleanSegments(context.Background(), CleanSegmentsRequest{Segments: []int64{16, 17}, Repeats: 2})
-
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	_, err = session.RCMove(context.Background(), RCMoveRequest{Velocity: 0.1, Omega: 0, Duration: 100, Sequence: 1})
-
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -210,7 +208,7 @@ func TestRecordShapes(t *testing.T) {
 			t.Parallel()
 			session := operationSession(
 				t,
-				rpcExchange{method: "get_clean_record", params: "[123]", response: payload, failure: nil},
+				rpcExchange{method: fixtureRecordMethod, params: fixtureRecordParameters, response: payload, failure: nil},
 			)
 
 			result, err := session.GetCleanRecord(context.Background(), CleanRecordRequest{RecordId: 123})
@@ -416,5 +414,37 @@ func assertTermination(t *testing.T, session *DeviceSession, testCase lifecycleE
 
 	if testCase.cause != nil && !errors.Is(terminal, testCase.cause) {
 		t.Fatalf("terminal cause %v", terminal)
+	}
+}
+
+func TestCleanRecordMultipartDepth(t *testing.T) {
+	t.Parallel()
+
+	session := operationSession(t,
+		rpcExchange{
+			method: fixtureRecordMethod, params: fixtureRecordParameters,
+			response: `[[1,2,3,4],[5,6,7,8]]`, failure: nil,
+		},
+		rpcExchange{method: fixtureRecordMethod, params: fixtureRecordParameters, response: `[[[1,2,3,4]]]`, failure: nil},
+		rpcExchange{method: fixtureRecordMethod, params: fixtureRecordParameters, response: `[null,2,3,4]`, failure: nil},
+	)
+
+	result, err := session.GetCleanRecord(t.Context(), CleanRecordRequest{RecordId: 123})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(result.Records) != 2 {
+		t.Fatalf("expected two record parts: %v", result)
+	}
+
+	_, err = session.GetCleanRecord(t.Context(), CleanRecordRequest{RecordId: 123})
+	if !errors.Is(err, roborockerrors.New(roborockerrors.Protocol, "test", "", nil)) {
+		t.Fatalf("arbitrary nesting accepted: %v", err)
+	}
+
+	_, err = session.GetCleanRecord(t.Context(), CleanRecordRequest{RecordId: 123})
+	if !errors.Is(err, roborockerrors.New(roborockerrors.Protocol, "test", "", nil)) {
+		t.Fatalf("null tuple counter accepted: %v", err)
 	}
 }

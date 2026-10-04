@@ -86,11 +86,14 @@ func (s *DeviceSession) StartZeo(ctx context.Context, request StartZeoRequest) e
 	}
 
 	var start dependencymodels.StartZeoWire
+
 	start.Start = protocol.A01ZeoStartEnabled
+
 	encodedStart, err := json.Marshal(start.Start)
 	if err != nil {
 		return roborockerrors.New(roborockerrors.InvalidArgument, operation, "invalid start signal", err)
 	}
+
 	values[int(ZeoPropertyStart)] = encodedStart
 
 	return publishA01(ctx, s, values, operation)

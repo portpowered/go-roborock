@@ -2226,8 +2226,7 @@
         "type": "array",
         "items": {
           "type": "integer",
-          "format": "int64",
-          "nullable": true
+          "format": "int64"
         },
         "minItems": 4,
         "description": "Legacy numeric record tuple: begin Unix time, end Unix time, duration seconds, area square millimeters. Additional numeric columns have unknown meaning and are not projected."
