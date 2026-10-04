@@ -25,7 +25,7 @@ if err != nil { return err }
 // snapshot contains geometry; rooms.Rooms contains CleanSegments IDs.
 ```
 
-`ListMaps(ctx, roborock.EmptyRequest{})` returns opaque `ID` strings, optional names, and an optional `Current` flag. Q7 accepts a saved ID through `GetMapRequest{MapID: id}`. V1 reads the active map; use `SelectMap(ctx, roborock.SelectMapRequest{MapID: id})` explicitly to change it. Q10 supports current-map content and a saved-map list, without an inferred saved-detail selector. Only Q10 supports `GetMapTrace(ctx, roborock.EmptyRequest{})`; a later trace and an earlier map are not one atomic snapshot.
+`ListMaps(ctx, roborock.EmptyRequest{})` returns opaque `ID` strings, optional names, and an optional `Current` flag. Q7 accepts a saved ID through `GetMapRequest{MapID: id}`. If current-map metadata is missing or ambiguous, choose an explicit saved ID instead of assuming the first list entry is active. V1 reads the active map; use `SelectMap(ctx, roborock.SelectMapRequest{MapID: id})` explicitly to change it. Q10 supports current-map content and a saved-map list, without an inferred saved-detail selector. Only Q10 supports `GetMapTrace(ctx, roborock.EmptyRequest{})`; a later trace and an earlier map are not one atomic snapshot.
 
 The active map, saved-map list, and room list have different purposes. Map content supplies geometry and observations. Saved-map IDs identify stored floors. Room or segment IDs identify areas within a map; an account room ID is not automatically a device segment ID. A saved list's first entry does not reliably identify the active floor; use explicit current-map metadata or the retrieved map's observed ID.
 

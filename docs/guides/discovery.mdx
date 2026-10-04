@@ -13,6 +13,8 @@ devices, err := client.ListDevices(ctx, roborock.AccountRequest{Auth: auth})
 
 Check each error before consuming results. Home-data revisions V1, V2, and V3 are explicit selections. Optional online state distinguishes a reported offline value from an absent value. Category, capability flags, and advertised A01 properties remain separate device metadata. `ListDevices` returns owned and shared devices with ID, model, online state, protocol, and local key. Do not log the local key or serialize discovered devices to ordinary diagnostic output.
 
+`GetHomeRooms(ctx, roborock.HomeRoomsRequest{Auth: auth, HomeID: home.ID})` refreshes owned home room names. `GetSharedDeviceRooms(ctx, roborock.SharedDeviceRoomsRequest{Auth: auth, DeviceID: device.ID})` refreshes a received device's room names. Both return `RoomsResult.Rooms`, with numeric cloud IDs and optional names. These cloud IDs remain separate from map segment IDs used for cleaning.
+
 ```go
 session, err := client.OpenDevice(sessionCtx, roborock.OpenDeviceRequest{
     Auth: auth, DeviceID: device.ID,
