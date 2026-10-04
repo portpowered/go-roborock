@@ -99,7 +99,7 @@ V1, Q7, and Q10 support map reads and room cleaning. Rectangle cleaning supports
 | Open camera | `s.OpenCamera(ctx, r.OpenCameraRequest{PatternPassword: pattern, SdpOffer: offer})` |
 | Camera description | `camera.Description()` |
 | Send, get ICE | `camera.SendICE(ctx, r.SendICERequest{Candidate: candidate})`; `camera.GetICE(ctx, r.EmptyRequest{})` |
-| Camera lifetime and close | `<-camera.Done()`; `camera.Err()`; `camera.Close()` |
+| Camera lifetime and close | `<-camera.Done()`; `camera.Close()` |
 
 A01 write success means MQTT publication. Camera signaling currently uses V1. Camera sessions own preview signaling; the caller's WebRTC stack owns media. See [A01](https://portpowered.github.io/go-roborock/docs/guides/a01) and [camera](https://portpowered.github.io/go-roborock/docs/guides/camera).
 
