@@ -25,7 +25,6 @@ func q10LayoutDimensions(decoded []byte, width, height int) (int, int, error) {
 		count := width * height
 
 		err := q10RoomRecords(decoded, count)
-
 		if err == nil {
 			return count, height, nil
 		}
