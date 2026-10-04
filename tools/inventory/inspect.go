@@ -98,9 +98,7 @@ func inspect() (report, error) {
 	}
 
 	collectUses(loaded, index, &result, objects)
-	sort.Slice(result.Declarations, func(left, right int) bool {
-		return result.Declarations[left].Symbol < result.Declarations[right].Symbol
-	})
+	sortDeclarations(result.Declarations)
 
 	for row := range result.Declarations {
 		sortSites(result.Declarations[row].Uses)
@@ -148,6 +146,16 @@ func handwritten(file *ast.File, pkg *packages.Package, result *report) error {
 
 func sortSites(sites []site) {
 	sort.Slice(sites, func(a, b int) bool { return siteLess(sites[a], sites[b]) })
+}
+
+func sortDeclarations(declarations []declaration) {
+	sort.Slice(declarations, func(left, right int) bool {
+		if declarations[left].Symbol != declarations[right].Symbol {
+			return declarations[left].Symbol < declarations[right].Symbol
+		}
+
+		return siteLess(declarations[left].Definition, declarations[right].Definition)
+	})
 }
 func siteLess(left, right site) bool {
 	if left.File != right.File {
