@@ -1,0 +1,369 @@
+{
+  "provenance": "synthetic",
+  "source": "Pinned Python Roborock web_api.py; no live capture",
+  "exchanges": [
+    {
+      "method": "POST",
+      "origin": "https://iot.example.test",
+      "path": "/api/v1/getUrlByEmail",
+      "query": {
+        "email": [
+          "one@example.test"
+        ],
+        "needtwostepauth": [
+          "false"
+        ]
+      },
+      "response": {
+        "code": 200,
+        "data": {
+          "url": "https://iot.example.test",
+          "country": "GB",
+          "countrycode": 44
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "origin": "https://iot.example.test",
+      "path": "/api/v4/email/code/send",
+      "headers": {
+        "header_clientid": "client-1",
+        "header_clientlang": "en",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      "form": {
+        "email": [
+          "one@example.test"
+        ],
+        "type": [
+          "login"
+        ],
+        "platform": [
+          ""
+        ]
+      },
+      "response": {
+        "code": 200
+      }
+    },
+    {
+      "method": "POST",
+      "origin": "https://iot.example.test",
+      "path": "/api/v3/key/sign",
+      "headers": {
+        "header_clientid": "client-1"
+      },
+      "query": {
+        "s": [
+          "AAAAAAAAAAAAAAAA"
+        ]
+      },
+      "response": {
+        "code": 200,
+        "data": {
+          "k": "signed-mercy"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://iot.example.test",
+      "path": "/api/v3/app/agreement/latest",
+      "headers": {
+        "header_clientlang": "en"
+      },
+      "query": {
+        "country": [
+          "GB"
+        ]
+      },
+      "response": {
+        "code": 200,
+        "data": {
+          "majorVersion": 19,
+          "minorVersion": 1
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "origin": "https://iot.example.test",
+      "path": "/api/v4/auth/email/login/code",
+      "headers": {
+        "header_clientid": "client-1",
+        "x-mercy-ks": "AAAAAAAAAAAAAAAA",
+        "x-mercy-k": "signed-mercy",
+        "header_appversion": "4.54.02",
+        "header_phonesystem": "iOS",
+        "header_phonemodel": "iPhone16,1"
+      },
+      "form": {
+        "email": [
+          "one@example.test"
+        ],
+        "code": [
+          "001234"
+        ],
+        "country": [
+          "GB"
+        ],
+        "countryCode": [
+          "44"
+        ],
+        "majorVersion": [
+          "19"
+        ],
+        "minorVersion": [
+          "1"
+        ]
+      },
+      "response": {
+        "code": 200,
+        "data": {
+          "rriot": {
+            "u": "synthetic-user",
+            "s": "synthetic-session",
+            "h": "synthetic-hawk-key",
+            "k": "synthetic-mqtt-key",
+            "r": {
+              "a": "https://api.example.test",
+              "m": "ssl://mqtt.example.test:8883"
+            }
+          },
+          "token": "synthetic-token",
+          "uid": 123
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "origin": "https://iot.example.test",
+      "path": "/api/v1/login",
+      "headers": {
+        "header_clientid": "client-2"
+      },
+      "query": {
+        "username": [
+          "two@example.test"
+        ],
+        "password": [
+          "synthetic-password"
+        ],
+        "needtwostepauth": [
+          "false"
+        ]
+      },
+      "response": {
+        "code": 200,
+        "data": {
+          "rriot": {
+            "u": "synthetic-user",
+            "s": "synthetic-session",
+            "h": "synthetic-hawk-key",
+            "k": "synthetic-mqtt-key",
+            "r": {
+              "a": "https://api.example.test",
+              "m": "ssl://mqtt.example.test:8883"
+            }
+          },
+          "token": "synthetic-token",
+          "uid": 456
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "origin": "https://iot.example.test",
+      "path": "/api/v1/loginWithCode",
+      "headers": {
+        "header_clientid": "client-1"
+      },
+      "query": {
+        "username": [
+          "one@example.test"
+        ],
+        "verifycode": [
+          "001234"
+        ],
+        "verifycodetype": [
+          "AUTH_EMAIL_CODE"
+        ]
+      },
+      "response": {
+        "code": 200,
+        "data": {
+          "rriot": {
+            "u": "synthetic-user",
+            "s": "synthetic-session",
+            "h": "synthetic-hawk-key",
+            "k": "synthetic-mqtt-key",
+            "r": {
+              "a": "https://api.example.test",
+              "m": "ssl://mqtt.example.test:8883"
+            }
+          },
+          "token": "synthetic-token",
+          "uid": 123
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://iot.example.test",
+      "path": "/api/v1/getHomeDetail",
+      "headers": {
+        "Authorization": "synthetic-token",
+        "header_clientid": "client-1"
+      },
+      "response": {
+        "code": 200,
+        "data": {
+          "rrHomeId": 42,
+          "name": "Synthetic home"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://api.example.test",
+      "path": "/user/homes/42",
+      "hawk": true,
+      "response": {
+        "success": true,
+        "result": {
+          "id": 42,
+          "name": "Synthetic home",
+          "devices": [
+            {
+              "duid": "device-1",
+              "name": "Vacuum",
+              "localKey": "0123456789abcdef",
+              "productId": "product-1",
+              "pv": "1.0",
+              "online": false,
+              "futureField": {
+                "value": 1
+              }
+            }
+          ],
+          "products": [
+            {
+              "id": "product-1",
+              "name": "Product",
+              "model": "roborock.vacuum.synthetic",
+              "category": "future-category",
+              "schema": [
+                {
+                  "id": "121",
+                  "code": "state"
+                }
+              ]
+            }
+          ],
+          "receivedDevices": [],
+          "rooms": [
+            {
+              "id": 7,
+              "name": "Living room"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://api.example.test",
+      "path": "/v2/user/homes/42",
+      "hawk": true,
+      "response": {
+        "success": true,
+        "result": {
+          "id": 42,
+          "name": "Synthetic home",
+          "devices": [
+            {
+              "duid": "device-1",
+              "name": "Vacuum",
+              "localKey": "0123456789abcdef",
+              "productId": "product-1",
+              "pv": "1.0",
+              "online": false,
+              "futureField": {
+                "value": 1
+              }
+            }
+          ],
+          "products": [
+            {
+              "id": "product-1",
+              "name": "Product",
+              "model": "roborock.vacuum.synthetic",
+              "category": "future-category",
+              "schema": [
+                {
+                  "id": "121",
+                  "code": "state"
+                }
+              ]
+            }
+          ],
+          "receivedDevices": [],
+          "rooms": [
+            {
+              "id": 7,
+              "name": "Living room"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://api.example.test",
+      "path": "/v3/user/homes/42",
+      "hawk": true,
+      "response": {
+        "success": true,
+        "result": {
+          "id": 42,
+          "name": "Synthetic home",
+          "devices": [
+            {
+              "duid": "device-1",
+              "name": "Vacuum",
+              "localKey": "0123456789abcdef",
+              "productId": "product-1",
+              "pv": "1.0",
+              "online": false,
+              "futureField": {
+                "value": 1
+              }
+            }
+          ],
+          "products": [
+            {
+              "id": "product-1",
+              "name": "Product",
+              "model": "roborock.vacuum.synthetic",
+              "category": "future-category",
+              "schema": [
+                {
+                  "id": "121",
+                  "code": "state"
+                }
+              ]
+            }
+          ],
+          "receivedDevices": [],
+          "rooms": [
+            {
+              "id": 7,
+              "name": "Living room"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
