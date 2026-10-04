@@ -1,35 +1,35 @@
----
-title: Vacuum reads and controls
-description: Read device state and issue explicit cleaning commands.
----
-
-Open the discovered device and check its [family and capabilities](/docs/guides/device-families). The reads and general controls below use V1. `CleanZones` and `CleanSegments` also dispatch to supported B01 families; unsupported operations return `Unsupported`.
-
-| Operation | Purpose |
-| --- | --- |
-| `GetStatus` | Read the device's current cleaning state. |
-| `GetConsumables` | Read component work counters. |
-| `GetCleaningSummary` | Read cleaning totals and record IDs. |
-| `GetCleanRecord` | Read one positive record ID, preserving multipart records. |
-| `GetDND` | Read the device-local quiet schedule. |
-| `StartCleaning`, `StopCleaning`, `PauseCleaning` | Start, stop, or pause cleaning. |
-| `ReturnToDock`, `SpotClean` | Return to the dock or clean nearby. |
-| `StartDustCollection`, `StopDustCollection` | Start or stop supported dock collection. |
-| `StartMopWashing`, `StopMopWashing` | Start or stop supported dock washing. |
-| `SetFanSpeed`, `SetWaterMode`, `SetMopMode` | Change a model-supported cleaning setting. |
-| `SetDND`, `DisableDND` | Set or disable the quiet schedule. |
-| `CleanZones`, `CleanSegments` | Clean geometric rectangles or selected rooms using the family adapter. |
-
-Empty-input operations take `roborock.EmptyRequest{}`. V1 controls return a command acknowledgement; it establishes acceptance, not completed cleaning. B01 cleaning success can mean publication alone. Check the result and observe the device afterward.
-
-```go
-status, err := session.GetStatus(ctx, roborock.EmptyRequest{})
-if err != nil { return err }
-if status.Battery != nil { fmt.Println(*status.Battery) }
-```
-
-Optional measurements are pointers: absence differs from a reported zero. V1 cleaning durations are seconds and cleaning area is square millimeters. Setting values and returned fields depend on the family and firmware.
-
-`SetDND` uses device-local hours 0–23 and minutes 0–59. [Zone cleaning](/docs/guides/zone-cleaning) explains rectangle geometry, room IDs, and supported families. [Remote control](/docs/guides/remote-control) covers short V1 movements.
-
-Controls are sent once. A timeout leaves completion uncertain; inspect status before another movement. See [errors and lifecycle](/docs/guides/lifecycle) and the [MQTT reference](/docs/asyncapi/vacuum/GetStatusRPC).
+---
+title: Vacuum reads and controls
+description: Read device state and issue explicit cleaning commands.
+---
+
+Open the discovered device and check its [family and capabilities](/docs/guides/device-families). The reads and general controls below use V1. `CleanZones` and `CleanSegments` also dispatch to supported B01 families; unsupported operations return `Unsupported`.
+
+| Operation | Purpose |
+| --- | --- |
+| `GetStatus` | Read the device's current cleaning state. |
+| `GetConsumables` | Read component work counters. |
+| `GetCleaningSummary` | Read cleaning totals and record IDs. |
+| `GetCleanRecord` | Read one positive record ID, preserving multipart records. |
+| `GetDND` | Read the device-local quiet schedule. |
+| `StartCleaning`, `StopCleaning`, `PauseCleaning` | Start, stop, or pause cleaning. |
+| `ReturnToDock`, `SpotClean` | Return to the dock or clean nearby. |
+| `StartDustCollection`, `StopDustCollection` | Start or stop supported dock collection. |
+| `StartMopWashing`, `StopMopWashing` | Start or stop supported dock washing. |
+| `SetFanSpeed`, `SetWaterMode`, `SetMopMode` | Change a model-supported cleaning setting. |
+| `SetDND`, `DisableDND` | Set or disable the quiet schedule. |
+| `CleanZones`, `CleanSegments` | Clean geometric rectangles or selected rooms using the family adapter. |
+
+Empty-input operations take `roborock.EmptyRequest{}`. V1 controls return a command acknowledgement; it establishes acceptance, not completed cleaning. B01 cleaning success can mean publication alone. Check the result and observe V1 status or the B01 device/app afterward.
+
+```go
+status, err := session.GetStatus(ctx, roborock.EmptyRequest{})
+if err != nil { return err }
+if status.Battery != nil { fmt.Println(*status.Battery) }
+```
+
+Optional measurements are pointers: absence differs from a reported zero. V1 cleaning durations are seconds and cleaning area is square millimeters. Setting values and returned fields depend on the family and firmware.
+
+`SetDND` uses device-local hours 0–23 and minutes 0–59. [Zone cleaning](/docs/guides/zone-cleaning) explains rectangle geometry, room IDs, and supported families. [Remote control](/docs/guides/remote-control) covers short V1 movements.
+
+Controls are sent once. A timeout leaves completion uncertain; inspect V1 status or the B01 device/app before another movement. See [errors and lifecycle](/docs/guides/lifecycle) and the [MQTT reference](/docs/asyncapi/vacuum/GetStatusRPC).
