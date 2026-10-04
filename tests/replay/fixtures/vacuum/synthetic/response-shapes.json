@@ -1,0 +1,334 @@
+{
+  "classification": "synthetic",
+  "source": "Pinned Python V1 container/converter reference and baseline Go response shapes; these are not device captures.",
+  "cases": [
+    {
+      "name": "status-object",
+      "method": "get_status",
+      "payload": {
+        "battery": 0,
+        "fan_power": 999,
+        "future_flag": {
+          "enabled": true
+        }
+      },
+      "valid": true
+    },
+    {
+      "name": "status-singleton",
+      "method": "get_status",
+      "payload": [
+        {
+          "battery": 80
+        }
+      ],
+      "valid": true
+    },
+    {
+      "name": "status-empty",
+      "method": "get_status",
+      "payload": {},
+      "valid": false
+    },
+    {
+      "name": "status-null",
+      "method": "get_status",
+      "payload": null,
+      "valid": false
+    },
+    {
+      "name": "status-two-results",
+      "method": "get_status",
+      "payload": [
+        {
+          "battery": 80
+        },
+        {
+          "battery": 80
+        }
+      ],
+      "valid": false
+    },
+    {
+      "name": "status-wrong-scalar",
+      "method": "get_status",
+      "payload": 3,
+      "valid": false
+    },
+    {
+      "name": "status-wrong-field-type",
+      "method": "get_status",
+      "payload": {
+        "battery": "bad"
+      },
+      "valid": false
+    },
+    {
+      "name": "consumables-object",
+      "method": "get_consumable",
+      "payload": {
+        "filter_work_time": 0
+      },
+      "valid": true
+    },
+    {
+      "name": "consumables-singleton",
+      "method": "get_consumable",
+      "payload": [
+        {
+          "main_brush_work_time": 1
+        }
+      ],
+      "valid": true
+    },
+    {
+      "name": "consumables-empty-array",
+      "method": "get_consumable",
+      "payload": [],
+      "valid": false
+    },
+    {
+      "name": "dnd-object",
+      "method": "get_dnd_timer",
+      "payload": {
+        "enabled": 1,
+        "start_hour": 22,
+        "start_minute": 0,
+        "end_hour": 8,
+        "end_minute": 0
+      },
+      "valid": true
+    },
+    {
+      "name": "dnd-singleton",
+      "method": "get_dnd_timer",
+      "payload": [
+        {
+          "enabled": 0
+        }
+      ],
+      "valid": true
+    },
+    {
+      "name": "dnd-wrong-item",
+      "method": "get_dnd_timer",
+      "payload": [
+        1
+      ],
+      "valid": false
+    },
+    {
+      "name": "summary-object",
+      "method": "get_clean_summary",
+      "payload": {
+        "clean_time": 3600,
+        "records": [
+          123
+        ]
+      },
+      "valid": true
+    },
+    {
+      "name": "summary-singleton-object",
+      "method": "get_clean_summary",
+      "payload": [
+        {
+          "clean_time": 3600
+        }
+      ],
+      "valid": true
+    },
+    {
+      "name": "summary-scalar",
+      "method": "get_clean_summary",
+      "payload": 3600,
+      "valid": true
+    },
+    {
+      "name": "summary-legacy",
+      "method": "get_clean_summary",
+      "payload": [
+        3600,
+        1000000,
+        1,
+        [
+          123
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "name": "summary-unavailable-counters",
+      "method": "get_clean_summary",
+      "payload": [
+        null,
+        1000000,
+        null,
+        null
+      ],
+      "valid": true
+    },
+    {
+      "name": "summary-string",
+      "method": "get_clean_summary",
+      "payload": "bad",
+      "valid": false
+    },
+    {
+      "name": "summary-bad-record-ids",
+      "method": "get_clean_summary",
+      "payload": [
+        3600,
+        1000000,
+        1,
+        [
+          "bad"
+        ]
+      ],
+      "valid": false
+    },
+    {
+      "name": "summary-empty-array",
+      "method": "get_clean_summary",
+      "payload": [],
+      "valid": false
+    },
+    {
+      "name": "record-object",
+      "method": "get_clean_record",
+      "payload": {
+        "begin": 1,
+        "area": 4,
+        "future_flag": "new"
+      },
+      "valid": true
+    },
+    {
+      "name": "record-legacy",
+      "method": "get_clean_record",
+      "payload": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "valid": true
+    },
+    {
+      "name": "record-legacy-numeric-tail",
+      "method": "get_clean_record",
+      "payload": [
+        1,
+        2,
+        3,
+        4,
+        99
+      ],
+      "valid": true
+    },
+    {
+      "name": "record-singleton-object",
+      "method": "get_clean_record",
+      "payload": [
+        {
+          "begin": 1,
+          "area": 4
+        }
+      ],
+      "valid": true
+    },
+    {
+      "name": "record-multipart-objects",
+      "method": "get_clean_record",
+      "payload": [
+        {
+          "begin": 1,
+          "area": 4
+        },
+        {
+          "begin": 5,
+          "area": 8
+        }
+      ],
+      "valid": true
+    },
+    {
+      "name": "record-nested-tuples",
+      "method": "get_clean_record",
+      "payload": [
+        [
+          1,
+          2,
+          3,
+          4
+        ],
+        [
+          5,
+          6,
+          7,
+          8
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "name": "record-multipart-too-deep",
+      "method": "get_clean_record",
+      "payload": [
+        [
+          [
+            1,
+            2,
+            3,
+            4
+          ]
+        ]
+      ],
+      "valid": false
+    },
+    {
+      "name": "record-bad-counter",
+      "method": "get_clean_record",
+      "payload": [
+        1,
+        2,
+        "bad",
+        4
+      ],
+      "valid": false
+    },
+    {
+      "name": "record-short-tuple",
+      "method": "get_clean_record",
+      "payload": [
+        1,
+        2,
+        3
+      ],
+      "valid": false
+    },
+    {
+      "name": "record-empty-array",
+      "method": "get_clean_record",
+      "payload": [],
+      "valid": false
+    },
+    {
+      "name": "record-null",
+      "method": "get_clean_record",
+      "payload": null,
+      "valid": false
+    },
+    {
+      "name": "record-null-counter",
+      "method": "get_clean_record",
+      "payload": [
+        null,
+        2,
+        3,
+        4
+      ],
+      "valid": false
+    }
+  ]
+}

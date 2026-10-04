@@ -1,0 +1,30 @@
+---
+title: Errors and session lifecycle
+description: Own contexts, connections, credentials, and typed failures explicitly.
+---
+
+The reusable client retains configuration, not account credentials or device connections. Every account request supplies `AuthContext`. An opened device session owns its socket and pending RPCs; `Close` is safe to call repeatedly. Canceling the opening context closes the session and unblocks pending calls. Observe `session.Done()` for termination caused by cancellation, close, heartbeat expiry, or connection failure.
+
+Use a long-lived cancellable context for session ownership and a fresh deadline for each operation. Sessions enforce heartbeat liveness, expire unanswered requests, reject connection failures, and bound pending work. Backpressure means the session cannot accept more work; reduce concurrency or close the owner as appropriate.
+
+```go
+var failure *roborockerrors.Error
+if errors.As(err, &failure) {
+    switch failure.Kind {
+    case roborockerrors.Unauthorized:
+        // Explicitly obtain replacement credentials.
+    case roborockerrors.Timeout:
+        // A sent control command may have taken effect.
+    case roborockerrors.Backpressure:
+        // Reduce pending work before another attempt.
+    }
+}
+```
+
+Other classes include `InvalidArgument`, `NotFound`, `RateLimited`, `Unavailable`, `Canceled`, `Protocol`, `Closed`, and `Unsupported`. The error preserves its underlying cause for `errors.Is` and `errors.As` without exposing raw response bodies as its message. Keep secrets out of your own logs.
+
+Inject HTTP with `WithHTTPClient` and MQTT connections with `WithMQTTDial`. Injected transports must honor cancellation and own their security configuration. Cleanup remains the session owner's responsibility.
+
+See [camera lifecycle](/docs/guides/camera) and the [generated reference](/docs/openapi/vacuum/GetStatusRPC).
+
+

@@ -1,0 +1,287 @@
+{
+  "Provenance": "synthetic",
+  "Exchanges": [
+    {
+      "Method": "POST",
+      "Origin": "https://iot.example.test",
+      "Path": "/api/v1/getUrlByEmail",
+      "Query": {
+        "email": [
+          "one@example.test"
+        ],
+        "needtwostepauth": [
+          "false"
+        ]
+      },
+      "Response": {
+        "code": 200,
+        "data": {
+          "url": "https://iot.example.test",
+          "country": "GB",
+          "countrycode": 44
+        }
+      },
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ]
+      }
+    },
+    {
+      "Method": "POST",
+      "Origin": "https://iot.example.test",
+      "Path": "/api/v4/email/code/send",
+      "Form": {
+        "email": [
+          "one@example.test"
+        ],
+        "platform": [
+          ""
+        ],
+        "type": [
+          "login"
+        ]
+      },
+      "Headers": {
+        "header_clientid": "sdk-client",
+        "header_clientlang": "en"
+      },
+      "Response": {
+        "code": 200
+      },
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ]
+      }
+    },
+    {
+      "Method": "POST",
+      "Origin": "https://iot.example.test",
+      "Path": "/api/v3/key/sign",
+      "Query": {
+        "s": [
+          "<nonce>"
+        ]
+      },
+      "Headers": {
+        "header_clientid": "sdk-client"
+      },
+      "Response": {
+        "code": 200,
+        "data": {
+          "k": "synthetic-mercy-key"
+        }
+      },
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ]
+      }
+    },
+    {
+      "Method": "GET",
+      "Origin": "https://iot.example.test",
+      "Path": "/api/v3/app/agreement/latest",
+      "Query": {
+        "country": [
+          "GB"
+        ]
+      },
+      "Headers": {
+        "header_clientid": "sdk-client"
+      },
+      "Response": {
+        "code": 200,
+        "data": {
+          "majorVersion": 14,
+          "minorVersion": 0
+        }
+      },
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ]
+      }
+    },
+    {
+      "Method": "POST",
+      "Origin": "https://iot.example.test",
+      "Path": "/api/v4/auth/email/login/code",
+      "Form": {
+        "email": [
+          "one@example.test"
+        ],
+        "code": [
+          "001234"
+        ],
+        "country": [
+          "GB"
+        ],
+        "countryCode": [
+          "44"
+        ],
+        "majorVersion": [
+          "14"
+        ],
+        "minorVersion": [
+          "0"
+        ]
+      },
+      "Headers": {
+        "header_clientid": "sdk-client",
+        "header_clientlang": "en",
+        "x-mercy-ks": "<nonce>",
+        "x-mercy-k": "synthetic-mercy-key",
+        "header_appversion": "4.54.02",
+        "header_phonesystem": "iOS",
+        "header_phonemodel": "iPhone16,1"
+      },
+      "Response": {
+        "code": 200,
+        "data": {
+          "uid": 123,
+          "nickname": "Synthetic",
+          "token": "synthetic-token",
+          "rriot": {
+            "u": "synthetic-user",
+            "s": "synthetic-secret",
+            "k": "synthetic-mqtt-key",
+            "h": "synthetic-hawk-key",
+            "r": {
+              "a": "https://api.example.test",
+              "m": "ssl://broker.example.test:8883"
+            }
+          }
+        }
+      },
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ]
+      }
+    },
+    {
+      "Method": "GET",
+      "Origin": "https://iot.example.test",
+      "Path": "/api/v1/getHomeDetail",
+      "Headers": {
+        "Authorization": "synthetic-token",
+        "header_clientid": "sdk-client"
+      },
+      "Response": {
+        "code": 200,
+        "data": {
+          "rrHomeId": 42,
+          "name": "Synthetic home"
+        }
+      },
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ]
+      }
+    },
+    {
+      "Method": "GET",
+      "Origin": "https://api.example.test",
+      "Path": "/user/homes/42",
+      "Headers": {
+        "Authorization": "<hawk>"
+      },
+      "Response": {
+        "success": true,
+        "result": {
+          "id": 42,
+          "name": "Synthetic home",
+          "devices": [
+            {
+              "duid": "owned-1",
+              "name": "Vacuum",
+              "localKey": "0123456789abcdef",
+              "productId": "p1",
+              "pv": "1.0",
+              "roomId": 7,
+              "online": true
+            },
+            {
+              "duid": "owned-2",
+              "name": "Future",
+              "localKey": "0123456789abcdef",
+              "productId": "p1",
+              "pv": "FutureProtocol"
+            }
+          ],
+          "receivedDevices": [
+            {
+              "duid": "owned-1",
+              "name": "Duplicate",
+              "localKey": "0123456789abcdef",
+              "productId": "p1"
+            },
+            {
+              "duid": "shared-1",
+              "name": "Shared",
+              "localKey": "0123456789abcdef",
+              "productId": "p1",
+              "pv": "A01"
+            }
+          ],
+          "products": [
+            {
+              "id": "p1",
+              "name": "Synthetic product",
+              "model": "roborock.vacuum.synthetic",
+              "category": "robot.vacuum.cleaner",
+              "schema": [
+                {
+                  "id": "101"
+                },
+                {
+                  "id": 102
+                },
+                {
+                  "id": "101"
+                },
+                {
+                  "id": "not-a-number"
+                },
+                {
+                  "id": "0"
+                },
+                {
+                  "id": -1
+                },
+                {
+                  "id": "9223372036854775808"
+                },
+                {
+                  "id": null
+                }
+              ],
+              "capability": 7
+            }
+          ],
+          "rooms": [
+            {
+              "id": 7,
+              "name": "Test room"
+            }
+          ]
+        }
+      },
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ]
+      }
+    }
+  ]
+}

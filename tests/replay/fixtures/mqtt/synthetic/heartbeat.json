@@ -1,0 +1,13 @@
+{
+  "provenance": "synthetic",
+  "source": "MQTT 3.1.1 ordered heartbeat wire transcript",
+  "exchanges": [
+    {"requestHex": "c000", "responseHex": "d000"},
+    {"requestHex": "c000", "responseHex": "d000"}
+  ],
+  "expiry": {
+    "requestHex": "c000",
+    "noResponse": true,
+    "errorKind": "timeout"
+  }
+}

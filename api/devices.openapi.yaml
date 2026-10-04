@@ -1,0 +1,1032 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Roborock home inventory API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/user/homes/{homeID}": {
+      "get": {
+        "operationId": "GetHomeDatav1",
+        "summary": "List home devices and products",
+        "description": "Retrieve typed home inventory with Hawk authentication.",
+        "parameters": [
+          {
+            "name": "homeID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Home inventory envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HomeDataResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "devices"
+        ]
+      }
+    },
+    "/v2/user/homes/{homeID}": {
+      "get": {
+        "operationId": "GetHomeDatav2",
+        "summary": "List home devices and products",
+        "description": "Retrieve typed home inventory with Hawk authentication.",
+        "parameters": [
+          {
+            "name": "homeID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Home inventory envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HomeDataResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "devices"
+        ]
+      }
+    },
+    "/v3/user/homes/{homeID}": {
+      "get": {
+        "operationId": "GetHomeDatav3",
+        "summary": "List home devices and products",
+        "description": "Retrieve typed home inventory with Hawk authentication.",
+        "parameters": [
+          {
+            "name": "homeID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Home inventory envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HomeDataResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "devices"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HomeData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HomeProduct"
+            },
+            "nullable": true
+          },
+          "devices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HomeDevice"
+            },
+            "nullable": true
+          },
+          "receivedDevices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HomeDevice"
+            },
+            "nullable": true
+          },
+          "rooms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HomeRoom"
+            },
+            "nullable": true
+          },
+          "lon": {
+            "x-go-type": "json.RawMessage",
+            "nullable": true
+          },
+          "lat": {
+            "x-go-type": "json.RawMessage",
+            "nullable": true
+          },
+          "geoName": {
+            "x-go-type": "json.RawMessage",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ],
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "x-go-type-skip-optional-pointer": false,
+        "nullable": true
+      },
+      "HomeRoom": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ],
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "x-go-type-skip-optional-pointer": false
+      },
+      "HomeProduct": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "category": {
+            "$ref": "#/components/schemas/ProductCategory"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "iconUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "attribute": {
+            "x-go-type": "json.RawMessage",
+            "nullable": true
+          },
+          "capability": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductProperty"
+            },
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "model",
+          "category"
+        ],
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "x-go-type-skip-optional-pointer": false
+      },
+      "ProductProperty": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "nullable": true,
+            "$ref": "#/components/schemas/ProductPropertyID"
+          },
+          "name": {
+            "nullable": true,
+            "type": "string"
+          },
+          "code": {
+            "nullable": true,
+            "type": "string"
+          },
+          "mode": {
+            "nullable": true,
+            "$ref": "#/components/schemas/ProductPropertyMode"
+          },
+          "type": {
+            "nullable": true,
+            "$ref": "#/components/schemas/ProductPropertyType"
+          },
+          "productProperty": {
+            "x-go-type": "json.RawMessage",
+            "nullable": true
+          },
+          "property": {
+            "nullable": true,
+            "type": "string",
+            "description": "JSON-encoded ProductPropertyConstraints, or the string null. DecodeProperty exposes the typed contents."
+          },
+          "desc": {
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "required": [],
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "x-go-type-skip-optional-pointer": false
+      },
+      "HomeDevice": {
+        "type": "object",
+        "properties": {
+          "duid": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "localKey": {
+            "type": "string"
+          },
+          "productId": {
+            "type": "string"
+          },
+          "fv": {
+            "type": "string",
+            "nullable": true
+          },
+          "attribute": {
+            "x-go-type": "json.RawMessage",
+            "nullable": true
+          },
+          "activeTime": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "runtimeEnv": {
+            "x-go-type": "json.RawMessage",
+            "nullable": true
+          },
+          "timeZoneId": {
+            "type": "string",
+            "nullable": true
+          },
+          "iconUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "lon": {
+            "x-go-type": "json.RawMessage",
+            "nullable": true
+          },
+          "lat": {
+            "x-go-type": "json.RawMessage",
+            "nullable": true
+          },
+          "share": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "shareTime": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "online": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "pv": {
+            "type": "string",
+            "nullable": true
+          },
+          "roomId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "tuyaUuid": {
+            "type": "string",
+            "nullable": true
+          },
+          "tuyaMigrated": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "extra": {
+            "type": "string",
+            "description": "JSON-encoded optional device metadata.",
+            "nullable": true
+          },
+          "sn": {
+            "type": "string",
+            "nullable": true
+          },
+          "featureSet": {
+            "type": "string",
+            "nullable": true
+          },
+          "newFeatureSet": {
+            "type": "string",
+            "nullable": true
+          },
+          "deviceStatus": {
+            "nullable": true,
+            "$ref": "#/components/schemas/HomeDeviceStatus"
+          },
+          "silentOtaSwitch": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "setting": {
+            "x-go-type": "json.RawMessage",
+            "nullable": true
+          },
+          "f": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "cid": {
+            "type": "string",
+            "nullable": true
+          },
+          "shareType": {
+            "$ref": "#/components/schemas/HomeDeviceShareType"
+          },
+          "shareExpiredTime": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "required": [
+          "duid",
+          "name",
+          "localKey",
+          "productId"
+        ],
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "x-go-type-skip-optional-pointer": false
+      },
+      "HomeDataResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "result": {
+            "$ref": "#/components/schemas/HomeData",
+            "nullable": true
+          },
+          "code": {
+            "type": "integer",
+            "nullable": true
+          },
+          "msg": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "success"
+        ],
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "x-go-type-skip-optional-pointer": false
+      },
+      "ProductCategory": {
+        "type": "string",
+        "description": "Open device category. Known values are robot.vacuum.cleaner, roborock.wetdryvac, roborock.wm, roborock.mower and UNKNOWN; future strings remain valid.",
+        "x-known-values": {
+          "ProductCategoryWetDryVacuum": "roborock.wetdryvac",
+          "ProductCategoryMower": "roborock.mower",
+          "ProductCategoryVacuum": "robot.vacuum.cleaner",
+          "ProductCategoryUnknown": "UNKNOWN",
+          "ProductCategoryWashingMachine": "roborock.wm"
+        }
+      },
+      "HomeDataVersion": {
+        "type": "integer",
+        "enum": [
+          1,
+          2,
+          3
+        ],
+        "x-enum-varnames": [
+          "HomeDataVersionV1",
+          "HomeDataVersionV2",
+          "HomeDataVersionV3"
+        ]
+      },
+      "ProductPropertyID": {
+        "oneOf": [
+          {
+            "type": "string"
+          },
+          {
+            "format": "int64",
+            "type": "integer"
+          }
+        ],
+        "description": "Property IDs are strings on V1 products and integers on Q10/A01 reference inventories.",
+        "nullable": true
+      },
+      "ProductPropertyMode": {
+        "x-known-values": {
+          "ProductPropertyModeReadWrite": "rw",
+          "ProductPropertyModeReadOnly": "ro"
+        },
+        "type": "string",
+        "description": "Open property access mode.",
+        "nullable": true
+      },
+      "ProductPropertyType": {
+        "x-known-values": {
+          "ProductPropertyTypeEnum": "ENUM",
+          "ProductPropertyTypeBoolean": "BOOL",
+          "ProductPropertyTypeValue": "VALUE",
+          "ProductPropertyTypeString": "STRING",
+          "ProductPropertyTypeRaw": "RAW"
+        },
+        "type": "string",
+        "description": "Open property value kind.",
+        "nullable": true
+      },
+      "ProductPropertyConstraints": {
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "type": "object",
+        "properties": {
+          "min": {
+            "nullable": true,
+            "type": "number"
+          },
+          "max": {
+            "nullable": true,
+            "type": "number"
+          },
+          "step": {
+            "nullable": true,
+            "type": "number"
+          },
+          "range": {
+            "items": {
+              "type": "string"
+            },
+            "nullable": true,
+            "type": "array"
+          },
+          "unit": {
+            "nullable": true,
+            "type": "string"
+          },
+          "scale": {
+            "nullable": true,
+            "type": "number"
+          }
+        }
+      },
+      "InventoryBooleanOrInteger": {
+        "oneOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "format": "int64",
+            "type": "integer"
+          }
+        ],
+        "nullable": true
+      },
+      "HomeDeviceStatus": {
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "type": "object",
+        "properties": {
+          "137": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS137"
+          },
+          "217": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS217"
+          },
+          "227": {
+            "$ref": "#/components/schemas/InventoryBooleanOrInteger",
+            "nullable": true,
+            "x-go-name": "DPS227"
+          },
+          "223": {
+            "$ref": "#/components/schemas/InventoryBooleanOrInteger",
+            "nullable": true,
+            "x-go-name": "DPS223"
+          },
+          "203": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS203"
+          },
+          "214": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS214"
+          },
+          "206": {
+            "$ref": "#/components/schemas/InventoryBooleanOrInteger",
+            "nullable": true,
+            "x-go-name": "DPS206"
+          },
+          "208": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS208"
+          },
+          "138": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS138"
+          },
+          "121": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS121"
+          },
+          "139": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS139"
+          },
+          "126": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS126"
+          },
+          "221": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS221"
+          },
+          "120": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS120"
+          },
+          "213": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS213"
+          },
+          "133": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS133"
+          },
+          "10007": {
+            "nullable": true,
+            "type": "string",
+            "x-go-name": "DPS10007"
+          },
+          "209": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS209"
+          },
+          "124": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS124"
+          },
+          "128": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS128"
+          },
+          "218": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS218"
+          },
+          "125": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS125"
+          },
+          "134": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS134"
+          },
+          "229": {
+            "$ref": "#/components/schemas/InventoryBooleanOrInteger",
+            "nullable": true,
+            "x-go-name": "DPS229"
+          },
+          "212": {
+            "$ref": "#/components/schemas/InventoryBooleanOrInteger",
+            "nullable": true,
+            "x-go-name": "DPS212"
+          },
+          "219": {
+            "$ref": "#/components/schemas/InventoryBooleanOrInteger",
+            "nullable": true,
+            "x-go-name": "DPS219"
+          },
+          "201": {
+            "$ref": "#/components/schemas/InventoryBooleanOrInteger",
+            "nullable": true,
+            "x-go-name": "DPS201"
+          },
+          "10001": {
+            "nullable": true,
+            "type": "string",
+            "x-go-name": "DPS10001"
+          },
+          "142": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS142"
+          },
+          "211": {
+            "$ref": "#/components/schemas/InventoryBooleanOrInteger",
+            "nullable": true,
+            "x-go-name": "DPS211"
+          },
+          "226": {
+            "$ref": "#/components/schemas/InventoryBooleanOrInteger",
+            "nullable": true,
+            "x-go-name": "DPS226"
+          },
+          "232": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS232"
+          },
+          "202": {
+            "$ref": "#/components/schemas/InventoryBooleanOrInteger",
+            "nullable": true,
+            "x-go-name": "DPS202"
+          },
+          "10008": {
+            "$ref": "#/components/schemas/InventoryBooleanOrInteger",
+            "nullable": true,
+            "x-go-name": "DPS10008"
+          },
+          "135": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS135"
+          },
+          "127": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS127"
+          },
+          "122": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS122"
+          },
+          "10005": {
+            "nullable": true,
+            "type": "string",
+            "x-go-name": "DPS10005"
+          },
+          "204": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS204"
+          },
+          "224": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS224"
+          },
+          "225": {
+            "$ref": "#/components/schemas/InventoryBooleanOrInteger",
+            "nullable": true,
+            "x-go-name": "DPS225"
+          },
+          "141": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS141"
+          },
+          "123": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS123"
+          },
+          "136": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS136"
+          },
+          "222": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS222"
+          },
+          "210": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS210"
+          },
+          "200": {
+            "$ref": "#/components/schemas/InventoryBooleanOrInteger",
+            "nullable": true,
+            "x-go-name": "DPS200"
+          },
+          "205": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS205"
+          },
+          "207": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS207"
+          },
+          "101": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS101"
+          },
+          "220": {
+            "nullable": true,
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "DPS220"
+          }
+        },
+        "nullable": true
+      },
+      "InventoryProductInfo": {
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "type": "object",
+        "properties": {
+          "ssid": {
+            "nullable": true,
+            "type": "string"
+          },
+          "sn": {
+            "nullable": true,
+            "type": "string"
+          },
+          "posix_timezone": {
+            "nullable": true,
+            "type": "string"
+          },
+          "rssi": {
+            "nullable": true,
+            "type": "integer"
+          },
+          "timezone": {
+            "nullable": true,
+            "type": "string"
+          },
+          "mac": {
+            "nullable": true,
+            "type": "string"
+          },
+          "ip": {
+            "nullable": true,
+            "type": "string"
+          },
+          "oba": {
+            "nullable": true,
+            "$ref": "#/components/schemas/InventoryProductOBA"
+          }
+        }
+      },
+      "InventoryProductOBA": {
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "type": "object",
+        "properties": {
+          "location": {
+            "nullable": true,
+            "type": "string"
+          },
+          "loglevel": {
+            "nullable": true,
+            "type": "string"
+          },
+          "featureset": {
+            "nullable": true,
+            "type": "string"
+          },
+          "logserver": {
+            "nullable": true,
+            "type": "string"
+          },
+          "wifiplan": {
+            "nullable": true,
+            "type": "string"
+          },
+          "name": {
+            "nullable": true,
+            "type": "string"
+          },
+          "timezone": {
+            "nullable": true,
+            "type": "string"
+          },
+          "language": {
+            "nullable": true,
+            "type": "string"
+          },
+          "bom": {
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "nullable": true
+      },
+      "InventoryOTAStatus": {
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "type": "object",
+        "properties": {
+          "status": {
+            "nullable": true,
+            "type": "string",
+            "description": "Open OTA status; IDLE is present in the pinned reference inventory."
+          }
+        },
+        "nullable": true
+      },
+      "InventoryOTAData": {
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "type": "object",
+        "properties": {
+          "mqttOtaStatus": {
+            "nullable": true,
+            "$ref": "#/components/schemas/InventoryOTAStatus"
+          }
+        },
+        "nullable": true
+      },
+      "InventoryOTA": {
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "type": "object",
+        "properties": {
+          "mqttOtaData": {
+            "nullable": true,
+            "$ref": "#/components/schemas/InventoryOTAData"
+          }
+        }
+      },
+      "InventoryProgramState": {
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "type": "object",
+        "properties": {
+          "f": {
+            "nullable": true,
+            "type": "string"
+          }
+        }
+      },
+      "HomeDeviceShareType": {
+        "type": "string",
+        "nullable": true,
+        "description": "Open device sharing policy identifier.",
+        "x-known-values": {
+          "HomeDeviceShareTypeUnlimitedTime": "UNLIMITED_TIME"
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "devices",
+      "description": "Typed Roborock devices operations"
+    }
+  ]
+}

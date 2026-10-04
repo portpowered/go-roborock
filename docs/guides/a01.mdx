@@ -1,0 +1,35 @@
+---
+title: Dyad and Zeo A01
+description: Query selected appliance properties and publish typed settings.
+---
+
+Open a device using its discovered `ProtocolA01`. Discovery returns `Device.SupportedProperties`, the appliance-advertised numeric IDs. Intersect these with the documented `DyadProperty` or `ZeoProperty` constants and convert only matching IDs to the corresponding typed property. Select only properties supported by both the appliance and the SDK projection; requesting an unsupported property can wait until the operation deadline.
+
+```go
+state, err := session.GetDyadState(ctx, roborock.GetDyadStateRequest{
+    Properties: []roborock.DyadProperty{roborock.DyadPropertyPower},
+})
+```
+
+`GetZeoState` takes `GetZeoStateRequest` with Zeo properties. Both operations return presence-aware typed states: unselected or absent fields remain nil, and future numeric enum values are preserved.
+
+`SetDyadSettings` and `SetZeoSettings` publish only supplied pointer fields. Omitted fields remain untouched. Use `StartZeo` to bundle a mode, program, optional cycle parameters, and start signal into one command; independent settings do not implicitly start a cycle.
+
+```go
+suction := roborock.DyadSuctionL2
+err := session.SetDyadSettings(ctx, roborock.SetDyadSettingsRequest{
+    Suction: &suction, // Other settings remain untouched.
+})
+// Check err before issuing another command.
+err = session.StartZeo(ctx, roborock.StartZeoRequest{
+    Mode: roborock.ZeoModeWash, Program: roborock.ZeoProgramQuick,
+})
+```
+
+These values are examples; select settings and programs supported by your appliance. Dyad switches use named integer `DyadSwitch` values; Zeo fields such as `ChildLock`, `Sound`, `DetergentSet`, and `SoftenerSet` are boolean pointers. A non-nil pointer sends its value, including false or zero; nil omits the setting. `StartZeo` requires both non-null `Mode` and `Program`; optional temperature, rinse, spin, and drying fields stay absent unless supplied.
+
+The generated [public A01 type reference](/docs/guides/a01-models) lists all request and state fields, property IDs, and named enum values. The public Go Reference also lists [Dyad properties](https://pkg.go.dev/github.com/portpowered/go-roborock/pkg/roborock#DyadProperty), [Zeo properties](https://pkg.go.dev/github.com/portpowered/go-roborock/pkg/roborock#ZeoProperty), [Dyad settings](https://pkg.go.dev/github.com/portpowered/go-roborock/pkg/roborock#SetDyadSettingsRequest), [Zeo settings](https://pkg.go.dev/github.com/portpowered/go-roborock/pkg/roborock#SetZeoSettingsRequest), and [cycle start fields](https://pkg.go.dev/github.com/portpowered/go-roborock/pkg/roborock#StartZeoRequest).
+
+A successful A01 write means MQTT publication, not appliance acceptance or cycle completion. Read state afterward to observe physical progress. Never retry an uncertain start automatically. See [session errors](/docs/guides/lifecycle) and the [generated wire reference](/docs/openapi/a01/queryA01Values) for the encrypted MQTT datapoint envelope. Public setting fields and enum constants are documented in the Go Reference links above.
+
+

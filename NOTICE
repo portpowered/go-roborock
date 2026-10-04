@@ -1,0 +1,11 @@
+go-roborock
+Copyright 2026 PortPowered contributors
+
+This library uses implementation references from Python Roborock:
+https://github.com/Python-roborock/python-roborock
+Pinned reference: a8260c5211e60647fc352d6b496b827865938b21
+Python Roborock is licensed under Apache License 2.0; its authors retain
+copyright in their contributions. See the upstream LICENSE and source history.
+
+The Roborock protocol and product names belong to their respective owners.
+This project is independent and is not endorsed by Roborock.

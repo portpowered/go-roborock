@@ -1,0 +1,25 @@
+{
+  "provenance": "synthetic",
+  "source": "reference-derived python-roborock create_mqtt_encoder",
+  "revision": "a8260c5211e60647fc352d6b496b827865938b21",
+  "broker": "ssl://mqtt.example.test:8883",
+  "user": "synthetic-user",
+  "secret": "synthetic-secret",
+  "key": "synthetic-account-key",
+  "deviceId": "synthetic-device",
+  "localKey": "0123456789abcdef",
+  "username": "928c2f1c",
+  "password": "7b563a84ce97cdc3",
+  "securityEndpoint": "01gO9OvE",
+  "publishTopic": "rr/m/i/synthetic-user/928c2f1c/synthetic-device",
+  "subscribeTopic": "rr/m/o/synthetic-user/928c2f1c/synthetic-device",
+  "method": "get_status",
+  "params": [],
+  "result": [
+    {
+      "battery": 81
+    }
+  ],
+  "responsePayload": "{\"dps\":{\"102\":\"{\\\"id\\\":1,\\\"result\\\":[{\\\"battery\\\":81}]}\"},\"t\":1700000000}",
+  "responseFrameHex": "312e300000002a000030396553f100006600509a8c4ea355e745331e4df19b1a056c60794f85b78fbdb4a3e489f6d91f8d6c1fcbf41d894f262dc498e8f6fa8fd18233a81aeeb4021093e2fc394bb48a0d793b1ab8ebdae690773c65494bf32339595e95b19d14"
+}

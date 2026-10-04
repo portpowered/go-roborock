@@ -1,0 +1,27 @@
+{
+  "provenance": "synthetic",
+  "source": "python-roborock create_mqtt_encoder",
+  "revision": "a8260c5211e60647fc352d6b496b827865938b21",
+  "vectors": [
+    {
+      "version": "1.0",
+      "sequence": 42,
+      "random": 12345,
+      "timestamp": 1700000000,
+      "protocol": 101,
+      "localKey": "0123456789abcdef",
+      "payload": "{\"dps\":{\"101\":\"{\\\"id\\\":1,\\\"method\\\":\\\"get_status\\\",\\\"params\\\":[]}\"},\"t\":1700000000}",
+      "frameHex": "312e300000002a000030396553f10000650060cd75d0cc7be588661f01a212fcb60d6b206094d501e26bf808a28f1a929f26f13798f721bf29e107e253f2c83796f63c1fc0be7b6f82ca065bde3579ae1f35fc3a760053d6eb20b8f47672e1dc69e5ea2bdda66b1ee413b29a95f3a24d26a022058386b7"
+    },
+    {
+      "version": "A01",
+      "sequence": 42,
+      "random": 12345,
+      "timestamp": 1700000000,
+      "protocol": 101,
+      "localKey": "0123456789abcdef",
+      "payload": "{\"dps\":{\"10000\":\"[201,202]\"},\"t\":1700000000}",
+      "frameHex": "4130310000002a000030396553f1000065003052ed9fc367cc84537630f8d94ef41e16d3a95a26a516ba6be2f7acfb32b13012bef8a998ed0a2d6d1915f2f548fa364d04af91c1"
+    }
+  ]
+}

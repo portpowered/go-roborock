@@ -1,0 +1,13 @@
+---
+title: Get started
+description: Authenticate, discover a device, and open an explicit session.
+---
+
+Install `github.com/portpowered/go-roborock` and import `pkg/roborock`. Start with [authentication](/docs/guides/authentication), then [discovery](/docs/guides/discovery).
+
+Use [vacuum controls](/docs/guides/vacuum), [remote movement](/docs/guides/remote-control), [A01 settings](/docs/guides/a01), or [camera signaling](/docs/guides/camera) for supported devices. The [CLI](/docs/guides/cli) offers explicit read and control commands. Read [errors and lifecycle](/docs/guides/lifecycle) before keeping a session open.
+
+The contracts are derived from pinned Python Roborock and an existing Go implementation, with synthetic offline verification. Supported operations are typed; full Python parity, B01/L01 connections, local transport, map decoding, and WebRTC media decoding are outside this release.
+
+The sidebar's OpenAPI section contains the generated wire reference. Its RPC schemas describe encrypted MQTT payloads; their schema paths are documentation identifiers, not HTTP routes to call directly.
+

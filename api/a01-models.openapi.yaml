@@ -1,0 +1,2133 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Roborock A01 Public Models",
+    "version": "0.1.0",
+    "description": "Reference-derived appliance contracts. Not live-device verified."
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "DyadStatus": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          -999,
+          -998,
+          -997,
+          -996,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          12,
+          13,
+          14
+        ],
+        "x-enum-varnames": [
+          "DyadStatusUnknown",
+          "DyadStatusFetching",
+          "DyadStatusFetchFailed",
+          "DyadStatusUpdating",
+          "DyadStatusWashing",
+          "DyadStatusReady",
+          "DyadStatusCharging",
+          "DyadStatusMopWashing",
+          "DyadStatusSelfCleanCleaning",
+          "DyadStatusSelfCleanDeepCleaning",
+          "DyadStatusSelfCleanRinsing",
+          "DyadStatusSelfCleanDehydrating",
+          "DyadStatusDrying",
+          "DyadStatusVentilating",
+          "DyadStatusReserving",
+          "DyadStatusMopWashingPaused",
+          "DyadStatusDustingMode"
+        ]
+      },
+      "DyadSelfCleanMode": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "x-enum-varnames": [
+          "DyadSelfCleanModeSelfClean",
+          "DyadSelfCleanModeSelfCleanAndDry",
+          "DyadSelfCleanModeDry",
+          "DyadSelfCleanModeVentilation"
+        ]
+      },
+      "DyadSelfCleanLevel": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          1,
+          2
+        ],
+        "x-enum-varnames": [
+          "DyadSelfCleanLevelNormal",
+          "DyadSelfCleanLevelDeep"
+        ]
+      },
+      "DyadWarmLevel": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          1,
+          2
+        ],
+        "x-enum-varnames": [
+          "DyadWarmLevelNormal",
+          "DyadWarmLevelDeep"
+        ]
+      },
+      "DyadMode": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          1,
+          2,
+          3
+        ],
+        "x-enum-varnames": [
+          "DyadModeWash",
+          "DyadModeWashAndDry",
+          "DyadModeDry"
+        ]
+      },
+      "DyadCleanMode": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "x-enum-varnames": [
+          "DyadCleanModeAuto",
+          "DyadCleanModeMax",
+          "DyadCleanModeDehydration",
+          "DyadCleanModePowerSaving"
+        ]
+      },
+      "DyadSuction": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "x-enum-varnames": [
+          "DyadSuctionL1",
+          "DyadSuctionL2",
+          "DyadSuctionL3",
+          "DyadSuctionL4",
+          "DyadSuctionL5",
+          "DyadSuctionL6"
+        ]
+      },
+      "DyadWaterLevel": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "x-enum-varnames": [
+          "DyadWaterLevelL1",
+          "DyadWaterLevelL2",
+          "DyadWaterLevelL3",
+          "DyadWaterLevelL4"
+        ]
+      },
+      "DyadBrushSpeed": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          1,
+          2
+        ],
+        "x-enum-varnames": [
+          "DyadBrushSpeedL1",
+          "DyadBrushSpeedL2"
+        ]
+      },
+      "DyadCleanser": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "x-enum-varnames": [
+          "DyadCleanserNone",
+          "DyadCleanserNormal",
+          "DyadCleanserDeep",
+          "DyadCleanserMax"
+        ]
+      },
+      "DyadError": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          0,
+          20000,
+          20001,
+          20002,
+          20003,
+          20004,
+          10005,
+          20005,
+          20006,
+          10004,
+          10009,
+          10000,
+          20009,
+          10007,
+          20017,
+          20018,
+          20007,
+          20008
+        ],
+        "x-enum-varnames": [
+          "DyadErrorNone",
+          "DyadErrorDirtyTankFull",
+          "DyadErrorWaterLevelSensorStuck",
+          "DyadErrorCleanTankEmpty",
+          "DyadErrorCleanHeadEntangled",
+          "DyadErrorCleanHeadTooHot",
+          "DyadErrorFanProtectionE5",
+          "DyadErrorCleaningHeadBlocked",
+          "DyadErrorTemperatureProtection",
+          "DyadErrorFanProtectionE4",
+          "DyadErrorFanProtectionE9",
+          "DyadErrorBatteryTemperatureProtectionE0",
+          "DyadErrorPowerAdapterError",
+          "DyadErrorDirtyChargingContacts",
+          "DyadErrorLowBattery",
+          "DyadErrorBatteryUnder10",
+          "DyadErrorBatteryTemperatureProtection",
+          "DyadErrorBatteryTemperatureProtection2"
+        ]
+      },
+      "ZeoFeatureBits": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "x-enum-varnames": [
+          "ZeoFeatureBitsSmartHosting",
+          "ZeoFeatureBitsSilentMode",
+          "ZeoFeatureBitsNewCustomProgram",
+          "ZeoFeatureBitsDryCare",
+          "ZeoFeatureBitsSetUvcInAppointment",
+          "ZeoFeatureBitsDetectDoorStatus",
+          "ZeoFeatureBitsExpandSoftener",
+          "ZeoFeatureBitsSetParamsInWorking",
+          "ZeoFeatureBitsThirtyMinSoak",
+          "ZeoFeatureBitsSmileLight",
+          "ZeoFeatureBitsSetUvcInPause",
+          "ZeoFeatureBitsConcentratedDetergent",
+          "ZeoFeatureBitsWoolDetergent",
+          "ZeoFeatureBitsVoiceAssistant",
+          "ZeoFeatureBitsAdaptedCustomProgram",
+          "ZeoFeatureBitsVoiceAssistantRecord",
+          "ZeoFeatureBitsFluffCleanNotification",
+          "ZeoFeatureBitsPowerButtonIndicatorLight",
+          "ZeoFeatureBitsDirtDetection",
+          "ZeoFeatureBitsDeepSelfClean",
+          "ZeoFeatureBitsSavePanelProgramParams",
+          "ZeoFeatureBitsSteamCare",
+          "ZeoFeatureBitsWashDryLinkage",
+          "ZeoFeatureBitsIonDeodorization"
+        ]
+      },
+      "ZeoMode": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "x-enum-varnames": [
+          "ZeoModeNull",
+          "ZeoModeWash",
+          "ZeoModeWashAndDry",
+          "ZeoModeDry",
+          "ZeoModeTreatment"
+        ]
+      },
+      "ZeoStatus": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "x-enum-varnames": [
+          "ZeoStatusNull",
+          "ZeoStatusStandby",
+          "ZeoStatusWeighing",
+          "ZeoStatusSoaking",
+          "ZeoStatusWashing",
+          "ZeoStatusRinsing",
+          "ZeoStatusSpinning",
+          "ZeoStatusDrying",
+          "ZeoStatusCooling",
+          "ZeoStatusUnderDelayStart",
+          "ZeoStatusDone",
+          "ZeoStatusUpdating",
+          "ZeoStatusAftercare",
+          "ZeoStatusWaitingForAftercare",
+          "ZeoStatusSteamCaring",
+          "ZeoStatusDescaling",
+          "ZeoStatusClothReady",
+          "ZeoStatusWaitingForDrying",
+          "ZeoStatusPreHeating",
+          "ZeoStatusPreHeatComplete",
+          "ZeoStatusInCare"
+        ]
+      },
+      "ZeoProgram": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57
+        ],
+        "x-enum-varnames": [
+          "ZeoProgramNull",
+          "ZeoProgramStandard",
+          "ZeoProgramQuick",
+          "ZeoProgramSanitize",
+          "ZeoProgramWool",
+          "ZeoProgramAirRefresh",
+          "ZeoProgramCustom",
+          "ZeoProgramBedding",
+          "ZeoProgramDown",
+          "ZeoProgramSilk",
+          "ZeoProgramRinseAndSpin",
+          "ZeoProgramSpin",
+          "ZeoProgramDownClean",
+          "ZeoProgramBabyCare",
+          "ZeoProgramAntiAllergen",
+          "ZeoProgramSportswear",
+          "ZeoProgramNight",
+          "ZeoProgramNewClothes",
+          "ZeoProgramShirts",
+          "ZeoProgramSynthetics",
+          "ZeoProgramUnderwear",
+          "ZeoProgramGentle",
+          "ZeoProgramIntensive",
+          "ZeoProgramCottonLinen",
+          "ZeoProgramSeason",
+          "ZeoProgramWarming",
+          "ZeoProgramBra",
+          "ZeoProgramPanties",
+          "ZeoProgramBoilingWash",
+          "ZeoProgramSoaking",
+          "ZeoProgramSocks",
+          "ZeoProgramTowels",
+          "ZeoProgramAntiMite",
+          "ZeoProgramExo4060",
+          "ZeoProgramTwentyC",
+          "ZeoProgramTShirts",
+          "ZeoProgramStainRemoval",
+          "ZeoProgramSmallThings",
+          "ZeoProgramMixing",
+          "ZeoProgramBathTowel",
+          "ZeoProgramJeans",
+          "ZeoProgramOutdoors",
+          "ZeoProgramTimedDrying",
+          "ZeoProgramOutdoorJackets",
+          "ZeoProgramYoga",
+          "ZeoProgramQuiltDrying",
+          "ZeoProgramFlax",
+          "ZeoProgramSuit",
+          "ZeoProgramSportShoes",
+          "ZeoProgramRackDrying",
+          "ZeoProgramSummerQuilt",
+          "ZeoProgramWindBreaker",
+          "ZeoProgramSteamCare",
+          "ZeoProgramDescaling",
+          "ZeoProgramDeepSelfClean",
+          "ZeoProgramPetCare",
+          "ZeoProgramSmallThingsDrying"
+        ]
+      },
+      "ZeoSoak": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "x-enum-varnames": [
+          "ZeoSoakNormal",
+          "ZeoSoakLow",
+          "ZeoSoakMedium",
+          "ZeoSoakHigh",
+          "ZeoSoakMax",
+          "ZeoSoakVeryMax"
+        ]
+      },
+      "ZeoTemperature": {
+        "type": "integer",
+        "description": "Known temperature protocol positions, not degrees Celsius: 1 = unheated, 2 = 30 C, 3 = 40 C, 4 = 60 C, 5 = 90 C, 6 = 20 C, 7 = 95 C. Public fields also accept future numeric positions.",
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "x-enum-varnames": [
+          "ZeoTemperatureNull",
+          "ZeoTemperatureNormal",
+          "ZeoTemperatureLow",
+          "ZeoTemperatureMedium",
+          "ZeoTemperatureHigh",
+          "ZeoTemperatureMax",
+          "ZeoTemperatureTwentyC",
+          "ZeoTemperatureNinetyC"
+        ]
+      },
+      "ZeoRinse": {
+        "type": "integer",
+        "description": "Known rinse intensity protocol positions, not a literal count of rinses. Public fields also accept future numeric positions.",
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "x-enum-varnames": [
+          "ZeoRinseNone",
+          "ZeoRinseMin",
+          "ZeoRinseLow",
+          "ZeoRinseMid",
+          "ZeoRinseHigh",
+          "ZeoRinseMax"
+        ]
+      },
+      "ZeoSpin": {
+        "type": "integer",
+        "description": "Known spin protocol positions, not RPM: 1 = no spin, 2 = 400 RPM, 3 = 600 RPM, 4 = 800 RPM, 5 = 1000 RPM, 6 = 1200 RPM, 7 = 1400 RPM. Public fields also accept future numeric positions.",
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "x-enum-varnames": [
+          "ZeoSpinNull",
+          "ZeoSpinNone",
+          "ZeoSpinVeryLow",
+          "ZeoSpinLow",
+          "ZeoSpinMid",
+          "ZeoSpinHigh",
+          "ZeoSpinVeryHigh",
+          "ZeoSpinMax"
+        ]
+      },
+      "ZeoDryingMode": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "x-enum-varnames": [
+          "ZeoDryingModeNone",
+          "ZeoDryingModeQuick",
+          "ZeoDryingModeIron",
+          "ZeoDryingModeStore"
+        ]
+      },
+      "ZeoDetergentType": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "x-enum-varnames": [
+          "ZeoDetergentTypeEmpty",
+          "ZeoDetergentTypeLow",
+          "ZeoDetergentTypeMedium",
+          "ZeoDetergentTypeHigh"
+        ]
+      },
+      "ZeoSoftenerType": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "x-enum-varnames": [
+          "ZeoSoftenerTypeEmpty",
+          "ZeoSoftenerTypeLow",
+          "ZeoSoftenerTypeMedium",
+          "ZeoSoftenerTypeHigh"
+        ]
+      },
+      "ZeoDetergentExpansionType": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "x-enum-varnames": [
+          "ZeoDetergentExpansionTypeNull",
+          "ZeoDetergentExpansionTypeConcentratedDetergent",
+          "ZeoDetergentExpansionTypeDetergent"
+        ]
+      },
+      "ZeoSoftenerExpansionType": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "x-enum-varnames": [
+          "ZeoSoftenerExpansionTypeNull",
+          "ZeoSoftenerExpansionTypeSoftener",
+          "ZeoSoftenerExpansionTypeSoftenerExpansion",
+          "ZeoSoftenerExpansionTypeWoolDetergent"
+        ]
+      },
+      "ZeoDirtDetectionStatus": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "x-enum-varnames": [
+          "ZeoDirtDetectionStatusIdle",
+          "ZeoDirtDetectionStatusDetecting",
+          "ZeoDirtDetectionStatusDetectionCompleted"
+        ]
+      },
+      "ZeoError": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "x-enum-varnames": [
+          "ZeoErrorNone",
+          "ZeoErrorRefillError",
+          "ZeoErrorDrainError",
+          "ZeoErrorDoorLockError",
+          "ZeoErrorWaterLevelError",
+          "ZeoErrorInverterError",
+          "ZeoErrorHeatingError",
+          "ZeoErrorTemperatureError",
+          "ZeoErrorCommunicationError",
+          "ZeoErrorDryingError",
+          "ZeoErrorDryingErrorE12",
+          "ZeoErrorDryingErrorE13",
+          "ZeoErrorDryingErrorE14",
+          "ZeoErrorDryingErrorE15",
+          "ZeoErrorDryingErrorE16",
+          "ZeoErrorDryingErrorWaterFlow",
+          "ZeoErrorDryingErrorRestart",
+          "ZeoErrorSpinError"
+        ]
+      },
+      "ZeoDryingMethod": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "x-enum-varnames": [
+          "ZeoDryingMethodNull",
+          "ZeoDryingMethodL1",
+          "ZeoDryingMethodL2",
+          "ZeoDryingMethodL3"
+        ]
+      },
+      "ZeoSteamVolume": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "x-enum-varnames": [
+          "ZeoSteamVolumeNone",
+          "ZeoSteamVolumeLow",
+          "ZeoSteamVolumeMedium",
+          "ZeoSteamVolumeHigh",
+          "ZeoSteamVolumeMax"
+        ]
+      },
+      "ZeoDryAndCare": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "x-enum-varnames": [
+          "ZeoDryAndCareNull",
+          "ZeoDryAndCareSoft",
+          "ZeoDryAndCareNormal"
+        ]
+      },
+      "ZeoDryerStartError": {
+        "type": "integer",
+        "description": "Known protocol values; unlisted future numeric values remain valid.",
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "x-enum-varnames": [
+          "ZeoDryerStartErrorNull",
+          "ZeoDryerStartErrorDryerRunning",
+          "ZeoDryerStartErrorDryerError",
+          "ZeoDryerStartErrorDryerDone",
+          "ZeoDryerStartErrorDryerWaitingHosting",
+          "ZeoDryerStartErrorDryerSmartHosting",
+          "ZeoDryerStartErrorDryerCountdown",
+          "ZeoDryerStartErrorDryerNetworkFail"
+        ]
+      },
+      "DyadProperty": {
+        "type": "integer",
+        "description": "A01 appliance datapoint identifier.",
+        "enum": [
+          134,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          212,
+          213,
+          214,
+          215,
+          216,
+          221,
+          222,
+          223,
+          224,
+          225,
+          226,
+          227,
+          228,
+          229,
+          230,
+          235,
+          237,
+          218,
+          219,
+          236
+        ],
+        "x-enum-varnames": [
+          "DyadPropertyDryingStatus",
+          "DyadPropertyStart",
+          "DyadPropertyStatus",
+          "DyadPropertySelfCleanMode",
+          "DyadPropertySelfCleanLevel",
+          "DyadPropertyWarmLevel",
+          "DyadPropertyCleanMode",
+          "DyadPropertySuction",
+          "DyadPropertyWaterLevel",
+          "DyadPropertyBrushSpeed",
+          "DyadPropertyPower",
+          "DyadPropertyCountdownTime",
+          "DyadPropertyAutoSelfCleanSet",
+          "DyadPropertyAutoDry",
+          "DyadPropertyMeshLeft",
+          "DyadPropertyBrushLeft",
+          "DyadPropertyError",
+          "DyadPropertyVolume",
+          "DyadPropertyStandLockAutoRun",
+          "DyadPropertyAutoSelfCleanSetMode",
+          "DyadPropertyAutoDryMode",
+          "DyadPropertySilentDryDuration",
+          "DyadPropertySilentMode",
+          "DyadPropertySilentModeStartTime",
+          "DyadPropertySilentModeEndTime",
+          "DyadPropertyRecentRunTime",
+          "DyadPropertyTotalRunTime",
+          "DyadPropertyFeatureInfo",
+          "DyadPropertyDryCountdown",
+          "DyadPropertyMeshReset",
+          "DyadPropertyBrushReset",
+          "DyadPropertyRecoverSettings"
+        ]
+      },
+      "DyadState": {
+        "type": "object",
+        "description": "Presence-aware device state; nil fields were not returned by the appliance. Numeric enums retain future values. Only scalar datapoints with a documented type are projected; other known IDs are inventory entries and cannot be selected by this operation.",
+        "properties": {
+          "status": {
+            "x-go-name": "Status",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadStatus"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadStatus",
+            "description": "Known DyadStatus values and future numeric values are accepted."
+          },
+          "selfCleanMode": {
+            "x-go-name": "SelfCleanMode",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadSelfCleanMode"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadSelfCleanMode",
+            "description": "Known DyadSelfCleanMode values and future numeric values are accepted."
+          },
+          "selfCleanLevel": {
+            "x-go-name": "SelfCleanLevel",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadSelfCleanLevel"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadSelfCleanLevel",
+            "description": "Known DyadSelfCleanLevel values and future numeric values are accepted."
+          },
+          "warmLevel": {
+            "x-go-name": "WarmLevel",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadWarmLevel"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadWarmLevel",
+            "description": "Known DyadWarmLevel values and future numeric values are accepted."
+          },
+          "cleanMode": {
+            "x-go-name": "CleanMode",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadCleanMode"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadCleanMode",
+            "description": "Known DyadCleanMode values and future numeric values are accepted."
+          },
+          "suction": {
+            "x-go-name": "Suction",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadSuction"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadSuction",
+            "description": "Known DyadSuction values and future numeric values are accepted."
+          },
+          "waterLevel": {
+            "x-go-name": "WaterLevel",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadWaterLevel"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadWaterLevel",
+            "description": "Known DyadWaterLevel values and future numeric values are accepted."
+          },
+          "brushSpeed": {
+            "x-go-name": "BrushSpeed",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadBrushSpeed"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadBrushSpeed",
+            "description": "Known DyadBrushSpeed values and future numeric values are accepted."
+          },
+          "power": {
+            "type": "integer",
+            "description": "Device-reported integer value.",
+            "x-go-name": "Power"
+          },
+          "countdownTime": {
+            "type": "integer",
+            "description": "Device-reported integer value.",
+            "x-go-name": "CountdownTime"
+          },
+          "autoSelfCleanSet": {
+            "x-go-name": "AutoSelfCleanSet",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadSwitch"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadSwitch",
+            "description": "Known DyadSwitch values and future numeric values are accepted."
+          },
+          "autoDry": {
+            "x-go-name": "AutoDry",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadSwitch"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadSwitch",
+            "description": "Known DyadSwitch values and future numeric values are accepted."
+          },
+          "meshLeft": {
+            "type": "integer",
+            "description": "Device-reported integer value.",
+            "x-go-name": "MeshLeft"
+          },
+          "brushLeft": {
+            "type": "integer",
+            "description": "Device-reported integer value.",
+            "x-go-name": "BrushLeft"
+          },
+          "error": {
+            "x-go-name": "Error",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadError"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadError",
+            "description": "Known DyadError values and future numeric values are accepted."
+          },
+          "volume": {
+            "type": "integer",
+            "description": "Speaker volume percent, from 0 through 100.",
+            "x-go-name": "Volume",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "standLockAutoRun": {
+            "x-go-name": "StandLockAutoRun",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadSwitch"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadSwitch",
+            "description": "Known DyadSwitch values and future numeric values are accepted."
+          },
+          "autoSelfCleanSetMode": {
+            "x-go-name": "AutoSelfCleanSetMode",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadSelfCleanMode"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadSelfCleanMode",
+            "description": "Known DyadSelfCleanMode values and future numeric values are accepted."
+          },
+          "autoDryMode": {
+            "x-go-name": "AutoDryMode",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadSwitch"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadSwitch",
+            "description": "Known DyadSwitch values and future numeric values are accepted."
+          },
+          "silentDryDuration": {
+            "type": "integer",
+            "description": "Device-reported integer value.",
+            "x-go-name": "SilentDryDuration"
+          },
+          "silentMode": {
+            "x-go-name": "SilentMode",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadSwitch"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadSwitch",
+            "description": "Known DyadSwitch values and future numeric values are accepted."
+          },
+          "silentModeStartTime": {
+            "type": "integer",
+            "description": "Minute of day, from 0 through 1439, in the appliance local timezone.",
+            "x-go-name": "SilentModeStartTime",
+            "minimum": 0,
+            "maximum": 1439
+          },
+          "silentModeEndTime": {
+            "type": "integer",
+            "description": "Minute of day, from 0 through 1439, in the appliance local timezone.",
+            "x-go-name": "SilentModeEndTime",
+            "minimum": 0,
+            "maximum": 1439
+          },
+          "recentRunTime": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "description": "Daily cleaning durations, in minutes, decoded from the comma-delimited appliance value.",
+            "x-go-name": "RecentRunTime"
+          },
+          "totalRunTime": {
+            "type": "integer",
+            "description": "Device-reported integer value.",
+            "x-go-name": "TotalRunTime"
+          },
+          "dryCountdown": {
+            "type": "integer",
+            "description": "Device-reported integer value.",
+            "x-go-name": "DryCountdown"
+          }
+        }
+      },
+      "SetDyadSettingsRequest": {
+        "type": "object",
+        "description": "Sparse settings update. Absent fields are never sent. Integer switches use the appliance protocol value (typically 0 or 1).",
+        "properties": {
+          "selfCleanMode": {
+            "x-go-name": "SelfCleanMode",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadSelfCleanMode"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadSelfCleanMode",
+            "description": "Known DyadSelfCleanMode values and future numeric values are accepted."
+          },
+          "selfCleanLevel": {
+            "x-go-name": "SelfCleanLevel",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadSelfCleanLevel"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadSelfCleanLevel",
+            "description": "Known DyadSelfCleanLevel values and future numeric values are accepted."
+          },
+          "warmLevel": {
+            "x-go-name": "WarmLevel",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadWarmLevel"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadWarmLevel",
+            "description": "Known DyadWarmLevel values and future numeric values are accepted."
+          },
+          "cleanMode": {
+            "x-go-name": "CleanMode",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadCleanMode"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadCleanMode",
+            "description": "Known DyadCleanMode values and future numeric values are accepted."
+          },
+          "suction": {
+            "x-go-name": "Suction",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadSuction"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadSuction",
+            "description": "Known DyadSuction values and future numeric values are accepted."
+          },
+          "waterLevel": {
+            "x-go-name": "WaterLevel",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadWaterLevel"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadWaterLevel",
+            "description": "Known DyadWaterLevel values and future numeric values are accepted."
+          },
+          "brushSpeed": {
+            "x-go-name": "BrushSpeed",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadBrushSpeed"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadBrushSpeed",
+            "description": "Known DyadBrushSpeed values and future numeric values are accepted."
+          },
+          "autoSelfCleanSet": {
+            "x-go-name": "AutoSelfCleanSet",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadSwitch"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadSwitch",
+            "description": "Known DyadSwitch values and future numeric values are accepted."
+          },
+          "autoDry": {
+            "x-go-name": "AutoDry",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadSwitch"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadSwitch",
+            "description": "Known DyadSwitch values and future numeric values are accepted."
+          },
+          "volume": {
+            "type": "integer",
+            "description": "Speaker volume percent, from 0 through 100.",
+            "x-go-name": "Volume",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "standLockAutoRun": {
+            "x-go-name": "StandLockAutoRun",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadSwitch"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadSwitch",
+            "description": "Known DyadSwitch values and future numeric values are accepted."
+          },
+          "autoSelfCleanSetMode": {
+            "x-go-name": "AutoSelfCleanSetMode",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadSelfCleanMode"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadSelfCleanMode",
+            "description": "Known DyadSelfCleanMode values and future numeric values are accepted."
+          },
+          "autoDryMode": {
+            "x-go-name": "AutoDryMode",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadSwitch"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadSwitch",
+            "description": "Known DyadSwitch values and future numeric values are accepted."
+          },
+          "silentDryDuration": {
+            "type": "integer",
+            "description": "Device-reported integer value.",
+            "x-go-name": "SilentDryDuration"
+          },
+          "silentMode": {
+            "x-go-name": "SilentMode",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadSwitch"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DyadSwitch",
+            "description": "Known DyadSwitch values and future numeric values are accepted."
+          },
+          "silentModeStartTime": {
+            "type": "integer",
+            "description": "Minute of day, from 0 through 1439, in the appliance local timezone.",
+            "x-go-name": "SilentModeStartTime",
+            "minimum": 0,
+            "maximum": 1439
+          },
+          "silentModeEndTime": {
+            "type": "integer",
+            "description": "Minute of day, from 0 through 1439, in the appliance local timezone.",
+            "x-go-name": "SilentModeEndTime",
+            "minimum": 0,
+            "maximum": 1439
+          }
+        },
+        "minProperties": 1
+      },
+      "ZeoProperty": {
+        "type": "integer",
+        "description": "A01 appliance datapoint identifier.",
+        "enum": [
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220,
+          221,
+          222,
+          223,
+          224,
+          225,
+          226,
+          227,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          235,
+          236,
+          237,
+          238,
+          239,
+          240,
+          241,
+          242,
+          244,
+          245,
+          247,
+          248,
+          249,
+          250,
+          251,
+          252,
+          253,
+          254,
+          255,
+          256,
+          257,
+          258,
+          260,
+          261,
+          262,
+          263,
+          264,
+          265,
+          266
+        ],
+        "x-enum-varnames": [
+          "ZeoPropertyStart",
+          "ZeoPropertyPause",
+          "ZeoPropertyShutdown",
+          "ZeoPropertyStatus",
+          "ZeoPropertyMode",
+          "ZeoPropertyProgram",
+          "ZeoPropertyChildLock",
+          "ZeoPropertyTemperature",
+          "ZeoPropertyRinse",
+          "ZeoPropertySpin",
+          "ZeoPropertyDryingMode",
+          "ZeoPropertyDetergentSet",
+          "ZeoPropertySoftenerSet",
+          "ZeoPropertyDetergentType",
+          "ZeoPropertySoftenerType",
+          "ZeoPropertyDirtDetectionSwitch",
+          "ZeoPropertyDirtDetectionStatus",
+          "ZeoPropertyCountdown",
+          "ZeoPropertyWashingLeft",
+          "ZeoPropertyDoorLockState",
+          "ZeoPropertyError",
+          "ZeoPropertyCustomParamSave",
+          "ZeoPropertyCustomParamGet",
+          "ZeoPropertySound",
+          "ZeoPropertyTimesAfterClean",
+          "ZeoPropertyDefaultSetting",
+          "ZeoPropertyDetergentEmpty",
+          "ZeoPropertySoftenerEmpty",
+          "ZeoPropertyUVLight",
+          "ZeoPropertyLightSetting",
+          "ZeoPropertyDetergentVolume",
+          "ZeoPropertySoftenerVolume",
+          "ZeoPropertyAppAuthorization",
+          "ZeoPropertySoak",
+          "ZeoPropertyTotalTime",
+          "ZeoPropertySmartHosting",
+          "ZeoPropertySmartHostingTime",
+          "ZeoPropertyFeatureBits",
+          "ZeoPropertySmartHostingWaitedTime",
+          "ZeoPropertyCustomProgramCleaningTime",
+          "ZeoPropertySilentMode",
+          "ZeoPropertySilentModeStartTime",
+          "ZeoPropertySilentModeEndTime",
+          "ZeoPropertyDryCareMode",
+          "ZeoPropertySoftenerExpansionType",
+          "ZeoPropertySmileLightStatus",
+          "ZeoPropertyDetergentExpansionType",
+          "ZeoPropertyFluffCleaned",
+          "ZeoPropertyNeedFluffClean",
+          "ZeoPropertyPowerLight",
+          "ZeoPropertyPanelProgramParamsSet",
+          "ZeoPropertyPanelProgramParamsSetResult",
+          "ZeoPropertySaveAdaptedCloudProgram",
+          "ZeoPropertyWashDryLinked",
+          "ZeoPropertyDryingMethod",
+          "ZeoPropertySteamVolume",
+          "ZeoPropertyIonDeodorization",
+          "ZeoPropertyPanelTimingProgramParams",
+          "ZeoPropertySteamCareTime",
+          "ZeoPropertyDeviceBound",
+          "ZeoPropertyClothPutIn",
+          "ZeoPropertyClothReadyToDryCountdown",
+          "ZeoPropertyStartDryerError",
+          "ZeoPropertyWiFiLinkageReset"
+        ]
+      },
+      "ZeoState": {
+        "type": "object",
+        "description": "Presence-aware device state; nil fields were not returned by the appliance. Numeric enums retain future values. Only scalar datapoints with a documented type are projected; other known IDs are inventory entries and cannot be selected by this operation.",
+        "properties": {
+          "start": {
+            "type": "boolean",
+            "x-go-name": "Start",
+            "description": "Appliance boolean value."
+          },
+          "pause": {
+            "type": "boolean",
+            "x-go-name": "Pause",
+            "description": "Appliance boolean value."
+          },
+          "shutdown": {
+            "type": "boolean",
+            "x-go-name": "Shutdown",
+            "description": "Appliance boolean value."
+          },
+          "status": {
+            "x-go-name": "Status",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoStatus"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoStatus",
+            "description": "Known ZeoStatus values and future numeric values are accepted."
+          },
+          "mode": {
+            "x-go-name": "Mode",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoMode"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoMode",
+            "description": "Known ZeoMode values and future numeric values are accepted."
+          },
+          "program": {
+            "x-go-name": "Program",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoProgram"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoProgram",
+            "description": "Known ZeoProgram values and future numeric values are accepted."
+          },
+          "childLock": {
+            "type": "boolean",
+            "x-go-name": "ChildLock",
+            "description": "Appliance boolean value."
+          },
+          "temperature": {
+            "x-go-name": "Temperature",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoTemperature"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoTemperature",
+            "description": "Known ZeoTemperature values and future numeric values are accepted."
+          },
+          "rinse": {
+            "x-go-name": "Rinse",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoRinse"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoRinse",
+            "description": "Known ZeoRinse values and future numeric values are accepted."
+          },
+          "spin": {
+            "x-go-name": "Spin",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoSpin"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoSpin",
+            "description": "Known ZeoSpin values and future numeric values are accepted."
+          },
+          "dryingMode": {
+            "x-go-name": "DryingMode",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoDryingMode"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoDryingMode",
+            "description": "Known ZeoDryingMode values and future numeric values are accepted."
+          },
+          "detergentSet": {
+            "type": "boolean",
+            "x-go-name": "DetergentSet",
+            "description": "Appliance boolean value."
+          },
+          "softenerSet": {
+            "type": "boolean",
+            "x-go-name": "SoftenerSet",
+            "description": "Appliance boolean value."
+          },
+          "detergentType": {
+            "x-go-name": "DetergentType",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoDetergentType"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoDetergentType",
+            "description": "Known ZeoDetergentType values and future numeric values are accepted."
+          },
+          "softenerType": {
+            "x-go-name": "SoftenerType",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoSoftenerType"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoSoftenerType",
+            "description": "Known ZeoSoftenerType values and future numeric values are accepted."
+          },
+          "dirtDetectionStatus": {
+            "x-go-name": "DirtDetectionStatus",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoDirtDetectionStatus"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoDirtDetectionStatus",
+            "description": "Known ZeoDirtDetectionStatus values and future numeric values are accepted."
+          },
+          "countdown": {
+            "type": "integer",
+            "description": "Device-reported integer value.",
+            "x-go-name": "Countdown"
+          },
+          "washingLeft": {
+            "type": "integer",
+            "description": "Device-reported integer value.",
+            "x-go-name": "WashingLeft"
+          },
+          "doorLockState": {
+            "type": "boolean",
+            "x-go-name": "DoorLockState",
+            "description": "Appliance boolean value."
+          },
+          "error": {
+            "x-go-name": "Error",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoError"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoError",
+            "description": "Known ZeoError values and future numeric values are accepted."
+          },
+          "customParamSave": {
+            "type": "integer",
+            "description": "Device-reported integer value.",
+            "x-go-name": "CustomParamSave"
+          },
+          "customParamGet": {
+            "type": "integer",
+            "description": "Device-reported integer value.",
+            "x-go-name": "CustomParamGet"
+          },
+          "sound": {
+            "type": "boolean",
+            "x-go-name": "Sound",
+            "description": "Appliance boolean value."
+          },
+          "timesAfterClean": {
+            "type": "integer",
+            "description": "Device-reported integer value.",
+            "x-go-name": "TimesAfterClean"
+          },
+          "defaultSetting": {
+            "type": "boolean",
+            "x-go-name": "DefaultSetting",
+            "description": "Appliance boolean value."
+          },
+          "detergentEmpty": {
+            "type": "boolean",
+            "x-go-name": "DetergentEmpty",
+            "description": "Appliance boolean value."
+          },
+          "softenerEmpty": {
+            "type": "boolean",
+            "x-go-name": "SoftenerEmpty",
+            "description": "Appliance boolean value."
+          },
+          "lightSetting": {
+            "type": "boolean",
+            "x-go-name": "LightSetting",
+            "description": "Appliance boolean value."
+          },
+          "detergentVolume": {
+            "type": "integer",
+            "description": "Device-reported integer value.",
+            "x-go-name": "DetergentVolume"
+          },
+          "softenerVolume": {
+            "type": "integer",
+            "description": "Device-reported integer value.",
+            "x-go-name": "SoftenerVolume"
+          },
+          "appAuthorization": {
+            "type": "integer",
+            "description": "Device-reported integer value.",
+            "x-go-name": "AppAuthorization"
+          },
+          "soak": {
+            "x-go-name": "Soak",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoSoak"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoSoak",
+            "description": "Known ZeoSoak values and future numeric values are accepted."
+          },
+          "totalTime": {
+            "type": "integer",
+            "description": "Device-reported integer value.",
+            "x-go-name": "TotalTime"
+          },
+          "featureBits": {
+            "type": "integer",
+            "description": "Device-reported integer value.",
+            "x-go-name": "FeatureBits"
+          },
+          "customProgramCleaningTime": {
+            "type": "integer",
+            "description": "Device-reported integer value.",
+            "x-go-name": "CustomProgramCleaningTime"
+          },
+          "silentModeStartTime": {
+            "type": "integer",
+            "description": "Minute of day, from 0 through 1439, in the appliance local timezone.",
+            "x-go-name": "SilentModeStartTime",
+            "minimum": 0,
+            "maximum": 1439
+          },
+          "silentModeEndTime": {
+            "type": "integer",
+            "description": "Minute of day, from 0 through 1439, in the appliance local timezone.",
+            "x-go-name": "SilentModeEndTime",
+            "minimum": 0,
+            "maximum": 1439
+          },
+          "dryCareMode": {
+            "x-go-name": "DryCareMode",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoDryAndCare"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoDryAndCare",
+            "description": "Known ZeoDryAndCare values and future numeric values are accepted."
+          },
+          "softenerExpansionType": {
+            "x-go-name": "SoftenerExpansionType",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoSoftenerExpansionType"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoSoftenerExpansionType",
+            "description": "Known ZeoSoftenerExpansionType values and future numeric values are accepted."
+          },
+          "detergentExpansionType": {
+            "x-go-name": "DetergentExpansionType",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoDetergentExpansionType"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoDetergentExpansionType",
+            "description": "Known ZeoDetergentExpansionType values and future numeric values are accepted."
+          },
+          "dryingMethod": {
+            "x-go-name": "DryingMethod",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoDryingMethod"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoDryingMethod",
+            "description": "Known ZeoDryingMethod values and future numeric values are accepted."
+          },
+          "steamVolume": {
+            "x-go-name": "SteamVolume",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoSteamVolume"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoSteamVolume",
+            "description": "Known ZeoSteamVolume values and future numeric values are accepted."
+          },
+          "steamCareTime": {
+            "type": "integer",
+            "description": "Device-reported integer value.",
+            "x-go-name": "SteamCareTime"
+          },
+          "startDryerError": {
+            "x-go-name": "StartDryerError",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoDryerStartError"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoDryerStartError",
+            "description": "Known ZeoDryerStartError values and future numeric values are accepted."
+          }
+        }
+      },
+      "SetZeoSettingsRequest": {
+        "type": "object",
+        "description": "Sparse settings update. Absent fields are never sent. Switches use boolean values on the appliance protocol.",
+        "properties": {
+          "childLock": {
+            "type": "boolean",
+            "x-go-name": "ChildLock",
+            "description": "Appliance boolean value."
+          },
+          "detergentSet": {
+            "type": "boolean",
+            "x-go-name": "DetergentSet",
+            "description": "Appliance boolean value."
+          },
+          "softenerSet": {
+            "type": "boolean",
+            "x-go-name": "SoftenerSet",
+            "description": "Appliance boolean value."
+          },
+          "detergentType": {
+            "x-go-name": "DetergentType",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoDetergentType"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoDetergentType",
+            "description": "Known ZeoDetergentType values and future numeric values are accepted."
+          },
+          "softenerType": {
+            "x-go-name": "SoftenerType",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoSoftenerType"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoSoftenerType",
+            "description": "Known ZeoSoftenerType values and future numeric values are accepted."
+          },
+          "countdown": {
+            "type": "integer",
+            "description": "Device-reported integer value.",
+            "x-go-name": "Countdown"
+          },
+          "sound": {
+            "type": "boolean",
+            "x-go-name": "Sound",
+            "description": "Appliance boolean value."
+          },
+          "lightSetting": {
+            "type": "boolean",
+            "x-go-name": "LightSetting",
+            "description": "Appliance boolean value."
+          },
+          "detergentVolume": {
+            "type": "integer",
+            "description": "Device-reported integer value.",
+            "x-go-name": "DetergentVolume"
+          },
+          "softenerVolume": {
+            "type": "integer",
+            "description": "Device-reported integer value.",
+            "x-go-name": "SoftenerVolume"
+          },
+          "silentModeStartTime": {
+            "type": "integer",
+            "description": "Minute of day, from 0 through 1439, in the appliance local timezone.",
+            "x-go-name": "SilentModeStartTime",
+            "minimum": 0,
+            "maximum": 1439
+          },
+          "silentModeEndTime": {
+            "type": "integer",
+            "description": "Minute of day, from 0 through 1439, in the appliance local timezone.",
+            "x-go-name": "SilentModeEndTime",
+            "minimum": 0,
+            "maximum": 1439
+          },
+          "softenerExpansionType": {
+            "x-go-name": "SoftenerExpansionType",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoSoftenerExpansionType"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoSoftenerExpansionType",
+            "description": "Known ZeoSoftenerExpansionType values and future numeric values are accepted."
+          },
+          "detergentExpansionType": {
+            "x-go-name": "DetergentExpansionType",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoDetergentExpansionType"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoDetergentExpansionType",
+            "description": "Known ZeoDetergentExpansionType values and future numeric values are accepted."
+          }
+        },
+        "minProperties": 1
+      },
+      "StartZeoRequest": {
+        "type": "object",
+        "description": "Start command. Mode and program must be supplied together; optional settings are sent only when provided. Acknowledgement is not completion of the physical cycle.",
+        "required": [
+          "mode",
+          "program"
+        ],
+        "properties": {
+          "mode": {
+            "x-go-name": "Mode",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoMode"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoMode",
+            "description": "Known ZeoMode values and future numeric values are accepted.",
+            "not": {
+              "enum": [
+                0
+              ]
+            }
+          },
+          "program": {
+            "x-go-name": "Program",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoProgram"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoProgram",
+            "description": "Known ZeoProgram values and future numeric values are accepted.",
+            "not": {
+              "enum": [
+                0
+              ]
+            }
+          },
+          "temperature": {
+            "x-go-name": "Temperature",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoTemperature"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoTemperature",
+            "description": "Known ZeoTemperature values and future numeric values are accepted."
+          },
+          "rinse": {
+            "x-go-name": "Rinse",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoRinse"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoRinse",
+            "description": "Known ZeoRinse values and future numeric values are accepted."
+          },
+          "spin": {
+            "x-go-name": "Spin",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoSpin"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoSpin",
+            "description": "Known ZeoSpin values and future numeric values are accepted."
+          },
+          "dryingMode": {
+            "x-go-name": "DryingMode",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoDryingMode"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoDryingMode",
+            "description": "Known ZeoDryingMode values and future numeric values are accepted."
+          },
+          "soak": {
+            "x-go-name": "Soak",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoSoak"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoSoak",
+            "description": "Known ZeoSoak values and future numeric values are accepted."
+          },
+          "dryCareMode": {
+            "x-go-name": "DryCareMode",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoDryAndCare"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoDryAndCare",
+            "description": "Known ZeoDryAndCare values and future numeric values are accepted."
+          },
+          "dryingMethod": {
+            "x-go-name": "DryingMethod",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoDryingMethod"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoDryingMethod",
+            "description": "Known ZeoDryingMethod values and future numeric values are accepted."
+          },
+          "steamVolume": {
+            "x-go-name": "SteamVolume",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ZeoSteamVolume"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ZeoSteamVolume",
+            "description": "Known ZeoSteamVolume values and future numeric values are accepted."
+          }
+        }
+      },
+      "GetDyadStateRequest": {
+        "type": "object",
+        "description": "Select the appliance-supported properties to query. Every selected property must be returned before the transport completes; unselected state fields remain nil. Select only properties represented by the typed state model; metadata and unknown-shape datapoints are unsupported by this method.",
+        "required": [
+          "properties"
+        ],
+        "properties": {
+          "properties": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "$ref": "#/components/schemas/DyadProperty"
+            }
+          }
+        }
+      },
+      "GetZeoStateRequest": {
+        "type": "object",
+        "description": "Select the appliance-supported properties to query. Every selected property must be returned before the transport completes; unselected state fields remain nil. Select only properties represented by the typed state model; metadata and unknown-shape datapoints are unsupported by this method.",
+        "required": [
+          "properties"
+        ],
+        "properties": {
+          "properties": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "$ref": "#/components/schemas/ZeoProperty"
+            }
+          }
+        }
+      },
+      "DyadSwitch": {
+        "type": "integer",
+        "description": "Dyad switch encoded as integer 0 (off) or 1 (on). Unlisted values remain representable.",
+        "enum": [
+          0,
+          1
+        ],
+        "x-enum-varnames": [
+          "DyadSwitchOff",
+          "DyadSwitchOn"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,950 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Roborock authentication API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://usiot.roborock.com"
+    },
+    {
+      "url": "https://euiot.roborock.com"
+    },
+    {
+      "url": "https://cniot.roborock.com"
+    },
+    {
+      "url": "https://ruiot.roborock.com"
+    }
+  ],
+  "paths": {
+    "/api/v1/getUrlByEmail": {
+      "post": {
+        "operationId": "ResolveRegion",
+        "summary": "Resolve Region",
+        "description": "Reference contract from the pinned Python Roborock web API; caller selects the region explicitly.",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "needtwostepauth",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "false"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vendor response envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegionResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "authentication"
+        ]
+      }
+    },
+    "/api/v4/email/code/send": {
+      "post": {
+        "operationId": "RequestCode",
+        "summary": "Request Code",
+        "description": "Reference contract from the pinned Python Roborock web API; caller selects the region explicitly.",
+        "parameters": [
+          {
+            "name": "header_clientid",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "header_clientlang",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ClientLanguage"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vendor response envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CodeResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/CodeRequest"
+              }
+            }
+          }
+        },
+        "tags": [
+          "authentication"
+        ]
+      }
+    },
+    "/api/v3/key/sign": {
+      "post": {
+        "operationId": "SignKey",
+        "summary": "Sign Key",
+        "description": "Reference contract from the pinned Python Roborock web API; caller selects the region explicitly.",
+        "parameters": [
+          {
+            "name": "s",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{16}$"
+            },
+            "example": "A1b2C3d4E5f6G7h8"
+          },
+          {
+            "name": "header_clientid",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vendor response envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "authentication"
+        ]
+      }
+    },
+    "/api/v3/app/agreement/latest": {
+      "get": {
+        "operationId": "GetAgreement",
+        "summary": "Get Agreement",
+        "description": "Reference contract from the pinned Python Roborock web API; caller selects the region explicitly.",
+        "parameters": [
+          {
+            "name": "country",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "header_clientlang",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ClientLanguage"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vendor response envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgreementResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "authentication"
+        ]
+      }
+    },
+    "/api/v4/auth/email/login/code": {
+      "post": {
+        "operationId": "LoginCode",
+        "summary": "Login Code",
+        "description": "Reference contract from the pinned Python Roborock web API; caller selects the region explicitly.",
+        "parameters": [
+          {
+            "name": "header_clientid",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "header_clientlang",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ClientLanguage"
+            }
+          },
+          {
+            "name": "x-mercy-ks",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-mercy-k",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "header_appversion",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/AppVersion"
+            }
+          },
+          {
+            "name": "header_phonesystem",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/PhoneSystem"
+            }
+          },
+          {
+            "name": "header_phonemodel",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/PhoneModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vendor response envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/CodeLoginForm"
+              },
+              "example": {
+                "email": "synthetic@example.test",
+                "code": "001234",
+                "country": "GB",
+                "countryCode": "44",
+                "majorVersion": 19,
+                "minorVersion": 1
+              }
+            }
+          }
+        },
+        "tags": [
+          "authentication"
+        ]
+      }
+    },
+    "/api/v1/login": {
+      "post": {
+        "operationId": "LoginPassword",
+        "summary": "Login Password",
+        "description": "Reference contract from the pinned Python Roborock web API; caller selects the region explicitly.",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "needtwostepauth",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "false"
+              ]
+            }
+          },
+          {
+            "name": "header_clientid",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vendor response envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "authentication"
+        ]
+      }
+    },
+    "/api/v1/loginWithCode": {
+      "post": {
+        "operationId": "LoginLegacyCode",
+        "summary": "Login Legacy Code",
+        "description": "Reference contract from the pinned Python Roborock web API; caller selects the region explicitly.",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "verifycode",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "verifycodetype",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "AUTH_EMAIL_CODE"
+              ]
+            }
+          },
+          {
+            "name": "header_clientid",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vendor response envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "authentication"
+        ]
+      }
+    },
+    "/api/v1/getHomeDetail": {
+      "get": {
+        "operationId": "GetHomeDetail",
+        "summary": "Get Home Detail",
+        "description": "Reference contract from the pinned Python Roborock web API; caller selects the region explicitly.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "header_clientid",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vendor response envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HomeDetailResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "authentication"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RRiot": {
+        "type": "object",
+        "properties": {
+          "u": {
+            "type": "string"
+          },
+          "s": {
+            "type": "string"
+          },
+          "h": {
+            "type": "string"
+          },
+          "k": {
+            "type": "string"
+          },
+          "r": {
+            "$ref": "#/components/schemas/RRiotReference"
+          }
+        },
+        "required": [
+          "u",
+          "s",
+          "h",
+          "k",
+          "r"
+        ],
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "x-go-type-skip-optional-pointer": false
+      },
+      "RRiotReference": {
+        "type": "object",
+        "properties": {
+          "r": {
+            "type": "string",
+            "nullable": true
+          },
+          "a": {
+            "type": "string",
+            "nullable": true
+          },
+          "m": {
+            "type": "string",
+            "nullable": true
+          },
+          "l": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [],
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "x-go-type-skip-optional-pointer": false
+      },
+      "UserData": {
+        "type": "object",
+        "properties": {
+          "rriot": {
+            "$ref": "#/components/schemas/RRiot"
+          },
+          "uid": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "tokentype": {
+            "type": "string",
+            "nullable": true
+          },
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "rruid": {
+            "type": "string",
+            "nullable": true
+          },
+          "region": {
+            "type": "string",
+            "nullable": true
+          },
+          "countrycode": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "nickname": {
+            "type": "string",
+            "nullable": true
+          },
+          "tuyaDeviceState": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "avatarurl": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "rriot"
+        ],
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "x-go-type-skip-optional-pointer": false,
+        "nullable": true
+      },
+      "RegionData": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "countrycode": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer",
+                "format": "int64"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "x-go-type-skip-optional-pointer": false,
+        "nullable": true
+      },
+      "Agreement": {
+        "type": "object",
+        "properties": {
+          "majorVersion": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "minorVersion": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "majorVersion",
+          "minorVersion"
+        ],
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "x-go-type-skip-optional-pointer": false,
+        "nullable": true
+      },
+      "SignedKey": {
+        "type": "object",
+        "properties": {
+          "k": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "k"
+        ],
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "x-go-type-skip-optional-pointer": false,
+        "nullable": true
+      },
+      "HomeDetail": {
+        "type": "object",
+        "properties": {
+          "rrHomeId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "rrHomeId"
+        ],
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "x-go-type-skip-optional-pointer": false,
+        "nullable": true
+      },
+      "CodeRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "login"
+            ]
+          },
+          "platform": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "type",
+          "platform"
+        ],
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "x-go-type-skip-optional-pointer": false,
+        "example": {
+          "email": "synthetic@example.test",
+          "type": "login",
+          "platform": ""
+        }
+      },
+      "CodeLoginForm": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "synthetic@example.test"
+          },
+          "code": {
+            "type": "string",
+            "example": "001234"
+          },
+          "country": {
+            "type": "string",
+            "example": "GB"
+          },
+          "countryCode": {
+            "type": "string",
+            "example": "44"
+          },
+          "majorVersion": {
+            "type": "integer",
+            "format": "int64",
+            "example": 19
+          },
+          "minorVersion": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          }
+        },
+        "required": [
+          "email",
+          "code",
+          "country",
+          "countryCode",
+          "majorVersion",
+          "minorVersion"
+        ],
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "x-go-type-skip-optional-pointer": false,
+        "example": {
+          "email": "synthetic@example.test",
+          "code": "001234",
+          "country": "GB",
+          "countryCode": "44",
+          "majorVersion": 19,
+          "minorVersion": 1
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "msg": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/UserData",
+            "nullable": true
+          }
+        },
+        "required": [
+          "code"
+        ],
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "x-go-type-skip-optional-pointer": false
+      },
+      "RegionResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "msg": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/RegionData",
+            "nullable": true
+          }
+        },
+        "required": [
+          "code"
+        ],
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "x-go-type-skip-optional-pointer": false
+      },
+      "AgreementResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "msg": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/Agreement",
+            "nullable": true
+          }
+        },
+        "required": [
+          "code"
+        ],
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "x-go-type-skip-optional-pointer": false
+      },
+      "SignResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "msg": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/SignedKey",
+            "nullable": true
+          }
+        },
+        "required": [
+          "code"
+        ],
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "x-go-type-skip-optional-pointer": false
+      },
+      "HomeDetailResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "msg": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/HomeDetail",
+            "nullable": true
+          }
+        },
+        "required": [
+          "code"
+        ],
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "x-go-type-skip-optional-pointer": false
+      },
+      "CodeResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "msg": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "code"
+        ],
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "x-go-type-skip-optional-pointer": false
+      },
+      "VendorCode": {
+        "description": "Open vendor result code. Known values are preserved without rejecting future result codes.",
+        "x-known-values": {
+          "VendorCodeInvalidEmail": 2003,
+          "VendorCodeSuccess": 200,
+          "VendorCodeAccountMissing": 2008,
+          "VendorCodeMissingParameters": 1001,
+          "VendorCodeInvalidCredentials": 2010,
+          "VendorCodeTooFrequent": 9002,
+          "VendorCodeWrongRegion": 3039,
+          "VendorCodeAgreementRequired": 3009,
+          "VendorCodeDeletedAccount": 3030,
+          "VendorCodeInvalidAgreement": 3006,
+          "VendorCodeInvalidCode": 2018
+        },
+        "type": "integer"
+      },
+      "AppVersion": {
+        "x-enum-varnames": [
+          "AppVersionIOS"
+        ],
+        "enum": [
+          "4.54.02"
+        ],
+        "type": "string"
+      },
+      "ClientLanguage": {
+        "x-enum-varnames": [
+          "ClientLanguageEnglish"
+        ],
+        "enum": [
+          "en"
+        ],
+        "type": "string"
+      },
+      "PhoneSystem": {
+        "x-enum-varnames": [
+          "PhoneSystemIOS"
+        ],
+        "enum": [
+          "iOS"
+        ],
+        "type": "string"
+      },
+      "PhoneModel": {
+        "x-enum-varnames": [
+          "PhoneModelIPhone16"
+        ],
+        "enum": [
+          "iPhone16,1"
+        ],
+        "type": "string"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "authentication",
+      "description": "Typed Roborock authentication operations"
+    }
+  ],
+  "x-wire-constants": {
+    "RESTMercyCharacters": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+    "RESTMercyNonceLength": 16,
+    "RESTHawkEntropyBytes": 6,
+    "RESTHawkHeaderFormat": "Hawk id=\"%s\",s=\"%s\",ts=\"%s\",nonce=\"%s\",mac=\"%s\"",
+    "RESTHawkMACInputFormat": "%s:%s:%s:%s:%s::",
+    "RESTMediaForm": "application/x-www-form-urlencoded",
+    "RESTMediaJSON": "application/json",
+    "RESTHeaderAccept": "Accept",
+    "RESTHeaderContentType": "Content-Type"
+  }
+}

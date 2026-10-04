@@ -1,0 +1,185 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "description": "Customer CLI JSON input and redacted identity output. These are semantic public SDK projections, not vendor wire contracts.",
+    "version": "0.1.0",
+    "title": "Roborock CLI input projections"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "CommandInput": {
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "clientId": {
+            "type": "string",
+            "x-go-name": "ClientID",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "code": {
+            "type": "string",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "password": {
+            "type": "string",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "deviceId": {
+            "type": "string",
+            "x-go-name": "DeviceID",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "localKey": {
+            "type": "string",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "auth": {
+            "type": "object",
+            "x-go-type": "roborock.AuthContext",
+            "x-go-type-import": {
+              "name": "roborock",
+              "path": "github.com/portpowered/go-roborock/pkg/roborock"
+            },
+            "x-go-type-skip-optional-pointer": true,
+            "allOf": [
+              {
+                "$ref": "./client-models.openapi.yaml#/components/schemas/AuthContext"
+              }
+            ]
+          },
+          "login": {
+            "type": "object",
+            "x-go-type": "roborock.LoginContext",
+            "x-go-type-import": {
+              "name": "roborock",
+              "path": "github.com/portpowered/go-roborock/pkg/roborock"
+            },
+            "x-go-type-skip-optional-pointer": true,
+            "allOf": [
+              {
+                "$ref": "./client-models.openapi.yaml#/components/schemas/LoginContext"
+              }
+            ]
+          },
+          "protocol": {
+            "type": "string",
+            "x-go-type": "roborock.ProtocolVersion",
+            "x-go-type-import": {
+              "name": "roborock",
+              "path": "github.com/portpowered/go-roborock/pkg/roborock"
+            },
+            "x-go-type-skip-optional-pointer": true,
+            "allOf": [
+              {
+                "$ref": "./client-models.openapi.yaml#/components/schemas/ProtocolVersion"
+              }
+            ]
+          },
+          "dyadProperties": {
+            "type": "array",
+            "x-go-type": "[]roborock.DyadProperty",
+            "x-go-type-import": {
+              "name": "roborock",
+              "path": "github.com/portpowered/go-roborock/pkg/roborock"
+            },
+            "x-go-type-skip-optional-pointer": true,
+            "items": {
+              "$ref": "./a01-models.openapi.yaml#/components/schemas/DyadProperty"
+            }
+          },
+          "zeoProperties": {
+            "type": "array",
+            "x-go-type": "[]roborock.ZeoProperty",
+            "x-go-type-import": {
+              "name": "roborock",
+              "path": "github.com/portpowered/go-roborock/pkg/roborock"
+            },
+            "x-go-type-skip-optional-pointer": true,
+            "items": {
+              "$ref": "./a01-models.openapi.yaml#/components/schemas/ZeoProperty"
+            }
+          },
+          "camera": {
+            "x-go-type": "roborock.OpenCameraRequest",
+            "x-go-type-import": {
+              "name": "roborock",
+              "path": "github.com/portpowered/go-roborock/pkg/roborock"
+            },
+            "type": "object",
+            "x-go-type-skip-optional-pointer": true,
+            "allOf": [
+              {
+                "$ref": "./operation-models.openapi.yaml#/components/schemas/OpenCameraRequest"
+              }
+            ]
+          }
+        }
+      },
+      "LoginIdentity": {
+        "type": "object",
+        "properties": {
+          "nickname": {
+            "type": "string"
+          },
+          "userId": {
+            "format": "int64",
+            "type": "integer",
+            "x-go-name": "UserID"
+          }
+        },
+        "required": [
+          "userId",
+          "nickname"
+        ]
+      },
+      "CameraIdentity": {
+        "required": [
+          "negotiated"
+        ],
+        "properties": {
+          "negotiated": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "CredentialExport": {
+        "type": "object",
+        "properties": {
+          "login": {
+            "type": "object",
+            "x-go-type-import": {
+              "name": "roborock",
+              "path": "github.com/portpowered/go-roborock/pkg/roborock"
+            },
+            "x-go-type": "roborock.LoginContext",
+            "allOf": [
+              {
+                "$ref": "./client-models.openapi.yaml#/components/schemas/LoginContext"
+              }
+            ]
+          },
+          "auth": {
+            "type": "object",
+            "x-go-type-import": {
+              "name": "roborock",
+              "path": "github.com/portpowered/go-roborock/pkg/roborock"
+            },
+            "x-go-type": "roborock.AuthContext",
+            "allOf": [
+              {
+                "$ref": "./client-models.openapi.yaml#/components/schemas/AuthContext"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

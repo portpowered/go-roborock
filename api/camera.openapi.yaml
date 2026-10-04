@@ -1,0 +1,471 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Roborock V1 camera signaling RPC inventory",
+    "version": "1.0.0",
+    "description": "Device MQTT JSON RPC inventory represented using OpenAPI for model generation and documentation. The path names are RPC method names and POST indicates a request/result exchange; these are not HTTP endpoints."
+  },
+  "paths": {
+    "/check_homesec_password": {
+      "post": {
+        "operationId": "CameraCheckPasswordRPC",
+        "summary": "CameraCheckPassword for camera signaling",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.OpenCamera through the Go SDK. See the camera guide at https://portpowered.github.io/go-roborock/docs/guides/camera. Reference V1 camera signaling contract; the caller supplies SDP and ICE from its WebRTC stack.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CameraPasswordParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Camera signaling result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CameraAcknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "camera"
+        ]
+      }
+    },
+    "/start_camera_preview": {
+      "post": {
+        "operationId": "CameraStartPreviewRPC",
+        "summary": "CameraStartPreview for camera signaling",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.OpenCamera through the Go SDK. See the camera guide at https://portpowered.github.io/go-roborock/docs/guides/camera. Reference V1 camera signaling contract; the caller supplies SDP and ICE from its WebRTC stack.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CameraPreviewParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Camera signaling result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CameraAcknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "camera"
+        ]
+      }
+    },
+    "/stop_camera_preview": {
+      "post": {
+        "operationId": "CameraStopPreviewRPC",
+        "summary": "CameraStopPreview for camera signaling",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke CameraSession.Close through the Go SDK. See the camera guide at https://portpowered.github.io/go-roborock/docs/guides/camera. Reference V1 camera signaling contract; the caller supplies SDP and ICE from its WebRTC stack.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CameraEmptyParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Camera signaling result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CameraAcknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "camera"
+        ]
+      }
+    },
+    "/get_turn_server": {
+      "post": {
+        "operationId": "CameraGetTURNRPC",
+        "summary": "CameraGetTURN for camera signaling",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.OpenCamera through the Go SDK. See the camera guide at https://portpowered.github.io/go-roborock/docs/guides/camera. Reference V1 camera signaling contract; the caller supplies SDP and ICE from its WebRTC stack.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CameraEmptyParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Camera signaling result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CameraTURN"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "camera"
+        ]
+      }
+    },
+    "/send_sdp_to_robot": {
+      "post": {
+        "operationId": "CameraSendSDPRPC",
+        "summary": "CameraSendSDP for camera signaling",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.OpenCamera through the Go SDK. See the camera guide at https://portpowered.github.io/go-roborock/docs/guides/camera. Reference V1 camera signaling contract; the caller supplies SDP and ICE from its WebRTC stack.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CameraSDPParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Camera signaling result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CameraAcknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "camera"
+        ]
+      }
+    },
+    "/get_device_sdp": {
+      "post": {
+        "operationId": "CameraGetSDPRPC",
+        "summary": "CameraGetSDP for camera signaling",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke DeviceSession.OpenCamera through the Go SDK. See the camera guide at https://portpowered.github.io/go-roborock/docs/guides/camera. Reference V1 camera signaling contract; the caller supplies SDP and ICE from its WebRTC stack.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CameraEmptyParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Camera signaling result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CameraDeviceSDP"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "camera"
+        ]
+      }
+    },
+    "/send_ice_to_robot": {
+      "post": {
+        "operationId": "CameraSendICERPC",
+        "summary": "CameraSendICE for camera signaling",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke CameraSession.SendICE through the Go SDK. See the camera guide at https://portpowered.github.io/go-roborock/docs/guides/camera. Reference V1 camera signaling contract; the caller supplies SDP and ICE from its WebRTC stack.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CameraICEParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Camera signaling result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CameraAcknowledgement"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "camera"
+        ]
+      }
+    },
+    "/get_device_ice": {
+      "post": {
+        "operationId": "CameraGetICERPC",
+        "summary": "CameraGetICE for camera signaling",
+        "description": "Documentation-only MQTT RPC: this path describes an encrypted device exchange, not an HTTP endpoint. Do not use the HTTP Send button or curl example shown by the reference renderer. Invoke CameraSession.GetICE through the Go SDK. See the camera guide at https://portpowered.github.io/go-roborock/docs/guides/camera. Reference V1 camera signaling contract; the caller supplies SDP and ICE from its WebRTC stack.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CameraEmptyParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Camera signaling result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CameraDeviceICE"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "camera"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CameraEmptyParameters": {
+        "type": "object",
+        "x-go-type": "struct{}",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "CameraPasswordParameters": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "password"
+        ]
+      },
+      "CameraPreviewParameters": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "description": ""
+          },
+          "quality": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "password",
+          "quality"
+        ]
+      },
+      "CameraSDPParameters": {
+        "type": "object",
+        "properties": {
+          "app_sdp": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "app_sdp"
+        ]
+      },
+      "CameraICEParameters": {
+        "type": "object",
+        "properties": {
+          "ice": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "ice"
+        ]
+      },
+      "CameraDeviceSDP": {
+        "type": "object",
+        "properties": {
+          "sdp": {
+            "type": "string",
+            "description": ""
+          },
+          "dev_sdp": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CameraSDPRetry"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "x-go-type": "string",
+            "description": "Base64 encoded answer envelope, or the retry token."
+          }
+        },
+        "additionalProperties": false
+      },
+      "CameraDeviceICE": {
+        "type": "object",
+        "properties": {
+          "ice": {
+            "type": "string",
+            "description": ""
+          },
+          "dev_ice": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "additionalProperties": false
+      },
+      "CameraTURN": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": ""
+          },
+          "user": {
+            "type": "string",
+            "description": ""
+          },
+          "pwd": {
+            "type": "string",
+            "description": ""
+          },
+          "username": {
+            "type": "string",
+            "description": ""
+          },
+          "credential": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "additionalProperties": false
+      },
+      "CameraSDPEnvelope": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/CameraSDPType"
+          },
+          "sdp": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "type",
+          "sdp"
+        ]
+      },
+      "CameraAcknowledgement": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "CameraRPCMethod": {
+        "type": "string",
+        "enum": [
+          "check_homesec_password",
+          "start_camera_preview",
+          "stop_camera_preview",
+          "get_turn_server",
+          "send_sdp_to_robot",
+          "get_device_sdp",
+          "send_ice_to_robot",
+          "get_device_ice"
+        ],
+        "x-enum-varnames": [
+          "RPCCameraCheckPassword",
+          "RPCCameraStartPreview",
+          "RPCCameraStopPreview",
+          "RPCCameraGetTURN",
+          "RPCCameraSendSDP",
+          "RPCCameraGetSDP",
+          "RPCCameraSendICE",
+          "RPCCameraGetICE"
+        ]
+      },
+      "CameraSDPType": {
+        "type": "string",
+        "enum": [
+          "offer",
+          "answer"
+        ],
+        "x-enum-varnames": [
+          "CameraSDPTypeOffer",
+          "CameraSDPTypeAnswer"
+        ],
+        "description": "SDP negotiation direction."
+      },
+      "CameraSDPRetry": {
+        "type": "string",
+        "enum": [
+          "retry"
+        ],
+        "x-enum-varnames": [
+          "CameraSDPRetryPending"
+        ],
+        "description": "Device requests bounded polling while answer is not ready."
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "camera",
+      "description": "Typed camera operations over the device MQTT JSON RPC channel."
+    }
+  ]
+}
+
+

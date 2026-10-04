@@ -3,6 +3,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"flag"
 	"fmt"
 	"os"
@@ -15,8 +16,8 @@ import (
 )
 
 const (
-	defaultModulePath        = "github.com/example/your-service-go"
-	defaultPublicPackages    = ".,httpclient"
+	defaultModulePath        = "github.com/portpowered/go-roborock"
+	defaultPublicPackages    = "pkg/roborock"
 	apiDiffTool              = "golang.org/x/exp/cmd/apidiff@v0.0.0-20260908205506-85c1c2202aba"
 	previousRelease          = "previous-release"
 	policyReport             = "report"
@@ -265,14 +266,23 @@ func comparePackage(
 	oldData := filepath.Join(tempDir, exportFilename(packageName, "base"))
 	newData := filepath.Join(tempDir, exportFilename(packageName, "current"))
 
-	err := writeExportData(ctx, tool, baseDir, packagePath, oldData)
-	if err != nil {
-		return "", newGateError("read baseline API for "+packagePath, err)
-	}
-
-	err = writeExportData(ctx, tool, root, packagePath, newData)
+	err := writeExportData(ctx, tool, root, packagePath, newData)
 	if err != nil {
 		return "", newGateError("read current API for "+packagePath, err)
+	}
+
+	present, err := baselinePackagePresent(baseDir, packageName)
+	if err != nil {
+		return "", newGateError("inspect baseline package "+packagePath, err)
+	}
+
+	if !present {
+		return "", nil
+	}
+
+	err = writeExportData(ctx, tool, baseDir, packagePath, oldData)
+	if err != nil {
+		return "", newGateError("read baseline API for "+packagePath, err)
 	}
 
 	packageChanges, err := compareAPIs(ctx, tool, oldData, newData)
@@ -281,6 +291,58 @@ func comparePackage(
 	}
 
 	return packageChanges, nil
+}
+
+func baselinePackagePresent(directory, packageName string) (bool, error) {
+	rootExists, err := existingDirectory(directory)
+	if err != nil {
+		return false, err
+	}
+
+	if !rootExists {
+		return false, newGateError("baseline root does not exist", nil)
+	}
+
+	packageDirectory := filepath.Join(directory, filepath.FromSlash(packageName))
+
+	present, err := existingDirectory(packageDirectory)
+	if err != nil {
+		return false, err
+	}
+
+	if !present {
+		return false, nil
+	}
+
+	entries, err := os.ReadDir(packageDirectory)
+	if err != nil {
+		return false, fmt.Errorf("read baseline package directory: %w", err)
+	}
+
+	for _, entry := range entries {
+		if !entry.IsDir() && strings.HasSuffix(entry.Name(), ".go") && !strings.HasSuffix(entry.Name(), "_test.go") {
+			return true, nil
+		}
+	}
+
+	return false, nil
+}
+
+func existingDirectory(name string) (bool, error) {
+	info, err := os.Stat(name)
+	if errors.Is(err, os.ErrNotExist) {
+		return false, nil
+	}
+
+	if err != nil {
+		return false, fmt.Errorf("inspect baseline directory: %w", err)
+	}
+
+	if !info.IsDir() {
+		return false, newGateError("baseline path is not a directory: "+name, nil)
+	}
+
+	return true, nil
 }
 
 func exportFilename(packageName, variant string) string {
