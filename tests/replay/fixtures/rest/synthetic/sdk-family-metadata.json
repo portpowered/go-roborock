@@ -1,0 +1,610 @@
+{
+  "provenance": "synthetic",
+  "source": "Synthetic account inventory scenarios following checked-in external REST schemas; no captured traffic.",
+  "cases": [
+    {
+      "name": "owned-q7",
+      "exchanges": [
+        {
+          "method": "GET",
+          "origin": "https://iot.example.test",
+          "path": "/api/v1/getHomeDetail",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Authorization": "synthetic-token",
+            "header_clientid": "sdk-client"
+          },
+          "hawk": false,
+          "response": {
+            "code": 200,
+            "data": {
+              "rrHomeId": 42,
+              "name": "Synthetic home"
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "origin": "https://api.example.test",
+          "path": "/user/homes/42",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Accept": "application/json"
+          },
+          "hawk": true,
+          "response": {
+            "success": true,
+            "result": {
+              "id": 42,
+              "name": "Synthetic home",
+              "devices": [
+                {
+                  "duid": "synthetic-device",
+                  "name": "Synthetic device",
+                  "localKey": "0123456789abcdef",
+                  "productId": "p1",
+                  "pv": "B01",
+                  "sn": "synthetic-serial"
+                }
+              ],
+              "receivedDevices": [],
+              "products": [
+                {
+                  "id": "p1",
+                  "name": "Synthetic product",
+                  "model": "roborock.vacuum.sc01",
+                  "category": "robot.vacuum.cleaner"
+                }
+              ],
+              "rooms": []
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        }
+      ],
+      "error": "",
+      "mapTrace": false,
+      "zoneCleaning": false
+    },
+    {
+      "name": "shared-q7",
+      "exchanges": [
+        {
+          "method": "GET",
+          "origin": "https://iot.example.test",
+          "path": "/api/v1/getHomeDetail",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Authorization": "synthetic-token",
+            "header_clientid": "sdk-client"
+          },
+          "hawk": false,
+          "response": {
+            "code": 200,
+            "data": {
+              "rrHomeId": 42,
+              "name": "Synthetic home"
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "origin": "https://api.example.test",
+          "path": "/user/homes/42",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Accept": "application/json"
+          },
+          "hawk": true,
+          "response": {
+            "success": true,
+            "result": {
+              "id": 42,
+              "name": "Synthetic home",
+              "devices": [],
+              "receivedDevices": [
+                {
+                  "duid": "synthetic-device",
+                  "name": "Synthetic device",
+                  "localKey": "0123456789abcdef",
+                  "productId": "p1",
+                  "pv": "B01",
+                  "sn": "synthetic-serial"
+                }
+              ],
+              "products": [
+                {
+                  "id": "p1",
+                  "name": "Synthetic product",
+                  "model": "roborock.vacuum.sc01",
+                  "category": "robot.vacuum.cleaner"
+                }
+              ],
+              "rooms": []
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        }
+      ],
+      "error": "",
+      "mapTrace": false,
+      "zoneCleaning": false
+    },
+    {
+      "name": "owned-q10",
+      "exchanges": [
+        {
+          "method": "GET",
+          "origin": "https://iot.example.test",
+          "path": "/api/v1/getHomeDetail",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Authorization": "synthetic-token",
+            "header_clientid": "sdk-client"
+          },
+          "hawk": false,
+          "response": {
+            "code": 200,
+            "data": {
+              "rrHomeId": 42,
+              "name": "Synthetic home"
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "origin": "https://api.example.test",
+          "path": "/user/homes/42",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Accept": "application/json"
+          },
+          "hawk": true,
+          "response": {
+            "success": true,
+            "result": {
+              "id": 42,
+              "name": "Synthetic home",
+              "devices": [
+                {
+                  "duid": "synthetic-device",
+                  "name": "Synthetic device",
+                  "localKey": "0123456789abcdef",
+                  "productId": "p1",
+                  "pv": "B01"
+                }
+              ],
+              "receivedDevices": [],
+              "products": [
+                {
+                  "id": "p1",
+                  "name": "Synthetic product",
+                  "model": "roborock.vacuum.ss01",
+                  "category": "robot.vacuum.cleaner"
+                }
+              ],
+              "rooms": []
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        }
+      ],
+      "error": "",
+      "mapTrace": true,
+      "zoneCleaning": true
+    },
+    {
+      "name": "shared-q10",
+      "exchanges": [
+        {
+          "method": "GET",
+          "origin": "https://iot.example.test",
+          "path": "/api/v1/getHomeDetail",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Authorization": "synthetic-token",
+            "header_clientid": "sdk-client"
+          },
+          "hawk": false,
+          "response": {
+            "code": 200,
+            "data": {
+              "rrHomeId": 42,
+              "name": "Synthetic home"
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "origin": "https://api.example.test",
+          "path": "/user/homes/42",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Accept": "application/json"
+          },
+          "hawk": true,
+          "response": {
+            "success": true,
+            "result": {
+              "id": 42,
+              "name": "Synthetic home",
+              "devices": [],
+              "receivedDevices": [
+                {
+                  "duid": "synthetic-device",
+                  "name": "Synthetic device",
+                  "localKey": "0123456789abcdef",
+                  "productId": "p1",
+                  "pv": "B01"
+                }
+              ],
+              "products": [
+                {
+                  "id": "p1",
+                  "name": "Synthetic product",
+                  "model": "roborock.vacuum.ss01",
+                  "category": "robot.vacuum.cleaner"
+                }
+              ],
+              "rooms": []
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        }
+      ],
+      "error": "",
+      "mapTrace": true,
+      "zoneCleaning": true
+    },
+    {
+      "name": "q7-missing-serial",
+      "exchanges": [
+        {
+          "method": "GET",
+          "origin": "https://iot.example.test",
+          "path": "/api/v1/getHomeDetail",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Authorization": "synthetic-token",
+            "header_clientid": "sdk-client"
+          },
+          "hawk": false,
+          "response": {
+            "code": 200,
+            "data": {
+              "rrHomeId": 42,
+              "name": "Synthetic home"
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "origin": "https://api.example.test",
+          "path": "/user/homes/42",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Accept": "application/json"
+          },
+          "hawk": true,
+          "response": {
+            "success": true,
+            "result": {
+              "id": 42,
+              "name": "Synthetic home",
+              "devices": [
+                {
+                  "duid": "synthetic-device",
+                  "name": "Synthetic device",
+                  "localKey": "0123456789abcdef",
+                  "productId": "p1",
+                  "pv": "B01"
+                }
+              ],
+              "receivedDevices": [],
+              "products": [
+                {
+                  "id": "p1",
+                  "name": "Synthetic product",
+                  "model": "roborock.vacuum.sc01",
+                  "category": "robot.vacuum.cleaner"
+                }
+              ],
+              "rooms": []
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        }
+      ],
+      "error": "protocol",
+      "mapTrace": false,
+      "zoneCleaning": false
+    },
+    {
+      "name": "inventory-protocol-mismatch",
+      "exchanges": [
+        {
+          "method": "GET",
+          "origin": "https://iot.example.test",
+          "path": "/api/v1/getHomeDetail",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Authorization": "synthetic-token",
+            "header_clientid": "sdk-client"
+          },
+          "hawk": false,
+          "response": {
+            "code": 200,
+            "data": {
+              "rrHomeId": 42,
+              "name": "Synthetic home"
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "origin": "https://api.example.test",
+          "path": "/user/homes/42",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Accept": "application/json"
+          },
+          "hawk": true,
+          "response": {
+            "success": true,
+            "result": {
+              "id": 42,
+              "name": "Synthetic home",
+              "devices": [
+                {
+                  "duid": "synthetic-device",
+                  "name": "Synthetic device",
+                  "localKey": "0123456789abcdef",
+                  "productId": "p1",
+                  "pv": "1.0",
+                  "sn": "synthetic-serial"
+                }
+              ],
+              "receivedDevices": [],
+              "products": [
+                {
+                  "id": "p1",
+                  "name": "Synthetic product",
+                  "model": "roborock.vacuum.sc01",
+                  "category": "robot.vacuum.cleaner"
+                }
+              ],
+              "rooms": []
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        }
+      ],
+      "error": "unsupported",
+      "mapTrace": false,
+      "zoneCleaning": false
+    },
+    {
+      "name": "unknown-b01-model",
+      "exchanges": [
+        {
+          "method": "GET",
+          "origin": "https://iot.example.test",
+          "path": "/api/v1/getHomeDetail",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Authorization": "synthetic-token",
+            "header_clientid": "sdk-client"
+          },
+          "hawk": false,
+          "response": {
+            "code": 200,
+            "data": {
+              "rrHomeId": 42,
+              "name": "Synthetic home"
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "origin": "https://api.example.test",
+          "path": "/user/homes/42",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Accept": "application/json"
+          },
+          "hawk": true,
+          "response": {
+            "success": true,
+            "result": {
+              "id": 42,
+              "name": "Synthetic home",
+              "devices": [
+                {
+                  "duid": "synthetic-device",
+                  "name": "Synthetic device",
+                  "localKey": "0123456789abcdef",
+                  "productId": "p1",
+                  "pv": "B01",
+                  "sn": "synthetic-serial"
+                }
+              ],
+              "receivedDevices": [],
+              "products": [
+                {
+                  "id": "p1",
+                  "name": "Synthetic product",
+                  "model": "roborock.vacuum.future",
+                  "category": "robot.vacuum.cleaner"
+                }
+              ],
+              "rooms": []
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        }
+      ],
+      "error": "unsupported",
+      "mapTrace": false,
+      "zoneCleaning": false
+    },
+    {
+      "name": "device-not-in-account",
+      "exchanges": [
+        {
+          "method": "GET",
+          "origin": "https://iot.example.test",
+          "path": "/api/v1/getHomeDetail",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Authorization": "synthetic-token",
+            "header_clientid": "sdk-client"
+          },
+          "hawk": false,
+          "response": {
+            "code": 200,
+            "data": {
+              "rrHomeId": 42,
+              "name": "Synthetic home"
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "origin": "https://api.example.test",
+          "path": "/user/homes/42",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Accept": "application/json"
+          },
+          "hawk": true,
+          "response": {
+            "success": true,
+            "result": {
+              "id": 42,
+              "name": "Synthetic home",
+              "devices": [],
+              "receivedDevices": [],
+              "products": [
+                {
+                  "id": "p1",
+                  "name": "Synthetic product",
+                  "model": "roborock.vacuum.sc01",
+                  "category": "robot.vacuum.cleaner"
+                }
+              ],
+              "rooms": []
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        }
+      ],
+      "error": "not_found",
+      "mapTrace": false,
+      "zoneCleaning": false
+    }
+  ]
+}

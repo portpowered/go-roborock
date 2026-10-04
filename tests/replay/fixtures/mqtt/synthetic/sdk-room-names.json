@@ -1,0 +1,559 @@
+{
+  "provenance": "synthetic",
+  "source": "Independent Python hashlib/cryptography V1 frame vectors following pinned python-roborock a8260c5211e60647fc352d6b496b827865938b21 codec; synthetic room names and failure scenarios, no captured traffic.",
+  "cases": [
+    {
+      "name": "owned-refresh",
+      "exchanges": [
+        {
+          "method": "GET",
+          "origin": "https://iot.example.test",
+          "path": "/api/v1/getHomeDetail",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Authorization": "synthetic-token",
+            "header_clientid": "sdk-client"
+          },
+          "hawk": false,
+          "response": {
+            "code": 200,
+            "data": {
+              "rrHomeId": 42,
+              "name": "Synthetic home"
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "origin": "https://api.example.test",
+          "path": "/user/homes/42",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Accept": "application/json"
+          },
+          "hawk": true,
+          "response": {
+            "success": true,
+            "result": {
+              "id": 42,
+              "name": "Synthetic home",
+              "devices": [
+                {
+                  "duid": "synthetic-device",
+                  "name": "Synthetic device",
+                  "localKey": "0123456789abcdef",
+                  "productId": "p1",
+                  "pv": "1.0"
+                }
+              ],
+              "receivedDevices": [],
+              "products": [
+                {
+                  "id": "p1",
+                  "name": "Synthetic product",
+                  "model": "roborock.vacuum.synthetic",
+                  "category": "robot.vacuum.cleaner"
+                }
+              ],
+              "rooms": [
+                {
+                  "id": 1,
+                  "name": "Kitchen"
+                }
+              ]
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "origin": "https://api.example.test",
+          "path": "/user/homes/42/rooms",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Accept": "application/json"
+          },
+          "hawk": true,
+          "response": {
+            "success": true,
+            "result": [
+              {
+                "id": 2,
+                "name": "Refreshed office"
+              }
+            ]
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        }
+      ],
+      "result": [
+        [
+          16,
+          "1"
+        ],
+        [
+          17,
+          2
+        ],
+        [
+          18,
+          "3"
+        ]
+      ],
+      "names": [
+        "Kitchen",
+        "Refreshed office",
+        null
+      ],
+      "error": "",
+      "responseFrameHex": "312e300000002a000030396553f100006600609a8c4ea355e745331e4df19b1a056c60794f85b78fbdb4a3e489f6d91f8d6c1f6c131b97cd8ad6d755be89a4343e0cfe6ed513752ad82061442b51921e3eb96987c95cb8b8e3e43ff98936fe58442e014f9597787c72418e3c708b473566533494a70c7b"
+    },
+    {
+      "name": "shared-refresh",
+      "exchanges": [
+        {
+          "method": "GET",
+          "origin": "https://iot.example.test",
+          "path": "/api/v1/getHomeDetail",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Authorization": "synthetic-token",
+            "header_clientid": "sdk-client"
+          },
+          "hawk": false,
+          "response": {
+            "code": 200,
+            "data": {
+              "rrHomeId": 42,
+              "name": "Synthetic home"
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "origin": "https://api.example.test",
+          "path": "/user/homes/42",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Accept": "application/json"
+          },
+          "hawk": true,
+          "response": {
+            "success": true,
+            "result": {
+              "id": 42,
+              "name": "Synthetic home",
+              "devices": [],
+              "receivedDevices": [
+                {
+                  "duid": "synthetic-device",
+                  "name": "Synthetic device",
+                  "localKey": "0123456789abcdef",
+                  "productId": "p1",
+                  "pv": "1.0"
+                }
+              ],
+              "products": [
+                {
+                  "id": "p1",
+                  "name": "Synthetic product",
+                  "model": "roborock.vacuum.synthetic",
+                  "category": "robot.vacuum.cleaner"
+                }
+              ],
+              "rooms": [
+                {
+                  "id": 1,
+                  "name": "Kitchen"
+                }
+              ]
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "origin": "https://api.example.test",
+          "path": "/user/deviceshare/query/synthetic-device/rooms",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Accept": "application/json"
+          },
+          "hawk": true,
+          "response": {
+            "success": true,
+            "result": [
+              {
+                "roomId": 2,
+                "name": "Refreshed office"
+              }
+            ]
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        }
+      ],
+      "result": [
+        [
+          16,
+          "1"
+        ],
+        [
+          17,
+          2
+        ],
+        [
+          18,
+          "3"
+        ]
+      ],
+      "names": [
+        "Kitchen",
+        "Refreshed office",
+        null
+      ],
+      "error": "",
+      "responseFrameHex": "312e300000002a000030396553f100006600609a8c4ea355e745331e4df19b1a056c60794f85b78fbdb4a3e489f6d91f8d6c1f6c131b97cd8ad6d755be89a4343e0cfe6ed513752ad82061442b51921e3eb96987c95cb8b8e3e43ff98936fe58442e014f9597787c72418e3c708b473566533494a70c7b"
+    },
+    {
+      "name": "already-named",
+      "exchanges": [
+        {
+          "method": "GET",
+          "origin": "https://iot.example.test",
+          "path": "/api/v1/getHomeDetail",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Authorization": "synthetic-token",
+            "header_clientid": "sdk-client"
+          },
+          "hawk": false,
+          "response": {
+            "code": 200,
+            "data": {
+              "rrHomeId": 42,
+              "name": "Synthetic home"
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "origin": "https://api.example.test",
+          "path": "/user/homes/42",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Accept": "application/json"
+          },
+          "hawk": true,
+          "response": {
+            "success": true,
+            "result": {
+              "id": 42,
+              "name": "Synthetic home",
+              "devices": [
+                {
+                  "duid": "synthetic-device",
+                  "name": "Synthetic device",
+                  "localKey": "0123456789abcdef",
+                  "productId": "p1",
+                  "pv": "1.0"
+                }
+              ],
+              "receivedDevices": [],
+              "products": [
+                {
+                  "id": "p1",
+                  "name": "Synthetic product",
+                  "model": "roborock.vacuum.synthetic",
+                  "category": "robot.vacuum.cleaner"
+                }
+              ],
+              "rooms": [
+                {
+                  "id": 1,
+                  "name": "Kitchen"
+                }
+              ]
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        }
+      ],
+      "result": [
+        16,
+        "1"
+      ],
+      "names": [
+        "Kitchen"
+      ],
+      "error": "",
+      "responseFrameHex": "312e300000002a000030396553f100006600509a8c4ea355e745331e4df19b1a056c60794f85b78fbdb4a3e489f6d91f8d6c1f938880e414db1889bacccf5eb3608971e211097fddeaa5933aab3101901b70acc6478b87525b20e9ff917243aa27d1bbea14895a"
+    },
+    {
+      "name": "refresh-rejected-retains-known-name",
+      "exchanges": [
+        {
+          "method": "GET",
+          "origin": "https://iot.example.test",
+          "path": "/api/v1/getHomeDetail",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Authorization": "synthetic-token",
+            "header_clientid": "sdk-client"
+          },
+          "hawk": false,
+          "response": {
+            "code": 200,
+            "data": {
+              "rrHomeId": 42,
+              "name": "Synthetic home"
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "origin": "https://api.example.test",
+          "path": "/user/homes/42",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Accept": "application/json"
+          },
+          "hawk": true,
+          "response": {
+            "success": true,
+            "result": {
+              "id": 42,
+              "name": "Synthetic home",
+              "devices": [
+                {
+                  "duid": "synthetic-device",
+                  "name": "Synthetic device",
+                  "localKey": "0123456789abcdef",
+                  "productId": "p1",
+                  "pv": "1.0"
+                }
+              ],
+              "receivedDevices": [],
+              "products": [
+                {
+                  "id": "p1",
+                  "name": "Synthetic product",
+                  "model": "roborock.vacuum.synthetic",
+                  "category": "robot.vacuum.cleaner"
+                }
+              ],
+              "rooms": [
+                {
+                  "id": 1,
+                  "name": "Kitchen"
+                }
+              ]
+            }
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "origin": "https://api.example.test",
+          "path": "/user/homes/42/rooms",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Accept": "application/json"
+          },
+          "hawk": true,
+          "response": {
+            "success": false,
+            "code": 2010
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        }
+      ],
+      "result": [
+        [
+          16,
+          "1"
+        ],
+        [
+          17,
+          "2"
+        ]
+      ],
+      "names": [
+        "Kitchen",
+        null
+      ],
+      "error": "",
+      "responseFrameHex": "312e300000002a000030396553f100006600509a8c4ea355e745331e4df19b1a056c60794f85b78fbdb4a3e489f6d91f8d6c1f6c131b97cd8ad6d755be89a4343e0cfe28c2260797a42b800a77a8a61e89cea1246b19e693f07c38f902b76d226ace2070a98aaf"
+    },
+    {
+      "name": "home-failure-retains-mappings",
+      "exchanges": [
+        {
+          "method": "GET",
+          "origin": "https://iot.example.test",
+          "path": "/api/v1/getHomeDetail",
+          "query": {},
+          "form": null,
+          "headers": {
+            "Authorization": "synthetic-token",
+            "header_clientid": "sdk-client"
+          },
+          "hawk": false,
+          "response": {
+            "code": 2010
+          },
+          "responseStatus": 200,
+          "responseHeaders": {
+            "Content-Type": [
+              "application/json"
+            ]
+          }
+        }
+      ],
+      "result": [
+        [
+          16,
+          "1"
+        ]
+      ],
+      "names": [
+        null
+      ],
+      "error": "",
+      "responseFrameHex": "312e300000002a000030396553f100006600509a8c4ea355e745331e4df19b1a056c60794f85b78fbdb4a3e489f6d91f8d6c1f7b41dd4adf4769ac15c21dd61ffdd9903a760053d6eb20b8f47672e1dc69e5ea2bdda66b1ee413b29a95f3a24d26a022d944e066"
+    },
+    {
+      "name": "short-tuple",
+      "exchanges": [],
+      "result": [
+        [
+          16
+        ]
+      ],
+      "names": [],
+      "error": "protocol",
+      "responseFrameHex": "312e300000002a000030396553f100006600409a8c4ea355e745331e4df19b1a056c60794f85b78fbdb4a3e489f6d91f8d6c1f01ded4666634786bad17726fc1d56c5572f672db2e06cfd27d4e747866cfd2c7cf92d7a4"
+    },
+    {
+      "name": "null-segment",
+      "exchanges": [],
+      "result": [
+        [
+          null,
+          "1"
+        ]
+      ],
+      "names": [],
+      "error": "protocol",
+      "responseFrameHex": "312e300000002a000030396553f100006600509a8c4ea355e745331e4df19b1a056c60794f85b78fbdb4a3e489f6d91f8d6c1fce4a2b4f8846691ddf5d1d3f040d545487c95cb8b8e3e43ff98936fe58442e014f9597787c72418e3c708b473566533402bad4a0"
+    },
+    {
+      "name": "null-cloud-id",
+      "exchanges": [],
+      "result": [
+        [
+          16,
+          null
+        ]
+      ],
+      "names": [],
+      "error": "protocol",
+      "responseFrameHex": "312e300000002a000030396553f100006600509a8c4ea355e745331e4df19b1a056c60794f85b78fbdb4a3e489f6d91f8d6c1f6e431459af0d06c36b2d34dade4a2564b8375884bfa4532cc4e6d430af08804d08bd254133e6d453f6a33de50484f0c3287d52f1"
+    },
+    {
+      "name": "fractional-segment",
+      "exchanges": [],
+      "result": [
+        [
+          16.5,
+          "1"
+        ]
+      ],
+      "names": [],
+      "error": "protocol",
+      "responseFrameHex": "312e300000002a000030396553f100006600509a8c4ea355e745331e4df19b1a056c60794f85b78fbdb4a3e489f6d91f8d6c1f5cb15463585b9099f0b55283f48af8f787c95cb8b8e3e43ff98936fe58442e014f9597787c72418e3c708b4735665334450d763c"
+    },
+    {
+      "name": "object-cloud-id",
+      "exchanges": [],
+      "result": [
+        [
+          16,
+          {}
+        ]
+      ],
+      "names": [],
+      "error": "protocol",
+      "responseFrameHex": "312e300000002a000030396553f100006600509a8c4ea355e745331e4df19b1a056c60794f85b78fbdb4a3e489f6d91f8d6c1f78fec35060b92f274c23dd27dc178f7be10ee1d6007ba12caa3d87379f8a43b9e0062d0eb2005f9f3e30ea3b8cbd8b26766b4b72"
+    }
+  ]
+}
