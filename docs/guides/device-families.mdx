@@ -3,7 +3,7 @@ title: Device families
 description: Choose operations from the discovered protocol, model, and capabilities.
 ---
 
-Use the device returned by discovery to open a session. The SDK selects the protocol adapter; callers use typed operations and check the session's capabilities.
+Account login and discovery use the same cloud HTTP API across families. Open a session with the discovered device; the SDK selects its MQTT adapter. Use typed operations and check the session's capabilities.
 
 | Family | Discovery rule | Use |
 | --- | --- | --- |
@@ -20,3 +20,5 @@ Q7 and Q10 in this table identify protocol families. A product named Q7 that rep
 Vacuum commands do not apply to Dyad or Zeo appliances. A01 has no vacuum map operations. Within a vacuum family, device firmware and capability metadata determine which settings and controls are available.
 
 Continue with [vacuum operations](/docs/guides/vacuum), [maps and rooms](/docs/guides/maps), [zone cleaning](/docs/guides/zone-cleaning), or [A01 appliances](/docs/guides/a01).
+
+

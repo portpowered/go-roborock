@@ -1,6 +1,6 @@
 # go-roborock
 
-A typed Go client for Roborock cloud accounts, MQTT vacuum controls, Dyad/Zeo A01 settings, and camera signaling. The reusable client has request-scoped credentials; explicit sessions own device connections.
+A typed Go client for Roborock cloud accounts and explicit device sessions. Credentials belong to each request; sessions own their MQTT connections. Choose operations using the discovered device family and capabilities.
 
 [![Go](https://img.shields.io/github/go-mod/go-version/portpowered/go-roborock)](go.mod)
 [![CI](https://github.com/portpowered/go-roborock/actions/workflows/ci.yml/badge.svg)](https://github.com/portpowered/go-roborock/actions/workflows/ci.yml)
@@ -36,6 +36,8 @@ Keep `result.Auth` and discovered local keys private. The caller stores credenti
 The [runnable discovery example](examples/basic/main.go) reads a private `AuthContext` object directly from stdin: `go run ./examples/basic < auth.json`. This file contains the credential object itself, without the CLI export's outer `auth` field.
 
 ## Supported operations
+
+Account operations use the same cloud API across families. Device operations use the selected V1, B01 Q7, B01 Q10, or A01 adapter. See [device families](https://portpowered.github.io/go-roborock/docs/guides/device-families), [maps](https://portpowered.github.io/go-roborock/docs/guides/maps), and [zone cleaning](https://portpowered.github.io/go-roborock/docs/guides/zone-cleaning).
 
 The following expressions are short call examples; `r` denotes `roborock`, `c` a client, `s` an opened device session, `ctx` a deadline-bearing context, and `auth` the current account credentials. Inputs such as `speed`, `zones`, and `segments` come from the caller's device configuration.
 
@@ -90,9 +92,10 @@ A01 write success means MQTT publication. Camera sessions own preview signaling;
 
 Keep the opening context alive for the whole device session. Set deadlines on individual operations and always close sessions. Classify failures with `errors.As` and `*roborockerrors.Error`; see [errors and lifecycle](https://portpowered.github.io/go-roborock/docs/guides/lifecycle).
 
-Supported contracts are implementation-derived from pinned Python Roborock and the existing Go baseline, with synthetic offline verification. They are not an official vendor specification or a claim of complete Python parity. B01/L01 connections, local transport, map decoding, and WebRTC media decoding are outside this release. See [guides and generated reference](https://portpowered.github.io/go-roborock/docs/guides) and [CLI](https://portpowered.github.io/go-roborock/docs/guides/cli).
+Contracts follow pinned Python Roborock and the existing Go baseline, with synthetic offline verification. Hardware captures are separate compatibility evidence. The SDK does not claim official vendor specifications or complete Python parity. L01, local transport, and WebRTC media decoding remain outside scope. See [guides and reference](https://portpowered.github.io/go-roborock/docs/guides) and [CLI](https://portpowered.github.io/go-roborock/docs/guides/cli).
 
 Contributors should read [CONTRIBUTING.md](CONTRIBUTING.md), [provenance](docs/provenance.md), and [release procedure](docs/releasing.md).
+
 
 
 
