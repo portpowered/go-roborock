@@ -1,0 +1,26 @@
+---
+title: Zone cleaning
+description: Clean a rectangle or selected rooms on the active map.
+---
+
+Choose between a geometric zone and a room selection.
+
+| Selection | Input | Meaning |
+| --- | --- | --- |
+| Rectangle | Two world-coordinate corners and repeat count | Clean an arbitrary area on the active map. |
+| Rooms or segments | IDs returned for that map | Clean the device's existing room segmentation. |
+| Observed cleaned zone | Map data | A past or current cleaning region, not a command. |
+| Restriction zone or virtual wall | Map data | A boundary the device may enforce, not a cleaning target. |
+
+A rectangle does not need to match a room boundary. Its corners must form a non-empty, ordered rectangle in the active map's world frame. Repeats describe the requested cleaning passes; acknowledgement does not establish completion.
+
+| Family | Rectangle cleaning | Room cleaning |
+| --- | --- | --- |
+| V1 vacuum | Millimeter coordinates | Device segment IDs. |
+| B01 Q10 | Millimeter coordinates using the Q10 frame | Device room IDs. |
+| B01 Q7 | Unsupported: the rectangle command contract is not established | Device room IDs. |
+| A01 | No vacuum zone operation | No vacuum room operation. |
+
+Read [maps and rooms](/docs/guides/maps), confirm the active map, then use that map's coordinates or room IDs. Never substitute account room IDs, screen pixels, or coordinates from a different floor. Q7's map geometry can be read without assuming an unsupported zone-cleaning payload.
+
+A control call is an explicit device change. After a timeout, inspect status before deciding what to do next; the SDK does not retry uncertain movement automatically. See [errors and lifecycle](/docs/guides/lifecycle).

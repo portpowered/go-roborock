@@ -1,0 +1,25 @@
+---
+title: Maps and rooms
+description: Read the active map and use its map IDs, room IDs, and coordinate frame.
+---
+
+Map retrieval reads device data. It does not start cleaning or select another floor. Fetch a fresh map before using its geometry or room identifiers for a command.
+
+| Family | Map format | Geometry |
+| --- | --- | --- |
+| V1 vacuum | Roborock RR binary map | Millimeter world coordinates with grid calibration. |
+| B01 Q10 | LZ4-compressed map packet | Millimeter world coordinates; grid and trace coordinates have their own transforms. |
+| B01 Q7 | Protobuf map | Meter-based world frame with device-supplied grid calibration. |
+| A01 | No vacuum map | Use appliance state and settings. |
+
+The active map, saved-map list, and room list have different purposes. Map content supplies geometry and observations. Saved-map IDs identify stored floors. Room or segment IDs identify areas within a map; an account room ID is not automatically a device segment ID.
+
+Selecting a saved map is an explicit device change, separate from reading it. Where selection is supported, wait for the device to report the new active map and fetch it again before sending coordinates or room IDs. The SDK does not implicitly switch floors for cleaning.
+
+Use the coordinate frame and transform reported by the map. A screen pixel needs the image scale, origin, and axis direction before it becomes a world coordinate. Do not copy a V1 transform to Q7 or Q10, or multiply Q7 meter values by 1000 without checking the target frame.
+
+A map may contain cleaned regions, restriction polygons, or virtual walls. These are observations and constraints; they are separate from a new cleaning request. See [zone cleaning](/docs/guides/zone-cleaning) for rectangles and room selection.
+
+Q10 map reads use the read-only map-content datapoint. They do not issue a map-management `get` command that can trigger movement on firmware. Unsupported map formats and malformed data return typed errors.
+
+Contracts and parsers follow the pinned Python reference and synthetic offline tests. Hardware compatibility requires matching sanitized captures; synthetic maps are not live-device evidence.

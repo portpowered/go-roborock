@@ -1,13 +1,14 @@
 ---
 title: Get started
-description: Authenticate, discover a device, and open an explicit session.
+description: Authenticate, discover a device, and choose its supported operations.
 ---
 
 Install `github.com/portpowered/go-roborock` and import `pkg/roborock`. Start with [authentication](/docs/guides/authentication), then [discovery](/docs/guides/discovery).
 
-Use [vacuum controls](/docs/guides/vacuum), [remote movement](/docs/guides/remote-control), [A01 settings](/docs/guides/a01), or [camera signaling](/docs/guides/camera) for supported devices. The [CLI](/docs/guides/cli) offers explicit read and control commands. Read [errors and lifecycle](/docs/guides/lifecycle) before keeping a session open.
+Check [device families](/docs/guides/device-families) before choosing [vacuum controls](/docs/guides/vacuum), [maps](/docs/guides/maps), [zone cleaning](/docs/guides/zone-cleaning), or [A01 settings](/docs/guides/a01). Use [camera signaling](/docs/guides/camera) on capable V1 devices.
 
-The contracts are derived from pinned Python Roborock and an existing Go implementation, with synthetic offline verification. Supported operations are typed; full Python parity, B01/L01 connections, local transport, map decoding, and WebRTC media decoding are outside this release.
+The [CLI](/docs/guides/cli) offers explicit read and control commands. Read [errors and lifecycle](/docs/guides/lifecycle) before keeping a session open.
 
-The sidebar's OpenAPI section contains the generated wire reference. Its RPC schemas describe encrypted MQTT payloads; their schema paths are documentation identifiers, not HTTP routes to call directly.
+The OpenAPI reference covers cloud HTTP requests. The AsyncAPI reference covers MQTT commands and messages. Public Go request fields are documented in Go Reference and the linked type guides.
 
+Contracts follow pinned implementation references and synthetic offline tests. They are not an official vendor specification or a claim of complete Python parity; device captures remain separate compatibility evidence.
