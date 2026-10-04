@@ -15,9 +15,10 @@ import (
 )
 
 const (
-	fixtureVacuumCategory = "robot.vacuum.cleaner"
-	fixtureOtherModel     = "other"
-	fixtureNullResponse   = "null"
+	fixtureVacuumCategory    = "robot.vacuum.cleaner"
+	fixtureOtherModel        = "other"
+	fixtureNullResponse      = "null"
+	fixtureRoomMappingMethod = "get_room_mapping"
 )
 
 type familyCase struct {
@@ -138,7 +139,7 @@ func TestV1MapMetadataAndRoomMappings(t *testing.T) {
 	session := operationSession(t,
 		rpcExchange{method: "get_multi_maps_list", params: `[]`,
 			response: `[{"map_info":[{"map_flag":0,"name":"Ground"}]}]`, failure: nil},
-		rpcExchange{method: "get_room_mapping", params: `[]`, response: `[[16,1001],[17,"1002"]]`, failure: nil},
+		rpcExchange{method: fixtureRoomMappingMethod, params: `[]`, response: `[[16,1001],[17,"1002"]]`, failure: nil},
 		rpcExchange{method: "load_multi_map", params: `[0]`, response: `["ok"]`, failure: nil},
 	)
 
@@ -231,7 +232,7 @@ func TestRoomLookupEndsWithSession(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	session := operationSession(t, rpcExchange{method: "get_room_mapping", params: `[]`,
+	session := operationSession(t, rpcExchange{method: fixtureRoomMappingMethod, params: `[]`,
 		response: `[16,"1001"]`, failure: nil})
 	session.client = client
 	session.auth.Token = "synthetic"
@@ -703,5 +704,33 @@ func TestCleanRecordMultipartDepth(t *testing.T) {
 	_, err = session.GetCleanRecord(t.Context(), CleanRecordRequest{RecordId: 123})
 	if !errors.Is(err, roborockerrors.New(roborockerrors.Protocol, "test", "", nil)) {
 		t.Fatalf("null tuple counter accepted: %v", err)
+	}
+}
+
+func TestGetRoomsRejectsMalformedPairsWithoutPartialResult(t *testing.T) {
+	t.Parallel()
+
+	// Synthetic negatives enforce the schema's exact pair arity. The pinned Python
+	// converter tolerates unknown tail columns, but has no sample establishing their meaning.
+	responses := []string{`[[9,"iot",123]]`, `[[8,"valid"],[9,"iot",123]]`, `[9,"iot",123]`, `[[9]]`}
+	for _, response := range responses {
+		t.Run(response, func(t *testing.T) {
+			t.Parallel()
+
+			session := operationSession(t, rpcExchange{
+				method: fixtureRoomMappingMethod, params: `[]`, response: response, failure: nil,
+			})
+
+			result, err := session.GetRooms(t.Context(), EmptyRequest{})
+			if !errors.Is(err, roborockerrors.New(roborockerrors.Protocol, "GetRooms", "", nil)) {
+				t.Fatalf("malformed pair error class: %v", err)
+			}
+
+			var expected MapRoomsResult
+
+			if !reflect.DeepEqual(result, expected) {
+				t.Fatalf("malformed pair exposed partial result: %+v", result)
+			}
+		})
 	}
 }

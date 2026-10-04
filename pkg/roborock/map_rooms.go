@@ -12,7 +12,7 @@ import (
 	"github.com/portpowered/go-roborock/pkg/roborockerrors"
 )
 
-const roomMappingMinimumFields = 2
+const roomMappingPairFields = 2
 
 // GetRooms returns cleaning segment IDs and any reported names. Unknown names remain absent.
 func (s *DeviceSession) GetRooms(ctx context.Context, _ EmptyRequest) (MapRoomsResult, error) {
@@ -138,9 +138,9 @@ func parseRoomMapping(raw json.RawMessage) (MapRoomsResult, error) {
 }
 
 func parseRoomPair(pair dependencymodels.MapsV1RoomMappingPair) (MapRoomMapping, error) {
-	if len(pair) < roomMappingMinimumFields {
+	if len(pair) != roomMappingPairFields {
 		return MapRoomMapping{}, roborockerrors.New(roborockerrors.Protocol,
-			"GetRooms", "room mapping must contain segment and cloud IDs", nil)
+			"GetRooms", "room mapping must contain exactly segment and cloud IDs", nil)
 	}
 
 	if bytes.Equal(bytes.TrimSpace(pair[0]), []byte("null")) || bytes.Equal(bytes.TrimSpace(pair[1]), []byte("null")) {
