@@ -48,6 +48,7 @@ func TestQ7AbsentAndZeroGeometry(t *testing.T) {
 
 func assertQ7GeometryPresence(t *testing.T, snapshot *mapmodel.MapSnapshot) {
 	t.Helper()
+
 	if len(snapshot.Paths) != 1 || len(snapshot.Paths[0].Points) != 1 || snapshot.Paths[0].Points[0].X != 0 {
 		t.Fatal("absent path coordinates became zero geometry")
 	}
@@ -92,6 +93,7 @@ func TestQ10EmptyGeometryCollections(t *testing.T) {
 			t.Fatal("empty geometry collection is null")
 		}
 	}
+
 	for _, count := range []int{len(snapshot.Rooms), len(snapshot.Paths), len(snapshot.CurrentZones),
 		len(snapshot.Restrictions), len(snapshot.Walls), len(snapshot.UnknownBlocks)} {
 		if count != 0 {

@@ -7,3 +7,7 @@ Reference revision: Python-roborock/python-roborock `a8260c5211e60647fc352d6b496
 Q10 world coordinates are relative millimeters. Public cleaning commands use the separate common Roborock frame, obtained by adding 25500 mm to each coordinate as documented by the pinned `Q10RoborockPoint.from_vector`. Decoding and generic geometry transforms do not make that conversion implicitly.
 
 The Go tests consume these fixed independently checked bytes. They do not regenerate expected bytes using the Go decoder. Synthetic compatibility is not evidence of current live firmware behavior.
+
+Dimension-inference tests mutate only the Q10 synthetic header height to zero or an incompatible positive height. The pinned Python `_infer_layout` function independently confirms the same 2×2 grid from the exact `01 00` room section and rejects width 3 because the grid remainder is not divisible by that width. The decoder checks at most 33 room counts, caps decompression and grid size, and keeps calibration from the source header.
+
+Historical map packets share raster decoding. Embedded historical trace, carpet rasters, and unrecognized tail data are retained as unknown-block metadata; the separate live `02 01` trace format has a typed path decoder.

@@ -41,7 +41,7 @@ func decodeQ10(payload []byte, snapshot *mapmodel.MapSnapshot) error {
 	width := int(binary.BigEndian.Uint16(payload[protocol.MapQ10WidthOffset:]))
 	height := int(binary.BigEndian.Uint16(payload[protocol.MapQ10HeightOffset:]))
 
-	count, err := cells(width, height)
+	err = q10DeclaredDimensions(width, height)
 	if err != nil {
 		return err
 	}
@@ -53,14 +53,14 @@ func decodeQ10(payload []byte, snapshot *mapmodel.MapSnapshot) error {
 
 	end := protocol.MapQ10HeaderLength + length
 
-	limit := count + protocol.MapQ10RoomHeaderLength + protocol.MapQ10MaximumRooms*protocol.MapQ10RoomRecordLength
+	limit := maxCells + protocol.MapQ10RoomHeaderLength + protocol.MapQ10MaximumRooms*protocol.MapQ10RoomRecordLength
 
 	decoded, err := decompressLZ4(payload[protocol.MapQ10HeaderLength:end], limit)
 	if err != nil {
 		return err
 	}
 
-	err = q10RoomRecords(decoded, count)
+	count, height, err := q10LayoutDimensions(decoded, width, height)
 	if err != nil {
 		return err
 	}

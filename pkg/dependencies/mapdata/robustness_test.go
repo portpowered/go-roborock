@@ -34,10 +34,12 @@ func TestQ10LZ4MalformedBlocks(t *testing.T) {
 		header[0], header[1] = 1, 1
 		binary.BigEndian.PutUint16(header[7:], 2)
 		binary.BigEndian.PutUint16(header[9:], 2)
+
 		if len(block) > 255 {
 			t.Fatal("test literal overflow")
 		}
-		header[28] = byte(len(block))
+
+		header[28] = byte(len(block) & 255)
 
 		_, err := mapdata.Decode(mapmodel.MapFormatQ10, append(append([]byte(nil), header...), block...))
 		if !errors.Is(err, mapdata.ErrMalformed) {
