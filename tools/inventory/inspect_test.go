@@ -54,7 +54,10 @@ func TestSchemaBindingIncludesImplicitModels(t *testing.T) {
 	entries := make(map[string]schemaOwner)
 	schema := map[string]any{
 		"properties": map[string]any{
-			"value": map[string]any{"anyOf": []any{map[string]any{schemaTypeKey: "string"}, map[string]any{schemaTypeKey: "integer"}}},
+			"value": map[string]any{"anyOf": []any{
+				map[string]any{schemaTypeKey: "string"},
+				map[string]any{schemaTypeKey: "integer"},
+			}},
 		},
 	}
 	collectSchema(entries, "api/example.yaml", "#/components/schemas/Result", "Result", schema)
