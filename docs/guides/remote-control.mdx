@@ -16,4 +16,3 @@ Velocity is meters per second in −0.3 through 0.3; omega is radians per second
 Call `RCStop` to stop movement, then `RCEnd` to leave remote mode. Give cleanup its own bounded context if the movement context has already expired. Always close the device session afterward. Acknowledgement does not prove the robot moved or stopped; no movement command is automatically retried after uncertainty.
 
 See [session errors](/docs/guides/lifecycle) and the [generated reference](/docs/asyncapi/vacuum/RCMoveRPC).
-

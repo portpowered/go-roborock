@@ -3,7 +3,7 @@ title: Vacuum reads and controls
 description: Read device state and issue explicit cleaning commands.
 ---
 
-Open the discovered device and check its [family and capabilities](/docs/guides/device-families). Common method names use the selected protocol adapter; unsupported operations return `Unsupported`.
+Open the discovered device and check its [family and capabilities](/docs/guides/device-families). The reads and general controls below use V1. `CleanZones` and `CleanSegments` also dispatch to supported B01 families; unsupported operations return `Unsupported`.
 
 | Operation | Purpose |
 | --- | --- |
@@ -18,9 +18,9 @@ Open the discovered device and check its [family and capabilities](/docs/guides/
 | `StartMopWashing`, `StopMopWashing` | Start or stop supported dock washing. |
 | `SetFanSpeed`, `SetWaterMode`, `SetMopMode` | Change a model-supported cleaning setting. |
 | `SetDND`, `DisableDND` | Set or disable the quiet schedule. |
-| `CleanZones`, `CleanSegments` | Clean geometric rectangles or selected rooms. |
+| `CleanZones`, `CleanSegments` | Clean geometric rectangles or selected rooms using the family adapter. |
 
-Empty-input operations take `roborock.EmptyRequest{}`. Controls return a command acknowledgement; it establishes acceptance, not completed cleaning. Check the result and observe status afterward.
+Empty-input operations take `roborock.EmptyRequest{}`. V1 controls return a command acknowledgement; it establishes acceptance, not completed cleaning. B01 cleaning success can mean publication alone. Check the result and observe the device afterward.
 
 ```go
 status, err := session.GetStatus(ctx, roborock.EmptyRequest{})
@@ -33,4 +33,3 @@ Optional measurements are pointers: absence differs from a reported zero. V1 cle
 `SetDND` uses device-local hours 0–23 and minutes 0–59. [Zone cleaning](/docs/guides/zone-cleaning) explains rectangle geometry, room IDs, and supported families. [Remote control](/docs/guides/remote-control) covers short V1 movements.
 
 Controls are sent once. A timeout leaves completion uncertain; inspect status before another movement. See [errors and lifecycle](/docs/guides/lifecycle) and the [MQTT reference](/docs/asyncapi/vacuum/GetStatusRPC).
-

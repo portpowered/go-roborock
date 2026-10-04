@@ -20,7 +20,16 @@ go-roborock status --input device.json
 
 Account inputs contain `auth`. Device inputs additionally contain `deviceId`, `localKey`, and `protocol` from discovery. The `devices` command redacts local keys in ordinary output; use `devices --input account.json --export devices.json` to explicitly write discovery results including local keys to a private file. Copy the selected device fields into private device input. Never commit credential files.
 
-Vacuum reads are `status`, `consumables`, and `summary`. Explicit controls are `start`, `stop`, `pause`, and `dock`; acknowledgements do not prove physical completion. Use `dyad` or `zeo` with selected numeric `dyadProperties` or `zeoProperties` arrays in device input for A01 state. The `camera` command accepts a `camera` object with `pattern_password`, `sdp_offer`, and optional `quality`, negotiates signaling, then closes preview. Add `--export camera.json` to explicitly write SDP and TURN credentials; ordinary camera output reports only `negotiated: true`. Media rendering and interactive ICE exchange belong to the SDK and your WebRTC stack.
+V1 vacuum reads are `status`, `consumables`, and `summary`. Explicit controls are `start`, `stop`, `pause`, and `dock`; acknowledgements do not prove physical completion. Use `dyad` or `zeo` with selected numeric `dyadProperties` or `zeoProperties` arrays in device input for A01 state. The `camera` command accepts a `camera` object with `pattern_password`, `sdp_offer`, and optional `quality`, negotiates signaling, then closes preview. Add `--export camera.json` to explicitly write SDP and TURN credentials; ordinary camera output reports only `negotiated: true`. Media rendering and interactive ICE exchange belong to the SDK and your WebRTC stack.
+
+Map reads are `maps`, `map`, `rooms`, `trace`, and `capabilities`; `trace` is Q10-only. An omitted `mapId` reads the current map. Q7 may use a saved ID; `select-map` explicitly changes the active map on V1. The SDK obtains B01 family, model, and serial metadata from authenticated inventory; device input needs no family selector.
+
+```sh
+go-roborock capabilities --input device.json
+go-roborock map --input device.json
+go-roborock rooms --input device.json
+```
+
+For explicit cleaning, add `cleanZones: {"zones":[{"x1":...,"y1":...,"x2":...,"y2":...,"repeats":1}]}` or `cleanRooms: {"segments":[...],"repeats":1}` to device input, replacing placeholders with values from the active map. Run `clean-zones` or `clean-rooms`. `select-map` takes `mapId`. These commands can cause movement; read [zone cleaning](/docs/guides/zone-cleaning) for family limits and coordinates.
 
 See [authentication](/docs/guides/authentication), [discovery](/docs/guides/discovery), and [errors](/docs/guides/lifecycle).
-
