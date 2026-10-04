@@ -19505,22 +19505,6 @@
       "kind": "constant",
       "definition": {
         "file": "pkg/dependencymodels/mapproto/b01_scmap.pb.go",
-        "line": 21,
-        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels/mapproto._"
-      },
-      "schema": {
-        "file": "api/external/b01_scmap.proto",
-        "pointer": "#"
-      },
-      "generator": "go run ./tools/protogen (protoc-gen-go v1.36.11)",
-      "value": "16",
-      "productionUses": []
-    },
-    {
-      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels/mapproto._",
-      "kind": "constant",
-      "definition": {
-        "file": "pkg/dependencymodels/mapproto/b01_scmap.pb.go",
         "line": 19,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels/mapproto._"
       },
@@ -19530,6 +19514,22 @@
       },
       "generator": "go run ./tools/protogen (protoc-gen-go v1.36.11)",
       "value": "20",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels/mapproto._",
+      "kind": "constant",
+      "definition": {
+        "file": "pkg/dependencymodels/mapproto/b01_scmap.pb.go",
+        "line": 21,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels/mapproto._"
+      },
+      "schema": {
+        "file": "api/external/b01_scmap.proto",
+        "pointer": "#"
+      },
+      "generator": "go run ./tools/protogen (protoc-gen-go v1.36.11)",
+      "value": "16",
       "productionUses": []
     },
     {
