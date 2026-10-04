@@ -168,7 +168,8 @@ func (s *Session) deliverB01RPC(value []byte) error {
 
 	requestID, err := strconv.ParseInt(result.MsgId, 10, 64)
 	if err != nil || requestID < protocol.B01Q7MessageIDBase ||
-		requestID >= protocol.B01Q7MessageIDBase+protocol.B01Q7MessageIDRange {
+		requestID >= protocol.B01Q7MessageIDBase+protocol.B01Q7MessageIDRange ||
+		strconv.FormatInt(requestID, 10) != result.MsgId {
 		if err != nil {
 			return transportError("B01 response identifier", err)
 		}

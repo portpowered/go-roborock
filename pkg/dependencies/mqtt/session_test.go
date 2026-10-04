@@ -1498,8 +1498,61 @@ func TestKnownB01NullFieldsAreProtocol(t *testing.T) {
 	}
 
 	err := session.deliverB01RPC([]byte(`null`))
-
 	if err != nil {
 		t.Fatalf("unrelated null push: %v", err)
+	}
+}
+
+func TestB01ResponseRequiresCanonicalIdentifier(t *testing.T) {
+	t.Parallel()
+
+	session := new(Session)
+	session.mapQuery = &mapQuery{id: 100000000005, prefix: 0, reply: make(chan response, 1)}
+
+	for _, identifier := range []string{
+		"+100000000005", "0100000000005", "100000000005 ", " 100000000005",
+		"1e11", "-100000000005", "99999999999", "1000000000000",
+	} {
+		raw, err := json.Marshal(dependencymodels.B01RPCResponse{MsgId: identifier, Code: nil, Data: nil})
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		err = session.deliverB01RPC(raw)
+
+		_ = assertErrorKind(t, err, roborockerrors.Protocol)
+
+		if identifier == "+100000000005" || identifier == "0100000000005" {
+			if !errors.Is(err, errInvalidB01MessageID) {
+				t.Fatalf("canonical spelling cause: %v", err)
+			}
+		}
+
+		select {
+		case <-session.mapQuery.reply:
+			t.Fatal("noncanonical identifier reached correlation")
+		default:
+		}
+	}
+
+	assertCanonicalB01Correlates(t, session)
+}
+
+func assertCanonicalB01Correlates(t *testing.T, session *Session) {
+	t.Helper()
+
+	err := session.deliverB01RPC([]byte(`{"msgId":"100000000005","code":7}`))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	select {
+	case reply := <-session.mapQuery.reply:
+		var rejection *RPCError
+		if !errors.As(reply.err, &rejection) || rejection.Code != 7 {
+			t.Fatalf("canonical correlated rejection: %v", reply.err)
+		}
+	default:
+		t.Fatal("canonical identifier did not correlate")
 	}
 }
