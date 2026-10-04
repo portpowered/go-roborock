@@ -84,6 +84,7 @@ func validateOrigin(base string) error {
 	if err != nil {
 		return roborockerrors.New(roborockerrors.InvalidArgument, "rest.origin", "expected an HTTP origin", err)
 	}
+
 	if !isHTTPOrigin(u) {
 		return roborockerrors.New(roborockerrors.InvalidArgument, "rest.origin", "expected an HTTP origin", nil)
 	}
@@ -95,6 +96,7 @@ func isHTTPOrigin(parsed *url.URL) bool {
 	if parsed.Scheme != "https" && parsed.Scheme != "http" {
 		return false
 	}
+
 	return parsed.Hostname() != "" && parsed.User == nil && parsed.RawQuery == "" && !parsed.ForceQuery &&
 		parsed.Fragment == "" && (parsed.Path == "" || parsed.Path == "/")
 }

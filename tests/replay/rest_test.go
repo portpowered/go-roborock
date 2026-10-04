@@ -151,12 +151,13 @@ func TestPairedAuthAndInventory(t *testing.T) {
 	}
 
 	var fixture replayFixture
+
 	err = json.Unmarshal(fixtureBytes, &fixture)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if fixture.Provenance != "synthetic" {
+	if fixture.Provenance != accountFixtureProvenance {
 		t.Fatal("fixture provenance missing")
 	}
 
@@ -184,7 +185,9 @@ func TestPairedAuthAndInventory(t *testing.T) {
 	}
 }
 
-func replayAuthentication(ctx context.Context, t *testing.T, client *rest.Client, login rest.LoginContext) rest.AuthContext {
+func replayAuthentication(
+	ctx context.Context, t *testing.T, client *rest.Client, login rest.LoginContext,
+) rest.AuthContext {
 	t.Helper()
 
 	region, err := client.ResolveRegion(ctx, rest.RegionRequest{Email: login.Email, BaseURL: login.BaseURL})
@@ -260,21 +263,27 @@ func verifyInventory(t *testing.T, home dependencymodels.HomeData) {
 	if (*home.Products)[0].Category != "future-category" {
 		t.Fatal("unknown category lost")
 	}
+
 	verifyInventoryStatus(t, devices[0].DeviceStatus)
 }
 
 func verifyInventoryStatus(t *testing.T, status *dependencymodels.HomeDeviceStatus) {
 	t.Helper()
+
 	if status == nil || status.DPS121 == nil || *status.DPS121 != 8 || status.N206 == nil {
 		t.Fatal("typed inventory status lost")
 	}
+
 	flag, err := status.N206.AsInventoryBooleanOrInteger0()
 	checkReplayError(t, err)
+
 	if !flag {
 		t.Fatal("typed inventory boolean lost")
 	}
+
 	metadata, err := rest.DecodeProductInfo(*status.DPS10005)
 	checkReplayError(t, err)
+
 	if metadata.Sn == nil || *metadata.Sn != "synthetic-sn" {
 		t.Fatal("typed embedded inventory metadata lost")
 	}

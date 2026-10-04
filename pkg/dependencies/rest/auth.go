@@ -229,6 +229,7 @@ func (c *Client) LoginCode(ctx context.Context, request LoginCodeRequest) (Login
 	headers.Set(protocol.RESTHeaderHeaderAppversion, string(dependencymodels.AppVersionIOS))
 	headers.Set(protocol.RESTHeaderHeaderPhonesystem, string(dependencymodels.PhoneSystemIOS))
 	headers.Set(protocol.RESTHeaderHeaderPhonemodel, string(dependencymodels.PhoneModelIPhone16))
+
 	form := url.Values{
 		protocol.RESTFormEmail:        {request.Login.Email},
 		protocol.RESTFormCode:         {request.Code},

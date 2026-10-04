@@ -57,6 +57,7 @@ func (c *Client) hawk(request dependencymodels.RRiot, path string) (string, erro
 	}
 
 	entropy := make([]byte, hawkEntropyBytes)
+
 	_, err := io.ReadFull(c.random, entropy)
 	if err != nil {
 		return "", roborockerrors.New(roborockerrors.Unavailable, "hawk", "entropy unavailable", err)

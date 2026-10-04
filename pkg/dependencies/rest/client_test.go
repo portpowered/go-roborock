@@ -47,8 +47,10 @@ func TestFailureClasses(t *testing.T) {
 				}
 
 				var response http.Response
+
 				response.StatusCode = test.status
 				response.Body = io.NopCloser(strings.NewReader(test.body))
+
 				return &response, nil
 			})
 
