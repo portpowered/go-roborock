@@ -677,7 +677,7 @@ type SetDyadSettingsRequest struct {
 	WaterLevel *DyadWaterLevel `json:"waterLevel,omitempty"`
 }
 
-// SetZeoSettingsRequest Sparse settings update. Absent fields are never sent. Integer switches use the appliance protocol value (typically 0 or 1).
+// SetZeoSettingsRequest Sparse settings update. Absent fields are never sent. Switches use boolean values on the appliance protocol.
 type SetZeoSettingsRequest struct {
 	// ChildLock Appliance boolean value.
 	ChildLock *bool `json:"childLock,omitempty"`

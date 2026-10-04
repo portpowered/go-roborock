@@ -1,6 +1,6 @@
 {
   "files": {
-    "api/a01-models.openapi.yaml": "bfbd388c200fc8fcd5a2a9e292dbda1065c063c9622344a26c251f0652f870e1",
+    "api/a01-models.openapi.yaml": "c2ea3d9e0056f02d774558316b9d46581fcddaa4224a826db9eda1434e86b1c1",
     "api/a01-wire.openapi.yaml": "f759ccaf13ea5f3d07b9064c0501bd5a07c18d469a352e0d6e71218661461044",
     "api/auth.openapi.yaml": "f07b9d210578370288f7440ecddb406fafa6ba9cc401088b0fa1e6e456057596",
     "api/camera.openapi.yaml": "8276a24184c7a5153a935e54b749d1344090dc9bae6916b528f0df3a12497f3b",
@@ -53,7 +53,7 @@
     "pkg/dependencymodels/mqtt.gen.go": "1b5d70cefb0303a021bad7113fc881f8b6abceb1b2efe57c8a59eb604cc23e36",
     "pkg/dependencymodels/vacuum.gen.go": "4aeddfe21f9fc4202d40ed916b69b7cbcac71e9a9e2978e3ae14b1eb8d997c59",
     "pkg/roborock/a01.go": "e719316db948530060b55de407cae0ce9e01275434f098d405a2b7a977e5b6f4",
-    "pkg/roborock/a01_models.gen.go": "d64b561b1fcabeedd5fa0e4c52bffbe4a637a0d876944ddf8faad37f792b2b23",
+    "pkg/roborock/a01_models.gen.go": "d2fc2658140ffeb2e17f11729d23e1a774ed2be0eace59ea30675df2bc9f5389",
     "pkg/roborock/a01_projection.go": "afe1def88bd57e329127b55bdd535080426f342db7fb23c03253ac4f092f7259",
     "pkg/roborock/accounts.go": "367b1a67b742d66ffe16f10d27593e70f5a4f766b2b3b53323ae8d86eb640ab0",
     "pkg/roborock/camera.go": "0f9526b12373111b65f819eb16d9e3a04bdac9f1cd6f0a77b1c302680a5010c8",
