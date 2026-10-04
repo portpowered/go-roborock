@@ -121,7 +121,6 @@ func (p *pairedHTTP) matchBody(request *http.Request, expected url.Values) {
 		var err error
 
 		body, err = io.ReadAll(request.Body)
-
 		if err != nil {
 			p.t.Fatal(err)
 		}
@@ -146,7 +145,6 @@ func loadAccountFixture(t *testing.T) fixture {
 	t.Helper()
 
 	encoded, err := os.ReadFile("fixtures/rest/synthetic/sdk-account.json")
-
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -154,7 +152,6 @@ func loadAccountFixture(t *testing.T) fixture {
 	var expected fixture
 
 	err = json.Unmarshal(encoded, &expected)
-
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -170,10 +167,10 @@ func TestAccountWorkflow(t *testing.T) {
 	t.Parallel()
 	expected := loadAccountFixture(t)
 	doer := &pairedHTTP{t: t, expected: expected.Exchanges, index: 0, nonce: ""}
+
 	client, err := roborock.NewClient(
 		roborock.WithBaseURL("https://iot.example.test"), roborock.WithHTTPClient(doer),
 	)
-
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -181,7 +178,6 @@ func TestAccountWorkflow(t *testing.T) {
 	login, err := client.ResolveLogin(t.Context(), roborock.ResolveLoginRequest{
 		Email: "one@example.test", ClientID: "sdk-client",
 	})
-
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -191,8 +187,8 @@ func TestAccountWorkflow(t *testing.T) {
 	}
 
 	auth := completeCodeLogin(t, client, login)
-	devices, err := client.ListDevices(t.Context(), roborock.AccountRequest{Auth: auth})
 
+	devices, err := client.ListDevices(t.Context(), roborock.AccountRequest{Auth: auth})
 	if err != nil {
 		t.Fatal(err)
 	}

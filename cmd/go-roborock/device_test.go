@@ -91,7 +91,7 @@ func replayEstablishment(connection net.Conn, exchanges ...func(net.Conn) error)
 
 	topic := "rr/m/o/synthetic-user/f8cd4bde/synthetic-device"
 
-	expected := append([]byte{0, 1, 0, byte(len(topic))}, append([]byte(topic), 0)...)
+	expected := append([]byte{0, 1, 0, byte(len(topic) & 255)}, append([]byte(topic), 0)...)
 	if header != 130 || !bytes.Equal(body, expected) {
 		return errors.New("SUBSCRIBE account topic mismatch")
 	}
@@ -120,7 +120,9 @@ func replayEstablishment(connection net.Conn, exchanges ...func(net.Conn) error)
 
 func readSmallPacket(reader io.Reader) (byte, []byte, error) {
 	var prefix [2]byte
-	if _, err := io.ReadFull(reader, prefix[:]); err != nil {
+
+	_, err := io.ReadFull(reader, prefix[:])
+	if err != nil {
 		return 0, nil, err
 	}
 
@@ -129,7 +131,7 @@ func readSmallPacket(reader io.Reader) (byte, []byte, error) {
 	}
 
 	body := make([]byte, int(prefix[1]))
-	_, err := io.ReadFull(reader, body)
+	_, err = io.ReadFull(reader, body)
 
 	return prefix[0], body, err
 }

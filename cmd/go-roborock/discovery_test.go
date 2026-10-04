@@ -25,7 +25,7 @@ type inventoryHTTP struct{ calls int }
 func (transport *inventoryHTTP) Do(request *http.Request) (*http.Response, error) {
 	transport.calls++
 
-	if request.Method != http.MethodGet || request.URL.Scheme != "https" || request.URL.Host != "example.invalid" || request.URL.RawQuery != "" || request.Header.Get("Accept") != "application/json" {
+	if request.Method != http.MethodGet || request.URL.Scheme != "https" || request.URL.Host != "example.invalid" || request.URL.RawQuery != "" || request.Header.Get("Accept") != fixtureContentType {
 		return nil, errors.New("inventory request mismatch")
 	}
 
@@ -33,7 +33,7 @@ func (transport *inventoryHTTP) Do(request *http.Request) (*http.Response, error
 
 	switch transport.calls {
 	case 1:
-		if request.URL.EscapedPath() != "/api/v1/getHomeDetail" || request.Header.Get("Authorization") != "synthetic-token" || request.Header.Get("Header_clientid") != "synthetic-id" {
+		if request.URL.EscapedPath() != "/api/v1/getHomeDetail" || request.Header.Get("Authorization") != "synthetic-token" || request.Header.Get("Header_clientid") != fixtureClientID {
 			return nil, errors.New("home request mismatch")
 		}
 
@@ -53,7 +53,7 @@ func (transport *inventoryHTTP) Do(request *http.Request) (*http.Response, error
 		return nil, errors.New("unexpected inventory exchange")
 	}
 
-	return &http.Response{StatusCode: http.StatusOK, Header: http.Header{"Content-Type": {"application/json"}}, Body: io.NopCloser(strings.NewReader(response))}, nil
+	return &http.Response{StatusCode: http.StatusOK, Header: http.Header{"Content-Type": {fixtureContentType}}, Body: io.NopCloser(strings.NewReader(response))}, nil
 }
 
 func verifyHawk(header string) error {
@@ -64,11 +64,13 @@ func verifyHawk(header string) error {
 		return errors.New("Hawk fields mismatch")
 	}
 
-	if _, err := strconv.ParseInt(parts[1], 10, 64); err != nil {
+	_, err := strconv.ParseInt(parts[1], 10, 64)
+	if err != nil {
 		return errors.New("Hawk timestamp mismatch")
 	}
 
-	if nonce, err := base64.RawURLEncoding.DecodeString(parts[2]); err != nil || len(nonce) != 6 {
+	nonce, err := base64.RawURLEncoding.DecodeString(parts[2])
+	if err != nil || len(nonce) != 6 {
 		return errors.New("Hawk nonce format mismatch")
 	}
 
@@ -108,7 +110,8 @@ func TestDeviceDiscoveryExportIsExplicit(t *testing.T) {
 
 		var stdout, stderr bytes.Buffer
 
-		if err := run(context.Background(), arguments, strings.NewReader(input), &stdout, &stderr, noEnvironment, client); err != nil {
+		err = run(context.Background(), arguments, strings.NewReader(input), &stdout, &stderr, noEnvironment, client)
+		if err != nil {
 			t.Fatal(err)
 		}
 

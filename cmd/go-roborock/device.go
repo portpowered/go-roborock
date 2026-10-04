@@ -70,7 +70,7 @@ func deviceOperation(ctx context.Context, session *roborock.DeviceSession, comma
 	request := roborock.EmptyRequest{}
 
 	switch command {
-	case "status":
+	case commandStatus:
 		return session.GetStatus(ctx, request)
 	case "consumables":
 		return session.GetConsumables(ctx, request)

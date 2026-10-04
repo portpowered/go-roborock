@@ -18,6 +18,13 @@ import (
 	"github.com/portpowered/go-roborock/pkg/roborock"
 )
 
+const (
+	fixtureContentType  = "application/json"
+	fixtureClientID     = "synthetic-id"
+	fixtureAccountEmail = "customer@example.invalid"
+	fixtureAcknowledged = `"acknowledged":true`
+)
+
 // pairedHTTP exercises the real public client with synthetic paired exchanges.
 type pairedHTTP struct {
 	t        *testing.T
@@ -44,7 +51,7 @@ func (transport *pairedHTTP) Do(request *http.Request) (*http.Response, error) {
 		return nil, errors.New("request mismatch")
 	}
 
-	if request.Header.Get("Accept") != "application/json" || request.Header.Get("Header_clientid") != transport.clientID {
+	if request.Header.Get("Accept") != fixtureContentType || request.Header.Get("Header_clientid") != transport.clientID {
 		return nil, errors.New("request header mismatch")
 	}
 
@@ -63,7 +70,7 @@ func (transport *pairedHTTP) Do(request *http.Request) (*http.Response, error) {
 		}
 	}
 
-	return &http.Response{StatusCode: transport.status, Header: http.Header{"Content-Type": {"application/json"}}, Body: io.NopCloser(strings.NewReader(transport.response))}, nil
+	return &http.Response{StatusCode: transport.status, Header: http.Header{"Content-Type": {fixtureContentType}}, Body: io.NopCloser(strings.NewReader(transport.response))}, nil
 }
 
 func newTestClient(t *testing.T, transport *pairedHTTP) *roborock.Client {
@@ -82,7 +89,7 @@ func noEnvironment(string) string { return "" }
 func TestHelpAndInvalidInputs(t *testing.T) {
 	t.Parallel()
 
-	for _, arguments := range [][]string{{"help"}, {"--help"}, {"status", "--help"}} {
+	for _, arguments := range [][]string{{"help"}, {"--help"}, {commandStatus, "--help"}} {
 		var stdout, stderr bytes.Buffer
 
 		err := run(context.Background(), arguments, strings.NewReader(""), &stdout, &stderr, noEnvironment, nil)
@@ -95,7 +102,7 @@ func TestHelpAndInvalidInputs(t *testing.T) {
 		}
 	}
 
-	for _, arguments := range [][]string{{"unknown"}, {"status"}, {"home", "secret-token"}, {"home", "--password", "secret"}, {"home", "--export", "out"}} {
+	for _, arguments := range [][]string{{"unknown"}, {commandStatus}, {commandHome, "secret-token"}, {commandHome, "--password", "secret"}, {commandHome, "--export", "out"}} {
 		var stdout, stderr bytes.Buffer
 
 		err := run(context.Background(), arguments, strings.NewReader("{}"), &stdout, &stderr, noEnvironment, nil)
@@ -107,7 +114,7 @@ func TestHelpAndInvalidInputs(t *testing.T) {
 
 func TestResolveLoginPairedHTTP(t *testing.T) {
 	t.Parallel()
-	transport := &pairedHTTP{t: t, path: "/api/v1/getUrlByEmail", query: url.Values{"email": {"customer@example.invalid"}, "needtwostepauth": {"false"}}, status: http.StatusOK, response: `{"code":200,"data":{"url":"https://example.invalid","country":"US","countrycode":"1"}}`}
+	transport := &pairedHTTP{t: t, path: "/api/v1/getUrlByEmail", query: url.Values{"email": {fixtureAccountEmail}, "needtwostepauth": {"false"}}, status: http.StatusOK, response: `{"code":200,"data":{"url":"https://example.invalid","country":"US","countrycode":"1"}}`}
 
 	var stdout, stderr bytes.Buffer
 
@@ -116,14 +123,14 @@ func TestResolveLoginPairedHTTP(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if transport.calls != 1 || !strings.Contains(stdout.String(), "synthetic-id") {
+	if transport.calls != 1 || !strings.Contains(stdout.String(), fixtureClientID) {
 		t.Fatal("missing exchange or login identity")
 	}
 }
 
 func TestLoginPasswordExportAndRedaction(t *testing.T) {
 	t.Parallel()
-	transport := &pairedHTTP{t: t, path: "/api/v1/login", query: url.Values{"username": {"customer@example.invalid"}, "password": {"synthetic-password"}, "needtwostepauth": {"false"}}, clientID: "synthetic-id", status: http.StatusOK, response: `{"code":200,"data":{"uid":42,"nickname":"Customer","token":"synthetic-token","rriot":{"u":"synthetic-user","s":"synthetic-secret","h":"synthetic-signing","k":"synthetic-key","r":{"a":"https://example.invalid","m":"ssl://example.invalid:8883"}}}}`}
+	transport := &pairedHTTP{t: t, path: "/api/v1/login", query: url.Values{"username": {fixtureAccountEmail}, "password": {"synthetic-password"}, "needtwostepauth": {"false"}}, clientID: fixtureClientID, status: http.StatusOK, response: `{"code":200,"data":{"uid":42,"nickname":"Customer","token":"synthetic-token","rriot":{"u":"synthetic-user","s":"synthetic-secret","h":"synthetic-signing","k":"synthetic-key","r":{"a":"https://example.invalid","m":"ssl://example.invalid:8883"}}}}`}
 	exportPath := filepath.Join(t.TempDir(), "credentials.json")
 
 	var stdout, stderr bytes.Buffer
@@ -143,7 +150,9 @@ func TestLoginPasswordExportAndRedaction(t *testing.T) {
 	}
 
 	var exported CommandInput
-	if err := json.Unmarshal(data, &exported); err != nil {
+
+	err = json.Unmarshal(data, &exported)
+	if err != nil {
 		t.Fatal(err)
 	}
 
@@ -160,14 +169,15 @@ func TestLoginPasswordExportAndRedaction(t *testing.T) {
 		t.Fatal("credential export is not private")
 	}
 
-	if err := exportCredentials(exportPath, exported); err == nil {
+	err = exportCredentials(exportPath, exported)
+	if err == nil {
 		t.Fatal("credential export overwrote existing file")
 	}
 }
 
 func TestAuthenticationErrorPairedHTTP(t *testing.T) {
 	t.Parallel()
-	transport := &pairedHTTP{t: t, path: "/api/v4/email/code/send", query: url.Values{}, form: url.Values{"email": {"customer@example.invalid"}, "type": {"login"}, "platform": {""}}, clientID: "synthetic-id", status: http.StatusUnauthorized, response: `{"code":401}`}
+	transport := &pairedHTTP{t: t, path: "/api/v4/email/code/send", query: url.Values{}, form: url.Values{"email": {fixtureAccountEmail}, "type": {"login"}, "platform": {""}}, clientID: fixtureClientID, status: http.StatusUnauthorized, response: `{"code":401}`}
 
 	var stdout, stderr bytes.Buffer
 
@@ -186,7 +196,8 @@ func TestInputSourcesAndStrictJSON(t *testing.T) {
 	}
 
 	for _, body := range []string{"{} {}", `{"password":"secret","unexpected":1}`, strings.Repeat(" ", maxInputBytes+1)} {
-		if _, err := readInput("-", strings.NewReader(body), noEnvironment); err == nil {
+		_, err = readInput("-", strings.NewReader(body), noEnvironment)
+		if err == nil {
 			t.Fatal("accepted malformed input")
 		}
 	}

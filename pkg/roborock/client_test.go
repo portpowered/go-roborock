@@ -51,7 +51,6 @@ func TestAccountRequestsRejectMissingInputs(t *testing.T) {
 	t.Parallel()
 
 	client, err := roborock.NewClient(roborock.WithHTTPClient(failedHTTP{}))
-
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -68,37 +67,31 @@ func TestAccountRequestsRejectMissingInputs(t *testing.T) {
 	_, err = client.ResolveLogin(ctx, roborock.ResolveLoginRequest{Email: "one@example.test",
 		ClientID: "",
 	})
-
 	if err == nil {
 		t.Fatal("missing identity accepted")
 	}
 
 	_, err = client.LoginWithCode(ctx, emptyCode)
-
 	if err == nil {
 		t.Fatal("empty login accepted")
 	}
 
 	_, err = client.LoginWithPassword(ctx, emptyPassword)
-
 	if err == nil {
 		t.Fatal("empty password login accepted")
 	}
 
 	_, err = client.GetHome(ctx, emptyAccount)
-
 	if err == nil {
 		t.Fatal("missing token accepted")
 	}
 
 	_, err = client.GetHomeData(ctx, emptyHomeData)
-
 	if err == nil {
 		t.Fatal("missing home accepted")
 	}
 
 	_, err = client.ListDevices(ctx, emptyAccount)
-
 	if err == nil {
 		t.Fatal("missing credentials accepted")
 	}
@@ -108,7 +101,6 @@ func TestCanceledAccountRequestsPreserveCause(t *testing.T) {
 	t.Parallel()
 
 	client, err := roborock.NewClient(roborock.WithBaseURL("https://example.test"), roborock.WithHTTPClient(failedHTTP{}))
-
 	if err != nil {
 		t.Fatal(err)
 	}

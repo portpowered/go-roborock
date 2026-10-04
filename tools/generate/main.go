@@ -23,6 +23,7 @@ const (
 	generator           = "github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@v2.5.1"
 	privateFileMode     = 0o600
 	outputDirectoryMode = 0o750
+	cliPackage          = "main"
 )
 
 var (
@@ -74,7 +75,7 @@ func generateSchema(ctx context.Context, schema string, constants map[string]str
 	}
 
 	if name == "cli-models" {
-		pkg, output = "main", "cmd/go-roborock/input.gen.go"
+		pkg, output = cliPackage, "cmd/go-roborock/input.gen.go"
 	}
 
 	err := model(ctx, schema, pkg, output, check)
@@ -287,13 +288,14 @@ func model(ctx context.Context, schema, pkg, output string, check bool) error {
 }
 
 func normalizePackageComment(pkg string, data []byte) []byte {
-	if pkg != "roborock" {
+	if pkg != "roborock" && pkg != cliPackage {
 		return data
 	}
 
-	boilerplate := "// Package roborock provides primitives to interact with the openapi HTTP API.\n//\n"
-
-	return bytes.TrimPrefix(data, []byte(boilerplate))
+	boilerplate := "// Package " + pkg + " provides primitives to interact with the openapi HTTP API.\n//\n"
+	data = bytes.TrimPrefix(data, []byte(boilerplate))
+	// Keep the generator marker separate from the package documentation owned by doc.go.
+	return bytes.Replace(data, []byte("DO NOT EDIT.\npackage "+pkg), []byte("DO NOT EDIT.\n\npackage "+pkg), 1)
 }
 
 func write(name string, data []byte, check bool) error {

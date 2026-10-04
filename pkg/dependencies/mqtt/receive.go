@@ -166,6 +166,7 @@ func rpcResult(result dependencymodels.MQTTRPCResponse) response {
 
 func isUnknownMethod(value json.RawMessage) bool {
 	var result string
+
 	return json.Unmarshal(value, &result) == nil && result == protocol.MQTTUnknownMethodResult
 }
 

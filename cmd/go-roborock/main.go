@@ -22,6 +22,7 @@ func main() {
 
 	if err != nil {
 		_, _ = fmt.Fprintln(os.Stderr, "go-roborock:", err)
+
 		os.Exit(1)
 	}
 }

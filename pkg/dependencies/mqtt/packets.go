@@ -100,9 +100,10 @@ func connectPacket(clientID, username, password string) []byte {
 }
 
 func subscribePacket(topic string) []byte {
-	body := make([]byte, protocol.MQTTUint16Size)
-	binary.BigEndian.PutUint16(body, protocol.MQTTSubscribeIdentifier)
-	body = append(body, mqttString(topic)...)
+	var identifier [protocol.MQTTUint16Size]byte
+
+	binary.BigEndian.PutUint16(identifier[:], protocol.MQTTSubscribeIdentifier)
+	body := append(identifier[:], mqttString(topic)...)
 
 	return packet(protocol.MQTTSubscribe, append(body, protocol.MQTTQoSAtMostOnce))
 }

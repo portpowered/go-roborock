@@ -15,10 +15,13 @@ type commandOptions struct {
 }
 
 const (
+	commandStatus        = "status"
+	commandHome          = "home"
 	commandCamera        = "camera"
 	commandDevices       = "devices"
 	commandLoginCode     = "login-code"
 	commandLoginPassword = "login-password"
+	commandResolveLogin  = "resolve-login"
 )
 
 func wantsHelp(args []string) bool {
@@ -69,7 +72,7 @@ func parseCommand(args []string, stderr io.Writer) (commandOptions, error) {
 
 func canExport(command string) bool {
 	switch command {
-	case "resolve-login", commandLoginCode, commandLoginPassword, commandDevices, commandCamera:
+	case commandResolveLogin, commandLoginCode, commandLoginPassword, commandDevices, commandCamera:
 		return true
 	default:
 		return false

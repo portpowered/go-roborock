@@ -117,6 +117,7 @@ func mqttCredentials(config Config) (string, string) {
 	secretHash := md5.Sum([]byte(secretInput)) //nolint:gosec // Vendor password derivation.
 	username := hex.EncodeToString(userHash[:])[protocol.MQTTUsernameDigestHexStart:protocol.MQTTUsernameDigestHexEnd]
 	password := hex.EncodeToString(secretHash[:])[protocol.MQTTPasswordDigestHexStart:]
+
 	return username, password
 }
 

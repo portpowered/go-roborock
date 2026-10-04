@@ -20,17 +20,19 @@ import (
 	"time"
 )
 
+const fixtureRPCResult = `["ok"]`
+
 const deviceJSON = `{"auth":{"mqtt":{"brokerUrl":"ssl://example.invalid:8883","user":"synthetic-user","secret":"synthetic-secret","key":"synthetic-key"}},"deviceId":"synthetic-device","localKey":"0123456789abcdef","protocol":"1.0"}`
 
 func TestVacuumReadAndControlCommandsPairedMQTT(t *testing.T) {
 	t.Parallel()
 
 	cases := [][4]string{
-		{"start", "app_start", `["ok"]`, `"acknowledged":true`},
-		{"stop", "app_stop", `["ok"]`, `"acknowledged":true`},
-		{"pause", "app_pause", `["ok"]`, `"acknowledged":true`},
-		{"dock", "app_charge", `["ok"]`, `"acknowledged":true`},
-		{"status", "get_status", `{"battery":85}`, `"battery":85`},
+		{"start", "app_start", fixtureRPCResult, fixtureAcknowledged},
+		{"stop", "app_stop", fixtureRPCResult, fixtureAcknowledged},
+		{"pause", "app_pause", fixtureRPCResult, fixtureAcknowledged},
+		{"dock", "app_charge", fixtureRPCResult, fixtureAcknowledged},
+		{commandStatus, "get_status", `{"battery":85}`, `"battery":85`},
 		{"consumables", "get_consumable", `{"main_brush_work_time":3600}`, `"main_brush_work_time":3600`},
 		{"summary", "get_clean_summary", `{"clean_time":120}`, `"clean_time":120`},
 	}
@@ -52,7 +54,8 @@ func TestVacuumReadAndControlCommandsPairedMQTT(t *testing.T) {
 				t.Fatal("missing public result")
 			}
 
-			if err := <-done; err != nil {
+			err = <-done
+			if err != nil {
 				t.Fatal(err)
 			}
 		})
@@ -68,12 +71,13 @@ func TestCancellationClosesPendingRPC(t *testing.T) {
 
 	var out, errOut bytes.Buffer
 
-	err := run(ctx, []string{"status"}, strings.NewReader(deviceJSON), &out, &errOut, noEnvironment, client)
+	err := run(ctx, []string{commandStatus}, strings.NewReader(deviceJSON), &out, &errOut, noEnvironment, client)
 	if err == nil || out.Len() != 0 {
 		t.Fatal("canceled RPC returned result")
 	}
 
-	if err := <-done; err != nil {
+	err = <-done
+	if err != nil {
 		t.Fatal(err)
 	}
 }
@@ -84,20 +88,20 @@ func TestCameraLifecycleAndOutput(t *testing.T) {
 	for _, success := range []bool{false, true} {
 		client, done := rpcTestClient(t, func(conn net.Conn) error {
 			pairs := [][3]string{
-				{"check_homesec_password", `{"password":"0123456789abcdef0123456789abcdef"}`, `["ok"]`},
-				{"start_camera_preview", `{"password":"0123456789abcdef0123456789abcdef","quality":"hd"}`, `["ok"]`},
+				{"check_homesec_password", `{"password":"0123456789abcdef0123456789abcdef"}`, fixtureRPCResult},
+				{"start_camera_preview", `{"password":"0123456789abcdef0123456789abcdef","quality":"hd"}`, fixtureRPCResult},
 			}
 
 			if success {
 				offer := base64.StdEncoding.EncodeToString([]byte(`{"sdp":"synthetic-offer","type":"offer"}`))
 				pairs = append(pairs, [3]string{"get_turn_server", `{}`, `{"url":"turn:example.invalid","username":"user","credential":"secret"}`},
-					[3]string{"send_sdp_to_robot", fmt.Sprintf(`{"app_sdp":%q}`, offer), `["ok"]`},
+					[3]string{"send_sdp_to_robot", fmt.Sprintf(`{"app_sdp":%q}`, offer), fixtureRPCResult},
 					[3]string{"get_device_sdp", `{}`, `{"sdp":"synthetic-ICE-credential"}`})
 			} else {
 				pairs = append(pairs, [3]string{"get_turn_server", `{}`, `{"unexpected":"synthetic"}`})
 			}
 
-			pairs = append(pairs, [3]string{"stop_camera_preview", `{}`, `["ok"]`})
+			pairs = append(pairs, [3]string{"stop_camera_preview", `{}`, fixtureRPCResult})
 			for _, pair := range pairs {
 				err := replyRPC(conn, pair[0], pair[1], pair[2], nil)
 				if err != nil {
@@ -124,7 +128,8 @@ func TestCameraLifecycleAndOutput(t *testing.T) {
 			t.Fatal("camera credentials disclosed")
 		}
 
-		if err := <-done; err != nil {
+		err = <-done
+		if err != nil {
 			t.Fatal(err)
 		}
 	}
@@ -166,7 +171,7 @@ func replyRPC(conn net.Conn, method, params, result string, cancel context.Cance
 
 	topic := "rr/m/i/synthetic-user/f8cd4bde/synthetic-device"
 
-	prefix := append([]byte{0, byte(len(topic))}, []byte(topic)...)
+	prefix := append([]byte{0, byte(len(topic) & 255)}, []byte(topic)...)
 	if header != 48 || !bytes.HasPrefix(body, prefix) {
 		return errors.New("RPC topic mismatch")
 	}
@@ -182,6 +187,7 @@ func replyRPC(conn net.Conn, method, params, result string, cancel context.Cance
 	if err != nil {
 		return err
 	}
+
 	if cancel != nil {
 		cancel()
 
@@ -203,13 +209,14 @@ func replyRPC(conn net.Conn, method, params, result string, cancel context.Cance
 	}
 
 	topic = "rr/m/o/synthetic-user/f8cd4bde/synthetic-device"
-	_, err = conn.Write(mqttTestPacket(48, append(append([]byte{0, byte(len(topic))}, []byte(topic)...), encoded...)))
+	_, err = conn.Write(mqttTestPacket(48, append(append([]byte{0, byte(len(topic) & 255)}, []byte(topic)...), encoded...)))
 
 	return err
 }
 
 func equalJSON(left, right []byte) bool {
 	var lhs, rhs any
+
 	if json.Unmarshal(left, &lhs) != nil || json.Unmarshal(right, &rhs) != nil {
 		return false
 	}
@@ -261,6 +268,7 @@ func testFrame(frame, payload []byte) ([]byte, error) {
 	padding := aes.BlockSize - len(payload)%aes.BlockSize
 
 	plain := append(bytes.Clone(payload), bytes.Repeat([]byte{byte(padding)}, padding)...)
+
 	payloadLength := len(plain)
 	if payloadLength < 0 || payloadLength > 65535 {
 		return nil, errors.New("fixture payload exceeds uint16 wire limit")
@@ -303,7 +311,9 @@ func mqttTestPacket(header byte, body []byte) []byte {
 
 func readMQTTPacket(reader io.Reader) (byte, []byte, error) {
 	var header [1]byte
-	if _, err := io.ReadFull(reader, header[:]); err != nil {
+
+	_, err := io.ReadFull(reader, header[:])
+	if err != nil {
 		return 0, nil, err
 	}
 
@@ -311,7 +321,9 @@ func readMQTTPacket(reader io.Reader) (byte, []byte, error) {
 
 	for range 4 {
 		var digit [1]byte
-		if _, err := io.ReadFull(reader, digit[:]); err != nil {
+
+		_, err = io.ReadFull(reader, digit[:])
+		if err != nil {
 			return 0, nil, err
 		}
 
@@ -334,12 +346,16 @@ func readMQTTPacket(reader io.Reader) (byte, []byte, error) {
 }
 func matchRPCPlain(plain []byte, method, params string) (int64, error) {
 	var envelope map[string]json.RawMessage
-	if err := json.Unmarshal(plain, &envelope); err != nil {
+
+	err := json.Unmarshal(plain, &envelope)
+	if err != nil {
 		return 0, err
 	}
 
 	var dps map[string]string
-	if err := json.Unmarshal(envelope["dps"], &dps); err != nil {
+
+	err = json.Unmarshal(envelope["dps"], &dps)
+	if err != nil {
 		return 0, err
 	}
 
@@ -348,12 +364,16 @@ func matchRPCPlain(plain []byte, method, params string) (int64, error) {
 	}
 
 	var stamp int64
-	if err := json.Unmarshal(envelope["t"], &stamp); err != nil || stamp <= 0 {
+
+	err = json.Unmarshal(envelope["t"], &stamp)
+	if err != nil || stamp <= 0 {
 		return 0, errors.New("timestamp mismatch")
 	}
 
 	var request map[string]json.RawMessage
-	if err := json.Unmarshal([]byte(dps["101"]), &request); err != nil {
+
+	err = json.Unmarshal([]byte(dps["101"]), &request)
+	if err != nil {
 		return 0, err
 	}
 
@@ -370,18 +390,29 @@ func matchRPCPlain(plain []byte, method, params string) (int64, error) {
 		return 0, errors.New("RPC request mismatch")
 	}
 
-	var security map[string]string
-	if err := json.Unmarshal(request["security"], &security); err != nil {
+	err = matchRPCSecurity(request["security"])
+	if err != nil {
 		return 0, err
 	}
 
-	if security["endpoint"] != "goOmJ7S+" || len(security) != 2 {
-		return 0, errors.New("endpoint mismatch")
-	}
-
-	if nonce, err := hex.DecodeString(security["nonce"]); err != nil || len(nonce) != 16 {
-		return 0, errors.New("nonce mismatch")
-	}
-
 	return identifier, nil
+}
+func matchRPCSecurity(raw json.RawMessage) error {
+	var security map[string]string
+
+	err := json.Unmarshal(raw, &security)
+	if err != nil {
+		return err
+	}
+
+	if security["endpoint"] != "goOmJ7S+" || len(security) != 2 {
+		return errors.New("endpoint mismatch")
+	}
+
+	nonce, err := hex.DecodeString(security["nonce"])
+	if err != nil || len(nonce) != 16 {
+		return errors.New("nonce mismatch")
+	}
+
+	return nil
 }

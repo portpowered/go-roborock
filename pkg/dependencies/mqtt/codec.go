@@ -31,6 +31,7 @@ func frameCipher(frame deviceFrame, localKey string) (cipher.Block, []byte, erro
 		}
 
 		initializationVector := hex.EncodeToString(digest[:])[protocol.MQTTA01IVHexStart:protocol.MQTTA01IVHexEnd]
+
 		return block, []byte(initializationVector), nil
 	}
 
@@ -40,9 +41,11 @@ func frameCipher(frame deviceFrame, localKey string) (cipher.Block, []byte, erro
 
 	stamp := fmt.Sprintf(protocol.MQTTTimestampHexFormat, frame.Timestamp)
 	reordered := make([]byte, 0, len(stamp)+len(localKey)+len(protocol.MQTTWireSalt))
+
 	for _, index := range protocol.MQTTTimestampPermutation {
 		reordered = append(reordered, stamp[index-'0'])
 	}
+
 	// V1 derives its AES key from this exact MD5 digest.
 	digest := md5.Sum(append(append(reordered, []byte(localKey)...), []byte(protocol.MQTTWireSalt)...)) //nolint:gosec
 
