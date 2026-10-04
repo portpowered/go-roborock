@@ -78,7 +78,7 @@ func replayRoomReads(t *testing.T, client *rest.Client) {
 	verifyRefreshedRooms(t, rooms)
 
 	shared, err := client.SharedDeviceRooms(t.Context(), rest.SharedDeviceRoomsRequest{
-		Auth: auth, DeviceID: "shared device",
+		Auth: auth, DeviceID: sharedRoomDeviceID,
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -112,7 +112,7 @@ func replayRoomFailures(t *testing.T, client *rest.Client) {
 	}
 
 	_, err = client.SharedDeviceRooms(t.Context(), rest.SharedDeviceRoomsRequest{
-		Auth: request.Auth, DeviceID: "shared device",
+		Auth: request.Auth, DeviceID: sharedRoomDeviceID,
 	})
 	if !errors.Is(err, roborockerrors.New(roborockerrors.Protocol, "test", "", nil)) {
 		t.Fatalf("shared room without identifier accepted: %v", err)
@@ -125,12 +125,12 @@ func replayRoomFailures(t *testing.T, client *rest.Client) {
 }
 
 func roomReplayAuth() rest.AuthContext {
-	origin := "https://api.example.test"
+	origin := roomAPIOrigin
 
 	var auth rest.AuthContext
 
 	auth.RRiot = dependencymodels.RRiot{
-		U: "synthetic-user", S: "synthetic-session", H: "synthetic-hawk-key", K: "synthetic-key",
+		U: roomSyntheticUser, S: "synthetic-session", H: "synthetic-hawk-key", K: "synthetic-key",
 		R:                    dependencymodels.RRiotReference{A: &origin, M: nil, L: nil, R: nil, AdditionalProperties: nil},
 		AdditionalProperties: nil,
 	}
