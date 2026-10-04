@@ -63,7 +63,7 @@ func TestPairedMQTTA01FragmentedQuery(t *testing.T) {
 		BrokerURL: account.Broker, User: account.User, Secret: account.Secret, Key: account.Key,
 		DeviceID: account.DeviceID, LocalKey: account.LocalKey, Protocol: "A01",
 	}, func(_ context.Context, network, address string) (net.Conn, error) {
-		if network != "tcp" || address != "mqtt.example.test:8883" {
+		if network != mqttReplayNetwork || address != mqttReplayAddress {
 			return nil, mqttMismatch("unexpected dial")
 		}
 
@@ -122,9 +122,9 @@ func loadMQTTA01Fixture(t *testing.T) mqttA01Fixture {
 		t.Fatal(err)
 	}
 
-	if fixture.Provenance != "synthetic" ||
+	if fixture.Provenance != accountFixtureProvenance ||
 		fixture.Source != "reference-derived python-roborock A01 protocol padding and create_mqtt_encoder" ||
-		fixture.Revision != "a8260c5211e60647fc352d6b496b827865938b21" {
+		fixture.Revision != mqttReferenceRevision {
 		t.Fatal("missing reference provenance")
 	}
 

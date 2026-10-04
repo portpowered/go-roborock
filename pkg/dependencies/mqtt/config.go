@@ -25,7 +25,9 @@ func validateConfig(config Config) (*url.URL, error) {
 		return nil, err
 	}
 
-	if config.Protocol != "" && config.Protocol != protocol.MQTTVersionV1 && config.Protocol != protocol.MQTTVersionA01 {
+	switch config.Protocol {
+	case "", protocol.MQTTVersionV1, protocol.MQTTVersionA01, protocol.B01Version:
+	default:
 		return nil, unsupported("open")
 	}
 

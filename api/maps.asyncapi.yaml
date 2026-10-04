@@ -1,0 +1,305 @@
+{
+  "asyncapi": "3.0.0",
+  "info": {
+    "title": "Roborock map commands and binary pushes",
+    "version": "1.0.0",
+    "description": "Map retrieval requests and family-specific results. Q10 current-map reads use DP102 empty object only; DP61 op:get can initiate movement and is excluded."
+  },
+  "defaultContentType": "application/json",
+  "channels": {
+    "maps": {
+      "address": "rr/m/o/{username}/{endpoint}/{deviceId}",
+      "messages": {
+        "MapsBinaryPayload": {
+          "$ref": "#/components/messages/MapsBinaryPayload"
+        }
+      },
+      "parameters": {
+        "username": {
+          "description": "Account MQTT topic username."
+        },
+        "deviceId": {
+          "description": "Device identifier."
+        },
+        "endpoint": {
+          "description": "Session endpoint identifier."
+        }
+      }
+    }
+  },
+  "operations": {
+    "ReceiveMap": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/maps"
+      },
+      "tags": [
+        {
+          "name": "maps"
+        }
+      ]
+    }
+  },
+  "components": {
+    "messages": {
+      "MapsBinaryPayload": {
+        "contentType": "application/octet-stream",
+        "payload": {
+          "$ref": "#/components/schemas/MapsBinaryPayload"
+        }
+      }
+    },
+    "schemas": {
+      "MapsBinaryPayload": {
+        "type": "string",
+        "format": "binary",
+        "x-go-type": "[]byte",
+        "description": "Decoded protocol-301 payload, before family-specific map decoding."
+      },
+      "MapsQ7UploadRequest": {
+        "type": "object",
+        "required": [
+          "map_id"
+        ],
+        "properties": {
+          "map_id": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "MapsQ7ListEntry": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "cur": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MapsQ7ListResult": {
+        "type": "object",
+        "properties": {
+          "map_list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MapsQ7ListEntry"
+            }
+          }
+        }
+      },
+      "MapsQ10ListRequest": {
+        "type": "object",
+        "required": [
+          "op"
+        ],
+        "properties": {
+          "op": {
+            "type": "string",
+            "enum": [
+              "list"
+            ]
+          }
+        }
+      },
+      "MapsQ10ListResult": {
+        "type": "object",
+        "properties": {
+          "op": {
+            "type": "string"
+          },
+          "result": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MapsQ10ListEntry"
+            }
+          }
+        }
+      },
+      "MapsV1LoadRequest": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "minItems": 1,
+        "maxItems": 1
+      },
+      "MapsQ10ListEntry": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "MapsV1Room": {
+        "type": "object",
+        "properties": {
+          "tag": {
+            "type": "integer"
+          },
+          "iot_name": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "iot_name_id": {
+            "type": "string"
+          }
+        }
+      },
+      "MapsV1Backup": {
+        "type": "object",
+        "properties": {
+          "mapflag": {
+            "x-go-type": "json.RawMessage"
+          },
+          "add_time": {
+            "x-go-type": "json.RawMessage"
+          }
+        }
+      },
+      "MapsV1Entry": {
+        "required": [
+          "map_flag",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "add_time": {
+            "x-go-type": "json.RawMessage"
+          },
+          "rooms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MapsV1Room"
+            }
+          },
+          "name": {
+            "type": "string"
+          },
+          "bak_maps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MapsV1Backup"
+            }
+          },
+          "length": {
+            "x-go-type": "json.RawMessage"
+          },
+          "map_flag": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "MapsV1List": {
+        "type": "object",
+        "properties": {
+          "multi_map_count": {
+            "type": "integer"
+          },
+          "max_bak_map": {
+            "type": "integer"
+          },
+          "max_multi_map": {
+            "type": "integer"
+          },
+          "map_info": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MapsV1Entry"
+            }
+          }
+        }
+      },
+      "MapsV1ListResult": {
+        "items": {
+          "$ref": "#/components/schemas/MapsV1List"
+        },
+        "type": "array",
+        "minItems": 1
+      },
+      "MapsV1RoomMappingValue": {
+        "oneOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "string"
+          }
+        ],
+        "x-go-type": "json.RawMessage"
+      },
+      "MapsV1RoomMappingPair": {
+        "maxItems": 2,
+        "items": {
+          "$ref": "#/components/schemas/MapsV1RoomMappingValue"
+        },
+        "type": "array",
+        "minItems": 2
+      },
+      "MapsV1RoomMappings": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/MapsV1RoomMappingPair"
+        }
+      },
+      "MapsV1RoomsResult": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/MapsV1RoomMappingPair"
+          },
+          {
+            "$ref": "#/components/schemas/MapsV1RoomMappings"
+          }
+        ]
+      },
+      "MapsQ7ListRequest": {
+        "additionalProperties": false,
+        "type": "object"
+      }
+    }
+  },
+  "x-wire-constants": {
+    "MapsProtocolResponse": 301,
+    "MapsV1GetMethod": "get_map_v1",
+    "MapsV1ListMethod": "get_multi_maps_list",
+    "MapsV1RoomsMethod": "get_room_mapping",
+    "MapsV1LoadMethod": "load_multi_map",
+    "MapsQ7ListMethod": "service.get_map_list",
+    "MapsQ7UploadMethod": "service.upload_by_mapid",
+    "MapsQ7RoomCleanMethod": "service.set_room_clean",
+    "MapsV1HeaderSize": 24,
+    "MapsV1EndpointOffset": 0,
+    "MapsV1EndpointEnd": 8,
+    "MapsV1RequestIDOffset": 16,
+    "MapsV1RequestIDEnd": 18,
+    "MapsV1RequestIDRange": 65535,
+    "MapsQ10CurrentPrefix": 1,
+    "MapsQ10PrefixSize": 2,
+    "MapsQ10TracePrefix": 2,
+    "MapsQ10PrefixVersion": 1,
+    "RPCGetMultiMapsList": "get_multi_maps_list",
+    "RPCGetRoomMapping": "get_room_mapping",
+    "RPCLoadMultiMap": "load_multi_map"
+  }
+}

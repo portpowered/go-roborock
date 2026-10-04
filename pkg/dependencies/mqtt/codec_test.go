@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"errors"
 	"hash/crc32"
+	"math"
 	"os"
 	"testing"
 
@@ -43,6 +44,103 @@ func TestFrameEncryptionAndIntegrity(t *testing.T) {
 				t.Fatalf("corrupt CRC error=%v", err)
 			}
 		})
+	}
+}
+
+type mapCryptoFixture struct {
+	Serial         string `json:"serial"`
+	Model          string `json:"model"`
+	Q7MapKey       string `json:"q7MapKey"`
+	Q7EncryptedMap string `json:"q7EncryptedMap"`
+	V1EncryptedMap string `json:"v1EncryptedMap"`
+	ZoneEncoded    string `json:"zoneEncoded"`
+}
+
+func loadMapCryptoFixture(t *testing.T) mapCryptoFixture {
+	t.Helper()
+
+	data, err := os.ReadFile("../../../tests/replay/fixtures/mqtt/synthetic/maps.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	var fixture mapCryptoFixture
+
+	err = json.Unmarshal(data, &fixture)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return fixture
+}
+
+func TestMapIndependentCryptoVectors(t *testing.T) {
+	t.Parallel()
+	fixture := loadMapCryptoFixture(t)
+
+	key, err := q7MapKey(fixture.Serial, fixture.Model)
+	if err != nil || string(key) != fixture.Q7MapKey {
+		t.Fatalf("Q7 key=%q err=%v", key, err)
+	}
+
+	q7, err := decodeQ7Map([]byte(fixture.Q7EncryptedMap), key)
+	if err != nil || string(q7) != "synthetic-q7-map" {
+		t.Fatalf("Q7 map=%q err=%v", q7, err)
+	}
+
+	encrypted, err := hex.DecodeString(fixture.V1EncryptedMap)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	v1, err := decodeV1Map(encrypted, hex.EncodeToString([]byte(syntheticKey)))
+	if err != nil || string(v1) != "synthetic-v1-map" {
+		t.Fatalf("V1 map=%q err=%v", v1, err)
+	}
+
+	zone, err := EncodeQ10Zone(Q10Zone{X1: 25500, Y1: 25500, X2: 25600, Y2: 25700, Repeats: 2})
+	if err != nil || zone != fixture.ZoneEncoded {
+		t.Fatalf("Q10 zone=%q err=%v", zone, err)
+	}
+}
+
+func TestMapRejectsInvalidCipherAndGeometry(t *testing.T) {
+	t.Parallel()
+
+	for _, payload := range [][]byte{nil, {1}, []byte("not-base64"), bytes.Repeat([]byte{0}, 16)} {
+		_, err := decodeV1Map(payload, hex.EncodeToString([]byte(syntheticKey)))
+		if err == nil {
+			t.Fatal("invalid V1 ciphertext accepted")
+		}
+
+		_, err = decodeQ7Map(payload, []byte(syntheticKey))
+		if err == nil {
+			t.Fatal("invalid Q7 ciphertext accepted")
+		}
+	}
+
+	for _, zone := range []Q10Zone{
+		{X1: 25500, Y1: 25500, X2: 25600, Y2: 25700, Repeats: 0},
+		{X1: 25500, Y1: 25500, X2: 25600, Y2: 25700, Repeats: 4},
+		{X1: 25500, Y1: 25500, X2: 25500, Y2: 25700, Repeats: 1},
+		{X1: 25501, Y1: 25500, X2: 25600, Y2: 25700, Repeats: 1},
+		{X1: math.MinInt64, Y1: 25500, X2: 25600, Y2: 25700, Repeats: 1},
+		{X1: 25500, Y1: 25500, X2: math.MaxInt64, Y2: 25700, Repeats: 1},
+	} {
+		_, err := EncodeQ10Zone(zone)
+		if err == nil {
+			t.Fatalf("invalid zone accepted: %+v", zone)
+		}
+	}
+
+	_, err := q7MapKey("", "sc01")
+	if err == nil {
+		t.Fatal("empty serial accepted")
+	}
+
+	_, err = q7MapKey("synthetic", "é")
+	if err == nil {
+		t.Fatal("non-ASCII model accepted")
 	}
 }
 
@@ -154,7 +252,7 @@ func TestPacketBounds(t *testing.T) {
 func TestFrameRejectsUnsupportedVersionAndKey(t *testing.T) {
 	t.Parallel()
 
-	frame := referenceFrame("B01")
+	frame := referenceFrame("L01")
 
 	_, err := encodeFrame(frame, syntheticKey)
 	if !errors.Is(err, errUnsupportedDeviceProtocol) {

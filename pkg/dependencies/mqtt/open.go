@@ -88,6 +88,7 @@ func newSession(conn net.Conn, config Config) (*Session, string, string, error) 
 	session.keepaliveStopped = make(chan struct{})
 	session.writeGate = make(chan struct{}, 1)
 	session.a01Gate = make(chan struct{}, 1)
+	session.mapGate = make(chan struct{}, 1)
 	session.pending = make(map[int64]chan response)
 
 	var nonce [protocol.MQTTSecurityNonceBytes]byte

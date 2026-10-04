@@ -32,6 +32,269 @@ func testConfig(version string) Config {
 	}
 }
 
+func TestSessionCanceledB01MapRetiresConnection(t *testing.T) {
+	t.Parallel()
+
+	for _, operation := range []string{"map", "trace", "list", "q7"} {
+		t.Run(operation, func(t *testing.T) {
+			t.Parallel()
+
+			published := make(chan struct{})
+			session, completed := openTestSession(t, "B01", func(active broker) error {
+				_, err := active.command()
+				if err != nil {
+					return err
+				}
+
+				close(published)
+
+				return waitForBrokerClose(active)
+			})
+			ctx, cancel := context.WithCancel(context.Background())
+
+			result := make(chan error, 1)
+
+			go func() { result <- canceledB01Operation(ctx, session, operation) }()
+
+			<-published
+			cancel()
+
+			err := <-result
+			if !errors.Is(err, context.Canceled) {
+				t.Fatalf("cancel error=%v", err)
+			}
+
+			<-session.Done()
+
+			if !errors.Is(session.Err(), context.Canceled) {
+				t.Fatalf("terminal error=%v", session.Err())
+			}
+
+			var wait sync.WaitGroup
+			for range 16 {
+				wait.Add(1)
+
+				go func() { defer wait.Done(); _ = session.Close() }()
+			}
+
+			wait.Wait()
+
+			err = <-completed
+			if err != nil {
+				t.Fatal(err)
+			}
+		})
+	}
+}
+
+func canceledB01Operation(ctx context.Context, session *Session, operation string) error {
+	switch operation {
+	case "list":
+		_, err := session.QueryMapListQ10(ctx)
+
+		return err
+	case "trace":
+		_, err := session.FetchTraceQ10(ctx)
+
+		return err
+	case "q7":
+		_, err := session.FetchMapQ7(ctx, 7, "synthetic-serial", "sc01")
+
+		return err
+	default:
+		_, err := session.FetchMapQ10(ctx)
+
+		return err
+	}
+}
+
+func TestSessionB01RPCBackpressure(t *testing.T) {
+	t.Parallel()
+
+	session, completed := openTestSession(t, "B01", waitForBrokerClose)
+	for requestID := int64(1); requestID <= maxPendingCommands; requestID++ {
+		_, err := session.beginRPC(requestID)
+		if err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	_, err := session.CallB01(context.Background(), dependencymodels.ServiceGetMapList, json.RawMessage(`{}`))
+	_ = assertErrorKind(t, err, roborockerrors.Backpressure)
+
+	err = session.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = <-completed
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func (activeBroker broker) mapPush(frame deviceFrame, payload []byte) error {
+	frame.Protocol = protocol.MapsProtocolResponse
+	frame.Payload = payload
+
+	encoded, err := encodeFrame(frame, syntheticKey)
+	if err != nil {
+		return err
+	}
+
+	_, err = activeBroker.connection.Write(publishPacket(activeBroker.topic, encoded))
+	if err != nil {
+		return fmt.Errorf("write synthetic map push: %w", err)
+	}
+
+	return nil
+}
+
+func TestSessionQ10NextObservedPushHasNoCausalFreshness(t *testing.T) {
+	t.Parallel()
+
+	payload := []byte{protocol.MapsQ10CurrentPrefix, protocol.MapsQ10PrefixVersion, 'A'}
+
+	session, completed := openTestSession(t, "B01", func(active broker) error {
+		for range 2 {
+			frame, err := active.command()
+			if err != nil {
+				return err
+			}
+			// A delayed duplicate of A is indistinguishable from B's response.
+			err = active.mapPush(frame, payload)
+			if err != nil {
+				return err
+			}
+		}
+
+		return waitForBrokerClose(active)
+	})
+	for range 2 {
+		observed, err := session.FetchMapQ10(context.Background())
+		if err != nil || !bytes.Equal(observed, payload) {
+			t.Fatalf("observed=%x err=%v", observed, err)
+		}
+	}
+
+	err := session.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = <-completed
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestSessionQ10IgnoresOtherMapKinds(t *testing.T) {
+	t.Parallel()
+
+	want := []byte{protocol.MapsQ10CurrentPrefix, protocol.MapsQ10PrefixVersion, 'M'}
+	session, completed := openTestSession(t, "B01", func(active broker) error {
+		frame, err := active.command()
+		if err != nil {
+			return err
+		}
+
+		for _, payload := range [][]byte{
+			{protocol.MapsQ10TracePrefix, protocol.MapsQ10PrefixVersion, 'T'}, {},
+			{protocol.MapsQ10CurrentPrefix, 0, 'X'}, want,
+		} {
+			err = active.mapPush(frame, payload)
+			if err != nil {
+				return err
+			}
+		}
+
+		return waitForBrokerClose(active)
+	})
+
+	observed, err := session.FetchMapQ10(context.Background())
+	if err != nil || !bytes.Equal(observed, want) {
+		t.Fatalf("observed=%x err=%v", observed, err)
+	}
+
+	err = session.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = <-completed
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestSessionV1MapEndpointAndRequestCorrelation(t *testing.T) {
+	t.Parallel()
+	fixture := loadMapCryptoFixture(t)
+
+	encrypted, err := hex.DecodeString(fixture.V1EncryptedMap)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	session, completed := openTestSession(t, "1.0", func(active broker) error {
+		return sendV1MapOracle(active, encrypted)
+	})
+	// A fixed nonce enables a precomputed independent Python AES/gzip response.
+	session.security.Nonce = hex.EncodeToString([]byte(syntheticKey))
+
+	observed, err := session.FetchMapV1(context.Background())
+	if err != nil || string(observed) != "synthetic-v1-map" {
+		t.Fatalf("observed=%q err=%v", observed, err)
+	}
+
+	err = session.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = <-completed
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func sendV1MapOracle(active broker, encrypted []byte) error {
+	frame, err := active.command()
+	if err != nil {
+		return err
+	}
+
+	command, err := request(frame)
+	if err != nil {
+		return err
+	}
+
+	if command.Method != protocol.MapsV1GetMethod || string(command.Params) != "[]" ||
+		!validRPCSecurity(command.Security) {
+		return fmt.Errorf("%w: V1 map request mismatch", errSyntheticBroker)
+	}
+
+	payload := make([]byte, protocol.MapsV1HeaderSize+len(encrypted))
+	copy(payload, command.Security.Endpoint)
+	requestID := uint16(command.Id) //nolint:gosec // FetchMapV1 bounds IDs to uint16.
+	binary.LittleEndian.PutUint16(payload[protocol.MapsV1RequestIDOffset:protocol.MapsV1RequestIDEnd], requestID)
+	copy(payload[protocol.MapsV1HeaderSize:], encrypted)
+	wrongEndpoint := bytes.Clone(payload)
+	wrongEndpoint[protocol.MapsV1EndpointOffset] = 'X'
+	wrongID := bytes.Clone(payload)
+
+	wrongID[protocol.MapsV1RequestIDOffset] ^= 1
+
+	for _, push := range [][]byte{wrongEndpoint, wrongID, payload} {
+		err = active.mapPush(frame, push)
+		if err != nil {
+			return err
+		}
+	}
+
+	return waitForBrokerClose(active)
+}
+
 type broker struct {
 	connection net.Conn
 	topic      string

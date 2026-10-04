@@ -20,9 +20,13 @@ const maxCipherPayload = protocol.MQTTMaxCipherPayload
 type deviceFrame = dependencymodels.MQTTDeviceFrame
 
 func frameCipher(frame deviceFrame, localKey string) (cipher.Block, []byte, error) {
-	if frame.Version == protocol.MQTTVersionA01 {
+	if frame.Version == protocol.MQTTVersionA01 || frame.Version == protocol.B01Version {
+		salt, start, end := protocol.MQTTA01Hash, protocol.MQTTA01IVHexStart, protocol.MQTTA01IVHexEnd
+		if frame.Version == protocol.B01Version {
+			salt, start, end = protocol.B01Hash, protocol.B01IVHexStart, protocol.B01IVHexEnd
+		}
 		// A01 derives its IV from this exact MD5 digest.
-		ivInput := fmt.Sprintf(protocol.MQTTA01IVInputFormat, frame.Random, protocol.MQTTA01Hash)
+		ivInput := fmt.Sprintf(protocol.MQTTA01IVInputFormat, frame.Random, salt)
 		digest := md5.Sum([]byte(ivInput)) //nolint:gosec
 
 		block, err := aes.NewCipher([]byte(localKey))
@@ -30,7 +34,7 @@ func frameCipher(frame deviceFrame, localKey string) (cipher.Block, []byte, erro
 			return nil, nil, fmt.Errorf("create A01 device cipher: %w", err)
 		}
 
-		initializationVector := hex.EncodeToString(digest[:])[protocol.MQTTA01IVHexStart:protocol.MQTTA01IVHexEnd]
+		initializationVector := hex.EncodeToString(digest[:])[start:end]
 
 		return block, []byte(initializationVector), nil
 	}

@@ -79,6 +79,13 @@ func (s *Session) receiveDeviceFrames(payload []byte) error {
 			}
 		}
 
+		if frame.Protocol == protocol.MapsProtocolResponse {
+			err = s.deliverMap(frame.Payload)
+			if err != nil {
+				return err
+			}
+		}
+
 		payload = payload[consumed:]
 	}
 
@@ -86,6 +93,10 @@ func (s *Session) receiveDeviceFrames(payload []byte) error {
 }
 
 func (s *Session) deliver(payload []byte) error {
+	if s.config.Protocol == protocol.B01Version {
+		return s.deliverB01(payload)
+	}
+
 	var envelope dependencymodels.MQTTEnvelope
 
 	err := json.Unmarshal(payload, &envelope)
