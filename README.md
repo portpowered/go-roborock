@@ -33,7 +33,7 @@ devices, err := client.ListDevices(ctx, roborock.AccountRequest{Auth: result.Aut
 
 Keep `result.Auth` and discovered local keys private. The caller stores credentials and explicitly logs in again when they expire. The SDK does not silently refresh tokens. [Authentication guide](https://portpowered.github.io/go-roborock/docs/guides/authentication).
 
-The [runnable discovery example](examples/basic/main.go) reads private account JSON from stdin: `go run ./examples/basic < account.json`.
+The [runnable discovery example](examples/basic/main.go) reads a private `AuthContext` object directly from stdin: `go run ./examples/basic < auth.json`. This file contains the credential object itself, without the CLI export's outer `auth` field.
 
 ## Supported operations
 
@@ -93,6 +93,7 @@ Keep the opening context alive for the whole device session. Set deadlines on in
 Supported contracts are implementation-derived from pinned Python Roborock and the existing Go baseline, with synthetic offline verification. They are not an official vendor specification or a claim of complete Python parity. B01/L01 connections, local transport, map decoding, and WebRTC media decoding are outside this release. See [guides and generated reference](https://portpowered.github.io/go-roborock/docs/guides) and [CLI](https://portpowered.github.io/go-roborock/docs/guides/cli).
 
 Contributors should read [CONTRIBUTING.md](CONTRIBUTING.md), [provenance](docs/provenance.md), and [release procedure](docs/releasing.md).
+
 
 
 

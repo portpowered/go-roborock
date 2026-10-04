@@ -32,8 +32,8 @@ jobs:
           done
           printf 'package consumer\nimport _ "github.com/portpowered/go-roborock/pkg/roborock"\n' > consumer.go
           go build ./...
-      - name: Publish release
+      - name: Prepare draft release for final independent review
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ github.ref_name }}
-        run: gh release create "$VERSION" --verify-tag --generate-notes
+        run: gh release create "$VERSION" --draft --verify-tag --generate-notes

@@ -22,11 +22,11 @@ func main() {
 }
 
 func run() error {
-	var request roborock.AccountRequest
+	var auth roborock.AuthContext
 
-	err := json.NewDecoder(os.Stdin).Decode(&request)
+	err := json.NewDecoder(os.Stdin).Decode(&auth)
 	if err != nil {
-		return fmt.Errorf("read private account JSON from stdin: %w", err)
+		return fmt.Errorf("read private AuthContext JSON from stdin: %w", err)
 	}
 
 	client, err := roborock.NewClient()
@@ -37,13 +37,16 @@ func run() error {
 	ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
 	defer cancel()
 
-	result, err := client.ListDevices(ctx, request)
+	result, err := client.ListDevices(ctx, roborock.AccountRequest{Auth: auth})
 	if err != nil {
 		return fmt.Errorf("list devices: %w", err)
 	}
 
 	for _, device := range result.Devices {
-		fmt.Printf("%s\t%s\t%s\n", device.ID, device.Name, device.Protocol)
+		_, err = fmt.Fprintf(os.Stdout, "%s\t%s\t%s\n", device.ID, device.Name, device.Protocol)
+		if err != nil {
+			return fmt.Errorf("write device listing: %w", err)
+		}
 	}
 
 	return nil

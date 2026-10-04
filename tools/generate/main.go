@@ -283,7 +283,17 @@ func model(ctx context.Context, schema, pkg, output string, check bool) error {
 		return fmt.Errorf("read generated model: %w", err)
 	}
 
-	return write(output, data, check)
+	return write(output, normalizePackageComment(pkg, data), check)
+}
+
+func normalizePackageComment(pkg string, data []byte) []byte {
+	if pkg != "roborock" {
+		return data
+	}
+
+	boilerplate := "// Package roborock provides primitives to interact with the openapi HTTP API.\n//\n"
+
+	return bytes.TrimPrefix(data, []byte(boilerplate))
 }
 
 func write(name string, data []byte, check bool) error {
