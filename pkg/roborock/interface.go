@@ -1,18 +1,17 @@
-// Package roborock provides a stateless cloud client and explicit device sessions.
 package roborock
 
 import "context"
 
 // ClientAPI lists account operations together. Credentials always belong to requests.
 type ClientAPI interface {
-	ResolveLogin(context.Context, ResolveLoginRequest) (LoginContext, error)
-	RequestLoginCode(context.Context, LoginCodeRequest) (LoginCodeResult, error)
-	LoginWithCode(context.Context, LoginWithCodeRequest) (LoginResult, error)
-	LoginWithPassword(context.Context, LoginWithPasswordRequest) (LoginResult, error)
-	GetHome(context.Context, AccountRequest) (Home, error)
-	GetHomeData(context.Context, HomeDataRequest) (HomeData, error)
-	ListDevices(context.Context, AccountRequest) (ListDevicesResult, error)
-	OpenDevice(context.Context, OpenDeviceRequest) (*DeviceSession, error)
+	ResolveLogin(ctx context.Context, request ResolveLoginRequest) (LoginContext, error)
+	RequestLoginCode(ctx context.Context, request LoginCodeRequest) (LoginCodeResult, error)
+	LoginWithCode(ctx context.Context, request LoginWithCodeRequest) (LoginResult, error)
+	LoginWithPassword(ctx context.Context, request LoginWithPasswordRequest) (LoginResult, error)
+	GetHome(ctx context.Context, request AccountRequest) (Home, error)
+	GetHomeData(ctx context.Context, request HomeDataRequest) (HomeData, error)
+	ListDevices(ctx context.Context, request AccountRequest) (ListDevicesResult, error)
+	OpenDevice(ctx context.Context, request OpenDeviceRequest) (*DeviceSession, error)
 }
 
 // ResolveLoginRequest discovers a regional login origin for an account.
@@ -45,18 +44,6 @@ type HomeDataRequest struct {
 	HomeID  int64
 	Version HomeDataVersion
 }
-
-// HomeDataVersion selects the supported home-data route.
-type HomeDataVersion int
-
-const (
-	// HomeDataV1 selects the original home-data route.
-	HomeDataV1 HomeDataVersion = 1
-	// HomeDataV2 selects the second home-data revision.
-	HomeDataV2 HomeDataVersion = 2
-	// HomeDataV3 selects the third home-data revision.
-	HomeDataV3 HomeDataVersion = 3
-)
 
 // ListDevicesResult includes owned and shared devices in discovery order.
 type ListDevicesResult struct{ Devices []Device }

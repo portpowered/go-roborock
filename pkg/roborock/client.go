@@ -3,9 +3,12 @@ package roborock
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"net/http"
 	"sync"
 	"time"
+
+	"github.com/portpowered/go-roborock/internal/protocol"
 
 	"github.com/portpowered/go-roborock/pkg/dependencies/mqtt"
 	"github.com/portpowered/go-roborock/pkg/dependencies/rest"
@@ -16,7 +19,7 @@ const defaultRequestTimeout = 30 * time.Second
 
 // HTTPDoer lets callers inject every HTTP exchange.
 type HTTPDoer interface {
-	Do(*http.Request) (*http.Response, error)
+	Do(request *http.Request) (*http.Response, error)
 }
 
 // Option configures immutable service settings and network seams.
@@ -37,7 +40,15 @@ type Client struct {
 
 // WithBaseURL selects the regional HTTPS origin. Login requests may override it explicitly.
 func WithBaseURL(origin string) Option {
-	return func(o *clientOptions) error { o.baseURL = origin; return nil }
+	return func(o *clientOptions) error {
+		if origin == "" {
+			return roborockerrors.New(roborockerrors.InvalidArgument, "configure", "origin is empty", nil)
+		}
+
+		o.baseURL = origin
+
+		return nil
+	}
 }
 
 // WithHTTPClient injects an HTTP client. The caller owns its transport.
@@ -46,7 +57,9 @@ func WithHTTPClient(client HTTPDoer) Option {
 		if client == nil {
 			return roborockerrors.New(roborockerrors.InvalidArgument, "configure", "HTTP client is nil", nil)
 		}
+
 		o.http = client
+
 		return nil
 	}
 }
@@ -58,81 +71,204 @@ func WithMQTTDial(dial mqtt.DialFunc) Option {
 		if dial == nil {
 			return roborockerrors.New(roborockerrors.InvalidArgument, "configure", "MQTT dialer is nil", nil)
 		}
+
 		o.dial = dial
+
 		return nil
 	}
 }
 
 // NewClient validates functional options without accessing the network.
 func NewClient(options ...Option) (*Client, error) {
-	o := clientOptions{http: &http.Client{Timeout: defaultRequestTimeout}}
+	var defaultHTTP http.Client
+
+	defaultHTTP.Timeout = defaultRequestTimeout
+	defaultHTTP.CheckRedirect = func(_ *http.Request, _ []*http.Request) error { return http.ErrUseLastResponse }
+	settings := clientOptions{baseURL: protocol.RESTDefaultOrigin, http: &defaultHTTP, dial: nil}
+
 	for _, option := range options {
 		if option == nil {
 			return nil, roborockerrors.New(roborockerrors.InvalidArgument, "configure", "option is nil", nil)
 		}
-		if err := option(&o); err != nil {
+
+		err := option(&settings)
+		if err != nil {
 			return nil, err
 		}
 	}
-	opts := []rest.Option{rest.WithHTTPClient(o.http)}
-	if o.baseURL != "" {
-		opts = append(opts, rest.WithBaseURL(o.baseURL))
+
+	opts := []rest.Option{rest.WithHTTPClient(settings.http)}
+
+	if settings.baseURL != "" {
+		opts = append(opts, rest.WithBaseURL(settings.baseURL))
 	}
-	r, err := rest.New(opts...)
+
+	restClient, err := rest.New(opts...)
 	if err != nil {
-		return nil, err
+		return nil, roborockerrors.Wrap(roborockerrors.InvalidArgument, "configure", "client configuration failed", err)
 	}
-	return &Client{rest: r, dial: o.dial, baseURL: o.baseURL}, nil
+
+	return &Client{rest: restClient, dial: settings.dial, baseURL: settings.baseURL}, nil
 }
 
 type deviceRPC interface {
-	Call(context.Context, string, json.RawMessage) (json.RawMessage, error)
-	QueryA01(context.Context, []int) (map[int]json.RawMessage, error)
-	SetA01(context.Context, map[int]json.RawMessage) error
+	Call(ctx context.Context, method string, parameters json.RawMessage) (json.RawMessage, error)
+	QueryA01(ctx context.Context, properties []int) (map[int]json.RawMessage, error)
+	SetA01(ctx context.Context, values map[int]json.RawMessage) error
 	Close() error
+}
+
+type deviceLifecycle interface {
+	Done() <-chan struct{}
+	Err() error
 }
 
 // DeviceSession owns a single account-bound device connection and its pending requests.
 // Close releases the connection; canceling the opening context also closes the session.
 type DeviceSession struct {
-	rpc       deviceRPC
-	protocol  string
-	life      context.Context
-	cancel    context.CancelFunc
-	closeOnce sync.Once
-	closeErr  error
-	mu        sync.Mutex
-	closing   bool
-	cameras   []*CameraSession
+	rpc         deviceRPC
+	protocol    string
+	life        context.Context
+	cancel      context.CancelFunc
+	closeOnce   sync.Once
+	closeErr    error
+	terminalErr error
+	mu          sync.Mutex
+	closing     bool
+	camera      *CameraSession
 }
 
 // OpenDevice opens a fresh connection; it never reuses another account's session.
 func (c *Client) OpenDevice(ctx context.Context, request OpenDeviceRequest) (*DeviceSession, error) {
-	a := request.Auth.Mqtt
-	s, err := mqtt.Open(ctx, mqtt.Config{BrokerURL: a.BrokerURL, User: a.User, Secret: a.Secret, Key: a.Key, DeviceID: request.DeviceID, LocalKey: request.LocalKey, Protocol: string(request.Protocol)}, c.dial)
+	auth := request.Auth.Mqtt
+	rpc, err := mqtt.Open(ctx, mqtt.Config{BrokerURL: auth.BrokerURL,
+		User:     auth.User,
+		Secret:   auth.Secret,
+		Key:      auth.Key,
+		DeviceID: request.DeviceID,
+		LocalKey: request.LocalKey,
+		Protocol: string(request.Protocol),
+	}, c.dial)
 	if err != nil {
-		return nil, err
+		return nil, roborockerrors.Wrap(roborockerrors.Unavailable, "open_device", "device connection failed", err)
 	}
+
 	life, cancel := context.WithCancel(ctx)
-	session := &DeviceSession{rpc: s, protocol: string(request.Protocol), life: life, cancel: cancel}
-	go func() { <-life.Done(); _ = session.Close() }()
-	return session, nil
+
+	var session DeviceSession
+
+	session.rpc = rpc
+	session.protocol = string(request.Protocol)
+	session.life = life
+	session.cancel = cancel
+
+	go session.observeTransport(rpc)
+
+	return &session, nil
+}
+
+// Done closes when the opening context ends, the connection fails, or Close is called.
+func (s *DeviceSession) Done() <-chan struct{} { return s.life.Done() }
+
+// Err returns the terminal typed failure after Done closes, or nil while active.
+// A connection failure retains its underlying cause after session cleanup.
+func (s *DeviceSession) Err() error {
+	select {
+	case <-s.life.Done():
+	default:
+		return nil
+	}
+
+	s.mu.Lock()
+	terminal := s.terminalErr
+	s.mu.Unlock()
+
+	if terminal != nil {
+		return terminal
+	}
+
+	if transport, ok := s.rpc.(deviceLifecycle); ok {
+		err := transport.Err()
+		if err != nil {
+			return roborockerrors.Wrap(roborockerrors.Unavailable, "device_session", "device session ended", err)
+		}
+	}
+
+	err := s.life.Err()
+	if err != nil {
+		kind := roborockerrors.Canceled
+
+		if errors.Is(err, context.DeadlineExceeded) {
+			kind = roborockerrors.Timeout
+		}
+
+		return roborockerrors.New(kind, "device_session", "device context ended", err)
+	}
+
+	return nil
 }
 
 // Close cancels pending requests and releases the owned connection. Repeated calls are safe.
 func (s *DeviceSession) Close() error {
 	s.closeOnce.Do(func() {
+		terminal := roborockerrors.New(roborockerrors.Closed, "device_session", "device session closed", nil)
+		if transport, ok := s.rpc.(deviceLifecycle); ok {
+
+			err := transport.Err()
+			if err != nil {
+				terminal = roborockerrors.Wrap(roborockerrors.Unavailable, "device_session", "device session ended", err)
+			}
+		}
+
 		s.mu.Lock()
 		s.closing = true
-		cameras := append([]*CameraSession(nil), s.cameras...)
+
+		if s.terminalErr == nil {
+			s.terminalErr = terminal
+		}
+		camera := s.camera
+
 		s.mu.Unlock()
-		for _, camera := range cameras {
+
+		if camera != nil {
 			_ = camera.Close()
 		}
+
 		if s.cancel != nil {
 			s.cancel()
 		}
+
 		s.closeErr = s.rpc.Close()
 	})
+
 	return s.closeErr
+}
+
+func (s *DeviceSession) observeTransport(transport deviceLifecycle) {
+	select {
+	case <-s.life.Done():
+		cause := s.life.Err()
+		kind := roborockerrors.Canceled
+
+		if errors.Is(cause, context.DeadlineExceeded) {
+			kind = roborockerrors.Timeout
+		}
+
+		s.recordTerminalError(roborockerrors.New(kind, "device_session", "device context ended", cause))
+	case <-transport.Done():
+		s.recordTerminalError(roborockerrors.Wrap(
+			roborockerrors.Unavailable, "device_session", "device session ended", transport.Err(),
+		))
+	}
+
+	_ = s.Close()
+}
+
+func (s *DeviceSession) recordTerminalError(err error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	if s.terminalErr == nil {
+		s.terminalErr = err
+	}
 }

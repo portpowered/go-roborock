@@ -4,8 +4,15 @@ info:
   version: 0.1.0
   description: Public account and discovery projections, independent of HTTP and MQTT envelopes.
 paths: {}
+x-wire-constants:
+  RESTDefaultOrigin: https://usiot.roborock.com
 components:
   schemas:
+    HomeDataVersion:
+      type: integer
+      description: Supported home-data route revision. Zero in a request selects HomeDataV1.
+      enum: [1, 2, 3]
+      x-enum-varnames: [HomeDataV1, HomeDataV2, HomeDataV3]
     Region:
       type: string
       description: Open region value. Known regions are us, eu, cn and ru.
@@ -58,7 +65,7 @@ components:
         name: {type: string}
     Device:
       type: object
-      required: [id, name, localKey, model, productId, protocol, online, shared]
+      required: [id, name, localKey, model, productId, protocol, shared, supportedProperties]
       properties:
         id: {type: string, x-go-name: ID}
         name: {type: string}
@@ -67,6 +74,9 @@ components:
         productId: {type: string, x-go-name: ProductID}
         protocol: {$ref: '#/components/schemas/ProtocolVersion'}
         online: {type: boolean}
+        category: {type: string, description: Open product category independent of capabilities.}
+        capability: {type: integer, format: int64, description: Vendor capability flags when present.}
+        supportedProperties: {type: array, items: {type: integer}, description: Advertised numeric datapoint IDs; select typed A01 query properties from this inventory.}
         shared: {type: boolean, description: True when discovered through the vendor shared-device list.}
         firmware: {type: string}
         roomId: {type: integer, x-go-name: RoomID, format: int64}
