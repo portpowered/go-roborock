@@ -8,6 +8,8 @@ import (
 	"golang.org/x/tools/go/packages"
 )
 
+const schemaTypeKey = "type"
+
 func TestHandwrittenSerializationRejected(t *testing.T) {
 	t.Parallel()
 
@@ -52,7 +54,7 @@ func TestSchemaBindingIncludesImplicitModels(t *testing.T) {
 	entries := make(map[string]schemaOwner)
 	schema := map[string]any{
 		"properties": map[string]any{
-			"value": map[string]any{"anyOf": []any{map[string]any{"type": "string"}, map[string]any{"type": "integer"}}},
+			"value": map[string]any{"anyOf": []any{map[string]any{schemaTypeKey: "string"}, map[string]any{schemaTypeKey: "integer"}}},
 		},
 	}
 	collectSchema(entries, "api/example.yaml", "#/components/schemas/Result", "Result", schema)
@@ -82,7 +84,7 @@ func TestExplicitComponentOwnsNormalizedPropertyCollision(t *testing.T) {
 	t.Parallel()
 
 	entries := make(map[string]schemaOwner)
-	property := map[string]any{"type": "string"}
+	property := map[string]any{schemaTypeKey: "string"}
 	collectSchema(entries, "api/example.yaml", "#/components/schemas/ProductProperty/properties/id",
 		"ProductPropertyID", property)
 

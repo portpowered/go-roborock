@@ -339,6 +339,10 @@ func handwrittenObject(file *ast.File) string {
 	var violation string
 
 	ast.Inspect(file, func(node ast.Node) bool {
+		if directlyEncodedEmpty(file, node) {
+			violation = "directly encoded empty anonymous object"
+		}
+
 		field, isField := node.(*ast.Field)
 		if isField && field.Tag != nil && strings.Contains(field.Tag.Value, "json:") {
 			violation = "handwritten JSON field"
@@ -346,7 +350,7 @@ func handwrittenObject(file *ast.File) string {
 
 		literal, ok := node.(*ast.CompositeLit)
 		if ok {
-			if _, anonymous := literal.Type.(*ast.StructType); anonymous {
+			if object, anonymous := literal.Type.(*ast.StructType); anonymous && len(object.Fields.List) != 0 {
 				violation = "anonymous production object"
 			}
 		}
@@ -355,4 +359,66 @@ func handwrittenObject(file *ast.File) string {
 	})
 
 	return violation
+}
+
+func directlyEncodedEmpty(file *ast.File, node ast.Node) bool {
+	call, isCall := node.(*ast.CallExpr)
+	if !isCall || !directJSONCall(file, call) {
+		return false
+	}
+
+	return slices.ContainsFunc(call.Args, emptyAnonymousObject)
+}
+
+func directJSONCall(file *ast.File, call *ast.CallExpr) bool {
+	selector, isSelector := call.Fun.(*ast.SelectorExpr)
+	if !isSelector {
+		return false
+	}
+
+	// Encode selectors are a conservative syntax guard, not receiver/dataflow analysis.
+	if selector.Sel.Name == "Encode" {
+		return true
+	}
+
+	if selector.Sel.Name != "Marshal" && selector.Sel.Name != "MarshalIndent" {
+		return false
+	}
+
+	qualifier, ok := selector.X.(*ast.Ident)
+	if !ok {
+		return false
+	}
+
+	for _, imported := range file.Imports {
+		if strings.Trim(imported.Path.Value, "\"") != "encoding/json" {
+			continue
+		}
+
+		name := "json"
+		if imported.Name != nil {
+			name = imported.Name.Name
+		}
+
+		if qualifier.Name == name {
+			return true
+		}
+	}
+
+	return false
+}
+
+func emptyAnonymousObject(expression ast.Expr) bool {
+	switch value := expression.(type) {
+	case *ast.ParenExpr:
+		return emptyAnonymousObject(value.X)
+	case *ast.UnaryExpr:
+		return emptyAnonymousObject(value.X)
+	case *ast.CompositeLit:
+		object, ok := value.Type.(*ast.StructType)
+
+		return ok && len(object.Fields.List) == 0
+	default:
+		return false
+	}
 }

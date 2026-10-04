@@ -28,7 +28,12 @@ serialization calls and their resolved argument types, and untagged behavior
 structs. The last group contains request adapters, session state, configuration,
 and error behavior; lacking a serialization tag is not proof that a struct can
 never reach an encoder. Anonymous and unreferenced tagged handwritten objects
-are rejected, including nested objects. Untagged structs and maps require the
+with fields are rejected, including nested objects. Zero-field `struct{}{}`
+channel and set tokens are allowed because they carry no payload fields. The
+syntax gate rejects empty anonymous literals passed directly to JSON `Marshal`
+or `MarshalIndent` (including import aliases), and to an `Encode` selector.
+It does not trace tokens through variables or prove an encoder receiver's type;
+independent reviewers must audit those serialization flows. Untagged structs and maps require the
 independent source review described below. `mqtt.deviceFrame` aliases the
 schema-generated binary frame model and its field layout is checked by the
 frame codec and paired replay tests. Generated JSON methods implement union or
