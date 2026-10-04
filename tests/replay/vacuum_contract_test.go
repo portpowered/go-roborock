@@ -103,6 +103,7 @@ func validateResponseShape(t *testing.T, contract *openapi3.T, testCase response
 	}
 
 	var document map[string]any
+
 	err = yaml.Unmarshal(data, &document)
 	if err != nil {
 		t.Fatal(err)
