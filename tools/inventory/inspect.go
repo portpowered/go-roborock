@@ -419,8 +419,10 @@ func generatorCommand(name string) string {
 	if strings.HasSuffix(name, ".pb.go") {
 		return "go run ./tools/protogen (protoc-gen-go v1.36.11)"
 	}
+
 	if name == "pkg/roborock/maps_models.gen.go" {
 		return "go run ./tools/generate (public aliases of schema-owned mapmodel)"
 	}
+
 	return "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)"
 }

@@ -20,7 +20,8 @@ func main() {
 	}
 
 	for name := range strings.SplitSeq(string(output), "\x00") {
-		if len(name) > 0 && (strings.HasSuffix(name, ".gen.go") || strings.HasSuffix(name, ".pb.go") || strings.HasSuffix(name, ".openapi.yaml") || strings.HasSuffix(name, ".asyncapi.yaml")) {
+		if len(name) > 0 && (strings.HasSuffix(name, ".gen.go") || strings.HasSuffix(name, ".pb.go") ||
+			strings.HasSuffix(name, ".openapi.yaml") || strings.HasSuffix(name, ".asyncapi.yaml")) {
 			fmt.Fprintf(os.Stderr, "untracked generated/schema output: %s\n", name)
 			os.Exit(1)
 		}

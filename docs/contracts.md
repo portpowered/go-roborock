@@ -28,7 +28,9 @@ map retrieval use canonical AsyncAPI 3 documents (`api/*.asyncapi.yaml`).
 Only HTTP and public model projections remain OpenAPI. Operation descriptions
 are single lines; the documentation workflow publishes MQTT operations through
 the AsyncAPI renderer using their actual topic addresses. The HTTP bundle
-contains no MQTT operation paths.
+contains no MQTT operation paths. A separate docs-only AsyncAPI bundle
+namespaces channels, messages, and schemas while retaining operation IDs
+and guide tags; the renderer receives one document to build complete navigation.
 
 SCHEMA-16 preserves existing Go wire types during this migration: the pinned
 oapi-codegen generator reads an ephemeral, components-only OpenAPI projection
