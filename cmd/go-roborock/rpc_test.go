@@ -2,8 +2,10 @@ package main
 
 import (
 	"bytes"
+	"compress/gzip"
 	"context"
 	"crypto/aes"
+	"crypto/cipher"
 	"crypto/md5" // Vendor-required derivation, independently implemented as a test oracle.
 	"encoding/base64"
 	"encoding/binary"
@@ -21,6 +23,7 @@ import (
 )
 
 const fixtureRPCResult = `["ok"]`
+const fixtureOutputTopic = "rr/m/o/synthetic-user/f8cd4bde/synthetic-device"
 
 const deviceJSON = `{"auth":{"mqtt":{"brokerUrl":"ssl://example.invalid:8883","user":"synthetic-user","secret":"synthetic-secret","key":"synthetic-key"}},"deviceId":"synthetic-device","localKey":"0123456789abcdef","protocol":"1.0"}`
 
@@ -208,7 +211,7 @@ func replyRPC(conn net.Conn, method, params, result string, cancel context.Cance
 		return err
 	}
 
-	topic = "rr/m/o/synthetic-user/f8cd4bde/synthetic-device"
+	topic = fixtureOutputTopic
 	_, err = conn.Write(mqttTestPacket(48, append(append([]byte{0, byte(len(topic) & 255)}, []byte(topic)...), encoded...)))
 
 	return err
@@ -415,4 +418,312 @@ func matchRPCSecurity(raw json.RawMessage) error {
 	}
 
 	return nil
+}
+
+func TestZoneAndRoomCleaningPairedMQTT(t *testing.T) {
+	t.Parallel()
+
+	cases := [][3]string{
+		{commandCleanZones, `,"cleanZones":{"zones":[{"x1":100,"y1":200,"x2":300,"y2":400,"repeats":2}]}`, `[[100,200,300,400,2]]`},
+		{commandCleanRooms, `,"cleanRooms":{"segments":[16,17],"repeats":2}`, `[{"segments":[16,17],"repeat":2}]`},
+	}
+	for _, testCase := range cases {
+		t.Run(testCase[0], func(t *testing.T) {
+			t.Parallel()
+
+			method := "app_zoned_clean"
+			if testCase[0] == commandCleanRooms {
+				method = "app_segment_clean"
+			}
+
+			client, done := rpcTestClient(t, func(conn net.Conn) error {
+				return replyRPC(conn, method, testCase[2], fixtureRPCResult, nil)
+			})
+			input := strings.TrimSuffix(deviceJSON, "}") + testCase[1] + "}"
+
+			var out, errOut bytes.Buffer
+
+			err := run(context.Background(), []string{testCase[0]}, strings.NewReader(input), &out, &errOut, noEnvironment, client)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if !strings.Contains(out.String(), fixtureAcknowledged) {
+				t.Fatal("missing command acknowledgement")
+			}
+
+			replayErr := <-done
+			if replayErr != nil {
+				t.Fatal(replayErr)
+			}
+		})
+	}
+}
+
+func TestMapCommandsWithoutWireSideEffects(t *testing.T) {
+	t.Parallel()
+
+	cases := [][3]string{
+		{commandCapabilities, "", `"mapContent":true`},
+		{commandMap, `,"mapId":"3"`, ""},
+		{commandTrace, "", ""},
+		{commandCleanRooms, `,"cleanRooms":{"segments":[],"repeats":1}`, ""},
+	}
+	for _, testCase := range cases {
+		t.Run(testCase[0], func(t *testing.T) {
+			t.Parallel()
+			client, done := rpcTestClient(t, func(_ net.Conn) error { return nil })
+			input := strings.TrimSuffix(deviceJSON, "}") + testCase[1] + "}"
+
+			var out, errOut bytes.Buffer
+
+			err := run(context.Background(), []string{testCase[0]}, strings.NewReader(input), &out, &errOut, noEnvironment, client)
+			if testCase[2] != "" {
+				if err != nil {
+					t.Fatal(err)
+				}
+
+				if !strings.Contains(out.String(), testCase[2]) {
+					t.Fatal("missing capabilities")
+				}
+			} else if err == nil || out.Len() != 0 {
+				t.Fatal("invalid or unsupported request succeeded")
+			}
+
+			replayErr := <-done
+			if replayErr != nil {
+				t.Fatal(replayErr)
+			}
+		})
+	}
+}
+
+func TestMapListAndSelectionPairedMQTT(t *testing.T) {
+	t.Parallel()
+
+	cases := [][5]string{
+		{commandRooms, "get_room_mapping", `[]`, `[[16,"1001"]]`, `"segmentId":16`},
+		{commandMaps, "get_multi_maps_list", `[]`, `[{"map_info":[{"map_flag":3,"name":"Upstairs"}]}]`, `"id":"3"`},
+		{commandSelectMap, "load_multi_map", `[3]`, fixtureRPCResult, fixtureAcknowledged},
+	}
+	for _, testCase := range cases {
+		t.Run(testCase[0], func(t *testing.T) {
+			t.Parallel()
+			client, done := rpcTestClient(t, func(conn net.Conn) error { return replyRPC(conn, testCase[1], testCase[2], testCase[3], nil) })
+			input := strings.TrimSuffix(deviceJSON, "}") + `,"mapId":"3"}`
+
+			var out, errOut bytes.Buffer
+
+			err := run(context.Background(), []string{testCase[0]}, strings.NewReader(input), &out, &errOut, noEnvironment, client)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if !strings.Contains(out.String(), testCase[4]) {
+				t.Fatal("missing typed map result")
+			}
+
+			replayErr := <-done
+			if replayErr != nil {
+				t.Fatal(replayErr)
+			}
+		})
+	}
+}
+
+func TestInvalidZonesNeverOpenDevice(t *testing.T) {
+	t.Parallel()
+
+	cases := []string{
+		`{"zones":[{"x2":300,"y2":400,"repeats":1}]}`,
+		`{"zones":[{"x1":null,"y1":0,"x2":300,"y2":400,"repeats":1}]}`,
+		`{"zones":[{"x1":0,"y1":null,"x2":300,"y2":400,"repeats":1}]}`,
+		`{"zones":[{"x1":300,"y1":200,"x2":100,"y2":400,"repeats":1}]}`,
+		`{"zones":[]}`,
+		`null`,
+	}
+	for _, zones := range cases {
+		client, err := roborock.NewClient(roborock.WithMQTTDial(func(_ context.Context, _, _ string) (net.Conn, error) {
+			t.Error("invalid zones opened MQTT connection")
+
+			return nil, errors.New("unexpected dial")
+		}))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		input := strings.TrimSuffix(deviceJSON, "}") + `,"cleanZones":` + zones + "}"
+
+		var out, errOut bytes.Buffer
+
+		err = run(context.Background(), []string{commandCleanZones}, strings.NewReader(input), &out, &errOut, noEnvironment, client)
+		if !errors.Is(err, errCleaningZones) || out.Len() != 0 {
+			t.Fatal("invalid zones accepted")
+		}
+	}
+}
+
+func TestCurrentMapPairedMQTT(t *testing.T) {
+	t.Parallel()
+	client, done := rpcTestClient(t, replySyntheticMap)
+
+	var out, errOut bytes.Buffer
+
+	err := run(context.Background(), []string{commandMap}, strings.NewReader(deviceJSON), &out, &errOut, noEnvironment, client)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if !strings.Contains(out.String(), `"point":{"x":1000,"y":2000}`) {
+		t.Fatal("map geometry missing")
+	}
+
+	for _, secret := range []string{"synthetic-secret", "0123456789abcdef", "nonce", "goOmJ7S+"} {
+		if strings.Contains(out.String(), secret) {
+			t.Fatal("map output contains credentials")
+		}
+	}
+
+	replayErr := <-done
+	if replayErr != nil {
+		t.Fatal(replayErr)
+	}
+}
+
+func replySyntheticMap(conn net.Conn) error {
+	header, body, err := readMQTTPacket(conn)
+	if err != nil {
+		return err
+	}
+
+	topic := "rr/m/i/synthetic-user/f8cd4bde/synthetic-device"
+
+	prefix := append([]byte{0, byte(len(topic) & 255)}, []byte(topic)...)
+	if header != 48 || !bytes.HasPrefix(body, prefix) {
+		return errors.New("map topic mismatch")
+	}
+
+	frame := body[len(prefix):]
+
+	plain, err := testFrame(frame, nil)
+	if err != nil {
+		return err
+	}
+
+	identifier, err := matchRPCPlain(plain, "get_map_v1", `[]`)
+	if err != nil {
+		return err
+	}
+
+	nonce, err := mapNonce(plain)
+	if err != nil {
+		return err
+	}
+
+	encrypted, err := syntheticMapCiphertext(nonce)
+	if err != nil {
+		return err
+	}
+
+	if identifier < 1 || identifier > 65535 {
+		return errors.New("map request identifier out of range")
+	}
+
+	payload := make([]byte, 24+len(encrypted))
+	copy(payload[24:], encrypted)
+	copy(payload, "goOmJ7S+")
+	binary.LittleEndian.PutUint16(payload[16:18], uint16(identifier))
+
+	encoded, err := testFrame(frame, payload)
+	if err != nil {
+		return err
+	}
+
+	binary.BigEndian.PutUint16(encoded[15:17], 301)
+	binary.BigEndian.PutUint32(encoded[len(encoded)-4:], crc32.ChecksumIEEE(encoded[:len(encoded)-4]))
+
+	topic = fixtureOutputTopic
+	_, err = conn.Write(mqttTestPacket(48, append(append([]byte{0, byte(len(topic) & 255)}, []byte(topic)...), encoded...)))
+
+	return err
+}
+
+func mapNonce(plain []byte) ([]byte, error) {
+	var envelope map[string]json.RawMessage
+
+	err := json.Unmarshal(plain, &envelope)
+	if err != nil {
+		return nil, err
+	}
+
+	var dps map[string]string
+
+	err = json.Unmarshal(envelope["dps"], &dps)
+	if err != nil {
+		return nil, err
+	}
+
+	var request map[string]json.RawMessage
+
+	err = json.Unmarshal([]byte(dps["101"]), &request)
+	if err != nil {
+		return nil, err
+	}
+
+	var security map[string]string
+
+	err = json.Unmarshal(request["security"], &security)
+	if err != nil {
+		return nil, err
+	}
+
+	return hex.DecodeString(security["nonce"])
+}
+
+func syntheticMapCiphertext(nonce []byte) ([]byte, error) {
+	// Synthetic rr map: header followed by robot pose block, coordinates in millimeters.
+	raw := make([]byte, 61)
+	copy(raw, "rr")
+	binary.LittleEndian.PutUint16(raw[2:4], 20)
+	binary.LittleEndian.PutUint32(raw[12:16], 3)
+	binary.LittleEndian.PutUint16(raw[20:22], 8)
+	binary.LittleEndian.PutUint16(raw[22:24], 8)
+	binary.LittleEndian.PutUint32(raw[24:28], 8)
+	binary.LittleEndian.PutUint32(raw[28:32], 1000)
+	binary.LittleEndian.PutUint32(raw[32:36], 2000)
+	// A one-cell image block follows the pose.
+	binary.LittleEndian.PutUint16(raw[36:38], 2)
+	binary.LittleEndian.PutUint16(raw[38:40], 24)
+	binary.LittleEndian.PutUint32(raw[40:44], 1)
+	binary.LittleEndian.PutUint32(raw[52:56], 1)
+	binary.LittleEndian.PutUint32(raw[56:60], 1)
+	raw[60] = 1
+
+	var compressed bytes.Buffer
+
+	writer := gzip.NewWriter(&compressed)
+
+	_, err := writer.Write(raw)
+	if err != nil {
+		return nil, err
+	}
+
+	err = writer.Close()
+	if err != nil {
+		return nil, err
+	}
+
+	payload := compressed.Bytes()
+	padding := aes.BlockSize - len(payload)%aes.BlockSize
+	payload = append(payload, bytes.Repeat([]byte{byte(padding)}, padding)...)
+
+	block, err := aes.NewCipher(nonce)
+	if err != nil {
+		return nil, err
+	}
+
+	encrypted := make([]byte, len(payload))
+	cipher.NewCBCEncrypter(block, make([]byte, aes.BlockSize)).CryptBlocks(encrypted, payload) //nolint:gosec // GO-05/LIB-05: Pinned V1 map protocol requires a zero IV; paired synthetic oracle.
+
+	return encrypted, nil
 }

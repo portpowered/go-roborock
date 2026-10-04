@@ -89,7 +89,7 @@ func replayEstablishment(connection net.Conn, exchanges ...func(net.Conn) error)
 		return err
 	}
 
-	topic := "rr/m/o/synthetic-user/f8cd4bde/synthetic-device"
+	topic := fixtureOutputTopic
 
 	expected := append([]byte{0, 1, 0, byte(len(topic) & 255)}, append([]byte(topic), 0)...)
 	if header != 130 || !bytes.Equal(body, expected) {

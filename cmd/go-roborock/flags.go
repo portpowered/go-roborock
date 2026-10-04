@@ -22,6 +22,14 @@ const (
 	commandLoginCode     = "login-code"
 	commandLoginPassword = "login-password"
 	commandResolveLogin  = "resolve-login"
+	commandMaps          = "maps"
+	commandMap           = "map"
+	commandRooms         = "rooms"
+	commandTrace         = "trace"
+	commandCapabilities  = "capabilities"
+	commandSelectMap     = "select-map"
+	commandCleanZones    = "clean-zones"
+	commandCleanRooms    = "clean-rooms"
 )
 
 func wantsHelp(args []string) bool {

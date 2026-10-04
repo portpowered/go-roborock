@@ -3,6 +3,7 @@ package main
 import "errors"
 
 var (
+	errCleaningZones   = errors.New("cleanZones requires zones with explicit ordered coordinates and repeats 1 through 3")
 	errDeviceInput     = errors.New("deviceId, localKey, and protocol are required for device commands")
 	errUnknownCommand  = errors.New("unknown command; use help")
 	errPositionalInput = errors.New("positional inputs are not accepted; use JSON stdin, file, or environment")
