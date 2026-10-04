@@ -1,0 +1,86 @@
+openapi: 3.0.3
+info:
+  title: Roborock client projections
+  version: 0.1.0
+  description: Public account and discovery projections, independent of HTTP and MQTT envelopes.
+paths: {}
+components:
+  schemas:
+    Region:
+      type: string
+      description: Open region value. Known regions are us, eu, cn and ru.
+      enum: [us, eu, cn, ru]
+      x-enum-varnames: [RegionUS, RegionEU, RegionCN, RegionRU]
+    ProtocolVersion:
+      type: string
+      description: Open device protocol value. Unsupported future versions remain visible to callers.
+      enum: ['1.0', A01, B01, L01]
+      x-enum-varnames: [ProtocolV1, ProtocolA01, ProtocolB01, ProtocolL01]
+    LoginContext:
+      type: object
+      required: [email, clientId, country, countryCode]
+      properties:
+        email: {type: string, x-go-type: string, description: Account email address.}
+        clientId: {type: string, x-go-name: ClientID, description: Stable caller-owned login identity; reuse it across code request and exchange.}
+        country: {type: string, description: Country code returned by region resolution or selected by the caller.}
+        countryCode: {type: string, description: Calling code required by the login endpoint.}
+        baseUrl: {type: string, x-go-name: BaseURL, description: Optional explicit regional HTTPS origin.}
+    MQTTAuth:
+      type: object
+      required: [user, secret, key, brokerUrl, apiUrl, signingKey]
+      properties:
+        user: {type: string, description: Account identifier used to derive MQTT identity.}
+        secret: {type: string, description: Account secret used to derive MQTT password.}
+        key: {type: string, description: Account MQTT derivation key.}
+        brokerUrl: {type: string, x-go-name: BrokerURL, description: Broker endpoint returned by the vendor.}
+        apiUrl: {type: string, x-go-name: APIURL, description: Hawk-authenticated API origin returned by the vendor.}
+        signingKey: {type: string, description: Hawk HMAC signing key.}
+    AuthContext:
+      type: object
+      required: [token, clientId, baseUrl, mqtt]
+      properties:
+        token: {type: string, description: Current account token; caller owns storage and replacement.}
+        clientId: {type: string, x-go-name: ClientID, description: Login identity that produced these credentials.}
+        baseUrl: {type: string, x-go-name: BaseURL, description: Regional IoT HTTPS origin.}
+        mqtt: {x-go-name: MQTT, $ref: '#/components/schemas/MQTTAuth'}
+    LoginResult:
+      type: object
+      required: [auth, userId, nickname]
+      properties:
+        auth: {$ref: '#/components/schemas/AuthContext'}
+        userId: {type: integer, x-go-name: UserID, format: int64}
+        nickname: {type: string}
+    Home:
+      type: object
+      required: [id, name]
+      properties:
+        id: {type: integer, x-go-name: ID, format: int64, description: Roborock home identifier for home-data requests.}
+        name: {type: string}
+    Device:
+      type: object
+      required: [id, name, localKey, model, productId, protocol, online, shared]
+      properties:
+        id: {type: string, x-go-name: ID}
+        name: {type: string}
+        localKey: {type: string, description: Device encryption secret; do not log it.}
+        model: {type: string}
+        productId: {type: string, x-go-name: ProductID}
+        protocol: {$ref: '#/components/schemas/ProtocolVersion'}
+        online: {type: boolean}
+        shared: {type: boolean, description: True when discovered through the vendor shared-device list.}
+        firmware: {type: string}
+        roomId: {type: integer, x-go-name: RoomID, format: int64}
+    Room:
+      type: object
+      required: [id, name]
+      properties:
+        id: {type: integer, x-go-name: ID, format: int64}
+        name: {type: string}
+    HomeData:
+      type: object
+      required: [home, devices, rooms]
+      properties:
+        home: {$ref: '#/components/schemas/Home'}
+        devices: {type: array, items: {$ref: '#/components/schemas/Device'}}
+        rooms: {type: array, items: {$ref: '#/components/schemas/Room'}}
+
