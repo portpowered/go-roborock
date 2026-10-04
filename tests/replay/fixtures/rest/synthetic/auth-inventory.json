@@ -244,6 +244,12 @@
               "online": false,
               "futureField": {
                 "value": 1
+              },
+              "deviceStatus": {
+                "121": 8,
+                "122": 100,
+                "206": true,
+                "10005": "{\"sn\": \"synthetic-sn\"}"
               }
             }
           ],
@@ -291,6 +297,12 @@
               "online": false,
               "futureField": {
                 "value": 1
+              },
+              "deviceStatus": {
+                "121": 8,
+                "122": 100,
+                "206": true,
+                "10005": "{\"sn\": \"synthetic-sn\"}"
               }
             }
           ],
@@ -338,6 +350,12 @@
               "online": false,
               "futureField": {
                 "value": 1
+              },
+              "deviceStatus": {
+                "121": 8,
+                "122": 100,
+                "206": true,
+                "10005": "{\"sn\": \"synthetic-sn\"}"
               }
             }
           ],

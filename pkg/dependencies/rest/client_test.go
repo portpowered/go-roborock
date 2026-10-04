@@ -91,6 +91,7 @@ func TestNonceEntropyFailureAndInvalidOrigin(t *testing.T) {
 
 	origins := []string{
 		"", "https://example.test/path", "https://user:secret@example.test", "https://example.test?key=secret",
+		"https://:123", "https://example.test?",
 	}
 	for _, origin := range origins {
 		err = validateOrigin(origin)

@@ -125,7 +125,8 @@
             "schema": {
               "type": "string",
               "pattern": "^[a-zA-Z0-9]{16}$"
-            }
+            },
+            "example": "A1b2C3d4E5f6G7h8"
           },
           {
             "name": "header_clientid",
@@ -274,6 +275,14 @@
             "application/x-www-form-urlencoded": {
               "schema": {
                 "$ref": "#/components/schemas/CodeLoginForm"
+              },
+              "example": {
+                "email": "synthetic@example.test",
+                "code": "001234",
+                "country": "GB",
+                "countryCode": "44",
+                "majorVersion": 19,
+                "minorVersion": 1
               }
             }
           }
@@ -674,30 +683,41 @@
         "additionalProperties": {
           "x-go-type": "json.RawMessage"
         },
-        "x-go-type-skip-optional-pointer": false
+        "x-go-type-skip-optional-pointer": false,
+        "example": {
+          "email": "synthetic@example.test",
+          "type": "login",
+          "platform": ""
+        }
       },
       "CodeLoginForm": {
         "type": "object",
         "properties": {
           "email": {
-            "type": "string"
+            "type": "string",
+            "example": "synthetic@example.test"
           },
           "code": {
-            "type": "string"
+            "type": "string",
+            "example": "001234"
           },
           "country": {
-            "type": "string"
+            "type": "string",
+            "example": "GB"
           },
           "countryCode": {
-            "type": "string"
+            "type": "string",
+            "example": "44"
           },
           "majorVersion": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "example": 19
           },
           "minorVersion": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "example": 1
           }
         },
         "required": [
@@ -711,7 +731,15 @@
         "additionalProperties": {
           "x-go-type": "json.RawMessage"
         },
-        "x-go-type-skip-optional-pointer": false
+        "x-go-type-skip-optional-pointer": false,
+        "example": {
+          "email": "synthetic@example.test",
+          "code": "001234",
+          "country": "GB",
+          "countryCode": "44",
+          "majorVersion": 19,
+          "minorVersion": 1
+        }
       },
       "LoginResponse": {
         "type": "object",

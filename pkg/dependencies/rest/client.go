@@ -81,12 +81,22 @@ func preventRedirect(_ *http.Request, _ []*http.Request) error {
 
 func validateOrigin(base string) error {
 	u, err := url.Parse(base)
-	if err != nil || (u.Scheme != "https" && u.Scheme != "http") || u.Host == "" ||
-		u.User != nil || u.RawQuery != "" || u.Fragment != "" || (u.Path != "" && u.Path != "/") {
+	if err != nil {
 		return roborockerrors.New(roborockerrors.InvalidArgument, "rest.origin", "expected an HTTP origin", err)
+	}
+	if !isHTTPOrigin(u) {
+		return roborockerrors.New(roborockerrors.InvalidArgument, "rest.origin", "expected an HTTP origin", nil)
 	}
 
 	return nil
+}
+
+func isHTTPOrigin(parsed *url.URL) bool {
+	if parsed.Scheme != "https" && parsed.Scheme != "http" {
+		return false
+	}
+	return parsed.Hostname() != "" && parsed.User == nil && parsed.RawQuery == "" && !parsed.ForceQuery &&
+		parsed.Fragment == "" && (parsed.Path == "" || parsed.Path == "/")
 }
 
 func (c *Client) prepareRequest(
@@ -216,7 +226,8 @@ func vendorError(operation string, code int) *roborockerrors.Error {
 		dependencymodels.VendorCodeInvalidCredentials, dependencymodels.VendorCodeInvalidCode,
 		dependencymodels.VendorCodeInvalidAgreement, dependencymodels.VendorCodeAgreementRequired:
 		kind = roborockerrors.Unauthorized
-	case http.StatusNotFound, dependencymodels.VendorCodeAccountMissing, dependencymodels.VendorCodeWrongRegion:
+	case http.StatusNotFound, dependencymodels.VendorCodeAccountMissing,
+		dependencymodels.VendorCodeWrongRegion, dependencymodels.VendorCodeDeletedAccount:
 		kind = roborockerrors.NotFound
 	case http.StatusTooManyRequests, dependencymodels.VendorCodeTooFrequent:
 		kind = roborockerrors.RateLimited
