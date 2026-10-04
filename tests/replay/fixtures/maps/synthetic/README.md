@@ -11,3 +11,5 @@ The Go tests consume these fixed independently checked bytes. They do not regene
 Dimension-inference tests mutate only the Q10 synthetic header height to zero or an incompatible positive height. The pinned Python `_infer_layout` function independently confirms the same 2×2 grid from the exact `01 00` room section and rejects width 3 because the grid remainder is not divisible by that width. The decoder checks at most 33 room counts, caps decompression and grid size, and keeps calibration from the source header.
 
 Historical map packets share raster decoding. Embedded historical trace, carpet rasters, and unrecognized tail data are retained as unknown-block metadata; the separate live `02 01` trace format has a typed path decoder.
+
+`kind-contracts.json` independently validates semantic path and area kind schemas: future string values remain valid while numeric values are rejected. Known values generate typed constants without closing either string domain.

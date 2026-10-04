@@ -164,7 +164,7 @@ func q10Trace(payload []byte, snapshot *mapmodel.MapSnapshot) error {
 	}
 
 	path := mapmodel.MapPath{
-		Kind: "trace",
+		Kind: mapmodel.MapPathKindTrace,
 		Points: make([]mapmodel.MapPoint,
 			0,
 			count),
@@ -216,7 +216,7 @@ func q10Tail(tail []byte, offset int, snapshot *mapmodel.MapSnapshot) error {
 
 	for start := protocol.MapQ10RoomHeaderLength; start < end; start += vertices * protocol.MapQ10PointStride {
 		area := mapmodel.MapArea{
-			Kind:  "erase",
+			Kind:  mapmodel.MapAreaKindErase,
 			Unit:  mapmodel.MapUnitMillimeters,
 			Frame: mapmodel.MapFrameQ10World,
 			Points: make([]mapmodel.MapPoint,

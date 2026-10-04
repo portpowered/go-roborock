@@ -204,13 +204,13 @@ func v1Path(kind uint16, header, data []byte, snapshot *mapmodel.MapSnapshot) er
 		return fmt.Errorf("V1 path length: %w", ErrMalformed)
 	}
 
-	name := "clean"
+	name := mapmodel.MapPathKindClean
 	if kind == protocol.MapBlockGotoPath {
-		name = "goto"
+		name = mapmodel.MapPathKindGoto
 	}
 
 	if kind == protocol.MapBlockPredictedPath {
-		name = "predicted"
+		name = mapmodel.MapPathKindPredicted
 	}
 
 	snapshot.Paths = append(snapshot.Paths, mapmodel.MapPath{
@@ -223,22 +223,22 @@ func v1Path(kind uint16, header, data []byte, snapshot *mapmodel.MapSnapshot) er
 	return nil
 }
 
-func v1AreaKind(kind uint16) (string, int) {
+func v1AreaKind(kind uint16) (mapmodel.MapAreaKind, int) {
 	stride := protocol.MapV1ZoneStride
 
-	name := "current"
+	name := mapmodel.MapAreaKindCurrent
 
 	switch kind {
 	case protocol.MapBlockWalls:
-		name = "wall"
+		name = mapmodel.MapAreaKindWall
 	case protocol.MapBlockNoGo:
-		name = "no-go"
+		name = mapmodel.MapAreaKindNoGo
 		stride = protocol.MapV1PolygonStride
 	case protocol.MapBlockNoMop:
-		name = "no-mop"
+		name = mapmodel.MapAreaKindNoMop
 		stride = protocol.MapV1PolygonStride
 	case protocol.MapBlockNoCarpet:
-		name = "no-carpet"
+		name = mapmodel.MapAreaKindNoCarpet
 		stride = protocol.MapV1PolygonStride
 	}
 

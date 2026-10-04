@@ -58,7 +58,7 @@ components:
       type: object
       required: [kind, points, unit, frame]
       properties:
-        kind: {type: string, description: "Source path kind; clean, goto, predicted or trace."}
+        kind: {$ref: '#/components/schemas/MapPathKind'}
         points: {type: array, items: {$ref: '#/components/schemas/MapPoint'}}
         unit: {$ref: '#/components/schemas/MapUnit'}
         frame: {$ref: '#/components/schemas/MapFrame'}
@@ -66,13 +66,32 @@ components:
       type: object
       required: [kind, points, unit, frame]
       properties:
-        kind: {type: string, description: "Known source restriction name, or unknown when semantics are not verified."}
+        kind: {$ref: '#/components/schemas/MapAreaKind'}
         points: {type: array, items: {$ref: '#/components/schemas/MapPoint'}}
         unit: {$ref: '#/components/schemas/MapUnit'}
         frame: {$ref: '#/components/schemas/MapFrame'}
         sourceType: {type: integer, format: int64, description: "Uninterpreted source area type when present."}
         sourceStatus: {type: integer, format: int64}
         sourceIndex: {type: integer, format: int64}
+    MapPathKind:
+      type: string
+      description: Open path kind. Known values are clean, goto, predicted, and trace; future source kinds remain representable.
+      x-known-values:
+        MapPathKindClean: clean
+        MapPathKindGoto: goto
+        MapPathKindPredicted: predicted
+        MapPathKindTrace: trace
+    MapAreaKind:
+      type: string
+      description: Open area kind. Known values describe current cleaning zones, walls, no-go, no-mop, no-carpet, erase areas, or unknown semantics; future kinds remain representable.
+      x-known-values:
+        MapAreaKindCurrent: current
+        MapAreaKindWall: wall
+        MapAreaKindNoGo: no-go
+        MapAreaKindNoMop: no-mop
+        MapAreaKindNoCarpet: no-carpet
+        MapAreaKindErase: erase
+        MapAreaKindUnknown: unknown
     MapRoom:
       type: object
       required: [unit, frame]

@@ -101,7 +101,7 @@ func q7Geometry(wire *mapproto.RobotMap, snapshot *mapmodel.MapSnapshot) {
 func q7Paths(wire *mapproto.RobotMap, snapshot *mapmodel.MapSnapshot) {
 	if wire.GetHistoryPose() != nil {
 		path := mapmodel.MapPath{
-			Kind:   "clean",
+			Kind:   mapmodel.MapPathKindClean,
 			Unit:   mapmodel.MapUnitMeters,
 			Frame:  mapmodel.MapFrameQ7World,
 			Points: []mapmodel.MapPoint{},
@@ -125,7 +125,7 @@ func q7Paths(wire *mapproto.RobotMap, snapshot *mapmodel.MapSnapshot) {
 func q7Areas(wire *mapproto.RobotMap, snapshot *mapmodel.MapSnapshot) {
 	for _, area := range wire.GetAreaInfo() {
 		item := mapmodel.MapArea{
-			Kind:         "unknown",
+			Kind:         mapmodel.MapAreaKindUnknown,
 			Unit:         mapmodel.MapUnitMeters,
 			Frame:        mapmodel.MapFrameQ7World,
 			SourceType:   optionalUint(area.Type),
