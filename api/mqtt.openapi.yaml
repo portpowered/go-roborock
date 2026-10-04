@@ -1,0 +1,91 @@
+openapi: 3.0.3
+info:
+  title: Roborock MQTT RPC envelopes
+  version: 1.0.0
+paths: {}
+x-wire-constants:
+  MQTTVersionV1: '1.0'
+  MQTTVersionA01: A01
+  MQTTWireSalt: 'TXdfu$jyZ#TZHsg4'
+  MQTTA01Hash: 726f626f726f636b2d67a6d6da
+  MQTTFrameHeaderSize: 19
+  MQTTFrameChecksumSize: 4
+  MQTTProtocolRequest: 101
+  MQTTProtocolResponse: 102
+  MQTTRPCRequestDatapoint: '101'
+  MQTTRPCResponseDatapoint: '102'
+  MQTTQueryDatapoint: '10000'
+  MQTTPublishTopicPrefix: rr/m/i/
+  MQTTSubscribeTopicPrefix: rr/m/o/
+  MQTTProtocolName: MQTT
+  MQTTProtocolLevel: 4
+  MQTTConnectFlags: 194
+  MQTTConnect: 16
+  MQTTConnAck: 32
+  MQTTPublish: 48
+  MQTTPubAck: 64
+  MQTTSubscribe: 130
+  MQTTSubAck: 144
+  MQTTPingReq: 192
+  MQTTPingResp: 208
+  MQTTQoSAtMostOnce: 0
+  MQTTQoSAtLeastOnce: 1
+  MQTTKeepaliveSeconds: 45
+components:
+  schemas:
+    MQTTEnvelope:
+      type: object
+      required: [dps, t]
+      properties:
+        dps:
+          type: object
+          additionalProperties:
+            x-go-type: json.RawMessage
+        t:
+          type: integer
+          format: int64
+          description: Unix timestamp in seconds.
+    MQTTRPCRequest:
+      type: object
+      required: [id, method, params, security]
+      properties:
+        id:
+          type: integer
+          format: int64
+        method:
+          type: string
+          pattern: '^[a-zA-Z0-9_]+$'
+        params:
+          x-go-type: json.RawMessage
+        security:
+          $ref: '#/components/schemas/MQTTRPCSecurity'
+    MQTTRPCSecurity:
+      type: object
+      required: [endpoint, nonce]
+      properties:
+        endpoint:
+          type: string
+          description: Base64 encoding of bytes 8 through 13 of the account-key MD5.
+        nonce:
+          type: string
+          pattern: '^[0-9a-f]{32}$'
+          description: Fresh session AES key for secured device blob responses, encoded as lowercase hex.
+    MQTTRPCResponse:
+      type: object
+      required: [id]
+      properties:
+        id:
+          type: integer
+          format: int64
+        result:
+          x-go-type: json.RawMessage
+        error:
+          $ref: '#/components/schemas/MQTTRPCError'
+    MQTTRPCError:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+
