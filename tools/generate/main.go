@@ -44,39 +44,43 @@ func main() {
 }
 
 func run(ctx context.Context, check bool) error {
+	err := generateProtobuf(ctx, check)
+	if err != nil {
+		return err
+	}
+
 	schemas, err := filepath.Glob("api/*.openapi.yaml")
 	if err != nil {
 		return fmt.Errorf("find schemas: %w", err)
 	}
 
+	asyncSchemas, err := filepath.Glob("api/*.asyncapi.yaml")
+	if err != nil {
+		return fmt.Errorf("find MQTT schemas: %w", err)
+	}
+
+	schemas = append(schemas, asyncSchemas...)
+
 	constants := make(map[string]string)
 
 	for _, schema := range schemas {
-		err = generateSchema(ctx, schema, constants, check)
+		err = generateInput(ctx, schema, constants, check)
 		if err != nil {
 			return err
 		}
+	}
+
+	err = mapAliases(check)
+	if err != nil {
+		return err
 	}
 
 	return restConstants(constants, check)
 }
 
 func generateSchema(ctx context.Context, schema string, constants map[string]string, check bool) error {
-	name := strings.TrimSuffix(filepath.Base(schema), ".openapi.yaml")
-
-	pkg, output := "dependencymodels", "pkg/dependencymodels/"+name+".gen.go"
-
-	if strings.HasSuffix(name, "-models") {
-		pkg, output = "roborock", "pkg/roborock/"+strings.ReplaceAll(name, "-", "_")+".gen.go"
-	}
-
-	if name == "a01-wire" {
-		output = "pkg/dependencymodels/a01_models.gen.go"
-	}
-
-	if name == "cli-models" {
-		pkg, output = cliPackage, "cmd/go-roborock/input.gen.go"
-	}
+	name := strings.TrimSuffix(strings.TrimSuffix(filepath.Base(schema), ".openapi.yaml"), ".asyncapi.yaml")
+	pkg, output := modelTarget(name)
 
 	err := model(ctx, schema, pkg, output, check)
 	if err != nil {
@@ -382,4 +386,26 @@ func identifier(value string) string {
 	}
 
 	return result.String()
+}
+
+func modelTarget(name string) (string, string) {
+	pkg, output := "dependencymodels", "pkg/dependencymodels/"+name+".gen.go"
+
+	if strings.HasSuffix(name, "-models") {
+		pkg, output = "roborock", "pkg/roborock/"+strings.ReplaceAll(name, "-", "_")+".gen.go"
+	}
+
+	if name == "maps-models" {
+		pkg, output = "mapmodel", "internal/mapmodel/models.gen.go"
+	}
+
+	if name == "a01-wire" {
+		output = "pkg/dependencymodels/a01_models.gen.go"
+	}
+
+	if name == "cli-models" {
+		pkg, output = cliPackage, "cmd/go-roborock/input.gen.go"
+	}
+
+	return pkg, output
 }

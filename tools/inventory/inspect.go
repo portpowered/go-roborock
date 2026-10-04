@@ -168,7 +168,7 @@ func inspectDeclarations(pkg *packages.Package, index schemaIndex, result *repor
 			continue
 		}
 
-		generated := strings.HasSuffix(filename, ".gen.go")
+		generated := generatedFile(filename)
 
 		validationErr := validateGenerated(file, filename, index)
 		if validationErr != nil {
@@ -231,7 +231,7 @@ func modelDeclarations(
 
 		row := declaration{
 			symbol, category, location(pkg.Fset, identifier.Pos(), symbol), owner,
-			"go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)", value, []site{},
+			generatorCommand(filename), value, []site{},
 		}
 		result.Declarations = append(result.Declarations, row)
 	}
@@ -287,7 +287,7 @@ func collectUses(loaded []*packages.Package, index schemaIndex, result *report, 
 				position.Symbol = object.Pkg().Path() + "." + object.Name()
 			}
 
-			if strings.HasSuffix(position.File, ".gen.go") || strings.HasSuffix(position.File, "_test.go") {
+			if generatedFile(position.File) || strings.HasSuffix(position.File, "_test.go") {
 				continue
 			}
 
@@ -306,7 +306,7 @@ func serializedField(field *ast.Field) bool {
 }
 
 func validateGenerated(file *ast.File, filename string, index schemaIndex) error {
-	generated := strings.HasSuffix(filename, ".gen.go")
+	generated := generatedFile(filename)
 	if generated && !ast.IsGenerated(file) {
 		return fmt.Errorf("%w: missing generator marker in %s", errInventory, filename)
 	}
@@ -409,4 +409,18 @@ func inspectInjectedDial(call *ast.CallExpr, pkg *packages.Package, result *repo
 			result.Boundaries = append(result.Boundaries, boundary{position, []string{types.TypeString(calledType, nil)}})
 		}
 	}
+}
+
+func generatedFile(name string) bool {
+	return strings.HasSuffix(name, ".gen.go") || strings.HasSuffix(name, ".pb.go")
+}
+
+func generatorCommand(name string) string {
+	if strings.HasSuffix(name, ".pb.go") {
+		return "go run ./tools/protogen (protoc-gen-go v1.36.11)"
+	}
+	if name == "pkg/roborock/maps_models.gen.go" {
+		return "go run ./tools/generate (public aliases of schema-owned mapmodel)"
+	}
+	return "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)"
 }

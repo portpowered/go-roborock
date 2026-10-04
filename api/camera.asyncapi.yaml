@@ -1,0 +1,1028 @@
+{
+  "asyncapi": "3.0.0",
+  "info": {
+    "title": "Roborock V1 camera signaling RPC inventory",
+    "version": "1.0.0",
+    "description": "Camera signaling over encrypted V1 MQTT. Message schemas describe the decoded RPC stored as a JSON string in datapoint 101 (requests) or 102 (responses) inside encrypted device frames."
+  },
+  "defaultContentType": "application/json",
+  "channels": {
+    "requests": {
+      "address": "rr/m/i/{username}/{endpoint}/{deviceId}",
+      "parameters": {
+        "username": {
+          "description": "Account MQTT topic username."
+        },
+        "endpoint": {
+          "description": "Session endpoint identifier."
+        },
+        "deviceId": {
+          "description": "Roborock device identifier."
+        }
+      },
+      "messages": {
+        "CameraCheckPasswordRPCRequest": {
+          "$ref": "#/components/messages/CameraCheckPasswordRPCRequest"
+        },
+        "CameraStartPreviewRPCRequest": {
+          "$ref": "#/components/messages/CameraStartPreviewRPCRequest"
+        },
+        "CameraStopPreviewRPCRequest": {
+          "$ref": "#/components/messages/CameraStopPreviewRPCRequest"
+        },
+        "CameraGetTURNRPCRequest": {
+          "$ref": "#/components/messages/CameraGetTURNRPCRequest"
+        },
+        "CameraSendSDPRPCRequest": {
+          "$ref": "#/components/messages/CameraSendSDPRPCRequest"
+        },
+        "CameraGetSDPRPCRequest": {
+          "$ref": "#/components/messages/CameraGetSDPRPCRequest"
+        },
+        "CameraSendICERPCRequest": {
+          "$ref": "#/components/messages/CameraSendICERPCRequest"
+        },
+        "CameraGetICERPCRequest": {
+          "$ref": "#/components/messages/CameraGetICERPCRequest"
+        }
+      }
+    },
+    "responses": {
+      "address": "rr/m/o/{username}/{endpoint}/{deviceId}",
+      "parameters": {
+        "username": {
+          "description": "Account MQTT topic username."
+        },
+        "endpoint": {
+          "description": "Session endpoint identifier."
+        },
+        "deviceId": {
+          "description": "Roborock device identifier."
+        }
+      },
+      "messages": {
+        "CameraCheckPasswordRPCResponse": {
+          "$ref": "#/components/messages/CameraCheckPasswordRPCResponse"
+        },
+        "CameraStartPreviewRPCResponse": {
+          "$ref": "#/components/messages/CameraStartPreviewRPCResponse"
+        },
+        "CameraStopPreviewRPCResponse": {
+          "$ref": "#/components/messages/CameraStopPreviewRPCResponse"
+        },
+        "CameraGetTURNRPCResponse": {
+          "$ref": "#/components/messages/CameraGetTURNRPCResponse"
+        },
+        "CameraSendSDPRPCResponse": {
+          "$ref": "#/components/messages/CameraSendSDPRPCResponse"
+        },
+        "CameraGetSDPRPCResponse": {
+          "$ref": "#/components/messages/CameraGetSDPRPCResponse"
+        },
+        "CameraSendICERPCResponse": {
+          "$ref": "#/components/messages/CameraSendICERPCResponse"
+        },
+        "CameraGetICERPCResponse": {
+          "$ref": "#/components/messages/CameraGetICERPCResponse"
+        }
+      }
+    }
+  },
+  "operations": {
+    "CameraCheckPasswordRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/CameraCheckPasswordRPCRequest"
+        }
+      ],
+      "summary": "CameraCheckPassword for camera signaling",
+      "description": "CameraCheckPassword for camera signaling.",
+      "x-rpc-method": "check_homesec_password",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/CameraPasswordParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/CameraCheckPasswordRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "camera"
+        }
+      ]
+    },
+    "CameraStartPreviewRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/CameraStartPreviewRPCRequest"
+        }
+      ],
+      "summary": "CameraStartPreview for camera signaling",
+      "description": "CameraStartPreview for camera signaling.",
+      "x-rpc-method": "start_camera_preview",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/CameraPreviewParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/CameraStartPreviewRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "camera"
+        }
+      ]
+    },
+    "CameraStopPreviewRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/CameraStopPreviewRPCRequest"
+        }
+      ],
+      "summary": "CameraStopPreview for camera signaling",
+      "description": "CameraStopPreview for camera signaling.",
+      "x-rpc-method": "stop_camera_preview",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/CameraEmptyParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/CameraStopPreviewRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "camera"
+        }
+      ]
+    },
+    "CameraGetTURNRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/CameraGetTURNRPCRequest"
+        }
+      ],
+      "summary": "CameraGetTURN for camera signaling",
+      "description": "CameraGetTURN for camera signaling.",
+      "x-rpc-method": "get_turn_server",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/CameraEmptyParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/CameraGetTURNRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "camera"
+        }
+      ]
+    },
+    "CameraSendSDPRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/CameraSendSDPRPCRequest"
+        }
+      ],
+      "summary": "CameraSendSDP for camera signaling",
+      "description": "CameraSendSDP for camera signaling.",
+      "x-rpc-method": "send_sdp_to_robot",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/CameraSDPParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/CameraSendSDPRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "camera"
+        }
+      ]
+    },
+    "CameraGetSDPRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/CameraGetSDPRPCRequest"
+        }
+      ],
+      "summary": "CameraGetSDP for camera signaling",
+      "description": "CameraGetSDP for camera signaling.",
+      "x-rpc-method": "get_device_sdp",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/CameraEmptyParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/CameraGetSDPRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "camera"
+        }
+      ]
+    },
+    "CameraSendICERPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/CameraSendICERPCRequest"
+        }
+      ],
+      "summary": "CameraSendICE for camera signaling",
+      "description": "CameraSendICE for camera signaling.",
+      "x-rpc-method": "send_ice_to_robot",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/CameraICEParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/CameraSendICERPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "camera"
+        }
+      ]
+    },
+    "CameraGetICERPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/CameraGetICERPCRequest"
+        }
+      ],
+      "summary": "CameraGetICE for camera signaling",
+      "description": "CameraGetICE for camera signaling.",
+      "x-rpc-method": "get_device_ice",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/CameraEmptyParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/CameraGetICERPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "camera"
+        }
+      ]
+    }
+  },
+  "components": {
+    "schemas": {
+      "CameraEmptyParameters": {
+        "type": "object",
+        "x-go-type": "struct{}",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "CameraPasswordParameters": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "password"
+        ]
+      },
+      "CameraPreviewParameters": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "description": ""
+          },
+          "quality": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "password",
+          "quality"
+        ]
+      },
+      "CameraSDPParameters": {
+        "type": "object",
+        "properties": {
+          "app_sdp": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "app_sdp"
+        ]
+      },
+      "CameraICEParameters": {
+        "type": "object",
+        "properties": {
+          "ice": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "ice"
+        ]
+      },
+      "CameraDeviceSDP": {
+        "type": "object",
+        "properties": {
+          "sdp": {
+            "type": "string",
+            "description": ""
+          },
+          "dev_sdp": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CameraSDPRetry"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "x-go-type": "string",
+            "description": "Base64 encoded answer envelope, or the retry token."
+          }
+        },
+        "additionalProperties": false
+      },
+      "CameraDeviceICE": {
+        "type": "object",
+        "properties": {
+          "ice": {
+            "type": "string",
+            "description": ""
+          },
+          "dev_ice": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "additionalProperties": false
+      },
+      "CameraTURN": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": ""
+          },
+          "user": {
+            "type": "string",
+            "description": ""
+          },
+          "pwd": {
+            "type": "string",
+            "description": ""
+          },
+          "username": {
+            "type": "string",
+            "description": ""
+          },
+          "credential": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "additionalProperties": false
+      },
+      "CameraSDPEnvelope": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/CameraSDPType"
+          },
+          "sdp": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "type",
+          "sdp"
+        ]
+      },
+      "CameraAcknowledgement": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "CameraRPCMethod": {
+        "type": "string",
+        "enum": [
+          "check_homesec_password",
+          "start_camera_preview",
+          "stop_camera_preview",
+          "get_turn_server",
+          "send_sdp_to_robot",
+          "get_device_sdp",
+          "send_ice_to_robot",
+          "get_device_ice"
+        ],
+        "x-enum-varnames": [
+          "RPCCameraCheckPassword",
+          "RPCCameraStartPreview",
+          "RPCCameraStopPreview",
+          "RPCCameraGetTURN",
+          "RPCCameraSendSDP",
+          "RPCCameraGetSDP",
+          "RPCCameraSendICE",
+          "RPCCameraGetICE"
+        ]
+      },
+      "CameraSDPType": {
+        "type": "string",
+        "enum": [
+          "offer",
+          "answer"
+        ],
+        "x-enum-varnames": [
+          "CameraSDPTypeOffer",
+          "CameraSDPTypeAnswer"
+        ],
+        "description": "SDP negotiation direction."
+      },
+      "CameraSDPRetry": {
+        "type": "string",
+        "enum": [
+          "retry"
+        ],
+        "x-enum-varnames": [
+          "CameraSDPRetryPending"
+        ],
+        "description": "Device requests bounded polling while answer is not ready."
+      }
+    },
+    "messages": {
+      "CameraCheckPasswordRPCRequest": {
+        "name": "CameraCheckPasswordRPCRequest",
+        "title": "CameraCheckPassword for camera signaling",
+        "summary": "CameraCheckPassword for camera signaling.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "check_homesec_password"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/CameraPasswordParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CameraCheckPasswordRPCResponse": {
+        "name": "CameraCheckPasswordRPCResponse",
+        "summary": "Returns cameraCheckPassword for camera signaling.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/CameraAcknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CameraStartPreviewRPCRequest": {
+        "name": "CameraStartPreviewRPCRequest",
+        "title": "CameraStartPreview for camera signaling",
+        "summary": "CameraStartPreview for camera signaling.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "start_camera_preview"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/CameraPreviewParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CameraStartPreviewRPCResponse": {
+        "name": "CameraStartPreviewRPCResponse",
+        "summary": "Returns cameraStartPreview for camera signaling.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/CameraAcknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CameraStopPreviewRPCRequest": {
+        "name": "CameraStopPreviewRPCRequest",
+        "title": "CameraStopPreview for camera signaling",
+        "summary": "CameraStopPreview for camera signaling.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "stop_camera_preview"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/CameraEmptyParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CameraStopPreviewRPCResponse": {
+        "name": "CameraStopPreviewRPCResponse",
+        "summary": "Returns cameraStopPreview for camera signaling.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/CameraAcknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CameraGetTURNRPCRequest": {
+        "name": "CameraGetTURNRPCRequest",
+        "title": "CameraGetTURN for camera signaling",
+        "summary": "CameraGetTURN for camera signaling.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "get_turn_server"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/CameraEmptyParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CameraGetTURNRPCResponse": {
+        "name": "CameraGetTURNRPCResponse",
+        "summary": "Returns cameraGetTURN for camera signaling.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/CameraTURN"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CameraSendSDPRPCRequest": {
+        "name": "CameraSendSDPRPCRequest",
+        "title": "CameraSendSDP for camera signaling",
+        "summary": "CameraSendSDP for camera signaling.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "send_sdp_to_robot"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/CameraSDPParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CameraSendSDPRPCResponse": {
+        "name": "CameraSendSDPRPCResponse",
+        "summary": "Returns cameraSendSDP for camera signaling.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/CameraAcknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CameraGetSDPRPCRequest": {
+        "name": "CameraGetSDPRPCRequest",
+        "title": "CameraGetSDP for camera signaling",
+        "summary": "CameraGetSDP for camera signaling.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "get_device_sdp"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/CameraEmptyParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CameraGetSDPRPCResponse": {
+        "name": "CameraGetSDPRPCResponse",
+        "summary": "Returns cameraGetSDP for camera signaling.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/CameraDeviceSDP"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CameraSendICERPCRequest": {
+        "name": "CameraSendICERPCRequest",
+        "title": "CameraSendICE for camera signaling",
+        "summary": "CameraSendICE for camera signaling.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "send_ice_to_robot"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/CameraICEParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CameraSendICERPCResponse": {
+        "name": "CameraSendICERPCResponse",
+        "summary": "Returns cameraSendICE for camera signaling.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/CameraAcknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CameraGetICERPCRequest": {
+        "name": "CameraGetICERPCRequest",
+        "title": "CameraGetICE for camera signaling",
+        "summary": "CameraGetICE for camera signaling.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "get_device_ice"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/CameraEmptyParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CameraGetICERPCResponse": {
+        "name": "CameraGetICERPCResponse",
+        "summary": "Returns cameraGetICE for camera signaling.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/CameraDeviceICE"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,3947 @@
+{
+  "asyncapi": "3.0.0",
+  "info": {
+    "title": "Roborock V1 vacuum RPC inventory",
+    "version": "1.0.0",
+    "description": "Vacuum commands and results over encrypted V1 MQTT. Message schemas describe the decoded RPC stored as a JSON string in datapoint 101 (requests) or 102 (responses) inside encrypted device frames."
+  },
+  "defaultContentType": "application/json",
+  "channels": {
+    "requests": {
+      "address": "rr/m/i/{username}/{endpoint}/{deviceId}",
+      "parameters": {
+        "username": {
+          "description": "Account MQTT topic username."
+        },
+        "endpoint": {
+          "description": "Session endpoint identifier."
+        },
+        "deviceId": {
+          "description": "Roborock device identifier."
+        }
+      },
+      "messages": {
+        "GetStatusRPCRequest": {
+          "$ref": "#/components/messages/GetStatusRPCRequest"
+        },
+        "GetConsumablesRPCRequest": {
+          "$ref": "#/components/messages/GetConsumablesRPCRequest"
+        },
+        "GetCleaningSummaryRPCRequest": {
+          "$ref": "#/components/messages/GetCleaningSummaryRPCRequest"
+        },
+        "GetCleanRecordRPCRequest": {
+          "$ref": "#/components/messages/GetCleanRecordRPCRequest"
+        },
+        "GetDNDRPCRequest": {
+          "$ref": "#/components/messages/GetDNDRPCRequest"
+        },
+        "StartCleaningRPCRequest": {
+          "$ref": "#/components/messages/StartCleaningRPCRequest"
+        },
+        "StopCleaningRPCRequest": {
+          "$ref": "#/components/messages/StopCleaningRPCRequest"
+        },
+        "PauseCleaningRPCRequest": {
+          "$ref": "#/components/messages/PauseCleaningRPCRequest"
+        },
+        "ReturnToDockRPCRequest": {
+          "$ref": "#/components/messages/ReturnToDockRPCRequest"
+        },
+        "SpotCleanRPCRequest": {
+          "$ref": "#/components/messages/SpotCleanRPCRequest"
+        },
+        "StartDustCollectionRPCRequest": {
+          "$ref": "#/components/messages/StartDustCollectionRPCRequest"
+        },
+        "StopDustCollectionRPCRequest": {
+          "$ref": "#/components/messages/StopDustCollectionRPCRequest"
+        },
+        "StartMopWashingRPCRequest": {
+          "$ref": "#/components/messages/StartMopWashingRPCRequest"
+        },
+        "StopMopWashingRPCRequest": {
+          "$ref": "#/components/messages/StopMopWashingRPCRequest"
+        },
+        "RCStartRPCRequest": {
+          "$ref": "#/components/messages/RCStartRPCRequest"
+        },
+        "RCStopRPCRequest": {
+          "$ref": "#/components/messages/RCStopRPCRequest"
+        },
+        "RCEndRPCRequest": {
+          "$ref": "#/components/messages/RCEndRPCRequest"
+        },
+        "DisableDNDRPCRequest": {
+          "$ref": "#/components/messages/DisableDNDRPCRequest"
+        },
+        "SetFanSpeedRPCRequest": {
+          "$ref": "#/components/messages/SetFanSpeedRPCRequest"
+        },
+        "SetWaterModeRPCRequest": {
+          "$ref": "#/components/messages/SetWaterModeRPCRequest"
+        },
+        "SetMopModeRPCRequest": {
+          "$ref": "#/components/messages/SetMopModeRPCRequest"
+        },
+        "SetDNDRPCRequest": {
+          "$ref": "#/components/messages/SetDNDRPCRequest"
+        },
+        "CleanZonesRPCRequest": {
+          "$ref": "#/components/messages/CleanZonesRPCRequest"
+        },
+        "CleanSegmentsRPCRequest": {
+          "$ref": "#/components/messages/CleanSegmentsRPCRequest"
+        },
+        "RCMoveRPCRequest": {
+          "$ref": "#/components/messages/RCMoveRPCRequest"
+        }
+      }
+    },
+    "responses": {
+      "address": "rr/m/o/{username}/{endpoint}/{deviceId}",
+      "parameters": {
+        "username": {
+          "description": "Account MQTT topic username."
+        },
+        "endpoint": {
+          "description": "Session endpoint identifier."
+        },
+        "deviceId": {
+          "description": "Roborock device identifier."
+        }
+      },
+      "messages": {
+        "GetStatusRPCResponse": {
+          "$ref": "#/components/messages/GetStatusRPCResponse"
+        },
+        "GetConsumablesRPCResponse": {
+          "$ref": "#/components/messages/GetConsumablesRPCResponse"
+        },
+        "GetCleaningSummaryRPCResponse": {
+          "$ref": "#/components/messages/GetCleaningSummaryRPCResponse"
+        },
+        "GetCleanRecordRPCResponse": {
+          "$ref": "#/components/messages/GetCleanRecordRPCResponse"
+        },
+        "GetDNDRPCResponse": {
+          "$ref": "#/components/messages/GetDNDRPCResponse"
+        },
+        "StartCleaningRPCResponse": {
+          "$ref": "#/components/messages/StartCleaningRPCResponse"
+        },
+        "StopCleaningRPCResponse": {
+          "$ref": "#/components/messages/StopCleaningRPCResponse"
+        },
+        "PauseCleaningRPCResponse": {
+          "$ref": "#/components/messages/PauseCleaningRPCResponse"
+        },
+        "ReturnToDockRPCResponse": {
+          "$ref": "#/components/messages/ReturnToDockRPCResponse"
+        },
+        "SpotCleanRPCResponse": {
+          "$ref": "#/components/messages/SpotCleanRPCResponse"
+        },
+        "StartDustCollectionRPCResponse": {
+          "$ref": "#/components/messages/StartDustCollectionRPCResponse"
+        },
+        "StopDustCollectionRPCResponse": {
+          "$ref": "#/components/messages/StopDustCollectionRPCResponse"
+        },
+        "StartMopWashingRPCResponse": {
+          "$ref": "#/components/messages/StartMopWashingRPCResponse"
+        },
+        "StopMopWashingRPCResponse": {
+          "$ref": "#/components/messages/StopMopWashingRPCResponse"
+        },
+        "RCStartRPCResponse": {
+          "$ref": "#/components/messages/RCStartRPCResponse"
+        },
+        "RCStopRPCResponse": {
+          "$ref": "#/components/messages/RCStopRPCResponse"
+        },
+        "RCEndRPCResponse": {
+          "$ref": "#/components/messages/RCEndRPCResponse"
+        },
+        "DisableDNDRPCResponse": {
+          "$ref": "#/components/messages/DisableDNDRPCResponse"
+        },
+        "SetFanSpeedRPCResponse": {
+          "$ref": "#/components/messages/SetFanSpeedRPCResponse"
+        },
+        "SetWaterModeRPCResponse": {
+          "$ref": "#/components/messages/SetWaterModeRPCResponse"
+        },
+        "SetMopModeRPCResponse": {
+          "$ref": "#/components/messages/SetMopModeRPCResponse"
+        },
+        "SetDNDRPCResponse": {
+          "$ref": "#/components/messages/SetDNDRPCResponse"
+        },
+        "CleanZonesRPCResponse": {
+          "$ref": "#/components/messages/CleanZonesRPCResponse"
+        },
+        "CleanSegmentsRPCResponse": {
+          "$ref": "#/components/messages/CleanSegmentsRPCResponse"
+        },
+        "RCMoveRPCResponse": {
+          "$ref": "#/components/messages/RCMoveRPCResponse"
+        }
+      }
+    }
+  },
+  "operations": {
+    "GetStatusRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/GetStatusRPCRequest"
+        }
+      ],
+      "summary": "GetStatus on a vacuum",
+      "description": "GetStatus on a vacuum.",
+      "x-rpc-method": "get_status",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/NoParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/GetStatusRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "GetConsumablesRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/GetConsumablesRPCRequest"
+        }
+      ],
+      "summary": "GetConsumables on a vacuum",
+      "description": "GetConsumables on a vacuum.",
+      "x-rpc-method": "get_consumable",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/NoParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/GetConsumablesRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "GetCleaningSummaryRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/GetCleaningSummaryRPCRequest"
+        }
+      ],
+      "summary": "GetCleaningSummary on a vacuum",
+      "description": "GetCleaningSummary on a vacuum.",
+      "x-rpc-method": "get_clean_summary",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/NoParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/GetCleaningSummaryRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "GetCleanRecordRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/GetCleanRecordRPCRequest"
+        }
+      ],
+      "summary": "GetCleanRecord on a vacuum",
+      "description": "GetCleanRecord on a vacuum.",
+      "x-rpc-method": "get_clean_record",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/IntegerParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/GetCleanRecordRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "GetDNDRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/GetDNDRPCRequest"
+        }
+      ],
+      "summary": "GetDND on a vacuum",
+      "description": "GetDND on a vacuum.",
+      "x-rpc-method": "get_dnd_timer",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/NoParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/GetDNDRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "StartCleaningRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/StartCleaningRPCRequest"
+        }
+      ],
+      "summary": "StartCleaning on a vacuum",
+      "description": "StartCleaning on a vacuum.",
+      "x-rpc-method": "app_start",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/NoParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/StartCleaningRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "StopCleaningRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/StopCleaningRPCRequest"
+        }
+      ],
+      "summary": "StopCleaning on a vacuum",
+      "description": "StopCleaning on a vacuum.",
+      "x-rpc-method": "app_stop",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/NoParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/StopCleaningRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "PauseCleaningRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/PauseCleaningRPCRequest"
+        }
+      ],
+      "summary": "PauseCleaning on a vacuum",
+      "description": "PauseCleaning on a vacuum.",
+      "x-rpc-method": "app_pause",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/NoParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/PauseCleaningRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "ReturnToDockRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/ReturnToDockRPCRequest"
+        }
+      ],
+      "summary": "ReturnToDock on a vacuum",
+      "description": "ReturnToDock on a vacuum.",
+      "x-rpc-method": "app_charge",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/NoParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/ReturnToDockRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "SpotCleanRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/SpotCleanRPCRequest"
+        }
+      ],
+      "summary": "SpotClean on a vacuum",
+      "description": "SpotClean on a vacuum.",
+      "x-rpc-method": "app_spot",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/NoParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/SpotCleanRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "StartDustCollectionRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/StartDustCollectionRPCRequest"
+        }
+      ],
+      "summary": "StartDustCollection on a vacuum",
+      "description": "StartDustCollection on a vacuum.",
+      "x-rpc-method": "app_start_collect_dust",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/NoParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/StartDustCollectionRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "StopDustCollectionRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/StopDustCollectionRPCRequest"
+        }
+      ],
+      "summary": "StopDustCollection on a vacuum",
+      "description": "StopDustCollection on a vacuum.",
+      "x-rpc-method": "app_stop_collect_dust",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/NoParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/StopDustCollectionRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "StartMopWashingRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/StartMopWashingRPCRequest"
+        }
+      ],
+      "summary": "StartMopWashing on a vacuum",
+      "description": "StartMopWashing on a vacuum.",
+      "x-rpc-method": "app_start_wash",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/NoParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/StartMopWashingRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "StopMopWashingRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/StopMopWashingRPCRequest"
+        }
+      ],
+      "summary": "StopMopWashing on a vacuum",
+      "description": "StopMopWashing on a vacuum.",
+      "x-rpc-method": "app_stop_wash",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/NoParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/StopMopWashingRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "RCStartRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/RCStartRPCRequest"
+        }
+      ],
+      "summary": "RCStart on a vacuum",
+      "description": "RCStart on a vacuum.",
+      "x-rpc-method": "app_rc_start",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/NoParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/RCStartRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "RCStopRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/RCStopRPCRequest"
+        }
+      ],
+      "summary": "RCStop on a vacuum",
+      "description": "RCStop on a vacuum.",
+      "x-rpc-method": "app_rc_stop",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/NoParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/RCStopRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "RCEndRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/RCEndRPCRequest"
+        }
+      ],
+      "summary": "RCEnd on a vacuum",
+      "description": "RCEnd on a vacuum.",
+      "x-rpc-method": "app_rc_end",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/NoParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/RCEndRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "DisableDNDRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/DisableDNDRPCRequest"
+        }
+      ],
+      "summary": "DisableDND on a vacuum",
+      "description": "DisableDND on a vacuum.",
+      "x-rpc-method": "close_dnd_timer",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/NoParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/DisableDNDRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "SetFanSpeedRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/SetFanSpeedRPCRequest"
+        }
+      ],
+      "summary": "SetFanSpeed on a vacuum",
+      "description": "SetFanSpeed on a vacuum.",
+      "x-rpc-method": "set_custom_mode",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/IntegerParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/SetFanSpeedRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "SetWaterModeRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/SetWaterModeRPCRequest"
+        }
+      ],
+      "summary": "SetWaterMode on a vacuum",
+      "description": "SetWaterMode on a vacuum.",
+      "x-rpc-method": "set_water_box_custom_mode",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/IntegerParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/SetWaterModeRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "SetMopModeRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/SetMopModeRPCRequest"
+        }
+      ],
+      "summary": "SetMopMode on a vacuum",
+      "description": "SetMopMode on a vacuum.",
+      "x-rpc-method": "set_mop_mode",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/IntegerParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/SetMopModeRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "SetDNDRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/SetDNDRPCRequest"
+        }
+      ],
+      "summary": "SetDND on a vacuum",
+      "description": "SetDND on a vacuum.",
+      "x-rpc-method": "set_dnd_timer",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/IntegerParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/SetDNDRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "CleanZonesRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/CleanZonesRPCRequest"
+        }
+      ],
+      "summary": "CleanZones on a vacuum",
+      "description": "CleanZones on a vacuum.",
+      "x-rpc-method": "app_zoned_clean",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/ZoneParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/CleanZonesRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "CleanSegmentsRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/CleanSegmentsRPCRequest"
+        }
+      ],
+      "summary": "CleanSegments on a vacuum",
+      "description": "CleanSegments on a vacuum.",
+      "x-rpc-method": "app_segment_clean",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/SegmentParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/CleanSegmentsRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    },
+    "RCMoveRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/RCMoveRPCRequest"
+        }
+      ],
+      "summary": "RCMove on a vacuum",
+      "description": "RCMove on a vacuum.",
+      "x-rpc-method": "app_rc_move",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/RCParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/RCMoveRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "vacuum"
+        }
+      ]
+    }
+  },
+  "components": {
+    "schemas": {
+      "Status": {
+        "type": "object",
+        "properties": {
+          "msg_ver": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "msg_seq": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "state": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DeviceState"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DeviceState",
+            "description": "Open DeviceState value; future firmware values are accepted."
+          },
+          "battery": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "clean_time": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "clean_area": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DeviceErrorCode"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DeviceErrorCode",
+            "description": "Open DeviceErrorCode value; future firmware values are accepted."
+          },
+          "map_present": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "in_cleaning": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CleaningState"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "CleaningState",
+            "description": "Open CleaningState value; future firmware values are accepted."
+          },
+          "in_returning": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "in_fresh_state": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "lab_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "water_box_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "back_type": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "wash_phase": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "wash_ready": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "fan_power": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FanSpeed"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "FanSpeed",
+            "description": "Open FanSpeed value; future firmware values are accepted."
+          },
+          "dnd_enabled": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "map_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "is_locating": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "lock_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "water_box_mode": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WaterMode"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "WaterMode",
+            "description": "Open WaterMode value; future firmware values are accepted."
+          },
+          "water_box_carriage_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "mop_forbidden_enable": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "camera_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "is_exploring": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "home_sec_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "home_sec_enable_password": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "adbumper_status": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "water_shortage_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "dock_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DockType"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DockType",
+            "description": "Open DockType value; future firmware values are accepted."
+          },
+          "dust_collection_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "auto_dust_collection": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "avoid_count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "mop_mode": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MopMode"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "MopMode",
+            "description": "Open MopMode value; future firmware values are accepted."
+          },
+          "debug_mode": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "collision_avoid_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "switch_map_mode": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "dock_error_status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DockErrorCode"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "DockErrorCode",
+            "description": "Open DockErrorCode value; future firmware values are accepted."
+          },
+          "charge_status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ChargeStatus"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "ChargeStatus",
+            "description": "Open ChargeStatus value; future firmware values are accepted."
+          },
+          "unsave_map_reason": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "unsave_map_flag": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "wash_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "distance_off": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "in_warmup": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "dry_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "rdt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "clean_percent": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "rss": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "dss": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "common_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "corner_clean_mode": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "last_clean_t": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "replenish_mode": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "repeat": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "kct": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "subdivision_sets": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "description": "Presence-aware Status inventory from pinned Python V1 containers; absent fields stay absent. Cleaning area is square millimeters and durations are seconds.",
+        "minProperties": 1
+      },
+      "Consumables": {
+        "type": "object",
+        "properties": {
+          "main_brush_work_time": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "side_brush_work_time": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "filter_work_time": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "filter_element_work_time": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "sensor_dirty_time": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "strainer_work_times": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "dust_collection_work_times": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "cleaning_brush_work_times": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "moproller_work_time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "description": "Presence-aware Consumables inventory from pinned Python V1 containers; absent fields stay absent. Cleaning area is square millimeters and durations are seconds.",
+        "minProperties": 1
+      },
+      "CleaningSummary": {
+        "type": "object",
+        "properties": {
+          "clean_time": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "clean_area": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "clean_count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "dust_collection_count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "records": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "last_clean_t": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "description": "Presence-aware CleaningSummary inventory from pinned Python V1 containers; absent fields stay absent. Cleaning area is square millimeters and durations are seconds.",
+        "minProperties": 1
+      },
+      "CleanRecord": {
+        "type": "object",
+        "properties": {
+          "begin": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "end": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "area": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "error": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "complete": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "start_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CleanStartType"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "CleanStartType",
+            "description": "Open CleanStartType value; future firmware values are accepted."
+          },
+          "clean_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CleanType"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "CleanType",
+            "description": "Open CleanType value; future firmware values are accepted."
+          },
+          "finish_reason": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CleanFinishReason"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "CleanFinishReason",
+            "description": "Open CleanFinishReason value; future firmware values are accepted."
+          },
+          "dust_collection_status": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "avoid_count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "wash_count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "map_flag": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "description": "Presence-aware CleanRecord inventory from pinned Python V1 containers; absent fields stay absent. Cleaning area is square millimeters and durations are seconds.",
+        "minProperties": 1
+      },
+      "DND": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "start_hour": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 23
+          },
+          "start_minute": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 59
+          },
+          "end_hour": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 23
+          },
+          "end_minute": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 59
+          }
+        },
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        },
+        "minProperties": 1
+      },
+      "FanSpeed": {
+        "type": "integer",
+        "description": "Open device-dependent numeric enum; future values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          101,
+          102,
+          103,
+          104,
+          105,
+          108
+        ],
+        "x-enum-varnames": [
+          "FanSpeedQuiet",
+          "FanSpeedBalanced",
+          "FanSpeedTurbo",
+          "FanSpeedMax",
+          "FanSpeedOff",
+          "FanSpeedMaxPlus"
+        ]
+      },
+      "WaterMode": {
+        "type": "integer",
+        "description": "Open device-dependent numeric enum; future values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          200,
+          201,
+          202,
+          203
+        ],
+        "x-enum-varnames": [
+          "WaterModeOff",
+          "WaterModeLow",
+          "WaterModeMedium",
+          "WaterModeHigh"
+        ]
+      },
+      "MopMode": {
+        "type": "integer",
+        "description": "Open device-dependent numeric enum; future values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          300,
+          301,
+          302,
+          303
+        ],
+        "x-enum-varnames": [
+          "MopModeStandard",
+          "MopModeDeep",
+          "MopModeCustom",
+          "MopModeDeepPlus"
+        ]
+      },
+      "NoParameters": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "maxItems": 0
+      },
+      "IntegerParameters": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "ZoneParameters": {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "minItems": 5,
+          "maxItems": 5
+        }
+      },
+      "SegmentParameters": {
+        "type": "array",
+        "minItems": 1,
+        "maxItems": 1,
+        "items": {
+          "$ref": "#/components/schemas/SegmentCommand"
+        }
+      },
+      "SegmentCommand": {
+        "type": "object",
+        "properties": {
+          "segments": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "repeat": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "segments",
+          "repeat"
+        ]
+      },
+      "RCParameters": {
+        "type": "array",
+        "minItems": 1,
+        "maxItems": 1,
+        "items": {
+          "$ref": "#/components/schemas/RCCommand"
+        }
+      },
+      "RCCommand": {
+        "type": "object",
+        "properties": {
+          "velocity": {
+            "type": "number",
+            "minimum": -0.3,
+            "maximum": 0.3,
+            "description": "Linear velocity in meters per second, from -0.3 through 0.3."
+          },
+          "omega": {
+            "type": "number",
+            "minimum": -0.8,
+            "maximum": 0.8,
+            "description": "Angular velocity in radians per second, from -0.8 through 0.8."
+          },
+          "duration": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5000,
+            "description": "Movement duration in milliseconds, from 1 through 5000."
+          },
+          "seqnum": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "velocity",
+          "omega",
+          "duration",
+          "seqnum"
+        ]
+      },
+      "RPCMethod": {
+        "type": "string",
+        "enum": [
+          "get_status",
+          "get_consumable",
+          "get_clean_summary",
+          "get_clean_record",
+          "get_dnd_timer",
+          "app_start",
+          "app_stop",
+          "app_pause",
+          "app_charge",
+          "app_spot",
+          "app_start_collect_dust",
+          "app_stop_collect_dust",
+          "app_start_wash",
+          "app_stop_wash",
+          "app_rc_start",
+          "app_rc_stop",
+          "app_rc_end",
+          "close_dnd_timer",
+          "set_custom_mode",
+          "set_water_box_custom_mode",
+          "set_mop_mode",
+          "set_dnd_timer",
+          "app_zoned_clean",
+          "app_segment_clean",
+          "app_rc_move"
+        ],
+        "x-enum-varnames": [
+          "RPCGetStatus",
+          "RPCGetConsumables",
+          "RPCGetCleaningSummary",
+          "RPCGetCleanRecord",
+          "RPCGetDND",
+          "RPCStartCleaning",
+          "RPCStopCleaning",
+          "RPCPauseCleaning",
+          "RPCReturnToDock",
+          "RPCSpotClean",
+          "RPCStartDustCollection",
+          "RPCStopDustCollection",
+          "RPCStartMopWashing",
+          "RPCStopMopWashing",
+          "RPCRCStart",
+          "RPCRCStop",
+          "RPCRCEnd",
+          "RPCDisableDND",
+          "RPCSetFanSpeed",
+          "RPCSetWaterMode",
+          "RPCSetMopMode",
+          "RPCSetDND",
+          "RPCCleanZones",
+          "RPCCleanSegments",
+          "RPCRCMove"
+        ]
+      },
+      "Acknowledgement": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/CommandAcceptance"
+        },
+        "description": "Expected command acceptance is [\"ok\"]."
+      },
+      "CleaningSummaryLegacy": {
+        "type": "array",
+        "items": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/CleaningSummaryCounter"
+            },
+            {
+              "$ref": "#/components/schemas/CleaningSummaryRecordIDs"
+            }
+          ],
+          "x-go-type": "json.RawMessage"
+        },
+        "minItems": 1,
+        "maxItems": 4,
+        "description": "Ordered clean_time, clean_area, clean_count, records; fourth entry is an array of record IDs. OpenAPI 3.0 represents the heterogeneous array elements; the SDK additionally enforces numeric counters in the first three positions and record IDs in the fourth."
+      },
+      "DeviceState": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          22,
+          23,
+          25,
+          26,
+          28,
+          29,
+          30,
+          32,
+          33,
+          34,
+          100,
+          101,
+          103,
+          202,
+          6301,
+          6302,
+          6303,
+          6304,
+          6305,
+          6306,
+          6307,
+          6308,
+          6309,
+          6310
+        ],
+        "x-enum-varnames": [
+          "DeviceStateUnknown",
+          "DeviceStateStarting",
+          "DeviceStateChargerDisconnected",
+          "DeviceStateIdle",
+          "DeviceStateRemoteControlActive",
+          "DeviceStateCleaning",
+          "DeviceStateReturningHome",
+          "DeviceStateManualMode",
+          "DeviceStateCharging",
+          "DeviceStateChargingProblem",
+          "DeviceStatePaused",
+          "DeviceStateSpotCleaning",
+          "DeviceStateError",
+          "DeviceStateShuttingDown",
+          "DeviceStateUpdating",
+          "DeviceStateDocking",
+          "DeviceStateGoingToTarget",
+          "DeviceStateZonedCleaning",
+          "DeviceStateSegmentCleaning",
+          "DeviceStateEmptyingTheBin",
+          "DeviceStateWashingTheMop",
+          "DeviceStateWashingTheMop2",
+          "DeviceStateGoingToWashTheMop",
+          "DeviceStateInCall",
+          "DeviceStateMapping",
+          "DeviceStateEggAttack",
+          "DeviceStatePatrol",
+          "DeviceStateAttachingTheMop",
+          "DeviceStateDetachingTheMop",
+          "DeviceStateChargingComplete",
+          "DeviceStateDeviceOffline",
+          "DeviceStateLocked",
+          "DeviceStateAirDryingStopping",
+          "DeviceStateRobotStatusMopping",
+          "DeviceStateCleanMopCleaning",
+          "DeviceStateCleanMopMopping",
+          "DeviceStateSegmentMopping",
+          "DeviceStateSegmentCleanMopCleaning",
+          "DeviceStateSegmentCleanMopMopping",
+          "DeviceStateZonedMopping",
+          "DeviceStateZonedCleanMopCleaning",
+          "DeviceStateZonedCleanMopMopping",
+          "DeviceStateBackToDockWashingDuster"
+        ]
+      },
+      "DeviceErrorCode": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          48,
+          49,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56
+        ],
+        "x-enum-varnames": [
+          "DeviceErrorCodeNone",
+          "DeviceErrorCodeLidarBlocked",
+          "DeviceErrorCodeBumperStuck",
+          "DeviceErrorCodeWheelsSuspended",
+          "DeviceErrorCodeCliffSensorError",
+          "DeviceErrorCodeMainBrushJammed",
+          "DeviceErrorCodeSideBrushJammed",
+          "DeviceErrorCodeWheelsJammed",
+          "DeviceErrorCodeRobotTrapped",
+          "DeviceErrorCodeNoDustbin",
+          "DeviceErrorCodeStrainerError",
+          "DeviceErrorCodeCompassError",
+          "DeviceErrorCodeLowBattery",
+          "DeviceErrorCodeChargingError",
+          "DeviceErrorCodeBatteryError",
+          "DeviceErrorCodeWallSensorDirty",
+          "DeviceErrorCodeRobotTilted",
+          "DeviceErrorCodeSideBrushError",
+          "DeviceErrorCodeFanError",
+          "DeviceErrorCodeDock",
+          "DeviceErrorCodeOpticalFlowSensorDirt",
+          "DeviceErrorCodeVerticalBumperPressed",
+          "DeviceErrorCodeDockLocatorError",
+          "DeviceErrorCodeReturnToDockFail",
+          "DeviceErrorCodeNogoZoneDetected",
+          "DeviceErrorCodeVisualSensor",
+          "DeviceErrorCodeLightTouch",
+          "DeviceErrorCodeVibrariseJammed",
+          "DeviceErrorCodeRobotOnCarpet",
+          "DeviceErrorCodeFilterBlocked",
+          "DeviceErrorCodeInvisibleWallDetected",
+          "DeviceErrorCodeCannotCrossCarpet",
+          "DeviceErrorCodeInternalError",
+          "DeviceErrorCodeCollectDustError3",
+          "DeviceErrorCodeCollectDustError4",
+          "DeviceErrorCodeMoppingRoller1",
+          "DeviceErrorCodeMoppingRollerError2",
+          "DeviceErrorCodeClearWaterBoxHoare",
+          "DeviceErrorCodeDirtyWaterBoxHoare",
+          "DeviceErrorCodeSinkStrainerHoare",
+          "DeviceErrorCodeClearWaterBoxException",
+          "DeviceErrorCodeClearBrushException",
+          "DeviceErrorCodeClearBrushException2",
+          "DeviceErrorCodeFilterScreenException",
+          "DeviceErrorCodeMoppingRoller2",
+          "DeviceErrorCodeUpWaterException",
+          "DeviceErrorCodeDrainWaterException",
+          "DeviceErrorCodeTemperatureProtection",
+          "DeviceErrorCodeCleanCarouselException",
+          "DeviceErrorCodeCleanCarouselWaterFull",
+          "DeviceErrorCodeWaterCarriageDrop",
+          "DeviceErrorCodeCheckCleanCarouse",
+          "DeviceErrorCodeAudioError"
+        ]
+      },
+      "DockType": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          -9999,
+          0,
+          1,
+          2,
+          3,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46
+        ],
+        "x-enum-varnames": [
+          "DockTypeUnknown",
+          "DockTypeO0Dock",
+          "DockTypeO1Dock",
+          "DockTypeO2Dock",
+          "DockTypeO3Dock",
+          "DockTypeOcDock",
+          "DockTypeO3PlusDock",
+          "DockTypeO4Dock",
+          "DockTypePearlDock",
+          "DockTypePearlPlusDock",
+          "DockTypeO5Dock",
+          "DockTypeShell2SDock",
+          "DockTypeCoupleDock",
+          "DockTypeShell3Dock",
+          "DockTypeShell2CDock",
+          "DockTypeShell3SDock",
+          "DockTypeK1Dock",
+          "DockTypeO6Dock",
+          "DockTypeK1CDock",
+          "DockTypeK1SDock",
+          "DockTypeShellEDock",
+          "DockTypeShell2EDock",
+          "DockTypeShell3CDock",
+          "DockTypeHeraDock",
+          "DockTypeK1SProDock",
+          "DockTypeType27Dock",
+          "DockTypeK1CLiteDock",
+          "DockTypeK1RDock",
+          "DockTypeShell2ELiteDock",
+          "DockTypeShell4RcDock",
+          "DockTypeShell4RDock",
+          "DockTypeShell4PDock",
+          "DockTypeShell4SDock",
+          "DockTypeO7Dock",
+          "DockTypeK1DDock",
+          "DockTypeShell3PDock",
+          "DockTypeShell4DDock",
+          "DockTypeShell2EHeatDock",
+          "DockTypeF1Dock",
+          "DockTypeF1RDock",
+          "DockTypeF2RDock",
+          "DockTypeF1SDock",
+          "DockTypeO7HDock",
+          "DockTypeF1CDock"
+        ]
+      },
+      "DockErrorCode": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          0,
+          32,
+          33,
+          34,
+          35,
+          38,
+          39,
+          42,
+          44,
+          46,
+          53
+        ],
+        "x-enum-varnames": [
+          "DockErrorCodeOk",
+          "DockErrorCodeNoDustbinOrFilter",
+          "DockErrorCodeAutoEmptyDockFanError",
+          "DockErrorCodeDuctBlockage",
+          "DockErrorCodeAutoEmptyDockVoltageError",
+          "DockErrorCodeWaterEmpty",
+          "DockErrorCodeWasteWaterTankFull",
+          "DockErrorCodeMaintenanceBrushJammed",
+          "DockErrorCodeDirtyTankLatchOpen",
+          "DockErrorCodeNoDustbin",
+          "DockErrorCodeCleaningTankFullOrBlocked"
+        ]
+      },
+      "ChargeStatus": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          -1,
+          0,
+          1
+        ],
+        "x-enum-varnames": [
+          "ChargeStatusUnknown",
+          "ChargeStatusChargeWaiting",
+          "ChargeStatusCharging"
+        ]
+      },
+      "CleaningState": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "x-enum-varnames": [
+          "CleaningStateComplete",
+          "CleaningStateGlobalCleanNotComplete",
+          "CleaningStateZoneCleanNotComplete",
+          "CleaningStateSegmentCleanNotComplete"
+        ]
+      },
+      "CleanStartType": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          13,
+          101,
+          801,
+          802,
+          803,
+          804,
+          805,
+          806,
+          807,
+          808,
+          809,
+          810,
+          811,
+          901,
+          902,
+          903,
+          904,
+          905,
+          820,
+          821
+        ],
+        "x-enum-varnames": [
+          "CleanStartTypeButton",
+          "CleanStartTypeApp",
+          "CleanStartTypeSchedule",
+          "CleanStartTypeMiHome",
+          "CleanStartTypeQuickStart",
+          "CleanStartTypeVoiceControl",
+          "CleanStartTypeRoutines",
+          "CleanStartTypeAlexa",
+          "CleanStartTypeGoogle",
+          "CleanStartTypeIfttt",
+          "CleanStartTypeYandex",
+          "CleanStartTypeHomekit",
+          "CleanStartTypeXiaoai",
+          "CleanStartTypeTmallGenie",
+          "CleanStartTypeDuer",
+          "CleanStartTypeDingdong",
+          "CleanStartTypeSiri",
+          "CleanStartTypeClova",
+          "CleanStartTypeWechat",
+          "CleanStartTypeAlipay",
+          "CleanStartTypeAqara",
+          "CleanStartTypeHisense",
+          "CleanStartTypeHuawei",
+          "CleanStartTypeWidgetLaunch",
+          "CleanStartTypeSmartWatch"
+        ]
+      },
+      "CleanType": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "x-enum-varnames": [
+          "CleanTypeAllZone",
+          "CleanTypeDrawZone",
+          "CleanTypeSelectZone",
+          "CleanTypeQuickBuild",
+          "CleanTypeVideoPatrol",
+          "CleanTypePetPatrol"
+        ]
+      },
+      "CleanFinishReason": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "enum": [
+          21,
+          24,
+          29,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          43,
+          45,
+          64,
+          65,
+          48,
+          49,
+          50,
+          51,
+          52,
+          54,
+          55,
+          56,
+          57,
+          60,
+          61,
+          62,
+          67,
+          68,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          109,
+          110,
+          114,
+          115,
+          116,
+          117
+        ],
+        "x-enum-varnames": [
+          "CleanFinishReasonManualInterrupt",
+          "CleanFinishReasonCleanupInterrupted",
+          "CleanFinishReasonManualInterrupt12",
+          "CleanFinishReasonBreakpoint",
+          "CleanFinishReasonBreakpoint2",
+          "CleanFinishReasonCleanupInterrupted2",
+          "CleanFinishReasonManualInterrupt3",
+          "CleanFinishReasonManualInterrupt4",
+          "CleanFinishReasonManualInterrupt5",
+          "CleanFinishReasonManualInterrupt6",
+          "CleanFinishReasonLocateFail",
+          "CleanFinishReasonCleanupInterrupted3",
+          "CleanFinishReasonLocateFail2",
+          "CleanFinishReasonManualInterrupt7",
+          "CleanFinishReasonManualInterrupt8",
+          "CleanFinishReasonManualInterrupt9",
+          "CleanFinishReasonCleanupInterrupted4",
+          "CleanFinishReasonFinishedCleaning",
+          "CleanFinishReasonFinishedCleaning2",
+          "CleanFinishReasonFinishedCleaning3",
+          "CleanFinishReasonFinishedCleaning4",
+          "CleanFinishReasonFinishedClenaing5",
+          "CleanFinishReasonManualInterrupt10",
+          "CleanFinishReasonAreaUnreachable",
+          "CleanFinishReasonAreaUnreachable2",
+          "CleanFinishReasonWashingError",
+          "CleanFinishReasonBackToWashFailure",
+          "CleanFinishReasonCleanupInterrupted5",
+          "CleanFinishReasonBreakpoint4",
+          "CleanFinishReasonManualInterrupt11",
+          "CleanFinishReasonCleanupInterrupted6",
+          "CleanFinishReasonCleanupInterrupted7",
+          "CleanFinishReasonCleanupInterrupted8",
+          "CleanFinishReasonCleanupInterrupted9",
+          "CleanFinishReasonCleanupInterrupted10",
+          "CleanFinishReasonCleanupInterrupted11",
+          "CleanFinishReasonPatrolSuccess",
+          "CleanFinishReasonPatrolFail",
+          "CleanFinishReasonPetPatrolSuccess",
+          "CleanFinishReasonPetPatrolFail"
+        ],
+        "x-known-values": {
+          "CleanFinishReasonManualInterrupt2": 21
+        }
+      },
+      "CommandAcceptance": {
+        "type": "string",
+        "enum": [
+          "ok"
+        ],
+        "x-enum-varnames": [
+          "CommandAcceptanceOK"
+        ],
+        "description": "Device command acceptance token. Unknown tokens are rejected by the public operation."
+      },
+      "StatusSingletonResult": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Status"
+        },
+        "minItems": 1,
+        "maxItems": 1
+      },
+      "StatusRPCResult": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/Status"
+          },
+          {
+            "$ref": "#/components/schemas/StatusSingletonResult"
+          }
+        ],
+        "description": "Device returns an object or an array containing exactly one object. Unknown firmware fields remain available as raw JSON properties."
+      },
+      "ConsumablesSingletonResult": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Consumables"
+        },
+        "minItems": 1,
+        "maxItems": 1
+      },
+      "ConsumablesRPCResult": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/Consumables"
+          },
+          {
+            "$ref": "#/components/schemas/ConsumablesSingletonResult"
+          }
+        ],
+        "description": "Device returns an object or an array containing exactly one object. Unknown firmware fields remain available as raw JSON properties."
+      },
+      "DNDSingletonResult": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/DND"
+        },
+        "minItems": 1,
+        "maxItems": 1
+      },
+      "DNDRPCResult": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/DND"
+          },
+          {
+            "$ref": "#/components/schemas/DNDSingletonResult"
+          }
+        ],
+        "description": "Device returns an object or an array containing exactly one object. Unknown firmware fields remain available as raw JSON properties."
+      },
+      "CleaningSummaryDuration": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Total cleaning time in seconds when the device returns only a scalar duration."
+      },
+      "CleaningSummaryCounter": {
+        "type": "integer",
+        "format": "int64",
+        "nullable": true,
+        "description": "Legacy tuple counter; null means unavailable."
+      },
+      "CleaningSummaryRecordIDs": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nullable": true,
+        "description": "Legacy tuple fourth position contains cleaning record IDs."
+      },
+      "CleaningSummarySingletonResult": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/CleaningSummary"
+        },
+        "minItems": 1,
+        "maxItems": 1
+      },
+      "CleaningSummaryRPCResult": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/CleaningSummary"
+          },
+          {
+            "$ref": "#/components/schemas/CleaningSummaryDuration"
+          },
+          {
+            "$ref": "#/components/schemas/CleaningSummaryLegacy"
+          },
+          {
+            "$ref": "#/components/schemas/CleaningSummarySingletonResult"
+          }
+        ],
+        "description": "Object, single duration, ordered legacy tuple, or singleton object array as supported by the pinned Python V1 converter."
+      },
+      "CleanRecordLegacy": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "minItems": 4,
+        "description": "Legacy numeric record tuple: begin Unix time, end Unix time, duration seconds, area square millimeters. Additional numeric columns have unknown meaning and are not projected."
+      },
+      "CleanRecordParts": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/CleanRecord"
+            },
+            {
+              "$ref": "#/components/schemas/CleanRecordLegacy"
+            }
+          ]
+        },
+        "description": "Ordered multipart record response. Each part is an object or a legacy numeric tuple; deeper arbitrary array recursion is unsupported."
+      },
+      "CleanRecordRPCResult": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/CleanRecord"
+          },
+          {
+            "$ref": "#/components/schemas/CleanRecordLegacy"
+          },
+          {
+            "$ref": "#/components/schemas/CleanRecordParts"
+          }
+        ],
+        "description": "One record object, a legacy numeric tuple, or ordered multipart record objects and nested legacy tuples."
+      }
+    },
+    "messages": {
+      "GetStatusRPCRequest": {
+        "name": "GetStatusRPCRequest",
+        "title": "GetStatus on a vacuum",
+        "summary": "GetStatus on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "get_status"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/NoParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "GetStatusRPCResponse": {
+        "name": "GetStatusRPCResponse",
+        "summary": "Returns getStatus on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/StatusRPCResult"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "GetConsumablesRPCRequest": {
+        "name": "GetConsumablesRPCRequest",
+        "title": "GetConsumables on a vacuum",
+        "summary": "GetConsumables on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "get_consumable"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/NoParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "GetConsumablesRPCResponse": {
+        "name": "GetConsumablesRPCResponse",
+        "summary": "Returns getConsumables on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/ConsumablesRPCResult"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "GetCleaningSummaryRPCRequest": {
+        "name": "GetCleaningSummaryRPCRequest",
+        "title": "GetCleaningSummary on a vacuum",
+        "summary": "GetCleaningSummary on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "get_clean_summary"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/NoParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "GetCleaningSummaryRPCResponse": {
+        "name": "GetCleaningSummaryRPCResponse",
+        "summary": "Returns getCleaningSummary on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/CleaningSummaryRPCResult"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "GetCleanRecordRPCRequest": {
+        "name": "GetCleanRecordRPCRequest",
+        "title": "GetCleanRecord on a vacuum",
+        "summary": "GetCleanRecord on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "get_clean_record"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/IntegerParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "GetCleanRecordRPCResponse": {
+        "name": "GetCleanRecordRPCResponse",
+        "summary": "Returns getCleanRecord on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/CleanRecordRPCResult"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "GetDNDRPCRequest": {
+        "name": "GetDNDRPCRequest",
+        "title": "GetDND on a vacuum",
+        "summary": "GetDND on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "get_dnd_timer"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/NoParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "GetDNDRPCResponse": {
+        "name": "GetDNDRPCResponse",
+        "summary": "Returns getDND on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/DNDRPCResult"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "StartCleaningRPCRequest": {
+        "name": "StartCleaningRPCRequest",
+        "title": "StartCleaning on a vacuum",
+        "summary": "StartCleaning on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "app_start"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/NoParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "StartCleaningRPCResponse": {
+        "name": "StartCleaningRPCResponse",
+        "summary": "Returns startCleaning on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/Acknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "StopCleaningRPCRequest": {
+        "name": "StopCleaningRPCRequest",
+        "title": "StopCleaning on a vacuum",
+        "summary": "StopCleaning on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "app_stop"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/NoParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "StopCleaningRPCResponse": {
+        "name": "StopCleaningRPCResponse",
+        "summary": "Returns stopCleaning on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/Acknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "PauseCleaningRPCRequest": {
+        "name": "PauseCleaningRPCRequest",
+        "title": "PauseCleaning on a vacuum",
+        "summary": "PauseCleaning on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "app_pause"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/NoParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "PauseCleaningRPCResponse": {
+        "name": "PauseCleaningRPCResponse",
+        "summary": "Returns pauseCleaning on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/Acknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "ReturnToDockRPCRequest": {
+        "name": "ReturnToDockRPCRequest",
+        "title": "ReturnToDock on a vacuum",
+        "summary": "ReturnToDock on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "app_charge"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/NoParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "ReturnToDockRPCResponse": {
+        "name": "ReturnToDockRPCResponse",
+        "summary": "Returns returnToDock on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/Acknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "SpotCleanRPCRequest": {
+        "name": "SpotCleanRPCRequest",
+        "title": "SpotClean on a vacuum",
+        "summary": "SpotClean on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "app_spot"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/NoParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "SpotCleanRPCResponse": {
+        "name": "SpotCleanRPCResponse",
+        "summary": "Returns spotClean on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/Acknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "StartDustCollectionRPCRequest": {
+        "name": "StartDustCollectionRPCRequest",
+        "title": "StartDustCollection on a vacuum",
+        "summary": "StartDustCollection on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "app_start_collect_dust"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/NoParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "StartDustCollectionRPCResponse": {
+        "name": "StartDustCollectionRPCResponse",
+        "summary": "Returns startDustCollection on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/Acknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "StopDustCollectionRPCRequest": {
+        "name": "StopDustCollectionRPCRequest",
+        "title": "StopDustCollection on a vacuum",
+        "summary": "StopDustCollection on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "app_stop_collect_dust"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/NoParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "StopDustCollectionRPCResponse": {
+        "name": "StopDustCollectionRPCResponse",
+        "summary": "Returns stopDustCollection on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/Acknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "StartMopWashingRPCRequest": {
+        "name": "StartMopWashingRPCRequest",
+        "title": "StartMopWashing on a vacuum",
+        "summary": "StartMopWashing on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "app_start_wash"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/NoParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "StartMopWashingRPCResponse": {
+        "name": "StartMopWashingRPCResponse",
+        "summary": "Returns startMopWashing on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/Acknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "StopMopWashingRPCRequest": {
+        "name": "StopMopWashingRPCRequest",
+        "title": "StopMopWashing on a vacuum",
+        "summary": "StopMopWashing on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "app_stop_wash"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/NoParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "StopMopWashingRPCResponse": {
+        "name": "StopMopWashingRPCResponse",
+        "summary": "Returns stopMopWashing on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/Acknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "RCStartRPCRequest": {
+        "name": "RCStartRPCRequest",
+        "title": "RCStart on a vacuum",
+        "summary": "RCStart on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "app_rc_start"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/NoParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "RCStartRPCResponse": {
+        "name": "RCStartRPCResponse",
+        "summary": "Returns rCStart on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/Acknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "RCStopRPCRequest": {
+        "name": "RCStopRPCRequest",
+        "title": "RCStop on a vacuum",
+        "summary": "RCStop on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "app_rc_stop"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/NoParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "RCStopRPCResponse": {
+        "name": "RCStopRPCResponse",
+        "summary": "Returns rCStop on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/Acknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "RCEndRPCRequest": {
+        "name": "RCEndRPCRequest",
+        "title": "RCEnd on a vacuum",
+        "summary": "RCEnd on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "app_rc_end"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/NoParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "RCEndRPCResponse": {
+        "name": "RCEndRPCResponse",
+        "summary": "Returns rCEnd on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/Acknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "DisableDNDRPCRequest": {
+        "name": "DisableDNDRPCRequest",
+        "title": "DisableDND on a vacuum",
+        "summary": "DisableDND on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "close_dnd_timer"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/NoParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "DisableDNDRPCResponse": {
+        "name": "DisableDNDRPCResponse",
+        "summary": "Returns disableDND on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/Acknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "SetFanSpeedRPCRequest": {
+        "name": "SetFanSpeedRPCRequest",
+        "title": "SetFanSpeed on a vacuum",
+        "summary": "SetFanSpeed on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "set_custom_mode"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/IntegerParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "SetFanSpeedRPCResponse": {
+        "name": "SetFanSpeedRPCResponse",
+        "summary": "Returns setFanSpeed on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/Acknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "SetWaterModeRPCRequest": {
+        "name": "SetWaterModeRPCRequest",
+        "title": "SetWaterMode on a vacuum",
+        "summary": "SetWaterMode on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "set_water_box_custom_mode"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/IntegerParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "SetWaterModeRPCResponse": {
+        "name": "SetWaterModeRPCResponse",
+        "summary": "Returns setWaterMode on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/Acknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "SetMopModeRPCRequest": {
+        "name": "SetMopModeRPCRequest",
+        "title": "SetMopMode on a vacuum",
+        "summary": "SetMopMode on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "set_mop_mode"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/IntegerParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "SetMopModeRPCResponse": {
+        "name": "SetMopModeRPCResponse",
+        "summary": "Returns setMopMode on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/Acknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "SetDNDRPCRequest": {
+        "name": "SetDNDRPCRequest",
+        "title": "SetDND on a vacuum",
+        "summary": "SetDND on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "set_dnd_timer"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/IntegerParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "SetDNDRPCResponse": {
+        "name": "SetDNDRPCResponse",
+        "summary": "Returns setDND on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/Acknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CleanZonesRPCRequest": {
+        "name": "CleanZonesRPCRequest",
+        "title": "CleanZones on a vacuum",
+        "summary": "CleanZones on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "app_zoned_clean"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/ZoneParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CleanZonesRPCResponse": {
+        "name": "CleanZonesRPCResponse",
+        "summary": "Returns cleanZones on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/Acknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CleanSegmentsRPCRequest": {
+        "name": "CleanSegmentsRPCRequest",
+        "title": "CleanSegments on a vacuum",
+        "summary": "CleanSegments on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "app_segment_clean"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/SegmentParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CleanSegmentsRPCResponse": {
+        "name": "CleanSegmentsRPCResponse",
+        "summary": "Returns cleanSegments on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/Acknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "RCMoveRPCRequest": {
+        "name": "RCMoveRPCRequest",
+        "title": "RCMove on a vacuum",
+        "summary": "RCMove on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "app_rc_move"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/RCParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "RCMoveRPCResponse": {
+        "name": "RCMoveRPCResponse",
+        "summary": "Returns rCMove on a vacuum.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/Acknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      }
+    }
+  }
+}

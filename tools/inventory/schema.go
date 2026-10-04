@@ -28,9 +28,9 @@ func normalized(value string) string {
 }
 
 func owners() (schemaIndex, error) {
-	files, err := filepath.Glob("api/*.openapi.yaml")
+	files, err := schemaFiles()
 	if err != nil {
-		return nil, fmt.Errorf("find schemas: %w", err)
+		return nil, err
 	}
 
 	result := make(schemaIndex)
@@ -59,10 +59,16 @@ func owners() (schemaIndex, error) {
 		componentNames(entries, file, schemas)
 
 		collectOperations(doc, file, entries, result, schemas)
-		stem := strings.TrimSuffix(filepath.Base(file), ".openapi.yaml")
+		asyncAliases(doc, file, entries)
+		stem := strings.TrimSuffix(strings.TrimSuffix(filepath.Base(file), ".openapi.yaml"), ".asyncapi.yaml")
 
 		output := modelOutput(stem)
+
 		result[output] = entries
+		if stem == "maps-models" {
+			result["pkg/roborock/maps_models.gen.go"] = entries
+		}
+
 		constants, _ := doc["x-wire-constants"].(map[string]any)
 
 		wire := make(map[string]schemaOwner)
@@ -73,22 +79,10 @@ func owners() (schemaIndex, error) {
 
 		result["internal/protocol/"+stem+".gen.go"] = wire
 
-		known := make(map[string]schemaOwner)
-
-		for name, value := range schemas {
-			schema, _ := value.(map[string]any)
-
-			values, _ := schema["x-known-values"].(map[string]any)
-			for constant := range values {
-				pointer := "#/components/schemas/" + escape(name) + "/x-known-values/" + escape(constant)
-				known[normalized(constant)] = schemaOwner{filepath.ToSlash(file), pointer}
-			}
-		}
-
-		result[strings.TrimSuffix(strings.TrimSuffix(output, ".gen.go"), "_models")+"_constants.gen.go"] = known
+		collectKnownOwners(result, output, file, schemas)
 	}
 
-	return result, nil
+	return result, protoOwners(result)
 }
 
 func escape(value string) string {
@@ -239,6 +233,10 @@ func modelOutput(stem string) string {
 		output = "pkg/roborock/" + strings.ReplaceAll(stem, "-", "_") + ".gen.go"
 	}
 
+	if stem == "maps-models" {
+		output = "internal/mapmodel/models.gen.go"
+	}
+
 	if stem == "a01-wire" {
 		output = "pkg/dependencymodels/a01_models.gen.go"
 	}
@@ -248,4 +246,47 @@ func modelOutput(stem string) string {
 	}
 
 	return output
+}
+
+func asyncAliases(doc map[string]any, file string, entries map[string]schemaOwner) {
+	operations, _ := doc["operations"].(map[string]any)
+	for name, value := range operations {
+		operation, _ := value.(map[string]any)
+		if _, exists := operation["x-go-request-schema"]; exists {
+			pointer := "#/operations/" + escape(name) + "/x-go-request-schema"
+			entries[normalized(name+"JSONRequestBody")] = schemaOwner{filepath.ToSlash(file), pointer}
+		}
+	}
+}
+
+func schemaFiles() ([]string, error) {
+	files, err := filepath.Glob("api/*.openapi.yaml")
+	if err != nil {
+		return nil, fmt.Errorf("find schemas: %w", err)
+	}
+
+	asyncFiles, err := filepath.Glob("api/*.asyncapi.yaml")
+	if err != nil {
+		return nil, fmt.Errorf("find MQTT schemas: %w", err)
+	}
+
+	files = append(files, asyncFiles...)
+
+	return files, nil
+}
+
+func collectKnownOwners(result schemaIndex, output, file string, schemas map[string]any) {
+	known := make(map[string]schemaOwner)
+
+	for name, value := range schemas {
+		schema, _ := value.(map[string]any)
+
+		values, _ := schema["x-known-values"].(map[string]any)
+		for constant := range values {
+			pointer := "#/components/schemas/" + escape(name) + "/x-known-values/" + escape(constant)
+			known[normalized(constant)] = schemaOwner{filepath.ToSlash(file), pointer}
+		}
+	}
+
+	result[strings.TrimSuffix(strings.TrimSuffix(output, ".gen.go"), "_models")+"_constants.gen.go"] = known
 }

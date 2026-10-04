@@ -23,6 +23,33 @@ RPC (`camera`), A01 datapoints (`a01-wire`), public semantic projections
 SCHEMA-02 keeps public projections separate from wire types. SCHEMA-10 and
 SCHEMA-16 require models to remain generator-owned.
 
+MQTT transport, vacuum commands, camera signaling, A01 datapoints, B01, and
+map retrieval use canonical AsyncAPI 3 documents (`api/*.asyncapi.yaml`).
+Only HTTP and public model projections remain OpenAPI. Operation descriptions
+are single lines; the documentation workflow publishes MQTT operations through
+the AsyncAPI renderer using their actual topic addresses. The HTTP bundle
+contains no MQTT operation paths.
+
+SCHEMA-16 preserves existing Go wire types during this migration: the pinned
+oapi-codegen generator reads an ephemeral, components-only OpenAPI projection
+of each AsyncAPI document. It also preserves request aliases through
+`x-go-request-schema`; the projection has no HTTP operations and is neither
+checked in nor published. This compatibility adapter retains the existing
+`x-go-type` custom decoding behavior instead of switching existing types to
+Modelina under SCHEMA-10. Future changes continue to edit the canonical schemas.
+
+`make check` requires Node.js 22 and npm in addition to Go and make. The
+Go-owned contracts command invokes the official pinned AsyncAPI CLI 6.2.0
+to validate complete documents and references, then validates model components
+with kin-openapi. CI and exact-tag release verification provision Node.js.
+The validator runs with analytics disabled by CI mode.
+
+Map semantic DTOs are generated once from `maps-models` into
+`internal/mapmodel`; generated public aliases expose those same definitions
+through `roborock`. The pinned B01 SCMap source protocol lives in
+`api/external/b01_scmap.proto`; `tools/protogen` generates its protobuf models
+with protoc-gen-go 1.36.11 and checks them during normal generation.
+
 The inventory separately lists handwritten aliases, custom JSON methods,
 serialization calls and their resolved argument types, and untagged behavior
 structs. The last group contains request adapters, session state, configuration,

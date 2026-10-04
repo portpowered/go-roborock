@@ -28,6 +28,7 @@ jobs:
         with:
           title: Roborock Go SDK
           openapi: tmp/docs.openapi.yaml
+          asyncapi: api/*.asyncapi.yaml
           discover: false
           guides-directory: docs/guides
           output: site

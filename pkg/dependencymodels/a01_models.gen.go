@@ -411,10 +411,10 @@ type ZeoStateWire struct {
 	StartDryerError *int `json:"265,omitempty"`
 }
 
-// QueryA01ValuesJSONRequestBody defines body for QueryA01Values for application/json ContentType.
+// QueryA01ValuesJSONRequestBody Encrypted MQTT request payload before frame padding.
 type QueryA01ValuesJSONRequestBody = A01QueryRequest
 
-// SetA01ValuesJSONRequestBody defines body for SetA01Values for application/json ContentType.
+// SetA01ValuesJSONRequestBody Sparse MQTT setting publication or bundled washer start payload before encryption.
 type SetA01ValuesJSONRequestBody = A01SetRequest
 
 // AsDyadStateWire returns the union data inside the A01QueryResponse_Dps as a DyadStateWire
