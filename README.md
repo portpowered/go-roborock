@@ -66,7 +66,7 @@ The following expressions are short call examples; `r` denotes `roborock`, `c` a
 | Zones, segments | `s.CleanZones(ctx, r.CleanZonesRequest{Zones: zones})`; `s.CleanSegments(ctx, r.CleanSegmentsRequest{Segments: segments, Repeats: 1})` |
 | Remote control lifecycle | `s.RCStart(ctx, r.EmptyRequest{})`; `s.RCStop(ctx, r.EmptyRequest{})`; `s.RCEnd(ctx, r.EmptyRequest{})` |
 | Remote movement | `s.RCMove(ctx, r.RCMoveRequest{Velocity: 0.1, Duration: 500, Sequence: 1})` |
-| Close | `s.Close()` |
+| Session lifetime and close | `<-s.Done()`; `s.Close()` |
 
 A command acknowledgement establishes RPC acceptance, not completed movement or cleaning. Observe status after an acknowledgement; do not automatically retry uncertain movement. Mode values depend on the model and remain forward compatible. [Vacuum guide](https://portpowered.github.io/go-roborock/docs/guides/vacuum) and [remote control guide](https://portpowered.github.io/go-roborock/docs/guides/remote-control).
 
@@ -80,7 +80,7 @@ A command acknowledgement establishes RPC acceptance, not completed movement or 
 | Open camera | `s.OpenCamera(ctx, r.OpenCameraRequest{PatternPassword: pattern, SdpOffer: offer})` |
 | Camera description | `camera.Description()` |
 | Send, get ICE | `camera.SendICE(ctx, r.SendICERequest{Candidate: candidate})`; `camera.GetICE(ctx, r.EmptyRequest{})` |
-| Close camera | `camera.Close()` |
+| Camera lifetime and close | `<-camera.Done()`; `camera.Close()` |
 
 A01 write success means MQTT publication. Camera sessions own preview signaling; the caller's WebRTC stack owns media. See [A01](https://portpowered.github.io/go-roborock/docs/guides/a01) and [camera](https://portpowered.github.io/go-roborock/docs/guides/camera).
 
@@ -93,5 +93,7 @@ Keep the opening context alive for the whole device session. Set deadlines on in
 Supported contracts are implementation-derived from pinned Python Roborock and the existing Go baseline, with synthetic offline verification. They are not an official vendor specification or a claim of complete Python parity. B01/L01 connections, local transport, map decoding, and WebRTC media decoding are outside this release. See [guides and generated reference](https://portpowered.github.io/go-roborock/docs/guides) and [CLI](https://portpowered.github.io/go-roborock/docs/guides/cli).
 
 Contributors should read [CONTRIBUTING.md](CONTRIBUTING.md), [provenance](docs/provenance.md), and [release procedure](docs/releasing.md).
+
+
 
 

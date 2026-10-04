@@ -10,7 +10,7 @@ go-roborock help
 
 Input is one JSON object through stdin, `--input PATH`, or `ROBOROCK_INPUT` when input is `-`. Secrets are JSON inputs; do not put them in command arguments. Output is JSON and failures exit nonzero. Ctrl+C cancels network work; device commands close their session after the call. `--timeout 30s` sets the total operation deadline and must be positive.
 
-Resolve the region with `resolve-login` and an input containing `email` and `clientId`. `--export login.json` explicitly writes the resolved context to a new file. Request a code with `request-code` and the resulting `login` object. Exchange it with `login-code`, supplying `login` and `code`; `login-password` accepts `login` and `password` instead. Add `--export account.json` to explicitly create a credential file. Ordinary login output omits credentials. Protect exported files using your operating system's access controls.
+Resolve the region with `resolve-login` and an input containing `email` and `clientId`. `--export login.json` explicitly writes the resolved context to a new file. Request a code with `request-code` and the resulting `login` object. Exchange it with `login-code`, supplying `login` and `code`; `login-password` accepts `login` and `password` instead. Add `--export account.json` to explicitly create a credential file. Ordinary login output omits credentials. Exports create a new file exclusively, with mode 0600 on Unix. Windows inherits the destination directory ACL; use a private directory. Protect these files using your operating system's access controls.
 
 ```sh
 go-roborock home --input account.json
@@ -20,9 +20,7 @@ go-roborock status --input device.json
 
 Account inputs contain `auth`. Device inputs additionally contain `deviceId`, `localKey`, and `protocol` from discovery. The `devices` command redacts local keys in ordinary output; use `devices --input account.json --export devices.json` to explicitly write discovery results including local keys to a private file. Copy the selected device fields into private device input. Never commit credential files.
 
-Vacuum reads are `status`, `consumables`, and `summary`. Explicit controls are `start`, `stop`, `pause`, and `dock`; acknowledgements do not prove physical completion. Use `dyad` or `zeo` with selected numeric `dyadProperties` or `zeoProperties` arrays in device input for A01 state. The `camera` command accepts a `camera` request containing the pattern password and SDP offer, negotiates signaling, then closes preview. Add `--export camera.json` to explicitly write TURN credentials; ordinary camera output redacts the credential. Media rendering and interactive ICE exchange belong to the SDK and your WebRTC stack.
+Vacuum reads are `status`, `consumables`, and `summary`. Explicit controls are `start`, `stop`, `pause`, and `dock`; acknowledgements do not prove physical completion. Use `dyad` or `zeo` with selected numeric `dyadProperties` or `zeoProperties` arrays in device input for A01 state. The `camera` command accepts a `camera` object with `pattern_password`, `sdp_offer`, and optional `quality`, negotiates signaling, then closes preview. Add `--export camera.json` to explicitly write SDP and TURN credentials; ordinary camera output reports only `negotiated: true`. Media rendering and interactive ICE exchange belong to the SDK and your WebRTC stack.
 
 See [authentication](/docs/guides/authentication), [discovery](/docs/guides/discovery), and [errors](/docs/guides/lifecycle).
-
-
 

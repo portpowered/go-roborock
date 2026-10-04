@@ -1,1 +1,15 @@
-{"title":"Guides","pages":["index","authentication","discovery","vacuum","remote-control","a01","camera","cli","lifecycle"]}
+{
+  "title": "Guides",
+  "pages": [
+    "index",
+    "authentication",
+    "discovery",
+    "vacuum",
+    "remote-control",
+    "a01",
+    "a01-models",
+    "camera",
+    "cli",
+    "lifecycle"
+  ]
+}

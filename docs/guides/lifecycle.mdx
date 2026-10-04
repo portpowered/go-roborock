@@ -3,7 +3,7 @@ title: Errors and session lifecycle
 description: Own contexts, connections, credentials, and typed failures explicitly.
 ---
 
-The reusable client retains configuration, not account credentials or device connections. Every account request supplies `AuthContext`. An opened device session owns its socket and pending RPCs; `Close` is safe to call repeatedly. Canceling the opening context closes the session and unblocks pending calls.
+The reusable client retains configuration, not account credentials or device connections. Every account request supplies `AuthContext`. An opened device session owns its socket and pending RPCs; `Close` is safe to call repeatedly. Canceling the opening context closes the session and unblocks pending calls. Observe `session.Done()` for termination caused by cancellation, close, heartbeat expiry, or connection failure.
 
 Use a long-lived cancellable context for session ownership and a fresh deadline for each operation. Sessions enforce heartbeat liveness, expire unanswered requests, reject connection failures, and bound pending work. Backpressure means the session cannot accept more work; reduce concurrency or close the owner as appropriate.
 

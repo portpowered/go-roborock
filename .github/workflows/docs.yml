@@ -19,6 +19,8 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version-file: go.mod
+      - name: Verify generated public model guide
+        run: go run ./tools/publicdocs -check
       - name: Join documentation schemas with namespaced components
         run: go run ./tools/docbundle
       - name: Build all API references and customer guides
@@ -68,4 +70,5 @@ jobs:
       - uses: actions/configure-pages@v5
       - uses: actions/deploy-pages@v4
         id: deployment
+
 
