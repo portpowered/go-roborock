@@ -45,4 +45,6 @@ B01 room cleaning requires `Repeats: 1`; it does not have a verified repeat para
 
 Read [maps and rooms](/docs/guides/maps), confirm the active map, then use that map's coordinates or room IDs. Never substitute account room IDs, screen pixels, or coordinates from a different floor. Q7's map geometry can be read without assuming an unsupported zone-cleaning payload.
 
+The MQTT references describe [Q7 room cleaning](/docs/asyncapi/b01/CleanQ7Rooms), [Q10 room cleaning](/docs/asyncapi/b01/CleanQ10Rooms), and [Q10 rectangle cleaning](/docs/asyncapi/b01/CleanQ10Zones). The SDK converts typed room IDs or rectangle coordinates into these payloads; callers do not construct the encoded datapoint values.
+
 A control call is an explicit device change. After a timeout, inspect V1 status or the B01 device/app before deciding what to do next; the SDK does not retry uncertain movement automatically. See [errors and lifecycle](/docs/guides/lifecycle).

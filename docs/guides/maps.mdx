@@ -55,4 +55,16 @@ Q10 decoded map coordinates use the relative `q10-world` frame. The existing `Cl
 
 Q10 map reads use the read-only map-content datapoint. They do not issue a map-management `get` command that can trigger movement on firmware. Unsupported map formats and malformed data return typed errors. Closing the session cancels outstanding map reads.
 
+The family-specific MQTT references show the payloads used by these calls:
+
+| SDK flow | Wire reference |
+| --- | --- |
+| Q7 saved-map list | [RequestQ7MapList](/docs/asyncapi/maps/RequestQ7MapList) |
+| Q7 current or selected map download | [UploadQ7Map](/docs/asyncapi/maps/UploadQ7Map) |
+| Q10 saved-map list | [QueryQ10MapList](/docs/asyncapi/maps/QueryQ10MapList) |
+| Q10 current-map observation | [RequestQ10CurrentMap](/docs/asyncapi/maps/RequestQ10CurrentMap) |
+| Q10 separate trace observation | [RequestQ10Trace](/docs/asyncapi/maps/RequestQ10Trace) |
+
+Use the typed SDK calls above; envelope IDs, encryption, and map-upload processing belong to the transport.
+
 Contracts and parsers follow the pinned Python reference and synthetic offline tests. Hardware compatibility requires matching sanitized captures; synthetic maps are not live-device evidence.
