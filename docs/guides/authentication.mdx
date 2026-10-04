@@ -1,0 +1,22 @@
+---
+title: Authentication
+description: Resolve the account region and explicitly exchange credentials.
+---
+
+Create the client with `roborock.NewClient()`. Resolve a regional origin with `ResolveLogin(ctx, ResolveLoginRequest{Email: email, ClientID: identity})`. Keep the returned `LoginContext` and reuse its caller-owned identity across the following calls.
+
+```go
+_, err := client.RequestLoginCode(ctx, roborock.LoginCodeRequest{Login: login})
+// Obtain the emailed code separately and check each error.
+result, err := client.LoginWithCode(ctx, roborock.LoginWithCodeRequest{
+    Login: login, Code: code,
+})
+```
+
+`LoginWithPassword` accepts `LoginWithPasswordRequest{Login: login, Password: password}` for the legacy password endpoint. `WithBaseURL` or the explicit login origin can select a regional HTTPS service origin.
+
+The result contains `Auth`, user ID, and nickname. Pass `Auth` in every account request. Store tokens and MQTT secrets privately; explicitly log in again after rejection or expiry. The client does not store account state or silently renew credentials. A rejected code or expired account returns a typed error; see [errors](/docs/guides/lifecycle).
+
+Continue with [device discovery](/docs/guides/discovery). Authentication endpoints appear in the [generated reference](/docs/openapi/authentication/ResolveRegion).
+
+

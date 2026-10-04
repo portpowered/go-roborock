@@ -1,0 +1,71 @@
+name: Documentation
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GOWORK: 'off'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: Join documentation schemas with namespaced components
+        run: go run ./tools/docbundle
+      - name: Build all API references and customer guides
+        uses: portpowered/api-docs-website-github-action@v0.3.0
+        with:
+          title: Roborock Go SDK
+          openapi: tmp/docs.openapi.yaml
+          discover: false
+          guides-directory: docs/guides
+          output: site
+      - name: Measure unit, replay, and combined coverage separately
+        shell: bash
+        run: |
+          go test -race -coverpkg=./pkg/... -coverprofile=unit.out ./pkg/...
+          go test -race -coverpkg=./pkg/... -coverprofile=replay.out ./tests/replay/...
+          go test -race -coverpkg=./pkg/... -coverprofile=combined.out ./pkg/... ./tests/replay/...
+          for kind in unit replay combined; do
+            minimum=0
+            prefix="${kind}-coverage"
+            if [ "$kind" = combined ]; then minimum=80; prefix=coverage; fi
+            go run ./tools/coverage -profile "$kind.out" -min "$minimum" -filtered-profile "$kind.filtered.out"
+            go tool cover -html="$kind.filtered.out" -o "site/$prefix.html"
+            percent=$(go run ./tools/coverage -profile "$kind.out" -min 0 -percent-only)
+            printf '{"schemaVersion":1,"label":"%s coverage","message":"%s%%","color":"blue"}\n' "$kind" "$percent" > "site/$prefix.json"
+          done
+      - name: Check every rendered page and asset link
+        run: go run ./tools/sitelinks -root site -base /go-roborock
+      - uses: actions/upload-artifact@v4
+        with:
+          name: documentation-preview
+          path: site
+      - uses: actions/upload-pages-artifact@v3
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        with:
+          path: site
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/configure-pages@v5
+      - uses: actions/deploy-pages@v4
+        id: deployment
+

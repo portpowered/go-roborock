@@ -1,0 +1,28 @@
+---
+title: Vacuum reads and controls
+description: Read presence-aware results and issue explicit V1 commands.
+---
+
+Open a V1 device session after [discovery](/docs/guides/discovery). `GetStatus`, `GetConsumables`, `GetCleaningSummary`, and `GetDND` take `EmptyRequest{}` and return typed results. `GetCleanRecord` takes a positive `RecordId` and preserves all returned records in order.
+
+```go
+status, err := session.GetStatus(ctx, roborock.EmptyRequest{})
+if err != nil { return err }
+if status.Battery != nil { fmt.Println(*status.Battery) }
+```
+
+Optional measurements are pointers: absence differs from a reported zero. Cleaning durations are seconds and cleaning area is square millimeters. Mode values depend on the model; unknown numeric values remain visible.
+
+`StartCleaning`, `StopCleaning`, `PauseCleaning`, `ReturnToDock`, `SpotClean`, `StartDustCollection`, `StopDustCollection`, `StartMopWashing`, and `StopMopWashing` accept `EmptyRequest{}`. Their result acknowledges the RPC, not physical completion. Observe `GetStatus` afterward.
+
+```go
+ack, err := session.CleanSegments(ctx, roborock.CleanSegmentsRequest{
+    Segments: []int64{16}, Repeats: 1,
+})
+```
+
+Use `CleanZones` with map coordinates in millimeters and 1–3 repeats. `SetFanSpeed`, `SetWaterMode`, and `SetMopMode` take their named request types. Select values supported by your model. `SetDND` uses device-local hours 0–23 and minutes 0–59; `DisableDND` removes the schedule.
+
+Controls are sent once. A timeout leaves completion uncertain; do not blindly retry movement. Use [remote control](/docs/guides/remote-control) for short movements and [errors and lifecycle](/docs/guides/lifecycle) for failure handling. The [generated reference](/docs/openapi/vacuum/GetStatusRPC) describes request and result fields.
+
+

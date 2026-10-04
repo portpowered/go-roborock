@@ -1,0 +1,27 @@
+---
+title: Camera signaling
+description: Own preview signaling while your WebRTC stack owns media.
+---
+
+Camera-capable V1 devices require a pattern password and an SDP offer from your WebRTC stack.
+
+```go
+camera, err := session.OpenCamera(cameraCtx, roborock.OpenCameraRequest{
+    PatternPassword: pattern, SdpOffer: offer,
+})
+if err != nil { return err }
+defer camera.Close()
+description := camera.Description()
+// Apply description.SdpAnswer and description.TurnServer to your WebRTC stack.
+```
+
+`OpenCamera` checks the password, starts preview, retrieves TURN credentials, sends the offer, and polls for the device answer. The offer and answer are plain SDP strings at the public boundary; encoding belongs to the SDK. Quality defaults to HD and may be supplied explicitly. Keep the pattern and TURN credentials private.
+
+Send a plain local candidate with `camera.SendICE(ctx, SendICERequest{Candidate: candidate})`. Read the next device candidate with `camera.GetICE(ctx, EmptyRequest{})` and apply the returned `Candidate` to your peer connection. The caller owns WebRTC negotiation, rendering, and media decoding.
+
+Only one camera preview may be open per device session. Close it before opening another. Keep the camera context alive for preview. Cancellation and `Close` stop preview with bounded cleanup; setup failure after preview starts also attempts cleanup. Closing the parent device closes owned camera sessions. Close the caller-owned peer connection separately. SDP readiness polling and individual calls have bounded waits; a timeout does not justify retrying movement.
+
+Remote movement uses the device's [remote controls](/docs/guides/remote-control); this release does not expose a separate camera PTZ or playback interface. See [lifecycle](/docs/guides/lifecycle) and the [generated reference](/docs/openapi/camera/CameraStartPreviewRPC).
+
+
+

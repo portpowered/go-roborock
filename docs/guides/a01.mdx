@@ -1,0 +1,23 @@
+---
+title: Dyad and Zeo A01
+description: Query selected appliance properties and publish typed settings.
+---
+
+Open a device using its discovered `ProtocolA01`. Discovery returns `Device.SupportedProperties`, the appliance-advertised numeric IDs. Intersect these with the documented `DyadProperty` or `ZeoProperty` constants and convert only matching IDs to the corresponding typed property. Select only properties supported by both the appliance and the SDK projection; requesting an unsupported property can wait until the operation deadline.
+
+```go
+state, err := session.GetDyadState(ctx, roborock.GetDyadStateRequest{
+    Properties: []roborock.DyadProperty{roborock.DyadPropertyPower},
+})
+```
+
+`GetZeoState` takes `GetZeoStateRequest` with Zeo properties. Both operations return presence-aware typed states: unselected or absent fields remain nil, and future numeric enum values are preserved.
+
+`SetDyadSettings` and `SetZeoSettings` publish only supplied pointer fields. Omitted fields remain untouched. Use `StartZeo` to bundle a mode, program, optional cycle parameters, and start signal into one command; independent settings do not implicitly start a cycle.
+
+A successful A01 write means MQTT publication, not appliance acceptance or cycle completion. Read state afterward to observe physical progress. Never retry an uncertain start automatically. See [session errors](/docs/guides/lifecycle) and the [generated reference](/docs/openapi/a01/queryA01Values) for property enums and request fields.
+
+
+
+
+
