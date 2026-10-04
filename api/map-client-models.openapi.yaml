@@ -1,0 +1,75 @@
+openapi: 3.0.3
+info:
+  title: Roborock map operation projections
+  version: 0.1.0
+  description: Typed map reads and explicit controls independent of device wire envelopes.
+paths: {}
+components:
+  schemas:
+    GetMapRequest:
+      type: object
+      properties:
+        mapId: {type: string, x-go-name: MapID, x-go-type-skip-optional-pointer: true, description: Opaque map identifier. Empty requests the current map. Q10 only supports current-map reads.}
+    SelectMapRequest:
+      type: object
+      required: [mapId]
+      properties:
+        mapId: {type: string, x-go-name: MapID, minLength: 1, description: Opaque V1 map identifier from ListMaps. Selecting changes the device active map.}
+    MapInfo:
+      type: object
+      required: [id]
+      properties:
+        id: {type: string, x-go-name: ID, description: Opaque identifier returned unchanged to map operations.}
+        name: {type: string}
+        current: {type: boolean, description: Present only when the family reports active-map identity.}
+    ListMapsResult:
+      type: object
+      required: [maps]
+      properties:
+        maps: {type: array, items: {$ref: '#/components/schemas/MapInfo'}}
+    MapRoomMapping:
+      type: object
+      required: [segmentId]
+      properties:
+        segmentId: {type: integer, x-go-name: SegmentID, format: int64, description: Device room or segment identifier accepted by CleanSegments.}
+        name: {type: string}
+        iotId: {type: string, x-go-name: IoTID, description: Optional V1 cloud room identity; unrelated to a map ID.}
+    MapRoomsResult:
+      type: object
+      required: [rooms]
+      properties:
+        rooms: {type: array, items: {$ref: '#/components/schemas/MapRoomMapping'}}
+    DeviceCapabilities:
+      type: object
+      required: [mapContent, mapList, mapRooms, mapTrace, mapSelection, roomCleaning, zoneCleaning]
+      properties:
+        mapContent: {type: boolean}
+        mapList: {type: boolean}
+        mapRooms: {type: boolean}
+        mapTrace: {type: boolean, description: Separate trace stream requests; map and trace need not form one coherent snapshot.}
+        mapSelection: {type: boolean}
+        roomCleaning: {type: boolean}
+        zoneCleaning: {type: boolean}
+    HomeRoomsRequest:
+      type: object
+      required: [auth, homeId]
+      properties:
+        auth: {type: object, x-go-type: AuthContext, description: Caller-owned account credentials as defined in client-models AuthContext.}
+        homeId: {type: integer, format: int64, x-go-name: HomeID}
+    SharedDeviceRoomsRequest:
+      type: object
+      required: [auth, deviceId]
+      properties:
+        auth: {type: object, x-go-type: AuthContext, description: Caller-owned account credentials as defined in client-models AuthContext.}
+        deviceId: {type: string, x-go-name: DeviceID}
+    RoomsResult:
+      type: object
+      required: [rooms]
+      properties:
+        rooms: {type: array, items: {$ref: '#/components/schemas/CloudRoom'}}
+    CloudRoom:
+      type: object
+      required: [id]
+      properties:
+        id: {type: integer, format: int64, x-go-name: ID}
+        name: {type: string, description: Absent when the cloud does not report a room name.}

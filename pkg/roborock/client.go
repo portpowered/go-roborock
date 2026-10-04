@@ -128,6 +128,11 @@ type deviceLifecycle interface {
 type DeviceSession struct {
 	rpc         deviceRPC
 	protocol    string
+	family      DeviceFamily
+	metadata    deviceMetadata
+	client      *Client
+	auth        AuthContext
+	deviceID    string
 	life        context.Context
 	cancel      context.CancelFunc
 	closeOnce   sync.Once
@@ -142,6 +147,11 @@ type DeviceSession struct {
 func (c *Client) OpenDevice(ctx context.Context, request OpenDeviceRequest) (*DeviceSession, error) {
 	if request.Protocol == "" {
 		return nil, roborockerrors.New(roborockerrors.InvalidArgument, "open_device", "device protocol is required", nil)
+	}
+
+	metadata, err := c.openMetadata(ctx, request)
+	if err != nil {
+		return nil, err
 	}
 
 	auth := request.Auth.Mqtt
@@ -164,6 +174,11 @@ func (c *Client) OpenDevice(ctx context.Context, request OpenDeviceRequest) (*De
 
 	session.rpc = rpc
 	session.protocol = string(request.Protocol)
+	session.family = metadata.family
+	session.metadata = metadata
+	session.client = c
+	session.auth = request.Auth
+	session.deviceID = request.DeviceID
 	session.life = life
 	session.cancel = cancel
 

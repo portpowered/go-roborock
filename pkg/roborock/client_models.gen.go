@@ -2,6 +2,16 @@
 
 package roborock
 
+// Defines values for DeviceFamily.
+const (
+	FamilyB01Q10   DeviceFamily = "b01_q10"
+	FamilyB01Q7    DeviceFamily = "b01_q7"
+	FamilyDyad     DeviceFamily = "dyad"
+	FamilyUnknown  DeviceFamily = "unknown"
+	FamilyV1Vacuum DeviceFamily = "v1_vacuum"
+	FamilyZeo      DeviceFamily = "zeo"
+)
+
 // Defines values for HomeDataVersion.
 const (
 	HomeDataV1 HomeDataVersion = 1
@@ -45,8 +55,11 @@ type Device struct {
 
 	// Category Open product category independent of capabilities.
 	Category *string `json:"category,omitempty"`
-	Firmware *string `json:"firmware,omitempty"`
-	ID       string  `json:"id"`
+
+	// Family Open implementation family derived from protocol, model and category. Unknown devices remain discoverable.
+	Family   *DeviceFamily `json:"family,omitempty"`
+	Firmware *string       `json:"firmware,omitempty"`
+	ID       string        `json:"id"`
 
 	// LocalKey Device encryption secret; do not log it.
 	LocalKey  string `json:"localKey"`
@@ -65,6 +78,9 @@ type Device struct {
 	// SupportedProperties Advertised numeric datapoint IDs; select typed A01 query properties from this inventory.
 	SupportedProperties []int `json:"supportedProperties"`
 }
+
+// DeviceFamily Open implementation family derived from protocol, model and category. Unknown devices remain discoverable.
+type DeviceFamily string
 
 // Home defines model for Home.
 type Home struct {

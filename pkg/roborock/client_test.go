@@ -153,7 +153,7 @@ func TestUnsupportedDeviceProtocol(t *testing.T) {
 
 	var request roborock.OpenDeviceRequest
 
-	request.Protocol = roborock.ProtocolB01
+	request.Protocol = roborock.ProtocolL01
 	request.Auth.Mqtt.BrokerURL = "ssl://broker.example.test:8883"
 	request.Auth.Mqtt.User = "synthetic-user"
 	request.Auth.Mqtt.Secret = "synthetic-secret"

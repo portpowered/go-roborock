@@ -34,6 +34,10 @@ type CameraSession struct {
 // OpenCamera authenticates the pattern, starts preview, retrieves TURN, and
 // exchanges SDP. Cancellation or any failure after preview starts stops preview.
 func (s *DeviceSession) OpenCamera(ctx context.Context, req OpenCameraRequest) (*CameraSession, error) {
+	if s.protocol != string(ProtocolV1) {
+		return nil, unsupportedMap("OpenCamera")
+	}
+
 	camera, stopParent, err := s.reserveCamera(ctx, req)
 	if err != nil {
 		return nil, err
@@ -164,7 +168,7 @@ func (c *CameraSession) SendICE(ctx context.Context, req SendICERequest) (Comman
 		dependencymodels.CameraICEParameters{Ice: base64.StdEncoding.EncodeToString([]byte(req.Candidate))},
 	)
 
-	return CommandAcknowledgement{Acknowledged: err == nil}, err
+	return CommandAcknowledgement{Acknowledged: err == nil, Sent: err == nil}, err
 }
 
 // GetICE reads and decodes the device's next ICE candidate.

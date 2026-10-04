@@ -591,6 +591,10 @@
       "CommandAcknowledgement": {
         "type": "object",
         "properties": {
+          "sent": {
+            "type": "boolean",
+            "description": "The command was successfully published. Q10 publication does not establish device acceptance."
+          },
           "acknowledged": {
             "type": "boolean",
             "description": "The RPC accepted the command. It does not establish completion of physical action."
@@ -598,6 +602,7 @@
         },
         "additionalProperties": false,
         "required": [
+          "sent",
           "acknowledged"
         ]
       },

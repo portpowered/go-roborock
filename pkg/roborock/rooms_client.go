@@ -23,7 +23,8 @@ func (c *Client) GetSharedDeviceRooms(ctx context.Context, request SharedDeviceR
 		Auth: authWire(request.Auth), DeviceID: request.DeviceID,
 	})
 	if err != nil {
-		return RoomsResult{}, roborockerrors.Wrap(roborockerrors.Protocol, "get_shared_device_rooms", "room refresh failed", err)
+		return RoomsResult{}, roborockerrors.Wrap(roborockerrors.Protocol,
+			"get_shared_device_rooms", "room refresh failed", err)
 	}
 
 	return roomsProjection(out), nil

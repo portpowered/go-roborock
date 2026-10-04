@@ -4,12 +4,269 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"github.com/portpowered/go-roborock/pkg/dependencies/mapdata"
+	"github.com/portpowered/go-roborock/pkg/dependencymodels"
 	"github.com/portpowered/go-roborock/pkg/roborockerrors"
+	"net/http"
 	"reflect"
 	"sync"
 	"testing"
 	"time"
 )
+
+const (
+	fixtureVacuumCategory = "robot.vacuum.cleaner"
+	fixtureOtherModel     = "other"
+	fixtureNullResponse   = "null"
+)
+
+type familyCase struct {
+	version         ProtocolVersion
+	model, category string
+	want            DeviceFamily
+}
+
+func TestDeviceFamilies(t *testing.T) {
+	t.Parallel()
+
+	cases := []familyCase{
+		{ProtocolV1, "roborock.vacuum.a15", fixtureVacuumCategory, FamilyV1Vacuum},
+		{ProtocolV1, fixtureOtherModel, "roborock.wm", FamilyUnknown},
+		{ProtocolA01, fixtureOtherModel, "roborock.wetdryvac", FamilyDyad},
+		{ProtocolA01, fixtureOtherModel, "roborock.wm", FamilyZeo},
+		{ProtocolB01, "roborock.vacuum.ss07", fixtureVacuumCategory, FamilyB01Q10},
+		{ProtocolB01, "roborock.vacuum.sc05", fixtureVacuumCategory, FamilyB01Q7},
+		{ProtocolB01, "roborock.vacuum.sc_ss", fixtureVacuumCategory, FamilyB01Q10},
+		{ProtocolB01, "roborock.vacuum.future", fixtureVacuumCategory, FamilyUnknown},
+		{ProtocolL01, "roborock.vacuum.sc05", fixtureVacuumCategory, FamilyUnknown},
+	}
+	for _, test := range cases {
+		if got := productFamily(test.version, test.model, test.category); got != test.want {
+			t.Fatalf("family %s/%s: got %s want %s", test.version, test.model, got, test.want)
+		}
+	}
+}
+
+type pairedMapRPC struct{ *pairedRPC }
+
+func (p *pairedMapRPC) CallB01(
+	ctx context.Context, method dependencymodels.B01Method, parameters json.RawMessage,
+) (json.RawMessage, error) {
+	return p.Call(ctx, string(method), parameters)
+}
+func (p *pairedMapRPC) FetchMapV1(context.Context) ([]byte, error) { return nil, errResultShape }
+func (p *pairedMapRPC) FetchMapQ7(context.Context, int64, string, string) ([]byte, error) {
+	return nil, errResultShape
+}
+func (p *pairedMapRPC) QueryMapListQ10(context.Context) (dependencymodels.MapsQ10ListResult, error) {
+	return dependencymodels.MapsQ10ListResult{}, errResultShape
+}
+func (p *pairedMapRPC) FetchMapQ10(context.Context) ([]byte, error)   { return nil, errResultShape }
+func (p *pairedMapRPC) FetchTraceQ10(context.Context) ([]byte, error) { return nil, errResultShape }
+func (p *pairedMapRPC) SetQ10Clean(ctx context.Context, command dependencymodels.Q10CleanCommand) error {
+	parameters, err := json.Marshal(command)
+	if err != nil {
+		return operationError("synthetic", err)
+	}
+
+	_, err = p.Call(ctx, "synthetic-q10-clean", parameters)
+
+	return err
+}
+
+func familySession(t *testing.T, family DeviceFamily, exchanges ...rpcExchange) *DeviceSession {
+	t.Helper()
+	session := operationSession(t, exchanges...)
+	session.family = family
+
+	rpc, ok := session.rpc.(*pairedRPC)
+	if !ok {
+		t.Fatal("unexpected fixture transport")
+	}
+
+	session.rpc = &pairedMapRPC{pairedRPC: rpc}
+
+	return session
+}
+
+func TestFamilyRoomCleaning(t *testing.T) {
+	t.Parallel()
+	q7 := familySession(t, FamilyB01Q7, rpcExchange{method: "service.set_room_clean",
+		params: `{"clean_type":1,"ctrl_value":1,"room_ids":[16,17]}`, response: `{"accepted":true}`, failure: nil})
+
+	ack, err := q7.CleanSegments(t.Context(), CleanSegmentsRequest{Segments: []int64{16, 17}, Repeats: 1})
+	if err != nil || !ack.Sent || !ack.Acknowledged {
+		t.Fatalf("Q7 acknowledgement: %+v %v", ack, err)
+	}
+
+	//nolint:misspell // Firmware requires this exact JSON field spelling.
+	q10 := familySession(t, FamilyB01Q10, rpcExchange{method: "synthetic-q10-clean",
+		params: `{"clean_paramters":[9],"cmd":2}`, response: fixtureNullResponse, failure: nil})
+
+	ack, err = q10.CleanSegments(t.Context(), CleanSegmentsRequest{Segments: []int64{9}, Repeats: 1})
+	if err != nil || !ack.Sent || ack.Acknowledged {
+		t.Fatalf("Q10 publication: %+v %v", ack, err)
+	}
+
+	for _, family := range []DeviceFamily{FamilyB01Q7, FamilyB01Q10} {
+		session := familySession(t, family)
+
+		_, err = session.CleanSegments(t.Context(), CleanSegmentsRequest{Segments: []int64{9}, Repeats: 2})
+		if err == nil {
+			t.Fatalf("%s silently accepted repeat", family)
+		}
+	}
+}
+
+func TestQ7MapSelectionRequiresCurrent(t *testing.T) {
+	t.Parallel()
+
+	responses := []string{`{"map_list":[{"id":1}]}`, `{"map_list":[{"id":1,"cur":true},{"id":2,"cur":true}]}`}
+	for _, response := range responses {
+		session := familySession(t, FamilyB01Q7, rpcExchange{method: "service.get_map_list",
+			params: `{}`, response: response, failure: nil})
+
+		_, err := session.GetMap(t.Context(), GetMapRequest{MapID: ""})
+		if err == nil {
+			t.Fatal("map read guessed active map")
+		}
+	}
+}
+
+func TestV1MapMetadataAndRoomMappings(t *testing.T) {
+	t.Parallel()
+	session := operationSession(t,
+		rpcExchange{method: "get_multi_maps_list", params: `[]`,
+			response: `[{"map_info":[{"map_flag":0,"name":"Ground"}]}]`, failure: nil},
+		rpcExchange{method: "get_room_mapping", params: `[]`, response: `[[16,1001],[17,"1002"]]`, failure: nil},
+		rpcExchange{method: "load_multi_map", params: `[0]`, response: `["ok"]`, failure: nil},
+	)
+
+	maps, err := session.ListMaps(t.Context(), EmptyRequest{})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	name := "Ground"
+
+	wantMaps := ListMapsResult{Maps: []MapInfo{{ID: "0", Name: &name, Current: nil}}}
+
+	if !reflect.DeepEqual(maps, wantMaps) {
+		t.Fatalf("maps: %+v %v", maps, err)
+	}
+
+	rooms, err := session.GetRooms(t.Context(), EmptyRequest{})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	first, second := "1001", "1002"
+
+	wantRooms := MapRoomsResult{Rooms: []MapRoomMapping{
+		{SegmentID: 16, IoTID: &first, Name: nil}, {SegmentID: 17, IoTID: &second, Name: nil}}}
+
+	if !reflect.DeepEqual(rooms, wantRooms) {
+		t.Fatalf("rooms: %+v %v", rooms, err)
+	}
+
+	ack, err := session.SelectMap(t.Context(), SelectMapRequest{MapID: "0"})
+	if err != nil || !ack.Acknowledged || !ack.Sent {
+		t.Fatalf("select map: %+v %v", ack, err)
+	}
+}
+
+type waitingRoomHTTP struct{ started chan struct{} }
+
+func TestMapErrorsPreserveClassification(t *testing.T) {
+	t.Parallel()
+
+	_, err := decodeMap(MapFormatV1, nil, "GetMap")
+	assertMapFailure(t, err, roborockerrors.Protocol)
+
+	var (
+		grid      MapGrid
+		point     MapPoint
+		rectangle MapRectangle
+	)
+
+	_, err = MapToPixel(grid, point)
+	assertMapFailure(t, err, roborockerrors.InvalidArgument)
+	_, err = PixelToMap(grid, point)
+	assertMapFailure(t, err, roborockerrors.InvalidArgument)
+	_, err = PixelRectangleToMap(grid, rectangle)
+	assertMapFailure(t, err, roborockerrors.InvalidArgument)
+}
+
+func assertMapFailure(t *testing.T, err error, kind roborockerrors.Kind) {
+	t.Helper()
+
+	var typed *roborockerrors.Error
+	if !errors.As(err, &typed) {
+		t.Fatalf("untyped error: %v", err)
+	}
+
+	if typed.Kind != kind {
+		t.Fatalf("error kind %s want %s", typed.Kind, kind)
+	}
+
+	if !errors.Is(err, mapdata.ErrMalformed) {
+		t.Fatalf("missing malformed-map cause: %v", err)
+	}
+}
+
+func (w waitingRoomHTTP) Do(request *http.Request) (*http.Response, error) {
+	close(w.started)
+	<-request.Context().Done()
+
+	return nil, operationError("synthetic", request.Context().Err())
+}
+
+func TestRoomLookupEndsWithSession(t *testing.T) {
+	t.Parallel()
+
+	started := make(chan struct{})
+
+	client, err := NewClient(WithHTTPClient(waitingRoomHTTP{started: started}))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	session := operationSession(t, rpcExchange{method: "get_room_mapping", params: `[]`,
+		response: `[16,"1001"]`, failure: nil})
+	session.client = client
+	session.auth.Token = "synthetic"
+	session.auth.ClientID = "synthetic"
+	session.auth.BaseURL = "https://example.test"
+	session.life, session.cancel = context.WithCancel(t.Context())
+	result := make(chan error, 1)
+
+	go func() { _, lookupErr := session.GetRooms(t.Context(), EmptyRequest{}); result <- lookupErr }()
+
+	select {
+	case <-started:
+	case <-time.After(time.Second):
+		t.Fatal("room lookup did not reach HTTP")
+	}
+
+	err = session.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	select {
+	case err = <-result:
+		if !errors.Is(err, context.Canceled) {
+			t.Fatalf("room cancellation: %v", err)
+		}
+	case <-time.After(time.Second):
+		t.Fatal("room lookup survived session close")
+	}
+
+	_, err = session.GetCapabilities(t.Context(), EmptyRequest{})
+	if !errors.Is(err, context.Canceled) {
+		t.Fatalf("capabilities after close: %v", err)
+	}
+}
 
 const (
 	fixtureAcknowledgement   = `["ok"]`

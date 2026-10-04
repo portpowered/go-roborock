@@ -23,6 +23,11 @@ components:
       description: Open device protocol value. Unsupported future versions remain visible to callers.
       enum: ['1.0', A01, B01, L01]
       x-enum-varnames: [ProtocolV1, ProtocolA01, ProtocolB01, ProtocolL01]
+    DeviceFamily:
+      type: string
+      description: Open implementation family derived from protocol, model and category. Unknown devices remain discoverable.
+      enum: [v1_vacuum, dyad, zeo, b01_q7, b01_q10, unknown]
+      x-enum-varnames: [FamilyV1Vacuum, FamilyDyad, FamilyZeo, FamilyB01Q7, FamilyB01Q10, FamilyUnknown]
     LoginContext:
       type: object
       required: [email, clientId, country, countryCode]
@@ -73,6 +78,7 @@ components:
         model: {type: string}
         productId: {type: string, x-go-name: ProductID}
         protocol: {$ref: '#/components/schemas/ProtocolVersion'}
+        family: {$ref: '#/components/schemas/DeviceFamily'}
         online: {type: boolean}
         category: {type: string, description: Open product category independent of capabilities.}
         capability: {type: integer, format: int64, description: Vendor capability flags when present.}
