@@ -1,0 +1,23 @@
+{
+  "provenance": "synthetic",
+  "source": "reference-derived python-roborock A01 protocol padding and create_mqtt_encoder",
+  "revision": "a8260c5211e60647fc352d6b496b827865938b21",
+  "datapoints": [
+    201,
+    202
+  ],
+  "result": {
+    "201": 42,
+    "202": "ready"
+  },
+  "responses": [
+    {
+      "payload": "{\"dps\":{\"201\":42},\"t\":1700000000}",
+      "frameHex": "4130310000002a000030396553f10000660030b4c7c8d798d207242d3509c542dc36f8bc65d14a14a327d03c06ceabe23398771013b1b71337257638c5df7f6ba447132ac674a1"
+    },
+    {
+      "payload": "{\"dps\":{\"202\":\"ready\"},\"t\":1700000000}",
+      "frameHex": "4130310000002b000030396553f100006600302fef5354b157fceff859b6ecbccebb712e47d3be6aad3f8f98054ff637dc597332d89efc143306ff351485ebaaf00aedf8236142"
+    }
+  ]
+}
