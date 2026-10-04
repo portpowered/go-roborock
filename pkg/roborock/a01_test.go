@@ -392,7 +392,7 @@ func assertA01SchemaModel(t *testing.T, name string, model reflect.Type, schema 
 	for i := range model.NumField() {
 		field := model.Field(i)
 
-		key := strings.Split(field.Tag.Get("json"), ",")[0]
+		key, _, _ := strings.Cut(field.Tag.Get("json"), ",")
 
 		if _, exists := schema.Properties[key]; !exists {
 			t.Fatalf("%s.%s absent from projection schema", name, field.Name)

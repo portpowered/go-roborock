@@ -1,4 +1,3 @@
-// Package roborock provides a stateless cloud client and explicit typed device sessions.
 package roborock
 
 import (

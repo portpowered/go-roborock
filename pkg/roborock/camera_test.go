@@ -76,7 +76,6 @@ func TestCameraSignalingAndConcurrentClose(t *testing.T) {
 	}
 
 	_, err = camera.SendICE(context.Background(), SendICERequest{Candidate: fixtureICECandidate})
-
 	if err != nil {
 		t.Fatal(err)
 	}

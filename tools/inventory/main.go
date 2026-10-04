@@ -16,6 +16,7 @@ var errInventory = errors.New("model inventory verification failed")
 
 func main() {
 	check := flag.Bool("check", false, "verify the checked-in inventory")
+
 	flag.Parse()
 
 	err := run(*check)

@@ -350,58 +350,71 @@ func TestDeviceLifecycleTerminationClasses(t *testing.T) {
 			cause:    context.DeadlineExceeded,
 		},
 	}
+
 	for _, testCase := range cases {
 		t.Run(testCase.name, func(t *testing.T) {
 			t.Parallel()
-			session := operationSession(t)
-
-			life, cancel := context.WithCancel(t.Context())
-			if testCase.deadline {
-				cancel()
-
-				life, cancel = context.WithDeadline(t.Context(), time.Now().Add(-time.Second))
-			}
-
-			t.Cleanup(cancel)
-
-			session.life, session.cancel = life, cancel
-			transport := &terminalLifecycleRPC{deviceRPC: session.rpc, done: make(chan struct{}), failure: nil}
-			session.rpc = transport
-			observed := make(chan struct{})
-			go func() { session.observeTransport(transport); close(observed) }()
-
-			if testCase.manual {
-				err := session.Close()
-				if err != nil {
-					t.Fatal(err)
-				}
-			} else if !testCase.deadline {
-				cancel()
-			}
-
-			wait, cancelWait := context.WithTimeout(t.Context(), time.Second)
-			defer cancelWait()
-
-			select {
-			case <-observed:
-			case <-wait.Done():
-				t.Fatal("termination observer did not exit")
-			}
-
-			select {
-			case <-session.Done():
-			default:
-				t.Fatal("device Done did not close")
-			}
-
-			terminal := session.Err()
-			if !errors.Is(terminal, roborockerrors.New(testCase.kind, "test", "", nil)) {
-				t.Fatalf("terminal class %v", terminal)
-			}
-
-			if testCase.cause != nil && !errors.Is(terminal, testCase.cause) {
-				t.Fatalf("terminal cause %v", terminal)
-			}
+			runTerminationCase(t, testCase)
 		})
+	}
+}
+
+func runTerminationCase(t *testing.T, testCase lifecycleEndCase) {
+	t.Helper()
+	session := operationSession(t)
+
+	life, cancel := context.WithCancel(t.Context())
+	if testCase.deadline {
+		cancel()
+
+		life, cancel = context.WithDeadline(t.Context(), time.Now().Add(-time.Second))
+	}
+
+	t.Cleanup(cancel)
+
+	session.life, session.cancel = life, cancel
+	transport := &terminalLifecycleRPC{deviceRPC: session.rpc, done: make(chan struct{}), failure: nil}
+	session.rpc = transport
+	observed := make(chan struct{})
+
+	go func() { session.observeTransport(transport); close(observed) }()
+
+	if testCase.manual {
+		err := session.Close()
+		if err != nil {
+			t.Fatal(err)
+		}
+	} else if !testCase.deadline {
+		cancel()
+	}
+
+	wait, cancelWait := context.WithTimeout(t.Context(), time.Second)
+	defer cancelWait()
+
+	select {
+	case <-observed:
+	case <-wait.Done():
+		t.Fatal("termination observer did not exit")
+	}
+
+	assertTermination(t, session, testCase)
+}
+
+func assertTermination(t *testing.T, session *DeviceSession, testCase lifecycleEndCase) {
+	t.Helper()
+
+	select {
+	case <-session.Done():
+	default:
+		t.Fatal("device Done did not close")
+	}
+
+	terminal := session.Err()
+	if !errors.Is(terminal, roborockerrors.New(testCase.kind, "test", "", nil)) {
+		t.Fatalf("terminal class %v", terminal)
+	}
+
+	if testCase.cause != nil && !errors.Is(terminal, testCase.cause) {
+		t.Fatalf("terminal cause %v", terminal)
 	}
 }

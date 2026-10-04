@@ -70,7 +70,8 @@ func replayEstablishment(connection net.Conn, exchanges ...func(net.Conn) error)
 		return errors.New("CONNECT protocol mismatch")
 	}
 
-	if _, err := hex.DecodeString(string(body[12:28])); err != nil {
+	_, err = hex.DecodeString(string(body[12:28]))
+	if err != nil {
 		return errors.New("CONNECT volatile identity must be 16 hexadecimal characters")
 	}
 
@@ -78,7 +79,8 @@ func replayEstablishment(connection net.Conn, exchanges ...func(net.Conn) error)
 		return errors.New("CONNECT credentials mismatch")
 	}
 
-	if _, err := connection.Write([]byte{32, 2, 0, 0}); err != nil {
+	_, err = connection.Write([]byte{32, 2, 0, 0})
+	if err != nil {
 		return err
 	}
 
@@ -94,7 +96,8 @@ func replayEstablishment(connection net.Conn, exchanges ...func(net.Conn) error)
 		return errors.New("SUBSCRIBE account topic mismatch")
 	}
 
-	if _, err := connection.Write([]byte{144, 3, 0, 1, 0}); err != nil {
+	_, err = connection.Write([]byte{144, 3, 0, 1, 0})
+	if err != nil {
 		return err
 	}
 

@@ -8,7 +8,7 @@ import (
 	"github.com/portpowered/go-roborock/pkg/roborock"
 )
 
-//nolint:contextcheck,wrapcheck,nonamedreturns // SDK Close owns bounded cleanup; SDK failures retain their typed operation and kind.
+//nolint:contextcheck,wrapcheck,nonamedreturns // SDK Close owns cleanup; named returns propagate cleanup errors.
 func executeDevice(
 	ctx context.Context,
 	client roborock.ClientAPI,
@@ -43,7 +43,7 @@ func executeDevice(
 	}
 }
 
-//nolint:contextcheck,wrapcheck,nonamedreturns // Camera Close owns bounded teardown; SDK errors include operation and kind.
+//nolint:contextcheck,wrapcheck,nonamedreturns // SDK camera owns teardown; named returns propagate cleanup errors.
 func cameraOperation(
 	ctx context.Context,
 	session *roborock.DeviceSession,

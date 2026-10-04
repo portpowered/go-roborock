@@ -116,7 +116,7 @@ func (s *Session) awaitRPC(ctx context.Context, reply <-chan response) (json.Raw
 }
 
 func (s *Session) send(ctx context.Context, payload []byte) error {
-	var random [protocol.MQTTMaxRemainingLengthOctets]byte
+	var random [protocol.MQTTFrameTimestampOffset - protocol.MQTTFrameRandomOffset]byte
 
 	_, err := rand.Read(random[:])
 	if err != nil {

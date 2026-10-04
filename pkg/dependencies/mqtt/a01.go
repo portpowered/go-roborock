@@ -3,6 +3,7 @@ package mqtt
 import (
 	"context"
 	"encoding/json"
+	"maps"
 	"strconv"
 	"time"
 
@@ -144,9 +145,7 @@ func (s *Session) queryResult(query *a01Query) map[int]json.RawMessage {
 	defer s.mu.Unlock()
 
 	values := make(map[int]json.RawMessage, len(query.values))
-	for key, value := range query.values {
-		values[key] = value
-	}
+	maps.Copy(values, query.values)
 
 	return values
 }

@@ -60,7 +60,7 @@ linters:
         linters: [testpackage]
       # SCHEMA-07: A provider JSON null metadata value intentionally decodes to a nil typed pointer without an error.
       - path: '^pkg[\\/]dependencies[\\/]rest[\\/]inventory\.go$'
-        text: 'return both a nil error and an invalid value'
+        text: 'return both.*nil.*error and an invalid value'
         linters: [nilnil]
       # LIB-09: The opt-in integration test opens the explicitly supplied private auth filename, never network-controlled input.
       - path: '^tests[\\/]integration[\\/]inventory_test\.go$'

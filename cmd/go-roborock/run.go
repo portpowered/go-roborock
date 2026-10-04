@@ -93,7 +93,7 @@ func run(
 
 func knownCommand(command string) bool {
 	switch command {
-	case "resolve-login", "request-code", commandLoginCode, "login-password", "home", commandDevices,
+	case "resolve-login", "request-code", commandLoginCode, commandLoginPassword, "home", commandDevices,
 		"status", "consumables", "summary", "start", "stop", "pause", "dock", "dyad", "zeo", commandCamera:
 		return true
 	default:
@@ -114,7 +114,7 @@ func execute(
 		return resolveLogin(ctx, client, input, exportPath)
 	case "request-code":
 		return client.RequestLoginCode(ctx, roborock.LoginCodeRequest{Login: input.Login})
-	case commandLoginCode, "login-password":
+	case commandLoginCode, commandLoginPassword:
 		return login(ctx, client, command, input, exportPath)
 	case "home":
 		return client.GetHome(ctx, roborock.AccountRequest{Auth: input.Auth})

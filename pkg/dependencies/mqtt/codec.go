@@ -41,7 +41,8 @@ func frameCipher(frame deviceFrame, localKey string) (cipher.Block, []byte, erro
 	}
 
 	stamp := fmt.Sprintf("%08x", frame.Timestamp)
-	reordered := []byte{stamp[5], stamp[6], stamp[3], stamp[7], stamp[1], stamp[2], stamp[0], stamp[4]}
+	reordered := make([]byte, 0, len(stamp)+len(localKey)+len(protocol.MQTTWireSalt))
+	reordered = append(reordered, stamp[5], stamp[6], stamp[3], stamp[7], stamp[1], stamp[2], stamp[0], stamp[4])
 	// V1 derives its AES key from this exact MD5 digest.
 	digest := md5.Sum(append(append(reordered, []byte(localKey)...), []byte(protocol.MQTTWireSalt)...)) //nolint:gosec
 

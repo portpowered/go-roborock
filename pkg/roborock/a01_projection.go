@@ -39,9 +39,12 @@ func a01Fields[Projection, Wire any]() map[int]string {
 			continue
 		}
 
-		propertyID, err := strconv.Atoi(strings.Split(field.Tag.Get("json"), ",")[0])
+		wireKey, _, _ := strings.Cut(field.Tag.Get("json"), ",")
+
+		propertyID, err := strconv.Atoi(wireKey)
 		if err == nil {
-			fields[propertyID] = strings.Split(publicField.Tag.Get("json"), ",")[0]
+			publicKey, _, _ := strings.Cut(publicField.Tag.Get("json"), ",")
+			fields[propertyID] = publicKey
 		}
 	}
 
@@ -165,7 +168,7 @@ func adaptA01Durations[Projection any](semantic map[string]json.RawMessage) erro
 		return nil
 	}
 
-	key := strings.Split(field.Tag.Get("json"), ",")[0]
+	key, _, _ := strings.Cut(field.Tag.Get("json"), ",")
 
 	raw, present := semantic[key]
 
@@ -183,7 +186,7 @@ func adaptA01Durations[Projection any](semantic map[string]json.RawMessage) erro
 	durations := make([]int, 0)
 
 	if encoded != "" {
-		for _, token := range strings.Split(encoded, ",") {
+		for token := range strings.SplitSeq(encoded, ",") {
 			minutes, err := strconv.Atoi(token)
 			if err != nil {
 				return fmt.Errorf("adapt A01 property: %w", err)

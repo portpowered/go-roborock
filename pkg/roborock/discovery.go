@@ -12,7 +12,6 @@ import (
 // GetHome returns the Roborock home identifier required by inventory requests.
 func (c *Client) GetHome(ctx context.Context, request AccountRequest) (Home, error) {
 	out, err := c.rest.HomeDetail(ctx, rest.HomeDetailRequest{Auth: authWire(request.Auth)})
-
 	if err != nil {
 		return Home{}, roborockerrors.Wrap(roborockerrors.Protocol, "get_home", "home lookup failed", err)
 	}
@@ -34,7 +33,6 @@ func (c *Client) GetHomeData(ctx context.Context, request HomeDataRequest) (Home
 		HomeID:  request.HomeID,
 		Version: int(version),
 	})
-
 	if err != nil {
 		return HomeData{}, roborockerrors.Wrap(roborockerrors.Protocol, "get_home_data", "inventory lookup failed", err)
 	}
@@ -150,7 +148,6 @@ func numericPropertyID(property dependencymodels.ProductPropertyID) int {
 // ListDevices performs home lookup followed by v1 inventory discovery.
 func (c *Client) ListDevices(ctx context.Context, request AccountRequest) (ListDevicesResult, error) {
 	home, err := c.GetHome(ctx, request)
-
 	if err != nil {
 		return ListDevicesResult{}, err
 	}
@@ -158,7 +155,6 @@ func (c *Client) ListDevices(ctx context.Context, request AccountRequest) (ListD
 	data, err := c.GetHomeData(ctx, HomeDataRequest{Auth: request.Auth,
 		HomeID:  home.ID,
 		Version: HomeDataV1})
-
 	if err != nil {
 		return ListDevicesResult{}, err
 	}

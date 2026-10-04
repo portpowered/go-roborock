@@ -450,7 +450,7 @@ func mqttReplayString(value string) []byte {
 	// Fixture strings are bounded to a uint16 by construction.
 	length := len(value)
 
-	return append([]byte{byte(length >> 8), byte(length & 255)}, []byte(value)...)
+	return append([]byte{byte((length >> 8) & 255), byte(length & 255)}, []byte(value)...)
 }
 
 func mqttReplayPacket(header byte, body []byte) []byte {

@@ -141,6 +141,7 @@ type DeviceSession struct {
 // OpenDevice opens a fresh connection; it never reuses another account's session.
 func (c *Client) OpenDevice(ctx context.Context, request OpenDeviceRequest) (*DeviceSession, error) {
 	auth := request.Auth.Mqtt
+
 	rpc, err := mqtt.Open(ctx, mqtt.Config{BrokerURL: auth.BrokerURL,
 		User:     auth.User,
 		Secret:   auth.Secret,
@@ -212,8 +213,8 @@ func (s *DeviceSession) Err() error {
 func (s *DeviceSession) Close() error {
 	s.closeOnce.Do(func() {
 		terminal := roborockerrors.New(roborockerrors.Closed, "device_session", "device session closed", nil)
-		if transport, ok := s.rpc.(deviceLifecycle); ok {
 
+		if transport, ok := s.rpc.(deviceLifecycle); ok {
 			err := transport.Err()
 			if err != nil {
 				terminal = roborockerrors.Wrap(roborockerrors.Unavailable, "device_session", "device session ended", err)
@@ -226,6 +227,7 @@ func (s *DeviceSession) Close() error {
 		if s.terminalErr == nil {
 			s.terminalErr = terminal
 		}
+
 		camera := s.camera
 
 		s.mu.Unlock()

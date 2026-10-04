@@ -24,6 +24,7 @@ const deviceJSON = `{"auth":{"mqtt":{"brokerUrl":"ssl://example.invalid:8883","u
 
 func TestVacuumReadAndControlCommandsPairedMQTT(t *testing.T) {
 	t.Parallel()
+
 	cases := [][4]string{
 		{"start", "app_start", `["ok"]`, `"acknowledged":true`},
 		{"stop", "app_stop", `["ok"]`, `"acknowledged":true`},
@@ -39,14 +40,18 @@ func TestVacuumReadAndControlCommandsPairedMQTT(t *testing.T) {
 			client, done := rpcTestClient(t, func(conn net.Conn) error {
 				return replyRPC(conn, testCase[1], `[]`, testCase[2], nil)
 			})
+
 			var out, errOut bytes.Buffer
+
 			err := run(context.Background(), []string{testCase[0]}, strings.NewReader(deviceJSON), &out, &errOut, noEnvironment, client)
 			if err != nil {
 				t.Fatal(err)
 			}
+
 			if !strings.Contains(out.String(), testCase[3]) {
 				t.Fatal("missing public result")
 			}
+
 			if err := <-done; err != nil {
 				t.Fatal(err)
 			}
@@ -173,56 +178,10 @@ func replyRPC(conn net.Conn, method, params, result string, cancel context.Cance
 		return err
 	}
 
-	var envelope map[string]json.RawMessage
-	if err := json.Unmarshal(plain, &envelope); err != nil {
+	identifier, err := matchRPCPlain(plain, method, params)
+	if err != nil {
 		return err
 	}
-
-	var dps map[string]string
-	if err := json.Unmarshal(envelope["dps"], &dps); err != nil {
-		return err
-	}
-
-	if len(envelope) != 2 || len(dps) != 1 {
-		return errors.New("RPC envelope mismatch")
-	}
-
-	var stamp int64
-	if err := json.Unmarshal(envelope["t"], &stamp); err != nil || stamp <= 0 {
-		return errors.New("timestamp mismatch")
-	}
-
-	var request map[string]json.RawMessage
-	if err := json.Unmarshal([]byte(dps["101"]), &request); err != nil {
-		return err
-	}
-
-	var (
-		identifier   int64
-		actualMethod string
-	)
-
-	if json.Unmarshal(request["id"], &identifier) != nil || identifier <= 0 {
-		return errors.New("identifier mismatch")
-	}
-
-	if json.Unmarshal(request["method"], &actualMethod) != nil || actualMethod != method || len(request) != 4 || !equalJSON(request["params"], []byte(params)) {
-		return errors.New("RPC request mismatch")
-	}
-
-	var security map[string]string
-	if err := json.Unmarshal(request["security"], &security); err != nil {
-		return err
-	}
-
-	if security["endpoint"] != "goOmJ7S+" || len(security) != 2 {
-		return errors.New("endpoint mismatch")
-	}
-
-	if nonce, err := hex.DecodeString(security["nonce"]); err != nil || len(nonce) != 16 {
-		return errors.New("nonce mismatch")
-	}
-
 	if cancel != nil {
 		cancel()
 
@@ -300,14 +259,17 @@ func testFrame(frame, payload []byte) ([]byte, error) {
 	}
 
 	padding := aes.BlockSize - len(payload)%aes.BlockSize
+
 	plain := append(bytes.Clone(payload), bytes.Repeat([]byte{byte(padding)}, padding)...)
-	if len(plain) > 65535 {
+	payloadLength := len(plain)
+	if payloadLength < 0 || payloadLength > 65535 {
 		return nil, errors.New("fixture payload exceeds uint16 wire limit")
 	}
+
 	output := make([]byte, 19+len(plain)+4)
 	copy(output, frame[:19])
 	binary.BigEndian.PutUint16(output[15:17], 102)
-	binary.BigEndian.PutUint16(output[17:19], uint16(len(plain)))
+	binary.BigEndian.PutUint16(output[17:19], uint16(payloadLength))
 
 	for offset := 0; offset < len(plain); offset += aes.BlockSize {
 		block.Encrypt(output[19+offset:19+offset+aes.BlockSize], plain[offset:offset+aes.BlockSize])
@@ -369,4 +331,57 @@ func readMQTTPacket(reader io.Reader) (byte, []byte, error) {
 	}
 
 	return 0, nil, errors.New("malformed MQTT")
+}
+func matchRPCPlain(plain []byte, method, params string) (int64, error) {
+	var envelope map[string]json.RawMessage
+	if err := json.Unmarshal(plain, &envelope); err != nil {
+		return 0, err
+	}
+
+	var dps map[string]string
+	if err := json.Unmarshal(envelope["dps"], &dps); err != nil {
+		return 0, err
+	}
+
+	if len(envelope) != 2 || len(dps) != 1 {
+		return 0, errors.New("RPC envelope mismatch")
+	}
+
+	var stamp int64
+	if err := json.Unmarshal(envelope["t"], &stamp); err != nil || stamp <= 0 {
+		return 0, errors.New("timestamp mismatch")
+	}
+
+	var request map[string]json.RawMessage
+	if err := json.Unmarshal([]byte(dps["101"]), &request); err != nil {
+		return 0, err
+	}
+
+	var (
+		identifier   int64
+		actualMethod string
+	)
+
+	if json.Unmarshal(request["id"], &identifier) != nil || identifier <= 0 {
+		return 0, errors.New("identifier mismatch")
+	}
+
+	if json.Unmarshal(request["method"], &actualMethod) != nil || actualMethod != method || len(request) != 4 || !equalJSON(request["params"], []byte(params)) {
+		return 0, errors.New("RPC request mismatch")
+	}
+
+	var security map[string]string
+	if err := json.Unmarshal(request["security"], &security); err != nil {
+		return 0, err
+	}
+
+	if security["endpoint"] != "goOmJ7S+" || len(security) != 2 {
+		return 0, errors.New("endpoint mismatch")
+	}
+
+	if nonce, err := hex.DecodeString(security["nonce"]); err != nil || len(nonce) != 16 {
+		return 0, errors.New("nonce mismatch")
+	}
+
+	return identifier, nil
 }

@@ -27,7 +27,6 @@ func (s *DeviceSession) callV1(
 	}
 
 	err := ctx.Err()
-
 	if err != nil {
 		return nil, operationError(string(method), err)
 	}
@@ -169,7 +168,6 @@ func projectResult[Wire, Public any](raw json.RawMessage) (Public, error) {
 	)
 
 	err := json.Unmarshal(raw, &wire)
-
 	if err != nil {
 		return public, fmt.Errorf("project device result: %w", err)
 	}
