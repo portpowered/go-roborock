@@ -3,7 +3,7 @@ title: Maps and rooms
 description: Read the active map and use its map IDs, room IDs, and coordinate frame.
 ---
 
-Map retrieval reads device data. It does not start cleaning or select another floor. Fetch a fresh map before using its geometry or room identifiers for a command.
+Map retrieval reads device data. It does not start cleaning or select another floor. Read the map and verify its active-floor identity before using geometry or room identifiers for a command.
 
 | Family | Map format | Geometry |
 | --- | --- | --- |
@@ -25,7 +25,7 @@ if err != nil { return err }
 // snapshot contains geometry; rooms.Rooms contains CleanSegments IDs.
 ```
 
-`ListMaps(ctx, roborock.EmptyRequest{})` returns opaque `ID` strings, optional names, and an optional `Current` flag. Q7 accepts a saved ID through `GetMapRequest{MapID: id}`. If current-map metadata is missing or ambiguous, choose an explicit saved ID instead of assuming the first list entry is active. V1 reads the active map; use `SelectMap(ctx, roborock.SelectMapRequest{MapID: id})` explicitly to change it. Q10 supports current-map content and a saved-map list, without an inferred saved-detail selector. Only Q10 supports `GetMapTrace(ctx, roborock.EmptyRequest{})`; a later trace and an earlier map are not one atomic snapshot.
+`ListMaps(ctx, roborock.EmptyRequest{})` returns opaque `ID` strings, optional names, and an optional `Current` flag. Q7 accepts a saved ID through `GetMapRequest{MapID: id}`. If current-map metadata is missing or ambiguous, choose an explicit saved ID instead of assuming the first list entry is active. V1 reads the active map; use `SelectMap(ctx, roborock.SelectMapRequest{MapID: id})` explicitly to change it. Q10 supports current-map content and a saved-map list, without an inferred saved-detail selector. Only Q10 supports `GetMapTrace(ctx, roborock.EmptyRequest{})`; a later trace and an earlier map are not one atomic snapshot. B01 map, list, and trace reads observe the next matching stream message while pending; a delayed push may belong to an earlier request, so arrival does not prove a causally fresh response. Cancellation retires an uncorrelated session; reopening is an explicit caller action.
 
 The active map, saved-map list, and room list have different purposes. Map content supplies geometry and observations. Saved-map IDs identify stored floors. Room or segment IDs identify areas within a map; an account room ID is not automatically a device segment ID. A saved list's first entry does not reliably identify the active floor; use explicit current-map metadata or the retrieved map's observed ID.
 

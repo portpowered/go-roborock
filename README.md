@@ -81,7 +81,7 @@ V1 and Q7 acknowledgements establish RPC acceptance, not completed movement or c
 | Saved maps | `s.ListMaps(ctx, r.EmptyRequest{})` |
 | Q7 saved-map content | `s.GetMap(ctx, r.GetMapRequest{MapID: mapID})` |
 | Device room IDs | `s.GetRooms(ctx, r.EmptyRequest{})` |
-| Q10 fresh trace | `s.GetMapTrace(ctx, r.EmptyRequest{})` |
+| Q10 trace observation | `s.GetMapTrace(ctx, r.EmptyRequest{})` |
 | World point to pixel | `r.MapToPixel(grid, point)` |
 | Pixel point to world | `r.PixelToMap(grid, point)` |
 | Pixel rectangle to world | `r.PixelRectangleToMap(grid, rectangle)` |
