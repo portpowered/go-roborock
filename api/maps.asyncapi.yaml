@@ -436,7 +436,22 @@
         "summary": "Requests the Q7 saved-map list",
         "payload": {
           "$ref": "#/components/schemas/MapsQ7ListEnvelope"
-        }
+        },
+        "examples": [
+          {
+            "name": "Synthetic-q7-list",
+            "summary": "Synthetic protocol example.",
+            "payload": {
+              "dps": {
+                "10000": {
+                  "method": "service.get_map_list",
+                  "msgId": "100000000001",
+                  "params": {}
+                }
+              }
+            }
+          }
+        ]
       },
       "MapsQ7ListReply": {
         "name": "MapsQ7ListReply",
@@ -448,35 +463,145 @@
           "location": "$message.payload#/msgId"
         },
         "x-datapoint": "10000",
-        "description": "The MQTT datapoint contains a JSON string; this schema describes its decoded object."
+        "description": "The MQTT datapoint contains a JSON string; this schema describes its decoded object.",
+        "examples": [
+          {
+            "name": "Synthetic-q7-list-reply",
+            "summary": "Synthetic protocol example.",
+            "payload": {
+              "msgId": "100000000001",
+              "code": 0,
+              "data": {
+                "map_list": [
+                  {
+                    "id": 7,
+                    "cur": true
+                  }
+                ]
+              }
+            }
+          }
+        ]
       },
       "MapsQ7UploadEnvelope": {
         "name": "MapsQ7UploadEnvelope",
         "summary": "Requests a Q7 map by identifier",
         "payload": {
           "$ref": "#/components/schemas/MapsQ7UploadEnvelope"
-        }
+        },
+        "examples": [
+          {
+            "name": "Synthetic-q7-upload",
+            "summary": "Synthetic protocol example.",
+            "payload": {
+              "dps": {
+                "10000": {
+                  "method": "service.upload_by_mapid",
+                  "msgId": "100000000003",
+                  "params": {
+                    "map_id": 7
+                  }
+                }
+              }
+            }
+          }
+        ]
       },
       "MapsQ10ListEnvelope": {
         "name": "MapsQ10ListEnvelope",
         "summary": "Requests Q10 map metadata using read-only op list",
         "payload": {
           "$ref": "#/components/schemas/MapsQ10ListEnvelope"
-        }
+        },
+        "examples": [
+          {
+            "name": "Synthetic-q10-list",
+            "summary": "Synthetic protocol example.",
+            "payload": {
+              "dps": {
+                "101": {
+                  "61": {
+                    "op": "list"
+                  }
+                }
+              }
+            }
+          }
+        ]
       },
       "MapsQ10ListReply": {
         "name": "MapsQ10ListReply",
         "summary": "Reports the next observed Q10 map list without a freshness guarantee",
         "payload": {
           "$ref": "#/components/schemas/MapsQ10ListReply"
-        }
+        },
+        "examples": [
+          {
+            "name": "Synthetic-q10-list-nested-reply",
+            "summary": "Synthetic protocol example.",
+            "payload": {
+              "dps": {
+                "101": {
+                  "61": {
+                    "op": "list",
+                    "result": 1,
+                    "data": [
+                      {
+                        "id": "q10-map",
+                        "name": "Floor"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          {
+            "name": "Synthetic-q10-list-direct-reply",
+            "summary": "Synthetic protocol example.",
+            "payload": {
+              "dps": {
+                "61": {
+                  "op": "list",
+                  "result": 1,
+                  "data": [
+                    {
+                      "id": "q10-map",
+                      "name": "Floor"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
       },
       "MapsQ10ReadEnvelope": {
         "name": "MapsQ10ReadEnvelope",
         "summary": "Requests Q10 current-map or trace pushes using read-only DP102",
         "payload": {
           "$ref": "#/components/schemas/MapsQ10ReadEnvelope"
-        }
+        },
+        "examples": [
+          {
+            "name": "Synthetic-q10-current",
+            "summary": "Synthetic protocol example.",
+            "payload": {
+              "dps": {
+                "102": {}
+              }
+            }
+          },
+          {
+            "name": "Synthetic-q10-trace",
+            "summary": "Synthetic protocol example.",
+            "payload": {
+              "dps": {
+                "102": {}
+              }
+            }
+          }
+        ]
       },
       "MapsQ7BinaryPush": {
         "name": "MapsQ7BinaryPush",
@@ -541,7 +666,22 @@
               "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
             }
           }
-        }
+        },
+        "examples": [
+          {
+            "name": "Synthetic-RequestV1Map",
+            "summary": "Synthetic protocol example.",
+            "payload": {
+              "id": 1,
+              "method": "get_map_v1",
+              "params": [],
+              "security": {
+                "endpoint": "ZXhhbXBsZQ==",
+                "nonce": "00000000000000000000000000000000"
+              }
+            }
+          }
+        ]
       },
       "MapsV1BinaryPush": {
         "name": "MapsV1BinaryPush",
@@ -586,7 +726,22 @@
               "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
             }
           }
-        }
+        },
+        "examples": [
+          {
+            "name": "Synthetic-ListV1Maps",
+            "summary": "Synthetic protocol example.",
+            "payload": {
+              "id": 1,
+              "method": "get_multi_maps_list",
+              "params": [],
+              "security": {
+                "endpoint": "ZXhhbXBsZQ==",
+                "nonce": "00000000000000000000000000000000"
+              }
+            }
+          }
+        ]
       },
       "ListV1MapsReply": {
         "name": "ListV1MapsReply",
@@ -612,7 +767,26 @@
               "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
             }
           }
-        }
+        },
+        "examples": [
+          {
+            "name": "Synthetic-ListV1MapsReply",
+            "summary": "Synthetic protocol example.",
+            "payload": {
+              "id": 1,
+              "result": [
+                {
+                  "map_info": [
+                    {
+                      "map_flag": 1,
+                      "name": "Synthetic floor"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
       },
       "GetV1RoomsRequest": {
         "name": "GetV1RoomsRequest",
@@ -648,7 +822,22 @@
               "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
             }
           }
-        }
+        },
+        "examples": [
+          {
+            "name": "Synthetic-GetV1Rooms",
+            "summary": "Synthetic protocol example.",
+            "payload": {
+              "id": 1,
+              "method": "get_room_mapping",
+              "params": [],
+              "security": {
+                "endpoint": "ZXhhbXBsZQ==",
+                "nonce": "00000000000000000000000000000000"
+              }
+            }
+          }
+        ]
       },
       "GetV1RoomsReply": {
         "name": "GetV1RoomsReply",
@@ -674,7 +863,22 @@
               "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
             }
           }
-        }
+        },
+        "examples": [
+          {
+            "name": "Synthetic-GetV1RoomsReply",
+            "summary": "Synthetic protocol example.",
+            "payload": {
+              "id": 1,
+              "result": [
+                [
+                  1,
+                  "synthetic-room"
+                ]
+              ]
+            }
+          }
+        ]
       },
       "LoadV1MapRequest": {
         "name": "LoadV1MapRequest",
@@ -710,7 +914,24 @@
               "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
             }
           }
-        }
+        },
+        "examples": [
+          {
+            "name": "Synthetic-LoadV1Map",
+            "summary": "Synthetic protocol example.",
+            "payload": {
+              "id": 1,
+              "method": "load_multi_map",
+              "params": [
+                1
+              ],
+              "security": {
+                "endpoint": "ZXhhbXBsZQ==",
+                "nonce": "00000000000000000000000000000000"
+              }
+            }
+          }
+        ]
       },
       "LoadV1MapReply": {
         "name": "LoadV1MapReply",
@@ -736,7 +957,19 @@
               "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
             }
           }
-        }
+        },
+        "examples": [
+          {
+            "name": "Synthetic-LoadV1MapReply",
+            "summary": "Synthetic protocol example.",
+            "payload": {
+              "id": 1,
+              "result": [
+                "ok"
+              ]
+            }
+          }
+        ]
       }
     },
     "schemas": {
@@ -989,7 +1222,8 @@
           },
           "msgId": {
             "type": "string",
-            "pattern": "^[1-9][0-9]{11}$"
+            "pattern": "^[1-9][0-9]{11}$",
+            "example": "100000000001"
           },
           "params": {
             "$ref": "#/components/schemas/MapsQ7ListRequest"
@@ -1031,7 +1265,8 @@
         "properties": {
           "msgId": {
             "type": "string",
-            "pattern": "^[1-9][0-9]{11}$"
+            "pattern": "^[1-9][0-9]{11}$",
+            "example": "100000000001"
           },
           "code": {
             "type": "integer",
@@ -1059,7 +1294,8 @@
           },
           "msgId": {
             "type": "string",
-            "pattern": "^[1-9][0-9]{11}$"
+            "pattern": "^[1-9][0-9]{11}$",
+            "example": "100000000001"
           },
           "params": {
             "$ref": "#/components/schemas/MapsQ7UploadRequest"

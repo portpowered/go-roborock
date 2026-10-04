@@ -191,28 +191,90 @@
           "location": "$message.payload#/msgId"
         },
         "x-datapoint": "10000",
-        "description": "The MQTT datapoint contains a JSON string; this schema describes its decoded object."
+        "description": "The MQTT datapoint contains a JSON string; this schema describes its decoded object.",
+        "examples": [
+          {
+            "name": "Synthetic-q7-room-ack",
+            "summary": "Synthetic protocol example.",
+            "payload": {
+              "msgId": "100000000005",
+              "code": 0,
+              "data": {}
+            }
+          }
+        ]
       },
       "B01Q7RoomCleanEnvelope": {
         "name": "B01Q7RoomCleanEnvelope",
         "summary": "Starts cleaning selected Q7 rooms",
         "payload": {
           "$ref": "#/components/schemas/B01Q7RoomCleanEnvelope"
-        }
+        },
+        "examples": [
+          {
+            "name": "Synthetic-q7-rooms",
+            "summary": "Synthetic protocol example.",
+            "payload": {
+              "dps": {
+                "10000": {
+                  "method": "service.set_room_clean",
+                  "msgId": "100000000005",
+                  "params": {
+                    "clean_type": 1,
+                    "ctrl_value": 1,
+                    "room_ids": [
+                      9
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        ]
       },
       "B01Q10RoomCleanEnvelope": {
         "name": "B01Q10RoomCleanEnvelope",
         "summary": "Publishes Q10 room cleaning without a device acknowledgement",
         "payload": {
           "$ref": "#/components/schemas/B01Q10RoomCleanEnvelope"
-        }
+        },
+        "examples": [
+          {
+            "name": "Synthetic-q10-rooms",
+            "summary": "Synthetic protocol example.",
+            "payload": {
+              "dps": {
+                "201": {
+                  "cmd": 2,
+                  "clean_paramters": [
+                    9
+                  ]
+                }
+              }
+            }
+          }
+        ]
       },
       "B01Q10ZoneCleanEnvelope": {
         "name": "B01Q10ZoneCleanEnvelope",
         "summary": "Publishes Q10 zone cleaning without a device acknowledgement",
         "payload": {
           "$ref": "#/components/schemas/B01Q10ZoneCleanEnvelope"
-        }
+        },
+        "examples": [
+          {
+            "name": "Synthetic-q10-zones",
+            "summary": "Synthetic protocol example.",
+            "payload": {
+              "dps": {
+                "201": {
+                  "cmd": 3,
+                  "clean_paramters": "AQIBBAAAAAAAFAAAABQAKAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+                }
+              }
+            }
+          }
+        ]
       }
     },
     "schemas": {
@@ -244,7 +306,8 @@
           },
           "msgId": {
             "type": "string",
-            "pattern": "^[1-9][0-9]{11}$"
+            "pattern": "^[1-9][0-9]{11}$",
+            "example": "100000000001"
           },
           "params": {
             "x-go-type": "json.RawMessage"
@@ -260,7 +323,8 @@
         "properties": {
           "msgId": {
             "type": "string",
-            "pattern": "^[1-9][0-9]{11}$"
+            "pattern": "^[1-9][0-9]{11}$",
+            "example": "100000000001"
           },
           "code": {
             "type": "integer",
@@ -356,7 +420,8 @@
           },
           "msgId": {
             "type": "string",
-            "pattern": "^[1-9][0-9]{11}$"
+            "pattern": "^[1-9][0-9]{11}$",
+            "example": "100000000001"
           },
           "params": {
             "$ref": "#/components/schemas/Q7RoomCleanRequest"
@@ -398,7 +463,8 @@
         "properties": {
           "msgId": {
             "type": "string",
-            "pattern": "^[1-9][0-9]{11}$"
+            "pattern": "^[1-9][0-9]{11}$",
+            "example": "100000000001"
           },
           "code": {
             "type": "integer",
