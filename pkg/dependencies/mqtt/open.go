@@ -2,18 +2,22 @@ package mqtt
 
 import (
 	"context"
-	"crypto/md5"
+	"crypto/aes"
+	"crypto/md5" //nolint:gosec // Roborock's mandated account authentication uses MD5.
 	"crypto/rand"
 	"crypto/tls"
 	"encoding/base64"
 	"encoding/binary"
 	"encoding/hex"
+	"net"
+
 	"github.com/portpowered/go-roborock/internal/protocol"
 	"github.com/portpowered/go-roborock/pkg/dependencymodels"
 	"github.com/portpowered/go-roborock/pkg/roborockerrors"
-	"net"
 )
 
+// Open establishes a device connection without reconnecting or retrying commands.
+// The context governs establishment. Callers own the returned session until Close.
 func Open(ctx context.Context, config Config, dial DialFunc) (*Session, error) {
 	endpoint, err := validateConfig(config)
 	if err != nil {
@@ -36,30 +40,23 @@ func Open(ctx context.Context, config Config, dial DialFunc) (*Session, error) {
 		return nil, transportError("connect", err)
 	}
 
-	stop := context.AfterFunc(opening, func() { _ = conn.Close() })
-	defer stop()
-
-	userHash := md5.Sum([]byte(config.User + ":" + config.Key))
-	secretHash := md5.Sum([]byte(config.Secret + ":" + config.Key))
-	username := hex.EncodeToString(userHash[:])[2:10]
-	password := hex.EncodeToString(secretHash[:])[16:]
-	session := &Session{conn: conn, config: config, done: make(chan struct{}), stopped: make(chan struct{}), keepaliveStopped: make(chan struct{}), writeGate: make(chan struct{}, 1), a01Gate: make(chan struct{}, 1), pending: make(map[int64]chan response)}
-
-	var nonce [16]byte
-	if _, err = rand.Read(nonce[:]); err != nil {
-		_ = conn.Close()
-
-		return nil, transportError("security", err)
+	if conn == nil {
+		return nil, invalid("connect", "dialer returned no connection")
 	}
 
-	endpointHash := md5.Sum([]byte(config.Key))
-	session.security = dependencymodels.MQTTRPCSecurity{Endpoint: base64.StdEncoding.EncodeToString(endpointHash[8:14]), Nonce: hex.EncodeToString(nonce[:])}
-	session.publishTopic = protocol.MQTTPublishTopicPrefix + config.User + "/" + username + "/" + config.DeviceID
-
-	session.subscribeTopic = protocol.MQTTSubscribeTopicPrefix + config.User + "/" + username + "/" + config.DeviceID
-
-	if err = session.handshake(opening, username, password); err != nil {
+	session, username, password, err := newSession(conn, config)
+	if err != nil {
 		_ = conn.Close()
+
+		return nil, err
+	}
+
+	stop := context.AfterFunc(opening, func() { session.fail(opening.Err()) })
+	defer stop()
+
+	err = session.handshake(opening, username, password)
+	if err != nil {
+		session.fail(err)
 
 		if opening.Err() != nil {
 			err = opening.Err()
@@ -69,30 +66,76 @@ func Open(ctx context.Context, config Config, dial DialFunc) (*Session, error) {
 	}
 
 	if !stop() {
-		_ = conn.Close()
+		session.fail(opening.Err())
 
 		return nil, transportError("handshake", opening.Err())
 	}
 
-	go session.readLoop()
-	go session.keepalive()
+	owner := context.WithoutCancel(ctx)
+	go session.readLoop(owner)
+	go session.keepalive(owner)
 
 	return session, nil
 }
 
-func defaultDial(ctx context.Context, network, address string) (net.Conn, error) {
-	dialer := tls.Dialer{Config: &tls.Config{MinVersion: tls.VersionTLS12}}
+func newSession(conn net.Conn, config Config) (*Session, string, string, error) {
+	var session Session
 
-	return dialer.DialContext(ctx, network, address)
+	session.conn = conn
+	session.config = config
+	session.done = make(chan struct{})
+	session.stopped = make(chan struct{})
+	session.keepaliveStopped = make(chan struct{})
+	session.writeGate = make(chan struct{}, 1)
+	session.a01Gate = make(chan struct{}, 1)
+	session.pending = make(map[int64]chan response)
+
+	var nonce [aes.BlockSize]byte
+
+	_, err := rand.Read(nonce[:])
+	if err != nil {
+		return nil, "", "", transportError("security", err)
+	}
+
+	endpointHash := md5.Sum([]byte(config.Key)) //nolint:gosec // Wire security endpoint uses MD5 bytes 8:14.
+	session.security = dependencymodels.MQTTRPCSecurity{
+		Endpoint: base64.StdEncoding.EncodeToString(endpointHash[8:14]),
+		Nonce:    hex.EncodeToString(nonce[:]),
+	}
+	userHash := md5.Sum([]byte(config.User + ":" + config.Key))     //nolint:gosec // Vendor username derivation.
+	secretHash := md5.Sum([]byte(config.Secret + ":" + config.Key)) //nolint:gosec // Vendor password derivation.
+	username := hex.EncodeToString(userHash[:])[2:10]
+	password := hex.EncodeToString(secretHash[:])[16:]
+	session.publishTopic = protocol.MQTTPublishTopicPrefix + config.User + "/" + username + "/" + config.DeviceID
+	session.subscribeTopic = protocol.MQTTSubscribeTopicPrefix + config.User + "/" + username + "/" + config.DeviceID
+
+	return &session, username, password, nil
+}
+
+func defaultDial(ctx context.Context, network, address string) (net.Conn, error) {
+	var config tls.Config
+
+	config.MinVersion = tls.VersionTLS12
+	dialer := tls.Dialer{NetDialer: nil, Config: &config}
+
+	conn, err := dialer.DialContext(ctx, network, address)
+	if err != nil {
+		return nil, transportError("TLS connect", err)
+	}
+
+	return conn, nil
 }
 
 func (s *Session) handshake(ctx context.Context, username, password string) error {
 	var client [8]byte
-	if _, err := rand.Read(client[:]); err != nil {
-		return err
+
+	_, err := rand.Read(client[:])
+	if err != nil {
+		return transportError("client ID", err)
 	}
 
-	if err := s.write(ctx, connectPacket(hex.EncodeToString(client[:]), username, password)); err != nil {
+	err = s.write(ctx, connectPacket(hex.EncodeToString(client[:]), username, password))
+	if err != nil {
 		return err
 	}
 
@@ -101,15 +144,13 @@ func (s *Session) handshake(ctx context.Context, username, password string) erro
 		return err
 	}
 
-	if header != protocol.MQTTConnAck || len(body) != 2 || body[0] > 1 || body[1] != 0 {
-		if header == protocol.MQTTConnAck && len(body) == 2 && (body[1] == 4 || body[1] == 5) {
-			return roborockerrors.New(roborockerrors.Unauthorized, "mqtt handshake", "broker rejected credentials", nil)
-		}
-
-		return errBrokerRejectedMQTTConnection
+	err = checkConnAck(header, body)
+	if err != nil {
+		return err
 	}
 
-	if err = s.write(ctx, subscribePacket(s.subscribeTopic)); err != nil {
+	err = s.write(ctx, subscribePacket(s.subscribeTopic))
+	if err != nil {
 		return err
 	}
 
@@ -118,7 +159,32 @@ func (s *Session) handshake(ctx context.Context, username, password string) erro
 		return err
 	}
 
-	if header != protocol.MQTTSubAck || len(body) != 3 || binary.BigEndian.Uint16(body[:2]) != 1 || body[2] != 0 {
+	return checkSubAck(header, body)
+}
+
+func checkConnAck(header byte, body []byte) error {
+	if header != protocol.MQTTConnAck || len(body) != protocol.MQTTConnAckLength {
+		return errBrokerRejectedMQTTConnection
+	}
+
+	if body[1] == protocol.MQTTBadUsernamePassword || body[1] == protocol.MQTTNotAuthorized {
+		return roborockerrors.New(roborockerrors.Unauthorized, "mqtt handshake", "broker rejected credentials", nil)
+	}
+
+	if body[0] != 0 || body[1] != 0 {
+		return errBrokerRejectedMQTTConnection
+	}
+
+	return nil
+}
+
+func checkSubAck(header byte, body []byte) error {
+	if header != protocol.MQTTSubAck || len(body) != protocol.MQTTSubAckLength {
+		return errBrokerRejectedMQTTSubscription
+	}
+
+	identifier := binary.BigEndian.Uint16(body[:protocol.MQTTUint16Size])
+	if identifier != protocol.MQTTSubscribeIdentifier || body[protocol.MQTTUint16Size] != protocol.MQTTQoSAtMostOnce {
 		return errBrokerRejectedMQTTSubscription
 	}
 

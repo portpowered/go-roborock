@@ -7,6 +7,21 @@ import (
 	"encoding/json"
 )
 
+// MQTTDeviceFrame Decoded Roborock binary MQTT device frame. Fields are serialized in the documented binary header order, followed by encrypted payload and a CRC32 checksum; this is not a JSON wire envelope.
+type MQTTDeviceFrame struct {
+	// Payload Decrypted payload bytes, before encryption and PKCS7 padding.
+	Payload  []byte `json:"payload"`
+	Protocol uint16 `json:"protocol"`
+	Random   uint32 `json:"random"`
+	Sequence uint32 `json:"sequence"`
+
+	// Timestamp Unix timestamp in seconds stored as an unsigned 32-bit integer.
+	Timestamp uint32 `json:"timestamp"`
+
+	// Version Three ASCII bytes identifying the binary protocol version.
+	Version string `json:"version"`
+}
+
 // MQTTEnvelope defines model for MQTTEnvelope.
 type MQTTEnvelope struct {
 	Dps map[string]json.RawMessage `json:"dps"`

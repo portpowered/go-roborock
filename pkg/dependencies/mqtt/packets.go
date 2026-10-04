@@ -9,9 +9,15 @@ import (
 const maxPacketSize = 1 << 20
 
 func mqttString(value string) []byte {
-	result := make([]byte, 2+len(value))
-	binary.BigEndian.PutUint16(result, uint16(len(value)))
-	copy(result[2:], value)
+	result := make([]byte, protocol.MQTTUint16Size+len(value))
+
+	length := len(value)
+	if length < 0 || length > protocol.MQTTMaxStringLength {
+		return nil
+	}
+
+	binary.BigEndian.PutUint16(result, uint16(length))
+	copy(result[protocol.MQTTUint16Size:], value)
 
 	return result
 }
@@ -22,12 +28,12 @@ func packet(header byte, body []byte) []byte {
 	remaining := len(body)
 
 	for {
-		digit := byte(remaining % 128)
+		digit := byte(remaining % protocol.MQTTVarintBase)
 
-		remaining /= 128
+		remaining /= protocol.MQTTVarintBase
 
 		if remaining > 0 {
-			digit |= 128
+			digit |= protocol.MQTTVarintContinuation
 		}
 
 		result = append(result, digit)
@@ -42,39 +48,48 @@ func packet(header byte, body []byte) []byte {
 
 func readPacket(reader io.Reader) (byte, []byte, error) {
 	var header [1]byte
-	if _, err := io.ReadFull(reader, header[:]); err != nil {
-		return 0, nil, err
+
+	_, err := io.ReadFull(reader, header[:])
+	if err != nil {
+		return 0, nil, transportError("packet header", err)
 	}
 
 	length := 0
 	multiplier := 1
 
-	for range 4 {
+	for range protocol.MQTTMaxRemainingLengthOctets {
 		var digit [1]byte
-		if _, err := io.ReadFull(reader, digit[:]); err != nil {
-			return 0, nil, err
+
+		_, err = io.ReadFull(reader, digit[:])
+		if err != nil {
+			return 0, nil, transportError("remaining length", err)
 		}
 
-		length += int(digit[0]&127) * multiplier
+		length += int(digit[0]&protocol.MQTTVarintMask) * multiplier
 		if length > maxPacketSize {
 			return 0, nil, errMQTTPacketExceedsLimit
 		}
 
-		if digit[0]&128 == 0 {
+		if digit[0]&protocol.MQTTVarintContinuation == 0 {
 			body := make([]byte, length)
-			_, err := io.ReadFull(reader, body)
 
-			return header[0], body, err
+			_, err = io.ReadFull(reader, body)
+			if err != nil {
+				return 0, nil, transportError("packet body", err)
+			}
+
+			return header[0], body, nil
 		}
 
-		multiplier *= 128
+		multiplier *= protocol.MQTTVarintBase
 	}
 
 	return 0, nil, errInvalidMQTTRemainingLength
 }
 
 func connectPacket(clientID, username, password string) []byte {
-	body := append(mqttString(protocol.MQTTProtocolName), protocol.MQTTProtocolLevel, protocol.MQTTConnectFlags, 0, protocol.MQTTKeepaliveSeconds)
+	body := append(mqttString(protocol.MQTTProtocolName),
+		protocol.MQTTProtocolLevel, protocol.MQTTConnectFlags, 0, protocol.MQTTKeepaliveSeconds)
 	body = append(body, mqttString(clientID)...)
 	body = append(body, mqttString(username)...)
 	body = append(body, mqttString(password)...)

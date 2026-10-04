@@ -11,11 +11,13 @@ import (
 	"io"
 	"net"
 	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 
 	"github.com/portpowered/go-roborock/internal/protocol"
 	"github.com/portpowered/go-roborock/pkg/dependencymodels"
+	"github.com/portpowered/go-roborock/pkg/roborockerrors"
 )
 
 const syntheticKey = "0123456789abcdef"
@@ -35,28 +37,65 @@ type broker struct {
 	topic      string
 }
 
+type countedConnection struct {
+	net.Conn
+
+	closes atomic.Int32
+}
+
+func (connection *countedConnection) Close() error {
+	connection.closes.Add(1)
+
+	err := connection.Conn.Close()
+	if err != nil {
+		return fmt.Errorf("close counted connection: %w", err)
+	}
+
+	return nil
+}
+
+func validConnect(header byte, body []byte) bool {
+	return header == protocol.MQTTConnect && len(body) >= 10 &&
+		bytes.Equal(body[:10], []byte{0, 4, 'M', 'Q', 'T', 'T', 4, 194, 0, 45})
+}
+
+func validSubscribe(header byte, body []byte) bool {
+	return header == protocol.MQTTSubscribe && len(body) >= 5 &&
+		binary.BigEndian.Uint16(body[:2]) == 1 && body[len(body)-1] == 0
+}
+
+func validRPCSecurity(security dependencymodels.MQTTRPCSecurity) bool {
+	nonce, err := hex.DecodeString(security.Nonce)
+
+	return security.Endpoint == "goOmJ7S+" && len(nonce) == 16 && err == nil &&
+		hex.EncodeToString(nonce) == security.Nonce
+}
+
+func validRPCRequest(command dependencymodels.MQTTRPCRequest) bool {
+	return command.Method == "get_status" && string(command.Params) == "[]" &&
+		validRPCSecurity(command.Security)
+}
 func startBroker(connection net.Conn) (broker, error) {
 	header, body, err := readPacket(connection)
-
 	if err != nil {
 		return broker{}, fmt.Errorf("synthetic broker exchange: %w", err)
 	}
 
-	if header != protocol.MQTTConnect || len(body) < 10 || !bytes.Equal(body[:10], []byte{0, 4, 'M', 'Q', 'T', 'T', 4, 194, 0, 45}) {
+	if !validConnect(header, body) {
 		return broker{}, fmt.Errorf("%w: CONNECT mismatch", errSyntheticBroker)
 	}
 
-	if _, err = connection.Write(packet(protocol.MQTTConnAck, []byte{0, 0})); err != nil {
+	_, err = connection.Write(packet(protocol.MQTTConnAck, []byte{0, 0}))
+	if err != nil {
 		return broker{}, fmt.Errorf("synthetic broker exchange: %w", err)
 	}
 
 	header, body, err = readPacket(connection)
-
 	if err != nil {
 		return broker{}, fmt.Errorf("synthetic broker exchange: %w", err)
 	}
 
-	if header != protocol.MQTTSubscribe || len(body) < 5 || binary.BigEndian.Uint16(body[:2]) != 1 || body[len(body)-1] != 0 {
+	if !validSubscribe(header, body) {
 		return broker{}, fmt.Errorf("%w: SUBSCRIBE mismatch", errSyntheticBroker)
 	}
 
@@ -68,7 +107,8 @@ func startBroker(connection net.Conn) (broker, error) {
 
 	subscribed := string(body[4 : 4+length])
 
-	if _, err = connection.Write(packet(protocol.MQTTSubAck, []byte{0, 1, 0})); err != nil {
+	_, err = connection.Write(packet(protocol.MQTTSubAck, []byte{0, 1, 0}))
+	if err != nil {
 		return broker{}, fmt.Errorf("synthetic broker exchange: %w", err)
 	}
 
@@ -77,7 +117,6 @@ func startBroker(connection net.Conn) (broker, error) {
 
 func (activeBroker broker) command() (deviceFrame, error) {
 	header, body, err := readPacket(activeBroker.connection)
-
 	if err != nil {
 		return deviceFrame{}, err
 	}
@@ -99,12 +138,11 @@ func (activeBroker broker) command() (deviceFrame, error) {
 	}
 
 	frame, consumed, err := decodeFrame(body[2+length:], syntheticKey)
-
 	if err != nil {
 		return frame, err
 	}
 
-	if consumed != len(body)-2-length || frame.protocol != protocol.MQTTProtocolRequest {
+	if consumed != len(body)-2-length || frame.Protocol != protocol.MQTTProtocolRequest {
 		return frame, fmt.Errorf("%w: unexpected frame", errSyntheticBroker)
 	}
 
@@ -112,35 +150,42 @@ func (activeBroker broker) command() (deviceFrame, error) {
 }
 
 func (activeBroker broker) reply(frame deviceFrame, payload []byte, topic string) error {
-	frame.protocol = protocol.MQTTProtocolResponse
-	frame.payload = payload
-	encoded, err := encodeFrame(frame, syntheticKey)
+	frame.Protocol = protocol.MQTTProtocolResponse
+	frame.Payload = payload
 
+	encoded, err := encodeFrame(frame, syntheticKey)
 	if err != nil {
 		return err
 	}
 
 	_, err = activeBroker.connection.Write(publishPacket(topic, encoded))
+	if err != nil {
+		return fmt.Errorf("publish synthetic response: %w", err)
+	}
 
-	return err
+	return nil
 }
 
 func openTestSession(t *testing.T, version string, exchange func(broker) error) (*Session, <-chan error) {
 	t.Helper()
+
 	client, server := net.Pipe()
 	completed := make(chan error, 1)
+
 	go func() {
 		defer func() { _ = server.Close() }()
-		active, err := startBroker(server)
 
+		active, err := startBroker(server)
 		if err == nil {
 			err = exchange(active)
 		}
 
 		completed <- err
 	}()
+
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
+
 	session, err := Open(ctx, testConfig(version), func(_ context.Context, network, address string) (net.Conn, error) {
 		if network != "tcp" || address != "broker.example:8883" {
 			return nil, fmt.Errorf("%w: dial mismatch", errSyntheticBroker)
@@ -148,7 +193,6 @@ func openTestSession(t *testing.T, version string, exchange func(broker) error) 
 
 		return client, nil
 	})
-
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -160,13 +204,15 @@ func openTestSession(t *testing.T, version string, exchange func(broker) error) 
 
 func (activeBroker broker) replyRPC(frame deviceFrame, id int64, value json.RawMessage, topic string) error {
 	inner, err := json.Marshal(dependencymodels.MQTTRPCResponse{Id: id, Result: &value, Error: nil})
-
 	if err != nil {
 		return fmt.Errorf("encode synthetic RPC response: %w", err)
 	}
 
-	encoded, err := json.Marshal(string(inner))
+	return activeBroker.replyRPCBody(frame, inner, topic)
+}
 
+func (activeBroker broker) replyRPCBody(frame deviceFrame, inner []byte, topic string) error {
+	encoded, err := json.Marshal(string(inner))
 	if err != nil {
 		return fmt.Errorf("encode synthetic response string: %w", err)
 	}
@@ -174,7 +220,6 @@ func (activeBroker broker) replyRPC(frame deviceFrame, id int64, value json.RawM
 	payload, err := json.Marshal(dependencymodels.MQTTEnvelope{
 		Dps: map[string]json.RawMessage{protocol.MQTTRPCResponseDatapoint: encoded}, T: 1700000000,
 	})
-
 	if err != nil {
 		return fmt.Errorf("encode synthetic response envelope: %w", err)
 	}
@@ -187,17 +232,20 @@ func request(frame deviceFrame) (dependencymodels.MQTTRPCRequest, error) {
 
 	var result dependencymodels.MQTTRPCRequest
 
-	if err := json.Unmarshal(frame.payload, &envelope); err != nil {
+	err := json.Unmarshal(frame.Payload, &envelope)
+	if err != nil {
 		return result, fmt.Errorf("decode synthetic request: %w", err)
 	}
 
 	var inner string
 
-	if err := json.Unmarshal(envelope.Dps[protocol.MQTTRPCRequestDatapoint], &inner); err != nil {
+	err = json.Unmarshal(envelope.Dps[protocol.MQTTRPCRequestDatapoint], &inner)
+	if err != nil {
 		return result, fmt.Errorf("decode synthetic request: %w", err)
 	}
 
-	if err := json.Unmarshal([]byte(inner), &result); err != nil {
+	err = json.Unmarshal([]byte(inner), &result)
+	if err != nil {
 		return result, fmt.Errorf("decode synthetic RPC: %w", err)
 	}
 
@@ -208,32 +256,26 @@ func TestSessionRPCDeviceAndRequestCorrelation(t *testing.T) {
 	t.Parallel()
 	session, completed := openTestSession(t, "1.0", func(activeBroker broker) error {
 		frame, err := activeBroker.command()
-
 		if err != nil {
 			return err
 		}
 
 		command, err := request(frame)
-
 		if err != nil {
 			return err
 		}
 
-		nonce, nonceErr := hex.DecodeString(command.Security.Nonce)
-
-		if command.Security.Endpoint != "goOmJ7S+" || len(nonce) != 16 || nonceErr != nil || hex.EncodeToString(nonce) != command.Security.Nonce {
-			return fmt.Errorf("%w: RPC security mismatch", errSyntheticBroker)
-		}
-
-		if command.Method != "get_status" || string(command.Params) != "[]" {
+		if !validRPCRequest(command) {
 			return fmt.Errorf("%w: RPC request mismatch", errSyntheticBroker)
 		}
 
-		if err = activeBroker.replyRPC(frame, command.Id, json.RawMessage(`"wrong-device"`), activeBroker.topic+"-other"); err != nil {
+		err = activeBroker.replyRPC(frame, command.Id, json.RawMessage(`"wrong-device"`), activeBroker.topic+"-other")
+		if err != nil {
 			return err
 		}
 
-		if err = activeBroker.replyRPC(frame, command.Id+1, json.RawMessage(`"wrong-id"`), activeBroker.topic); err != nil {
+		err = activeBroker.replyRPC(frame, command.Id+1, json.RawMessage(`"wrong-id"`), activeBroker.topic)
+		if err != nil {
 			return err
 		}
 
@@ -245,7 +287,8 @@ func TestSessionRPCDeviceAndRequestCorrelation(t *testing.T) {
 		t.Fatalf("result=%s error=%v", result, err)
 	}
 
-	if err = <-completed; err != nil {
+	err = <-completed
+	if err != nil {
 		t.Fatal(err)
 	}
 }
@@ -254,16 +297,16 @@ func TestSessionA01CollectsPartialResponses(t *testing.T) {
 	t.Parallel()
 	session, completed := openTestSession(t, "A01", func(activeBroker broker) error {
 		frame, err := activeBroker.command()
-
 		if err != nil {
 			return err
 		}
 
-		if !bytes.Contains(frame.payload, []byte(`"10000":"[201,202]"`)) {
-			return fmt.Errorf("%w: unexpected query %s", errSyntheticBroker, frame.payload)
+		if !bytes.Contains(frame.Payload, []byte(`"10000":"[201,202]"`)) {
+			return fmt.Errorf("%w: unexpected query %s", errSyntheticBroker, frame.Payload)
 		}
 
-		if err = activeBroker.reply(frame, []byte(`{"dps":{"201":42,"999":0},"t":1700000000}`), activeBroker.topic); err != nil {
+		err = activeBroker.reply(frame, []byte(`{"dps":{"201":42,"999":0},"t":1700000000}`), activeBroker.topic)
+		if err != nil {
 			return err
 		}
 
@@ -275,7 +318,8 @@ func TestSessionA01CollectsPartialResponses(t *testing.T) {
 		t.Fatalf("values=%v error=%v", values, err)
 	}
 
-	if err = <-completed; err != nil {
+	err = <-completed
+	if err != nil {
 		t.Fatal(err)
 	}
 }
@@ -284,38 +328,40 @@ func TestSessionA01SetOnlyPublishes(t *testing.T) {
 	t.Parallel()
 	session, completed := openTestSession(t, "A01", func(activeBroker broker) error {
 		frame, err := activeBroker.command()
-
 		if err != nil {
 			return err
 		}
 
-		if !bytes.Contains(frame.payload, []byte(`"201":3`)) {
+		if !bytes.Contains(frame.Payload, []byte(`"201":3`)) {
 			return fmt.Errorf("%w: incorrect datapoint", errSyntheticBroker)
 		}
 
 		return nil
 	})
 
-	if err := session.SetA01(context.Background(), map[int]json.RawMessage{201: json.RawMessage("3")}); err != nil {
+	err := session.SetA01(context.Background(), map[int]json.RawMessage{201: json.RawMessage("3")})
+	if err != nil {
 		t.Fatal(err)
 	}
 
-	if err := <-completed; err != nil {
+	err = <-completed
+	if err != nil {
 		t.Fatal(err)
 	}
 }
 
 func TestSessionCanceledRPCAndConcurrentClose(t *testing.T) {
 	t.Parallel()
+
 	published := make(chan struct{})
 	session, completed := openTestSession(t, "1.0", func(activeBroker broker) error {
 		_, err := activeBroker.command()
-
 		if err != nil {
 			return err
 		}
 
 		close(published)
+
 		_, _, err = readPacket(activeBroker.connection)
 
 		if errors.Is(err, io.EOF) {
@@ -326,25 +372,30 @@ func TestSessionCanceledRPCAndConcurrentClose(t *testing.T) {
 	})
 	ctx, cancel := context.WithCancel(context.Background())
 	result := make(chan error, 1)
+
 	go func() { _, err := session.Call(ctx, "app_start", nil); result <- err }()
+
 	<-published
 	cancel()
 
-	if err := <-result; !errors.Is(err, context.Canceled) {
-		t.Fatalf("expected cancellation, got %v", err)
+	resultErr := <-result
+	if !errors.Is(resultErr, context.Canceled) {
+		t.Fatalf("expected cancellation, got %v", resultErr)
 	}
 
 	var wait sync.WaitGroup
 
 	for range 16 {
 		wait.Add(1)
+
 		go func() { defer wait.Done(); _ = session.Close() }()
 	}
 
 	wait.Wait()
 
-	if err := <-completed; err != nil {
-		t.Fatal(err)
+	completionErr := <-completed
+	if completionErr != nil {
+		t.Fatal(completionErr)
 	}
 
 	_, err := session.Call(context.Background(), "get_status", nil)
@@ -356,28 +407,30 @@ func TestSessionCanceledRPCAndConcurrentClose(t *testing.T) {
 
 func TestSessionConcurrentRPCCorrelation(t *testing.T) {
 	t.Parallel()
+
 	const commands = 8
+
 	session, completed := openTestSession(t, "1.0", func(activeBroker broker) error {
 		frames := make([]deviceFrame, commands)
 		requests := make([]dependencymodels.MQTTRPCRequest, commands)
 
 		for index := range commands {
 			frame, err := activeBroker.command()
-
 			if err != nil {
 				return err
 			}
 
 			frames[index] = frame
-			requests[index], err = request(frame)
 
+			requests[index], err = request(frame)
 			if err != nil {
 				return err
 			}
 		}
 
 		for index := commands - 1; index >= 0; index-- {
-			if err := activeBroker.replyRPC(frames[index], requests[index].Id, requests[index].Params, activeBroker.topic); err != nil {
+			err := activeBroker.replyRPC(frames[index], requests[index].Id, requests[index].Params, activeBroker.topic)
+			if err != nil {
 				return err
 			}
 		}
@@ -389,8 +442,10 @@ func TestSessionConcurrentRPCCorrelation(t *testing.T) {
 
 	for index := range commands {
 		wait.Add(1)
+
 		go func() {
 			defer wait.Done()
+
 			params := json.RawMessage(fmt.Sprintf("[%d]", index))
 			result, err := session.Call(context.Background(), "get_status", params)
 
@@ -402,34 +457,299 @@ func TestSessionConcurrentRPCCorrelation(t *testing.T) {
 
 	wait.Wait()
 
-	if err := <-completed; err != nil {
+	err := <-completed
+	if err != nil {
 		t.Fatal(err)
 	}
 }
 
 func TestOpenCancellationDuringHandshake(t *testing.T) {
 	t.Parallel()
+
 	client, server := net.Pipe()
+	counted := &countedConnection{Conn: client, closes: atomic.Int32{}}
+
 	defer func() { _ = server.Close() }()
+
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Millisecond)
 	defer cancel()
-	_, err := Open(ctx, testConfig("1.0"), func(context.Context, string, string) (net.Conn, error) { return client, nil })
+
+	_, err := Open(ctx, testConfig("1.0"), func(context.Context, string, string) (net.Conn, error) { return counted, nil })
 
 	if !errors.Is(err, context.DeadlineExceeded) {
 		t.Fatalf("expected deadline, got %v", err)
+	}
+
+	if count := counted.closes.Load(); count != 1 {
+		t.Fatalf("handshake cancellation closed underlying connection %d times", count)
 	}
 }
 
 func TestOpenRejectsPlaintext(t *testing.T) {
 	t.Parallel()
+
 	config := testConfig("1.0")
 	config.BrokerURL = "tcp://broker.example:1883"
+
 	_, err := Open(context.Background(), config, func(context.Context, string, string) (net.Conn, error) {
 		t.Fatal("unexpected dial")
-		return nil, nil
-	})
 
+		return nil, errSyntheticBroker
+	})
 	if err == nil {
 		t.Fatal("plaintext accepted")
+	}
+}
+
+func waitForBrokerClose(activeBroker broker) error {
+	_, _, err := readPacket(activeBroker.connection)
+	if errors.Is(err, io.EOF) {
+		return nil
+	}
+
+	return err
+}
+
+func assertErrorKind(t *testing.T, err error, expected roborockerrors.Kind) *roborockerrors.Error {
+	t.Helper()
+
+	var typed *roborockerrors.Error
+	if !errors.As(err, &typed) {
+		t.Fatalf("expected typed %s failure, got %v", expected, err)
+	}
+
+	if typed.Kind != expected {
+		t.Fatalf("expected %s failure, got %v", expected, typed)
+	}
+
+	return typed
+}
+
+func TestSessionRPCFailures(t *testing.T) {
+	t.Parallel()
+
+	cases := []struct {
+		name   string
+		body   string
+		kind   roborockerrors.Kind
+		code   int
+		closes bool
+	}{
+		{name: "device rejection", body: `{"id":%d,"error":{"code":-10003,"message":"synthetic rejection"}}`,
+			kind: roborockerrors.Protocol, code: -10003, closes: false},
+		{name: "unsupported command", body: `{"id":%d,"result":"unknown_method"}`,
+			kind: roborockerrors.Unsupported, code: 0, closes: false},
+		{name: "id without result", body: `{"id":%d}`, kind: roborockerrors.Protocol, code: 0, closes: true},
+		{name: "null result", body: `{"id":%d,"result":null}`, kind: roborockerrors.Protocol, code: 0, closes: true},
+	}
+	for _, testCase := range cases {
+		t.Run(testCase.name, func(t *testing.T) {
+			t.Parallel()
+			session, completed := openTestSession(t, "1.0", rpcFailureExchange(testCase.body))
+
+			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+			defer cancel()
+
+			_, err := session.Call(ctx, "get_status", nil)
+
+			typed := assertErrorKind(t, err, testCase.kind)
+			if typed.Code != testCase.code {
+				t.Fatalf("code=%d expected=%d", typed.Code, testCase.code)
+			}
+
+			if testCase.code != 0 {
+				var rejection *RPCError
+				if !errors.As(err, &rejection) || rejection.Code != testCase.code {
+					t.Fatalf("device error cause not preserved: %v", err)
+				}
+			}
+
+			assertSessionClosed(t, session, testCase.closes)
+
+			_ = session.Close()
+
+			err = <-completed
+			if err != nil {
+				t.Fatal(err)
+			}
+		})
+	}
+}
+
+func TestSessionCanceledA01ClosesSession(t *testing.T) {
+	t.Parallel()
+
+	published := make(chan struct{})
+	session, completed := openTestSession(t, "A01", func(activeBroker broker) error {
+		_, err := activeBroker.command()
+		if err != nil {
+			return err
+		}
+
+		close(published)
+
+		return waitForBrokerClose(activeBroker)
+	})
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+
+	result := make(chan error, 1)
+
+	go func() {
+		_, err := session.QueryA01(ctx, []int{201})
+		result <- err
+	}()
+
+	select {
+	case <-published:
+	case <-ctx.Done():
+		t.Fatal(ctx.Err())
+	}
+
+	cancel()
+
+	err := <-result
+	_ = assertErrorKind(t, err, roborockerrors.Canceled)
+
+	if !errors.Is(err, context.Canceled) {
+		t.Fatalf("cancellation cause lost: %v", err)
+	}
+
+	select {
+	case <-session.done:
+	default:
+		t.Fatal("canceled A01 query did not close session")
+	}
+
+	err = <-completed
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestOpenRejectsUnauthorizedConnAck(t *testing.T) {
+	t.Parallel()
+
+	for _, code := range []byte{protocol.MQTTBadUsernamePassword, protocol.MQTTNotAuthorized} {
+		t.Run(fmt.Sprintf("code-%d", code), func(t *testing.T) {
+			t.Parallel()
+
+			client, server := net.Pipe()
+			completed := make(chan error, 1)
+
+			go func() {
+				defer func() { _ = server.Close() }()
+
+				_, _, err := readPacket(server)
+				if err == nil {
+					_, err = server.Write(packet(protocol.MQTTConnAck, []byte{0, code}))
+				}
+
+				completed <- err
+			}()
+
+			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+			defer cancel()
+
+			_, err := Open(ctx, testConfig("1.0"), func(context.Context, string, string) (net.Conn, error) {
+				return client, nil
+			})
+			_ = assertErrorKind(t, err, roborockerrors.Unauthorized)
+
+			err = <-completed
+			if err != nil {
+				t.Fatal(err)
+			}
+		})
+	}
+}
+
+func TestSessionA01AcknowledgesQoSOne(t *testing.T) {
+	t.Parallel()
+	session, completed := openTestSession(t, "A01", func(activeBroker broker) error {
+		frame, err := activeBroker.command()
+		if err != nil {
+			return err
+		}
+
+		frame.Protocol = protocol.MQTTProtocolResponse
+		frame.Payload = []byte(`{"dps":{"201":42},"t":1700000000}`)
+
+		encoded, err := encodeFrame(frame, syntheticKey)
+		if err != nil {
+			return err
+		}
+
+		body := append(mqttString(activeBroker.topic), 0, 37)
+		body = append(body, encoded...)
+
+		_, err = activeBroker.connection.Write(packet(protocol.MQTTPublish|2, body))
+		if err != nil {
+			return fmt.Errorf("send synthetic QoS1 response: %w", err)
+		}
+
+		header, ack, err := readPacket(activeBroker.connection)
+		if err != nil {
+			return err
+		}
+
+		if header != protocol.MQTTPubAck || !bytes.Equal(ack, []byte{0, 37}) {
+			return fmt.Errorf("%w: QoS1 PUBACK mismatch", errSyntheticBroker)
+		}
+
+		return nil
+	})
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+
+	values, err := session.QueryA01(ctx, []int{201})
+	if err != nil || string(values[201]) != "42" {
+		t.Fatalf("values=%v error=%v", values, err)
+	}
+
+	err = <-completed
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func rpcFailureExchange(body string) func(broker) error {
+	return func(activeBroker broker) error {
+		frame, err := activeBroker.command()
+		if err != nil {
+			return err
+		}
+
+		command, err := request(frame)
+		if err != nil {
+			return err
+		}
+
+		inner := []byte(fmt.Sprintf(body, command.Id))
+
+		err = activeBroker.replyRPCBody(frame, inner, activeBroker.topic)
+		if err != nil {
+			return err
+		}
+
+		return waitForBrokerClose(activeBroker)
+	}
+}
+
+func assertSessionClosed(t *testing.T, session *Session, expected bool) {
+	t.Helper()
+
+	closed := false
+
+	select {
+	case <-session.done:
+		closed = true
+	default:
+	}
+
+	if closed != expected {
+		t.Fatalf("session closed=%t expected=%t", closed, expected)
 	}
 }

@@ -64,6 +64,8 @@ type RPCError struct {
 func (e *RPCError) Error() string { return fmt.Sprintf("device RPC %d: %s", e.Code, e.Message) }
 
 var (
+	errInvalidTimestamp                          = errors.New("unix timestamp exceeds device wire range")
+	errUnexpectedMQTTPacket                      = errors.New("unexpected MQTT packet")
 	errA01DatapointKeyIsNotNumeric               = errors.New("A01 datapoint key is not numeric")
 	errBrokerRejectedMQTTConnection              = errors.New("broker rejected MQTT connection")
 	errBrokerRejectedMQTTSubscription            = errors.New("broker rejected MQTT subscription")

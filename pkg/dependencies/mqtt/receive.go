@@ -4,63 +4,76 @@ import (
 	"context"
 	"encoding/binary"
 	"encoding/json"
-	"github.com/portpowered/go-roborock/internal/protocol"
 
+	"github.com/portpowered/go-roborock/internal/protocol"
 	"github.com/portpowered/go-roborock/pkg/dependencymodels"
 	"github.com/portpowered/go-roborock/pkg/roborockerrors"
 )
 
-func (s *Session) receivePublish(header byte, body []byte) error {
-	if len(body) < 2 {
+func (s *Session) receivePublish(owner context.Context, header byte, body []byte) error {
+	if len(body) < protocol.MQTTUint16Size {
 		return errTruncatedMQTTTopic
 	}
 
-	topicLength := int(binary.BigEndian.Uint16(body[:2]))
-	if topicLength > len(body)-2 {
+	topicLength := int(binary.BigEndian.Uint16(body[:protocol.MQTTUint16Size]))
+	if topicLength > len(body)-protocol.MQTTUint16Size {
 		return errTruncatedMQTTTopic
 	}
 
-	topic := string(body[2 : 2+topicLength])
-	payload := body[2+topicLength:]
+	topic := string(body[protocol.MQTTUint16Size : protocol.MQTTUint16Size+topicLength])
 
-	qos := (header >> 1) & 3
-	if qos > protocol.MQTTQoSAtLeastOnce {
-		return errUnsupportedIncomingMQTTQoS
+	payload, err := s.acknowledgePublish(owner, header, body[protocol.MQTTUint16Size+topicLength:])
+	if err != nil {
+		return err
 	}
 
-	if qos == protocol.MQTTQoSAtLeastOnce {
-		if len(payload) < 2 {
-			return errTruncatedMQTTPacketIdentifier
-		}
-
-		ack := packet(protocol.MQTTPubAck, payload[:2])
-		payload = payload[2:]
-		ctx, cancel := context.WithTimeout(context.Background(), handshakeTimeout)
-		err := s.write(ctx, ack)
-
-		cancel()
-
-		if err != nil {
-			return err
-		}
-	}
-	// A response from any other device must never satisfy this session's RPC.
 	if topic != s.subscribeTopic {
 		return nil
 	}
 
+	return s.receiveDeviceFrames(payload)
+}
+
+func (s *Session) acknowledgePublish(owner context.Context, header byte, payload []byte) ([]byte, error) {
+	qos := (header >> 1) & protocol.MQTTQoSMask
+	if qos > protocol.MQTTQoSAtLeastOnce {
+		return nil, errUnsupportedIncomingMQTTQoS
+	}
+
+	if qos == protocol.MQTTQoSAtMostOnce {
+		return payload, nil
+	}
+
+	if len(payload) < protocol.MQTTUint16Size {
+		return nil, errTruncatedMQTTPacketIdentifier
+	}
+
+	ack := packet(protocol.MQTTPubAck, payload[:protocol.MQTTUint16Size])
+
+	ctx, cancel := context.WithTimeout(owner, handshakeTimeout)
+	defer cancel()
+
+	err := s.write(ctx, ack)
+	if err != nil {
+		return nil, err
+	}
+
+	return payload[protocol.MQTTUint16Size:], nil
+}
+
+func (s *Session) receiveDeviceFrames(payload []byte) error {
 	for len(payload) > 0 {
 		frame, consumed, err := decodeFrame(payload, s.config.LocalKey)
 		if err != nil {
 			return err
 		}
 
-		if frame.version != s.config.Protocol {
+		if frame.Version != s.config.Protocol {
 			return errUnexpectedDeviceFrameVersion
 		}
 
-		if frame.protocol == protocol.MQTTProtocolResponse {
-			err = s.deliver(frame.payload)
+		if frame.Protocol == protocol.MQTTProtocolResponse {
+			err = s.deliver(frame.Payload)
 			if err != nil {
 				return err
 			}
@@ -74,9 +87,10 @@ func (s *Session) receivePublish(header byte, body []byte) error {
 
 func (s *Session) deliver(payload []byte) error {
 	var envelope dependencymodels.MQTTEnvelope
+
 	err := json.Unmarshal(payload, &envelope)
 	if err != nil {
-		return err
+		return transportError("envelope", err)
 	}
 
 	if envelope.Dps == nil {
@@ -92,43 +106,9 @@ func (s *Session) deliver(payload []byte) error {
 		return nil
 	}
 
-	var inner string
-	err := json.Unmarshal(encoded, &inner)
+	result, err := decodeRPCResponse(encoded)
 	if err != nil {
 		return err
-	}
-
-	var result dependencymodels.MQTTRPCResponse
-	err := json.Unmarshal([]byte(inner), &result)
-	if err != nil {
-		return err
-	}
-
-	if result.Result == nil && result.Error == nil {
-		return errRPCResponseHasNoResultOrError
-	}
-
-	reply := response{}
-	if result.Result != nil {
-		reply.value = *result.Result
-		if string(reply.value) == `"unknown_method"` {
-			reply.err = roborockerrors.New(roborockerrors.Unsupported, "mqtt call", "device does not support command", nil)
-		}
-	}
-
-	if result.Error != nil {
-		code := 0
-		message := "device rejected command"
-
-		if result.Error.Code != nil {
-			code = *result.Error.Code
-		}
-
-		if result.Error.Message != nil {
-			message = *result.Error.Message
-		}
-
-		reply.err = &roborockerrors.Error{Kind: roborockerrors.Protocol, Operation: "mqtt call", Code: code, Message: "device rejected command", Cause: &RPCError{Code: code, Message: message}}
 	}
 
 	s.mu.Lock()
@@ -137,10 +117,67 @@ func (s *Session) deliver(payload []byte) error {
 
 	if pending != nil {
 		select {
-		case pending <- reply:
+		case pending <- rpcResult(result):
 		default:
 		}
 	}
 
 	return nil
+}
+
+func decodeRPCResponse(encoded json.RawMessage) (dependencymodels.MQTTRPCResponse, error) {
+	var (
+		result dependencymodels.MQTTRPCResponse
+		inner  string
+	)
+
+	err := json.Unmarshal(encoded, &inner)
+	if err != nil {
+		return result, transportError("RPC envelope", err)
+	}
+
+	err = json.Unmarshal([]byte(inner), &result)
+	if err != nil {
+		return result, transportError("RPC response", err)
+	}
+
+	if result.Id <= 0 || (result.Result == nil && result.Error == nil) {
+		return result, errRPCResponseHasNoResultOrError
+	}
+
+	return result, nil
+}
+
+func rpcResult(result dependencymodels.MQTTRPCResponse) response {
+	var reply response
+	if result.Result != nil {
+		reply.value = *result.Result
+		if string(reply.value) == `"unknown_method"` {
+			reply.err = unsupported("call")
+		}
+	}
+
+	if result.Error != nil {
+		reply.err = rpcRejection(*result.Error)
+	}
+
+	return reply
+}
+
+func rpcRejection(rejection dependencymodels.MQTTRPCError) error {
+	code := 0
+	message := "device rejected command"
+
+	if rejection.Code != nil {
+		code = *rejection.Code
+	}
+
+	if rejection.Message != nil {
+		message = *rejection.Message
+	}
+
+	return &roborockerrors.Error{
+		Kind: roborockerrors.Protocol, Operation: "mqtt call", Code: code, Message: "device rejected command",
+		Cause: &RPCError{Code: code, Message: message},
+	}
 }

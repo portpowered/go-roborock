@@ -2,41 +2,25 @@ package mqtt
 
 import (
 	"context"
-	"fmt"
-	"github.com/portpowered/go-roborock/internal/protocol"
 	"io"
 	"time"
+
+	"github.com/portpowered/go-roborock/internal/protocol"
 )
 
 func (s *Session) write(ctx context.Context, data []byte) error {
-	if ctx.Err() != nil {
-		return ctx.Err()
-	}
-
-	select {
-	case s.writeGate <- struct{}{}:
-	case <-ctx.Done():
-		return ctx.Err()
-	case <-s.done:
-		return s.closedError()
+	err := s.acquireWriter(ctx)
+	if err != nil {
+		return err
 	}
 
 	defer func() { <-s.writeGate }()
 
-	if ctx.Err() != nil {
-		return ctx.Err()
-	}
-
-	select {
-	case <-s.done:
-		return s.closedError()
-	default:
-	}
-
 	deadline, _ := ctx.Deadline()
-	err := s.conn.SetWriteDeadline(deadline)
+
+	err = s.conn.SetWriteDeadline(deadline)
 	if err != nil {
-		return err
+		return transportError("write deadline", err)
 	}
 
 	interrupted := make(chan struct{})
@@ -49,16 +33,49 @@ func (s *Session) write(ctx context.Context, data []byte) error {
 		}
 	}()
 
+	return s.writeAll(ctx, data)
+}
+
+func (s *Session) acquireWriter(ctx context.Context) error {
+	if ctx.Err() != nil {
+		return transportError("write", ctx.Err())
+	}
+
+	select {
+	case s.writeGate <- struct{}{}:
+	case <-ctx.Done():
+		return transportError("write", ctx.Err())
+	case <-s.done:
+		return s.closedError()
+	}
+
+	if ctx.Err() != nil {
+		<-s.writeGate
+
+		return transportError("write", ctx.Err())
+	}
+
+	select {
+	case <-s.done:
+		<-s.writeGate
+
+		return s.closedError()
+	default:
+		return nil
+	}
+}
+
+func (s *Session) writeAll(ctx context.Context, data []byte) error {
 	for len(data) > 0 {
 		count, err := s.conn.Write(data)
 		if err != nil {
 			s.fail(err)
 
 			if ctx.Err() != nil {
-				return ctx.Err()
+				return transportError("write", ctx.Err())
 			}
 
-			return err
+			return transportError("write", err)
 		}
 
 		if count == 0 {
@@ -73,7 +90,7 @@ func (s *Session) write(ctx context.Context, data []byte) error {
 	return nil
 }
 
-func (s *Session) keepalive() {
+func (s *Session) keepalive(owner context.Context) {
 	defer close(s.keepaliveStopped)
 
 	ticker := time.NewTicker(pingInterval)
@@ -84,7 +101,7 @@ func (s *Session) keepalive() {
 		case <-s.done:
 			return
 		case <-ticker.C:
-			ctx, cancel := context.WithTimeout(context.Background(), handshakeTimeout)
+			ctx, cancel := context.WithTimeout(owner, handshakeTimeout)
 			err := s.write(ctx, packet(protocol.MQTTPingReq, nil))
 
 			cancel()
@@ -98,11 +115,12 @@ func (s *Session) keepalive() {
 	}
 }
 
-func (s *Session) readLoop() {
+func (s *Session) readLoop(owner context.Context) {
 	defer close(s.stopped)
 
 	for {
-		if err := s.conn.SetReadDeadline(time.Now().Add(responseTimeout)); err != nil {
+		err := s.conn.SetReadDeadline(time.Now().Add(responseTimeout))
+		if err != nil {
 			s.fail(err)
 
 			return
@@ -119,13 +137,14 @@ func (s *Session) readLoop() {
 			continue
 		}
 
-		if header>>4 != 3 {
-			s.fail(fmt.Errorf("unexpected MQTT packet %d", header))
+		if header>>protocol.MQTTKindShift != protocol.MQTTKindPublish {
+			s.fail(errUnexpectedMQTTPacket)
 
 			return
 		}
 
-		if err = s.receivePublish(header, body); err != nil {
+		err = s.receivePublish(owner, header, body)
+		if err != nil {
 			s.fail(err)
 
 			return

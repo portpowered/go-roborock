@@ -5,12 +5,15 @@ import (
 	"crypto/rand"
 	"encoding/binary"
 	"encoding/json"
+	"math"
+	"time"
+
 	"github.com/portpowered/go-roborock/internal/protocol"
 	"github.com/portpowered/go-roborock/pkg/dependencymodels"
 	"github.com/portpowered/go-roborock/pkg/roborockerrors"
-	"time"
 )
 
+// Call sends one V1 device RPC and awaits its correlated response without retries.
 func (s *Session) Call(ctx context.Context, method string, params json.RawMessage) (json.RawMessage, error) {
 	if s.config.Protocol != protocol.MQTTVersionV1 {
 		return nil, unsupported("call")
@@ -27,38 +30,75 @@ func (s *Session) Call(ctx context.Context, method string, params json.RawMessag
 	ctx, cancel := context.WithTimeout(ctx, commandTimeout)
 	defer cancel()
 
-	id := int64(s.sequence.Add(1))
-	reply := make(chan response, 1)
+	requestID := int64(s.sequence.Add(1))
 
-	s.mu.Lock()
-
-	if len(s.pending) >= maxPendingCommands {
-		s.mu.Unlock()
-
-		return nil, roborockerrors.New(roborockerrors.Backpressure, "mqtt call", "too many pending commands", nil)
-	}
-
-	s.pending[id] = reply
-	s.mu.Unlock()
-
-	defer func() { s.mu.Lock(); delete(s.pending, id); s.mu.Unlock() }()
-
-	inner, err := json.Marshal(dependencymodels.MQTTRPCRequest{Id: id, Method: method, Params: params, Security: s.security})
+	reply, err := s.beginRPC(requestID)
 	if err != nil {
 		return nil, err
 	}
 
-	text, _ := json.Marshal(string(inner))
+	defer s.endRPC(requestID)
 
-	payload, err := json.Marshal(dependencymodels.MQTTEnvelope{Dps: map[string]json.RawMessage{protocol.MQTTRPCRequestDatapoint: text}, T: time.Now().Unix()})
+	payload, err := s.rpcPayload(requestID, method, params)
 	if err != nil {
 		return nil, err
 	}
 
-	if err = s.send(ctx, payload); err != nil {
+	err = s.send(ctx, payload)
+	if err != nil {
 		return nil, transportError("call", err)
 	}
 
+	return s.awaitRPC(ctx, reply)
+}
+
+func (s *Session) beginRPC(requestID int64) (chan response, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	if len(s.pending) >= maxPendingCommands {
+		return nil, roborockerrors.New(roborockerrors.Backpressure, "mqtt call", "too many pending commands", nil)
+	}
+
+	reply := make(chan response, 1)
+	s.pending[requestID] = reply
+
+	return reply, nil
+}
+
+func (s *Session) endRPC(requestID int64) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	delete(s.pending, requestID)
+}
+
+func (s *Session) rpcPayload(requestID int64, method string, params json.RawMessage) ([]byte, error) {
+	request := dependencymodels.MQTTRPCRequest{Id: requestID, Method: method, Params: params, Security: s.security}
+
+	inner, err := json.Marshal(request)
+	if err != nil {
+		return nil, transportError("request", err)
+	}
+
+	text, err := json.Marshal(string(inner))
+	if err != nil {
+		return nil, transportError("request string", err)
+	}
+
+	envelope := dependencymodels.MQTTEnvelope{
+		Dps: map[string]json.RawMessage{protocol.MQTTRPCRequestDatapoint: text}, T: time.Now().Unix(),
+	}
+
+	payload, err := json.Marshal(envelope)
+	if err != nil {
+		return nil, transportError("request envelope", err)
+	}
+
+	return payload, nil
+}
+
+func (s *Session) awaitRPC(ctx context.Context, reply <-chan response) (json.RawMessage, error) {
 	select {
 	case result := <-reply:
 		return result.value, result.err
@@ -76,12 +116,22 @@ func (s *Session) Call(ctx context.Context, method string, params json.RawMessag
 }
 
 func (s *Session) send(ctx context.Context, payload []byte) error {
-	var random [4]byte
-	if _, err := rand.Read(random[:]); err != nil {
-		return err
+	var random [protocol.MQTTMaxRemainingLengthOctets]byte
+
+	_, err := rand.Read(random[:])
+	if err != nil {
+		return transportError("frame nonce", err)
 	}
 
-	frame := deviceFrame{version: s.config.Protocol, sequence: s.sequence.Add(1), random: binary.BigEndian.Uint32(random[:]), timestamp: uint32(time.Now().Unix()), protocol: protocol.MQTTProtocolRequest, payload: payload}
+	timestamp := time.Now().Unix()
+	if timestamp < 0 || timestamp > math.MaxUint32 {
+		return transportError("frame timestamp", errInvalidTimestamp)
+	}
+
+	frame := deviceFrame{
+		Version: s.config.Protocol, Sequence: s.sequence.Add(1), Random: binary.BigEndian.Uint32(random[:]),
+		Timestamp: uint32(timestamp), Protocol: protocol.MQTTProtocolRequest, Payload: payload,
+	}
 
 	encoded, err := encodeFrame(frame, s.config.LocalKey)
 	if err != nil {
@@ -91,18 +141,20 @@ func (s *Session) send(ctx context.Context, payload []byte) error {
 	return s.write(ctx, publishPacket(s.publishTopic, encoded))
 }
 
-// Call sends one V1 RPC and waits for its matching device response.
-
 func validMethod(method string) bool {
 	if method == "" {
 		return false
 	}
 
 	for _, char := range method {
-		if char != '_' && (char < 'a' || char > 'z') && (char < 'A' || char > 'Z') && (char < '0' || char > '9') {
+		if !validMethodCharacter(char) {
 			return false
 		}
 	}
 
 	return true
+}
+
+func validMethodCharacter(char rune) bool {
+	return char == '_' || (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z') || (char >= '0' && char <= '9')
 }

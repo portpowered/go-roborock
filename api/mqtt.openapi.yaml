@@ -8,6 +8,12 @@ x-wire-constants:
   MQTTVersionA01: A01
   MQTTWireSalt: 'TXdfu$jyZ#TZHsg4'
   MQTTA01Hash: 726f626f726f636b2d67a6d6da
+  MQTTFrameSequenceOffset: 3
+  MQTTFrameRandomOffset: 7
+  MQTTFrameTimestampOffset: 11
+  MQTTFrameProtocolOffset: 15
+  MQTTFramePayloadLengthOffset: 17
+  MQTTFramePayloadOffset: 19
   MQTTFrameHeaderSize: 19
   MQTTFrameChecksumSize: 4
   MQTTProtocolRequest: 101
@@ -31,8 +37,60 @@ x-wire-constants:
   MQTTQoSAtMostOnce: 0
   MQTTQoSAtLeastOnce: 1
   MQTTKeepaliveSeconds: 45
+  MQTTUint16Size: 2
+  MQTTVarintBase: 128
+  MQTTVarintMask: 127
+  MQTTVarintContinuation: 128
+  MQTTMaxRemainingLengthOctets: 4
+  MQTTQoSMask: 3
+  MQTTKindShift: 4
+  MQTTKindPublish: 3
+  MQTTConnAckLength: 2
+  MQTTSubAckLength: 3
+  MQTTSubscribeIdentifier: 1
+  MQTTMaxStringLength: 65535
+  MQTTUsernameLength: 8
+  MQTTTopicSeparators: 2
+  MQTTBadUsernamePassword: 4
+  MQTTNotAuthorized: 5
 components:
   schemas:
+    MQTTDeviceFrame:
+      type: object
+      description: Decoded Roborock binary MQTT device frame. Fields are serialized in the documented binary header order, followed by encrypted payload and a CRC32 checksum; this is not a JSON wire envelope.
+      required: [version, sequence, random, timestamp, protocol, payload]
+      properties:
+        version:
+          type: string
+          description: Three ASCII bytes identifying the binary protocol version.
+          minLength: 3
+          maxLength: 3
+        sequence:
+          type: integer
+          minimum: 0
+          maximum: 4294967295
+          x-go-type: uint32
+        random:
+          type: integer
+          minimum: 0
+          maximum: 4294967295
+          x-go-type: uint32
+        timestamp:
+          type: integer
+          description: Unix timestamp in seconds stored as an unsigned 32-bit integer.
+          minimum: 0
+          maximum: 4294967295
+          x-go-type: uint32
+        protocol:
+          type: integer
+          minimum: 0
+          maximum: 65535
+          x-go-type: uint16
+        payload:
+          type: string
+          format: byte
+          description: Decrypted payload bytes, before encryption and PKCS7 padding.
+          x-go-type: '[]byte'
     MQTTEnvelope:
       type: object
       required: [dps, t]
@@ -88,4 +146,3 @@ components:
           type: integer
         message:
           type: string
-
