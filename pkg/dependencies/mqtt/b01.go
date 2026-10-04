@@ -5,7 +5,9 @@ import (
 	"context"
 	"crypto/aes"
 	"encoding/json"
+	"reflect"
 	"strconv"
+	"strings"
 
 	"github.com/portpowered/go-roborock/internal/protocol"
 	"github.com/portpowered/go-roborock/pkg/dependencymodels"
@@ -147,16 +149,21 @@ func (s *Session) deliverB01(payload []byte) error {
 }
 
 func (s *Session) deliverB01RPC(value []byte) error {
+	object, known := knownB01RPCResponse(value)
+	if !known {
+		return nil
+	}
+
 	var result dependencymodels.B01RPCResponse
 
 	err := json.Unmarshal(value, &result)
 	if err != nil {
-		// Unsolicited Q7 datapoint strings need not be RPC response objects.
-		return nil //nolint:nilerr // Unknown Q7 pushes are not correlated RPC response objects.
+		return protocolError("B01 response", err)
 	}
 
-	if result.MsgId == "" {
-		return nil
+	err = validateB01Code(object)
+	if err != nil {
+		return protocolError("B01 response", err)
 	}
 
 	requestID, err := strconv.ParseInt(result.MsgId, 10, 64)
@@ -188,4 +195,31 @@ func b01Result(result dependencymodels.B01RPCResponse) response {
 	}
 
 	return reply
+}
+
+// knownB01RPCResponse separates unsolicited datapoint strings and future objects
+// from RPC objects using the canonical generated identifier member.
+func knownB01RPCResponse(value []byte) (map[string]json.RawMessage, bool) {
+	var object map[string]json.RawMessage
+	if json.Unmarshal(value, &object) != nil {
+		return nil, false
+	}
+
+	field, _ := reflect.TypeFor[dependencymodels.B01RPCResponse]().FieldByName("MsgId")
+	key, _, _ := strings.Cut(field.Tag.Get("json"), ",")
+	_, present := object[key]
+
+	return object, present
+}
+
+func validateB01Code(object map[string]json.RawMessage) error {
+	field, _ := reflect.TypeFor[dependencymodels.B01RPCResponse]().FieldByName("Code")
+	key, _, _ := strings.Cut(field.Tag.Get("json"), ",")
+
+	value, present := object[key]
+	if present && bytes.Equal(bytes.TrimSpace(value), []byte("null")) {
+		return errInvalidB01ResponseShape
+	}
+
+	return nil
 }

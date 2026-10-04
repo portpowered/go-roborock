@@ -147,9 +147,7 @@ func validateQ10MapListEntries(value json.RawMessage) error {
 	}
 
 	dataField, _ := reflect.TypeFor[dependencymodels.MapsQ10ListResult]().FieldByName("Data")
-	idField, _ := reflect.TypeFor[dependencymodels.MapsQ10ListEntry]().FieldByName("Id")
 	dataKey, _, _ := strings.Cut(dataField.Tag.Get("json"), ",")
-	idKey, _, _ := strings.Cut(idField.Tag.Get("json"), ",")
 
 	data, present := object[dataKey]
 	if !present {
@@ -168,9 +166,9 @@ func validateQ10MapListEntries(value json.RawMessage) error {
 	}
 
 	for _, entry := range entries {
-		identifier, present := entry[idKey]
-		if !present || bytes.Equal(bytes.TrimSpace(identifier), []byte("null")) {
-			return errInvalidMapListShape
+		err = validateQ10MapListEntry(entry)
+		if err != nil {
+			return err
 		}
 	}
 
@@ -187,4 +185,24 @@ func q10ListRejection(result dependencymodels.MapsQ10ListResult) error {
 	}
 
 	return protocolError("Q10 map list", &RPCError{Code: *result.Result, Message: "device rejected map list request"})
+}
+
+func validateQ10MapListEntry(entry map[string]json.RawMessage) error {
+	model := reflect.TypeFor[dependencymodels.MapsQ10ListEntry]()
+	for index := range model.NumField() {
+		tag := model.Field(index).Tag.Get("json")
+		key, options, _ := strings.Cut(tag, ",")
+
+		value, present := entry[key]
+
+		if !present && options != "omitempty" {
+			return errInvalidMapListShape
+		}
+
+		if present && bytes.Equal(bytes.TrimSpace(value), []byte("null")) {
+			return errInvalidMapListShape
+		}
+	}
+
+	return nil
 }

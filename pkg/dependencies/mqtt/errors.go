@@ -68,6 +68,7 @@ type RPCError struct {
 func (e *RPCError) Error() string { return fmt.Sprintf("device RPC %d: %s", e.Code, e.Message) }
 
 var (
+	errInvalidB01ResponseShape                   = errors.New("B01 response known field is not nullable")
 	errInvalidB01MessageID                       = errors.New("B01 response message identifier exceeds its wire range")
 	errInvalidMapListShape                       = errors.New("map list response is missing a required field")
 	errInvalidTimestamp                          = errors.New("unix timestamp exceeds device wire range")

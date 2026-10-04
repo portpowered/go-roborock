@@ -1422,6 +1422,8 @@ func TestQ10ListRejectsMissingIdentifier(t *testing.T) {
 		`{"op":"list","result":1,"data":null}`,
 		`{"op":"list","result":1,"data":[{}]}`,
 		`{"op":"list","result":1,"data":[{"id":null}]}`,
+		`{"op":"list","result":1,"data":[{"id":"synthetic","name":null}]}`,
+		`{"op":"list","result":1,"data":[{"id":"synthetic","timestamp":null}]}`,
 	} {
 		err := session.deliverQ10List(json.RawMessage(raw))
 		if !errors.Is(err, roborockerrors.New(roborockerrors.Protocol, "", "", nil)) ||
@@ -1449,5 +1451,55 @@ func TestQ10ListRejectsMissingIdentifier(t *testing.T) {
 	if !errors.Is(reply.err, roborockerrors.New(roborockerrors.Protocol, "", "", nil)) ||
 		!errors.As(reply.err, &rejected) || rejected.Code != 7 {
 		t.Fatalf("list rejection: %v", reply.err)
+	}
+}
+
+func TestKnownB01MalformedResponseIsProtocol(t *testing.T) {
+	t.Parallel()
+
+	session := new(Session)
+	for _, raw := range []string{
+		`{"msgId":"100000000005","code":"bad"}`,
+		`{"msgId":[],"code":0}`,
+	} {
+		err := session.deliverB01RPC([]byte(raw))
+
+		var malformed *json.UnmarshalTypeError
+
+		if !errors.Is(err, roborockerrors.New(roborockerrors.Protocol, "", "", nil)) || !errors.As(err, &malformed) {
+			t.Fatalf("known malformed response: %v", err)
+		}
+	}
+
+	for _, raw := range []string{`"future datapoint"`, `{"future":true}`} {
+		err := session.deliverB01RPC([]byte(raw))
+		if err != nil {
+			t.Fatalf("unrelated future datapoint: %v", err)
+		}
+	}
+}
+
+func TestKnownB01NullFieldsAreProtocol(t *testing.T) {
+	t.Parallel()
+
+	session := new(Session)
+	for _, raw := range []string{
+		`{"msgId":null,"code":0}`,
+		`{"msgId":"","code":0}`,
+		`{"msgId":"100000000005","code":null}`,
+	} {
+		err := session.deliverB01RPC([]byte(raw))
+
+		_ = assertErrorKind(t, err, roborockerrors.Protocol)
+
+		if errors.Is(err, context.DeadlineExceeded) {
+			t.Fatalf("malformed known field timed out: %v", err)
+		}
+	}
+
+	err := session.deliverB01RPC([]byte(`null`))
+
+	if err != nil {
+		t.Fatalf("unrelated null push: %v", err)
 	}
 }
