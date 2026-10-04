@@ -12,7 +12,7 @@ Choose between a geometric zone and a room selection.
 | Observed cleaned zone | Map data | A past or current cleaning region, not a command. |
 | Restriction zone or virtual wall | Map data | A boundary the device may enforce, not a cleaning target. |
 
-A rectangle does not need to match a room boundary. Its corners must form a non-empty, ordered rectangle in the active map's world frame. Repeats describe the requested cleaning passes; acknowledgement does not establish completion.
+V1 and Q10 rectangle requests use 1–3 repeats. Q10 accepts one rectangle per request, with each corner aligned to 5 millimeters. A rectangle does not need to match a room boundary. Its corners must form a non-empty, ordered rectangle in the active map's world frame. Repeats describe the requested cleaning passes; acknowledgement does not establish completion.
 
 | Family | Rectangle cleaning | Room cleaning |
 | --- | --- | --- |
@@ -24,3 +24,5 @@ A rectangle does not need to match a room boundary. Its corners must form a non-
 Read [maps and rooms](/docs/guides/maps), confirm the active map, then use that map's coordinates or room IDs. Never substitute account room IDs, screen pixels, or coordinates from a different floor. Q7's map geometry can be read without assuming an unsupported zone-cleaning payload.
 
 A control call is an explicit device change. After a timeout, inspect status before deciding what to do next; the SDK does not retry uncertain movement automatically. See [errors and lifecycle](/docs/guides/lifecycle).
+
+
