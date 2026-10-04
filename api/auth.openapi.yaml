@@ -907,5 +907,11 @@
       "name": "authentication",
       "description": "Typed Roborock authentication operations"
     }
-  ]
+  ],
+  "x-wire-constants": {
+    "RESTMediaForm": "application/x-www-form-urlencoded",
+    "RESTMediaJSON": "application/json",
+    "RESTHeaderAccept": "Accept",
+    "RESTHeaderContentType": "Content-Type"
+  }
 }

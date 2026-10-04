@@ -6,6 +6,15 @@ package dependencymodels
 import (
 	"encoding/json"
 	"fmt"
+
+	"github.com/oapi-codegen/runtime"
+)
+
+// Defines values for HomeDataVersion.
+const (
+	HomeDataVersionV1 HomeDataVersion = 1
+	HomeDataVersionV2 HomeDataVersion = 2
+	HomeDataVersionV3 HomeDataVersion = 3
 )
 
 // HomeData defines model for HomeData.
@@ -31,39 +40,105 @@ type HomeDataResponse struct {
 	AdditionalProperties map[string]json.RawMessage `json:"-"`
 }
 
+// HomeDataVersion defines model for HomeDataVersion.
+type HomeDataVersion int
+
 // HomeDevice defines model for HomeDevice.
 type HomeDevice struct {
-	ActiveTime           *int64                     `json:"activeTime"`
-	Attribute            *json.RawMessage           `json:"attribute"`
-	Cid                  *string                    `json:"cid"`
-	CreateTime           *int64                     `json:"createTime"`
-	DeviceStatus         *json.RawMessage           `json:"deviceStatus"`
-	Duid                 string                     `json:"duid"`
-	Extra                *json.RawMessage           `json:"extra"`
-	F                    *bool                      `json:"f"`
-	FeatureSet           *string                    `json:"featureSet"`
-	Fv                   *string                    `json:"fv"`
-	IconUrl              *string                    `json:"iconUrl"`
-	Lat                  *json.RawMessage           `json:"lat"`
-	LocalKey             string                     `json:"localKey"`
-	Lon                  *json.RawMessage           `json:"lon"`
-	Name                 string                     `json:"name"`
-	NewFeatureSet        *string                    `json:"newFeatureSet"`
-	Online               *bool                      `json:"online"`
-	ProductId            string                     `json:"productId"`
-	Pv                   *string                    `json:"pv"`
-	RoomId               *json.RawMessage           `json:"roomId"`
-	RuntimeEnv           *json.RawMessage           `json:"runtimeEnv"`
-	Setting              *json.RawMessage           `json:"setting"`
-	Share                *json.RawMessage           `json:"share"`
-	ShareExpiredTime     *int64                     `json:"shareExpiredTime"`
-	ShareTime            *json.RawMessage           `json:"shareTime"`
-	ShareType            *json.RawMessage           `json:"shareType"`
+	ActiveTime   *int64            `json:"activeTime"`
+	Attribute    *json.RawMessage  `json:"attribute"`
+	Cid          *string           `json:"cid"`
+	CreateTime   *int64            `json:"createTime"`
+	DeviceStatus *HomeDeviceStatus `json:"deviceStatus"`
+	Duid         string            `json:"duid"`
+
+	// Extra JSON-encoded optional device metadata.
+	Extra            *string          `json:"extra"`
+	F                *bool            `json:"f"`
+	FeatureSet       *string          `json:"featureSet"`
+	Fv               *string          `json:"fv"`
+	IconUrl          *string          `json:"iconUrl"`
+	Lat              *json.RawMessage `json:"lat"`
+	LocalKey         string           `json:"localKey"`
+	Lon              *json.RawMessage `json:"lon"`
+	Name             string           `json:"name"`
+	NewFeatureSet    *string          `json:"newFeatureSet"`
+	Online           *bool            `json:"online"`
+	ProductId        string           `json:"productId"`
+	Pv               *string          `json:"pv"`
+	RoomId           *int64           `json:"roomId"`
+	RuntimeEnv       *json.RawMessage `json:"runtimeEnv"`
+	Setting          *json.RawMessage `json:"setting"`
+	Share            *bool            `json:"share"`
+	ShareExpiredTime *int64           `json:"shareExpiredTime"`
+	ShareTime        *int64           `json:"shareTime"`
+
+	// ShareType Open device sharing policy identifier.
+	ShareType            *HomeDeviceShareType       `json:"shareType"`
 	SilentOtaSwitch      *bool                      `json:"silentOtaSwitch"`
 	Sn                   *string                    `json:"sn"`
 	TimeZoneId           *string                    `json:"timeZoneId"`
 	TuyaMigrated         *bool                      `json:"tuyaMigrated"`
-	TuyaUuid             *json.RawMessage           `json:"tuyaUuid"`
+	TuyaUuid             *string                    `json:"tuyaUuid"`
+	AdditionalProperties map[string]json.RawMessage `json:"-"`
+}
+
+// HomeDeviceShareType Open device sharing policy identifier.
+type HomeDeviceShareType = string
+
+// HomeDeviceStatus defines model for HomeDeviceStatus.
+type HomeDeviceStatus struct {
+	DPS10001             *string                    `json:"10001"`
+	DPS10005             *string                    `json:"10005"`
+	DPS10007             *string                    `json:"10007"`
+	N10008               *InventoryBooleanOrInteger `json:"10008"`
+	DPS101               *int64                     `json:"101"`
+	DPS120               *int64                     `json:"120"`
+	DPS121               *int64                     `json:"121"`
+	DPS122               *int64                     `json:"122"`
+	DPS123               *int64                     `json:"123"`
+	DPS124               *int64                     `json:"124"`
+	DPS125               *int64                     `json:"125"`
+	DPS126               *int64                     `json:"126"`
+	DPS127               *int64                     `json:"127"`
+	DPS128               *int64                     `json:"128"`
+	DPS133               *int64                     `json:"133"`
+	DPS134               *int64                     `json:"134"`
+	DPS135               *int64                     `json:"135"`
+	DPS136               *int64                     `json:"136"`
+	DPS137               *int64                     `json:"137"`
+	DPS138               *int64                     `json:"138"`
+	DPS139               *int64                     `json:"139"`
+	DPS141               *int64                     `json:"141"`
+	DPS142               *int64                     `json:"142"`
+	N200                 *InventoryBooleanOrInteger `json:"200"`
+	N201                 *InventoryBooleanOrInteger `json:"201"`
+	N202                 *InventoryBooleanOrInteger `json:"202"`
+	DPS203               *int64                     `json:"203"`
+	DPS204               *int64                     `json:"204"`
+	DPS205               *int64                     `json:"205"`
+	N206                 *InventoryBooleanOrInteger `json:"206"`
+	DPS207               *int64                     `json:"207"`
+	DPS208               *int64                     `json:"208"`
+	DPS209               *int64                     `json:"209"`
+	DPS210               *int64                     `json:"210"`
+	N211                 *InventoryBooleanOrInteger `json:"211"`
+	N212                 *InventoryBooleanOrInteger `json:"212"`
+	DPS213               *int64                     `json:"213"`
+	DPS214               *int64                     `json:"214"`
+	DPS217               *int64                     `json:"217"`
+	DPS218               *int64                     `json:"218"`
+	N219                 *InventoryBooleanOrInteger `json:"219"`
+	DPS220               *int64                     `json:"220"`
+	DPS221               *int64                     `json:"221"`
+	DPS222               *int64                     `json:"222"`
+	N223                 *InventoryBooleanOrInteger `json:"223"`
+	DPS224               *int64                     `json:"224"`
+	N225                 *InventoryBooleanOrInteger `json:"225"`
+	N226                 *InventoryBooleanOrInteger `json:"226"`
+	N227                 *InventoryBooleanOrInteger `json:"227"`
+	N229                 *InventoryBooleanOrInteger `json:"229"`
+	DPS232               *int64                     `json:"232"`
 	AdditionalProperties map[string]json.RawMessage `json:"-"`
 }
 
@@ -90,21 +165,120 @@ type HomeRoom struct {
 	AdditionalProperties map[string]json.RawMessage `json:"-"`
 }
 
+// InventoryBooleanOrInteger defines model for InventoryBooleanOrInteger.
+type InventoryBooleanOrInteger struct {
+	union json.RawMessage
+}
+
+// InventoryBooleanOrInteger0 defines model for .
+type InventoryBooleanOrInteger0 = bool
+
+// InventoryBooleanOrInteger1 defines model for .
+type InventoryBooleanOrInteger1 = int64
+
+// InventoryOTA defines model for InventoryOTA.
+type InventoryOTA struct {
+	MqttOtaData          *InventoryOTAData          `json:"mqttOtaData"`
+	AdditionalProperties map[string]json.RawMessage `json:"-"`
+}
+
+// InventoryOTAData defines model for InventoryOTAData.
+type InventoryOTAData struct {
+	MqttOtaStatus        *InventoryOTAStatus        `json:"mqttOtaStatus"`
+	AdditionalProperties map[string]json.RawMessage `json:"-"`
+}
+
+// InventoryOTAStatus defines model for InventoryOTAStatus.
+type InventoryOTAStatus struct {
+	// Status Open OTA status; IDLE is present in the pinned reference inventory.
+	Status               *string                    `json:"status"`
+	AdditionalProperties map[string]json.RawMessage `json:"-"`
+}
+
+// InventoryProductInfo defines model for InventoryProductInfo.
+type InventoryProductInfo struct {
+	Ip                   *string                    `json:"ip"`
+	Mac                  *string                    `json:"mac"`
+	Oba                  *InventoryProductOBA       `json:"oba"`
+	PosixTimezone        *string                    `json:"posix_timezone"`
+	Rssi                 *int                       `json:"rssi"`
+	Sn                   *string                    `json:"sn"`
+	Ssid                 *string                    `json:"ssid"`
+	Timezone             *string                    `json:"timezone"`
+	AdditionalProperties map[string]json.RawMessage `json:"-"`
+}
+
+// InventoryProductOBA defines model for InventoryProductOBA.
+type InventoryProductOBA struct {
+	Bom                  *string                    `json:"bom"`
+	Featureset           *string                    `json:"featureset"`
+	Language             *string                    `json:"language"`
+	Location             *string                    `json:"location"`
+	Loglevel             *string                    `json:"loglevel"`
+	Logserver            *string                    `json:"logserver"`
+	Name                 *string                    `json:"name"`
+	Timezone             *string                    `json:"timezone"`
+	Wifiplan             *string                    `json:"wifiplan"`
+	AdditionalProperties map[string]json.RawMessage `json:"-"`
+}
+
+// InventoryProgramState defines model for InventoryProgramState.
+type InventoryProgramState struct {
+	F                    *string                    `json:"f"`
+	AdditionalProperties map[string]json.RawMessage `json:"-"`
+}
+
 // ProductCategory Open device category. Known values are robot.vacuum.cleaner, roborock.wetdryvac, roborock.wm, roborock.mower and UNKNOWN; future strings remain valid.
 type ProductCategory = string
 
 // ProductProperty defines model for ProductProperty.
 type ProductProperty struct {
-	Code                 *json.RawMessage           `json:"code"`
-	Desc                 *json.RawMessage           `json:"desc"`
-	Id                   *json.RawMessage           `json:"id"`
-	Mode                 *json.RawMessage           `json:"mode"`
-	Name                 *json.RawMessage           `json:"name"`
-	ProductProperty      *json.RawMessage           `json:"productProperty"`
-	Property             *json.RawMessage           `json:"property"`
-	Type                 *json.RawMessage           `json:"type"`
+	Code *string `json:"code"`
+	Desc *string `json:"desc"`
+
+	// Id Property IDs are strings on V1 products and integers on Q10/A01 reference inventories.
+	Id *ProductPropertyID `json:"id"`
+
+	// Mode Open property access mode.
+	Mode            *ProductPropertyMode `json:"mode"`
+	Name            *string              `json:"name"`
+	ProductProperty *json.RawMessage     `json:"productProperty"`
+
+	// Property JSON-encoded ProductPropertyConstraints, or the string null. DecodeProperty exposes the typed contents.
+	Property *string `json:"property"`
+
+	// Type Open property value kind.
+	Type                 *ProductPropertyType       `json:"type"`
 	AdditionalProperties map[string]json.RawMessage `json:"-"`
 }
+
+// ProductPropertyConstraints defines model for ProductPropertyConstraints.
+type ProductPropertyConstraints struct {
+	Max                  *float32                   `json:"max"`
+	Min                  *float32                   `json:"min"`
+	Range                *[]string                  `json:"range"`
+	Scale                *float32                   `json:"scale"`
+	Step                 *float32                   `json:"step"`
+	Unit                 *string                    `json:"unit"`
+	AdditionalProperties map[string]json.RawMessage `json:"-"`
+}
+
+// ProductPropertyID Property IDs are strings on V1 products and integers on Q10/A01 reference inventories.
+type ProductPropertyID struct {
+	union json.RawMessage
+}
+
+// ProductPropertyID0 defines model for .
+type ProductPropertyID0 = string
+
+// ProductPropertyID1 defines model for .
+type ProductPropertyID1 = int64
+
+// ProductPropertyMode Open property access mode.
+type ProductPropertyMode = string
+
+// ProductPropertyType Open property value kind.
+type ProductPropertyType = string
 
 // GetHomeDatav1Params defines parameters for GetHomeDatav1.
 type GetHomeDatav1Params struct {
@@ -926,6 +1100,824 @@ func (a HomeDevice) MarshalJSON() ([]byte, error) {
 	return json.Marshal(object)
 }
 
+// Getter for additional properties for HomeDeviceStatus. Returns the specified
+// element and whether it was found
+func (a HomeDeviceStatus) Get(fieldName string) (value json.RawMessage, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for HomeDeviceStatus
+func (a *HomeDeviceStatus) Set(fieldName string, value json.RawMessage) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for HomeDeviceStatus to handle AdditionalProperties
+func (a *HomeDeviceStatus) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["10001"]; found {
+		err = json.Unmarshal(raw, &a.DPS10001)
+		if err != nil {
+			return fmt.Errorf("error reading '10001': %w", err)
+		}
+		delete(object, "10001")
+	}
+
+	if raw, found := object["10005"]; found {
+		err = json.Unmarshal(raw, &a.DPS10005)
+		if err != nil {
+			return fmt.Errorf("error reading '10005': %w", err)
+		}
+		delete(object, "10005")
+	}
+
+	if raw, found := object["10007"]; found {
+		err = json.Unmarshal(raw, &a.DPS10007)
+		if err != nil {
+			return fmt.Errorf("error reading '10007': %w", err)
+		}
+		delete(object, "10007")
+	}
+
+	if raw, found := object["10008"]; found {
+		err = json.Unmarshal(raw, &a.N10008)
+		if err != nil {
+			return fmt.Errorf("error reading '10008': %w", err)
+		}
+		delete(object, "10008")
+	}
+
+	if raw, found := object["101"]; found {
+		err = json.Unmarshal(raw, &a.DPS101)
+		if err != nil {
+			return fmt.Errorf("error reading '101': %w", err)
+		}
+		delete(object, "101")
+	}
+
+	if raw, found := object["120"]; found {
+		err = json.Unmarshal(raw, &a.DPS120)
+		if err != nil {
+			return fmt.Errorf("error reading '120': %w", err)
+		}
+		delete(object, "120")
+	}
+
+	if raw, found := object["121"]; found {
+		err = json.Unmarshal(raw, &a.DPS121)
+		if err != nil {
+			return fmt.Errorf("error reading '121': %w", err)
+		}
+		delete(object, "121")
+	}
+
+	if raw, found := object["122"]; found {
+		err = json.Unmarshal(raw, &a.DPS122)
+		if err != nil {
+			return fmt.Errorf("error reading '122': %w", err)
+		}
+		delete(object, "122")
+	}
+
+	if raw, found := object["123"]; found {
+		err = json.Unmarshal(raw, &a.DPS123)
+		if err != nil {
+			return fmt.Errorf("error reading '123': %w", err)
+		}
+		delete(object, "123")
+	}
+
+	if raw, found := object["124"]; found {
+		err = json.Unmarshal(raw, &a.DPS124)
+		if err != nil {
+			return fmt.Errorf("error reading '124': %w", err)
+		}
+		delete(object, "124")
+	}
+
+	if raw, found := object["125"]; found {
+		err = json.Unmarshal(raw, &a.DPS125)
+		if err != nil {
+			return fmt.Errorf("error reading '125': %w", err)
+		}
+		delete(object, "125")
+	}
+
+	if raw, found := object["126"]; found {
+		err = json.Unmarshal(raw, &a.DPS126)
+		if err != nil {
+			return fmt.Errorf("error reading '126': %w", err)
+		}
+		delete(object, "126")
+	}
+
+	if raw, found := object["127"]; found {
+		err = json.Unmarshal(raw, &a.DPS127)
+		if err != nil {
+			return fmt.Errorf("error reading '127': %w", err)
+		}
+		delete(object, "127")
+	}
+
+	if raw, found := object["128"]; found {
+		err = json.Unmarshal(raw, &a.DPS128)
+		if err != nil {
+			return fmt.Errorf("error reading '128': %w", err)
+		}
+		delete(object, "128")
+	}
+
+	if raw, found := object["133"]; found {
+		err = json.Unmarshal(raw, &a.DPS133)
+		if err != nil {
+			return fmt.Errorf("error reading '133': %w", err)
+		}
+		delete(object, "133")
+	}
+
+	if raw, found := object["134"]; found {
+		err = json.Unmarshal(raw, &a.DPS134)
+		if err != nil {
+			return fmt.Errorf("error reading '134': %w", err)
+		}
+		delete(object, "134")
+	}
+
+	if raw, found := object["135"]; found {
+		err = json.Unmarshal(raw, &a.DPS135)
+		if err != nil {
+			return fmt.Errorf("error reading '135': %w", err)
+		}
+		delete(object, "135")
+	}
+
+	if raw, found := object["136"]; found {
+		err = json.Unmarshal(raw, &a.DPS136)
+		if err != nil {
+			return fmt.Errorf("error reading '136': %w", err)
+		}
+		delete(object, "136")
+	}
+
+	if raw, found := object["137"]; found {
+		err = json.Unmarshal(raw, &a.DPS137)
+		if err != nil {
+			return fmt.Errorf("error reading '137': %w", err)
+		}
+		delete(object, "137")
+	}
+
+	if raw, found := object["138"]; found {
+		err = json.Unmarshal(raw, &a.DPS138)
+		if err != nil {
+			return fmt.Errorf("error reading '138': %w", err)
+		}
+		delete(object, "138")
+	}
+
+	if raw, found := object["139"]; found {
+		err = json.Unmarshal(raw, &a.DPS139)
+		if err != nil {
+			return fmt.Errorf("error reading '139': %w", err)
+		}
+		delete(object, "139")
+	}
+
+	if raw, found := object["141"]; found {
+		err = json.Unmarshal(raw, &a.DPS141)
+		if err != nil {
+			return fmt.Errorf("error reading '141': %w", err)
+		}
+		delete(object, "141")
+	}
+
+	if raw, found := object["142"]; found {
+		err = json.Unmarshal(raw, &a.DPS142)
+		if err != nil {
+			return fmt.Errorf("error reading '142': %w", err)
+		}
+		delete(object, "142")
+	}
+
+	if raw, found := object["200"]; found {
+		err = json.Unmarshal(raw, &a.N200)
+		if err != nil {
+			return fmt.Errorf("error reading '200': %w", err)
+		}
+		delete(object, "200")
+	}
+
+	if raw, found := object["201"]; found {
+		err = json.Unmarshal(raw, &a.N201)
+		if err != nil {
+			return fmt.Errorf("error reading '201': %w", err)
+		}
+		delete(object, "201")
+	}
+
+	if raw, found := object["202"]; found {
+		err = json.Unmarshal(raw, &a.N202)
+		if err != nil {
+			return fmt.Errorf("error reading '202': %w", err)
+		}
+		delete(object, "202")
+	}
+
+	if raw, found := object["203"]; found {
+		err = json.Unmarshal(raw, &a.DPS203)
+		if err != nil {
+			return fmt.Errorf("error reading '203': %w", err)
+		}
+		delete(object, "203")
+	}
+
+	if raw, found := object["204"]; found {
+		err = json.Unmarshal(raw, &a.DPS204)
+		if err != nil {
+			return fmt.Errorf("error reading '204': %w", err)
+		}
+		delete(object, "204")
+	}
+
+	if raw, found := object["205"]; found {
+		err = json.Unmarshal(raw, &a.DPS205)
+		if err != nil {
+			return fmt.Errorf("error reading '205': %w", err)
+		}
+		delete(object, "205")
+	}
+
+	if raw, found := object["206"]; found {
+		err = json.Unmarshal(raw, &a.N206)
+		if err != nil {
+			return fmt.Errorf("error reading '206': %w", err)
+		}
+		delete(object, "206")
+	}
+
+	if raw, found := object["207"]; found {
+		err = json.Unmarshal(raw, &a.DPS207)
+		if err != nil {
+			return fmt.Errorf("error reading '207': %w", err)
+		}
+		delete(object, "207")
+	}
+
+	if raw, found := object["208"]; found {
+		err = json.Unmarshal(raw, &a.DPS208)
+		if err != nil {
+			return fmt.Errorf("error reading '208': %w", err)
+		}
+		delete(object, "208")
+	}
+
+	if raw, found := object["209"]; found {
+		err = json.Unmarshal(raw, &a.DPS209)
+		if err != nil {
+			return fmt.Errorf("error reading '209': %w", err)
+		}
+		delete(object, "209")
+	}
+
+	if raw, found := object["210"]; found {
+		err = json.Unmarshal(raw, &a.DPS210)
+		if err != nil {
+			return fmt.Errorf("error reading '210': %w", err)
+		}
+		delete(object, "210")
+	}
+
+	if raw, found := object["211"]; found {
+		err = json.Unmarshal(raw, &a.N211)
+		if err != nil {
+			return fmt.Errorf("error reading '211': %w", err)
+		}
+		delete(object, "211")
+	}
+
+	if raw, found := object["212"]; found {
+		err = json.Unmarshal(raw, &a.N212)
+		if err != nil {
+			return fmt.Errorf("error reading '212': %w", err)
+		}
+		delete(object, "212")
+	}
+
+	if raw, found := object["213"]; found {
+		err = json.Unmarshal(raw, &a.DPS213)
+		if err != nil {
+			return fmt.Errorf("error reading '213': %w", err)
+		}
+		delete(object, "213")
+	}
+
+	if raw, found := object["214"]; found {
+		err = json.Unmarshal(raw, &a.DPS214)
+		if err != nil {
+			return fmt.Errorf("error reading '214': %w", err)
+		}
+		delete(object, "214")
+	}
+
+	if raw, found := object["217"]; found {
+		err = json.Unmarshal(raw, &a.DPS217)
+		if err != nil {
+			return fmt.Errorf("error reading '217': %w", err)
+		}
+		delete(object, "217")
+	}
+
+	if raw, found := object["218"]; found {
+		err = json.Unmarshal(raw, &a.DPS218)
+		if err != nil {
+			return fmt.Errorf("error reading '218': %w", err)
+		}
+		delete(object, "218")
+	}
+
+	if raw, found := object["219"]; found {
+		err = json.Unmarshal(raw, &a.N219)
+		if err != nil {
+			return fmt.Errorf("error reading '219': %w", err)
+		}
+		delete(object, "219")
+	}
+
+	if raw, found := object["220"]; found {
+		err = json.Unmarshal(raw, &a.DPS220)
+		if err != nil {
+			return fmt.Errorf("error reading '220': %w", err)
+		}
+		delete(object, "220")
+	}
+
+	if raw, found := object["221"]; found {
+		err = json.Unmarshal(raw, &a.DPS221)
+		if err != nil {
+			return fmt.Errorf("error reading '221': %w", err)
+		}
+		delete(object, "221")
+	}
+
+	if raw, found := object["222"]; found {
+		err = json.Unmarshal(raw, &a.DPS222)
+		if err != nil {
+			return fmt.Errorf("error reading '222': %w", err)
+		}
+		delete(object, "222")
+	}
+
+	if raw, found := object["223"]; found {
+		err = json.Unmarshal(raw, &a.N223)
+		if err != nil {
+			return fmt.Errorf("error reading '223': %w", err)
+		}
+		delete(object, "223")
+	}
+
+	if raw, found := object["224"]; found {
+		err = json.Unmarshal(raw, &a.DPS224)
+		if err != nil {
+			return fmt.Errorf("error reading '224': %w", err)
+		}
+		delete(object, "224")
+	}
+
+	if raw, found := object["225"]; found {
+		err = json.Unmarshal(raw, &a.N225)
+		if err != nil {
+			return fmt.Errorf("error reading '225': %w", err)
+		}
+		delete(object, "225")
+	}
+
+	if raw, found := object["226"]; found {
+		err = json.Unmarshal(raw, &a.N226)
+		if err != nil {
+			return fmt.Errorf("error reading '226': %w", err)
+		}
+		delete(object, "226")
+	}
+
+	if raw, found := object["227"]; found {
+		err = json.Unmarshal(raw, &a.N227)
+		if err != nil {
+			return fmt.Errorf("error reading '227': %w", err)
+		}
+		delete(object, "227")
+	}
+
+	if raw, found := object["229"]; found {
+		err = json.Unmarshal(raw, &a.N229)
+		if err != nil {
+			return fmt.Errorf("error reading '229': %w", err)
+		}
+		delete(object, "229")
+	}
+
+	if raw, found := object["232"]; found {
+		err = json.Unmarshal(raw, &a.DPS232)
+		if err != nil {
+			return fmt.Errorf("error reading '232': %w", err)
+		}
+		delete(object, "232")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+		for fieldName, fieldBuf := range object {
+			var fieldVal json.RawMessage
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for HomeDeviceStatus to handle AdditionalProperties
+func (a HomeDeviceStatus) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	if a.DPS10001 != nil {
+		object["10001"], err = json.Marshal(a.DPS10001)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '10001': %w", err)
+		}
+	}
+
+	if a.DPS10005 != nil {
+		object["10005"], err = json.Marshal(a.DPS10005)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '10005': %w", err)
+		}
+	}
+
+	if a.DPS10007 != nil {
+		object["10007"], err = json.Marshal(a.DPS10007)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '10007': %w", err)
+		}
+	}
+
+	if a.N10008 != nil {
+		object["10008"], err = json.Marshal(a.N10008)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '10008': %w", err)
+		}
+	}
+
+	if a.DPS101 != nil {
+		object["101"], err = json.Marshal(a.DPS101)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '101': %w", err)
+		}
+	}
+
+	if a.DPS120 != nil {
+		object["120"], err = json.Marshal(a.DPS120)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '120': %w", err)
+		}
+	}
+
+	if a.DPS121 != nil {
+		object["121"], err = json.Marshal(a.DPS121)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '121': %w", err)
+		}
+	}
+
+	if a.DPS122 != nil {
+		object["122"], err = json.Marshal(a.DPS122)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '122': %w", err)
+		}
+	}
+
+	if a.DPS123 != nil {
+		object["123"], err = json.Marshal(a.DPS123)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '123': %w", err)
+		}
+	}
+
+	if a.DPS124 != nil {
+		object["124"], err = json.Marshal(a.DPS124)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '124': %w", err)
+		}
+	}
+
+	if a.DPS125 != nil {
+		object["125"], err = json.Marshal(a.DPS125)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '125': %w", err)
+		}
+	}
+
+	if a.DPS126 != nil {
+		object["126"], err = json.Marshal(a.DPS126)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '126': %w", err)
+		}
+	}
+
+	if a.DPS127 != nil {
+		object["127"], err = json.Marshal(a.DPS127)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '127': %w", err)
+		}
+	}
+
+	if a.DPS128 != nil {
+		object["128"], err = json.Marshal(a.DPS128)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '128': %w", err)
+		}
+	}
+
+	if a.DPS133 != nil {
+		object["133"], err = json.Marshal(a.DPS133)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '133': %w", err)
+		}
+	}
+
+	if a.DPS134 != nil {
+		object["134"], err = json.Marshal(a.DPS134)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '134': %w", err)
+		}
+	}
+
+	if a.DPS135 != nil {
+		object["135"], err = json.Marshal(a.DPS135)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '135': %w", err)
+		}
+	}
+
+	if a.DPS136 != nil {
+		object["136"], err = json.Marshal(a.DPS136)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '136': %w", err)
+		}
+	}
+
+	if a.DPS137 != nil {
+		object["137"], err = json.Marshal(a.DPS137)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '137': %w", err)
+		}
+	}
+
+	if a.DPS138 != nil {
+		object["138"], err = json.Marshal(a.DPS138)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '138': %w", err)
+		}
+	}
+
+	if a.DPS139 != nil {
+		object["139"], err = json.Marshal(a.DPS139)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '139': %w", err)
+		}
+	}
+
+	if a.DPS141 != nil {
+		object["141"], err = json.Marshal(a.DPS141)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '141': %w", err)
+		}
+	}
+
+	if a.DPS142 != nil {
+		object["142"], err = json.Marshal(a.DPS142)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '142': %w", err)
+		}
+	}
+
+	if a.N200 != nil {
+		object["200"], err = json.Marshal(a.N200)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '200': %w", err)
+		}
+	}
+
+	if a.N201 != nil {
+		object["201"], err = json.Marshal(a.N201)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '201': %w", err)
+		}
+	}
+
+	if a.N202 != nil {
+		object["202"], err = json.Marshal(a.N202)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '202': %w", err)
+		}
+	}
+
+	if a.DPS203 != nil {
+		object["203"], err = json.Marshal(a.DPS203)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '203': %w", err)
+		}
+	}
+
+	if a.DPS204 != nil {
+		object["204"], err = json.Marshal(a.DPS204)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '204': %w", err)
+		}
+	}
+
+	if a.DPS205 != nil {
+		object["205"], err = json.Marshal(a.DPS205)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '205': %w", err)
+		}
+	}
+
+	if a.N206 != nil {
+		object["206"], err = json.Marshal(a.N206)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '206': %w", err)
+		}
+	}
+
+	if a.DPS207 != nil {
+		object["207"], err = json.Marshal(a.DPS207)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '207': %w", err)
+		}
+	}
+
+	if a.DPS208 != nil {
+		object["208"], err = json.Marshal(a.DPS208)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '208': %w", err)
+		}
+	}
+
+	if a.DPS209 != nil {
+		object["209"], err = json.Marshal(a.DPS209)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '209': %w", err)
+		}
+	}
+
+	if a.DPS210 != nil {
+		object["210"], err = json.Marshal(a.DPS210)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '210': %w", err)
+		}
+	}
+
+	if a.N211 != nil {
+		object["211"], err = json.Marshal(a.N211)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '211': %w", err)
+		}
+	}
+
+	if a.N212 != nil {
+		object["212"], err = json.Marshal(a.N212)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '212': %w", err)
+		}
+	}
+
+	if a.DPS213 != nil {
+		object["213"], err = json.Marshal(a.DPS213)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '213': %w", err)
+		}
+	}
+
+	if a.DPS214 != nil {
+		object["214"], err = json.Marshal(a.DPS214)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '214': %w", err)
+		}
+	}
+
+	if a.DPS217 != nil {
+		object["217"], err = json.Marshal(a.DPS217)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '217': %w", err)
+		}
+	}
+
+	if a.DPS218 != nil {
+		object["218"], err = json.Marshal(a.DPS218)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '218': %w", err)
+		}
+	}
+
+	if a.N219 != nil {
+		object["219"], err = json.Marshal(a.N219)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '219': %w", err)
+		}
+	}
+
+	if a.DPS220 != nil {
+		object["220"], err = json.Marshal(a.DPS220)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '220': %w", err)
+		}
+	}
+
+	if a.DPS221 != nil {
+		object["221"], err = json.Marshal(a.DPS221)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '221': %w", err)
+		}
+	}
+
+	if a.DPS222 != nil {
+		object["222"], err = json.Marshal(a.DPS222)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '222': %w", err)
+		}
+	}
+
+	if a.N223 != nil {
+		object["223"], err = json.Marshal(a.N223)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '223': %w", err)
+		}
+	}
+
+	if a.DPS224 != nil {
+		object["224"], err = json.Marshal(a.DPS224)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '224': %w", err)
+		}
+	}
+
+	if a.N225 != nil {
+		object["225"], err = json.Marshal(a.N225)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '225': %w", err)
+		}
+	}
+
+	if a.N226 != nil {
+		object["226"], err = json.Marshal(a.N226)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '226': %w", err)
+		}
+	}
+
+	if a.N227 != nil {
+		object["227"], err = json.Marshal(a.N227)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '227': %w", err)
+		}
+	}
+
+	if a.N229 != nil {
+		object["229"], err = json.Marshal(a.N229)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '229': %w", err)
+		}
+	}
+
+	if a.DPS232 != nil {
+		object["232"], err = json.Marshal(a.DPS232)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '232': %w", err)
+		}
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
 // Getter for additional properties for HomeProduct. Returns the specified
 // element and whether it was found
 func (a HomeProduct) Get(fieldName string) (value json.RawMessage, found bool) {
@@ -1185,6 +2177,639 @@ func (a HomeRoom) MarshalJSON() ([]byte, error) {
 	return json.Marshal(object)
 }
 
+// Getter for additional properties for InventoryOTA. Returns the specified
+// element and whether it was found
+func (a InventoryOTA) Get(fieldName string) (value json.RawMessage, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for InventoryOTA
+func (a *InventoryOTA) Set(fieldName string, value json.RawMessage) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for InventoryOTA to handle AdditionalProperties
+func (a *InventoryOTA) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["mqttOtaData"]; found {
+		err = json.Unmarshal(raw, &a.MqttOtaData)
+		if err != nil {
+			return fmt.Errorf("error reading 'mqttOtaData': %w", err)
+		}
+		delete(object, "mqttOtaData")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+		for fieldName, fieldBuf := range object {
+			var fieldVal json.RawMessage
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for InventoryOTA to handle AdditionalProperties
+func (a InventoryOTA) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	if a.MqttOtaData != nil {
+		object["mqttOtaData"], err = json.Marshal(a.MqttOtaData)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'mqttOtaData': %w", err)
+		}
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for InventoryOTAData. Returns the specified
+// element and whether it was found
+func (a InventoryOTAData) Get(fieldName string) (value json.RawMessage, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for InventoryOTAData
+func (a *InventoryOTAData) Set(fieldName string, value json.RawMessage) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for InventoryOTAData to handle AdditionalProperties
+func (a *InventoryOTAData) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["mqttOtaStatus"]; found {
+		err = json.Unmarshal(raw, &a.MqttOtaStatus)
+		if err != nil {
+			return fmt.Errorf("error reading 'mqttOtaStatus': %w", err)
+		}
+		delete(object, "mqttOtaStatus")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+		for fieldName, fieldBuf := range object {
+			var fieldVal json.RawMessage
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for InventoryOTAData to handle AdditionalProperties
+func (a InventoryOTAData) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	if a.MqttOtaStatus != nil {
+		object["mqttOtaStatus"], err = json.Marshal(a.MqttOtaStatus)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'mqttOtaStatus': %w", err)
+		}
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for InventoryOTAStatus. Returns the specified
+// element and whether it was found
+func (a InventoryOTAStatus) Get(fieldName string) (value json.RawMessage, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for InventoryOTAStatus
+func (a *InventoryOTAStatus) Set(fieldName string, value json.RawMessage) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for InventoryOTAStatus to handle AdditionalProperties
+func (a *InventoryOTAStatus) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["status"]; found {
+		err = json.Unmarshal(raw, &a.Status)
+		if err != nil {
+			return fmt.Errorf("error reading 'status': %w", err)
+		}
+		delete(object, "status")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+		for fieldName, fieldBuf := range object {
+			var fieldVal json.RawMessage
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for InventoryOTAStatus to handle AdditionalProperties
+func (a InventoryOTAStatus) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	if a.Status != nil {
+		object["status"], err = json.Marshal(a.Status)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'status': %w", err)
+		}
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for InventoryProductInfo. Returns the specified
+// element and whether it was found
+func (a InventoryProductInfo) Get(fieldName string) (value json.RawMessage, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for InventoryProductInfo
+func (a *InventoryProductInfo) Set(fieldName string, value json.RawMessage) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for InventoryProductInfo to handle AdditionalProperties
+func (a *InventoryProductInfo) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["ip"]; found {
+		err = json.Unmarshal(raw, &a.Ip)
+		if err != nil {
+			return fmt.Errorf("error reading 'ip': %w", err)
+		}
+		delete(object, "ip")
+	}
+
+	if raw, found := object["mac"]; found {
+		err = json.Unmarshal(raw, &a.Mac)
+		if err != nil {
+			return fmt.Errorf("error reading 'mac': %w", err)
+		}
+		delete(object, "mac")
+	}
+
+	if raw, found := object["oba"]; found {
+		err = json.Unmarshal(raw, &a.Oba)
+		if err != nil {
+			return fmt.Errorf("error reading 'oba': %w", err)
+		}
+		delete(object, "oba")
+	}
+
+	if raw, found := object["posix_timezone"]; found {
+		err = json.Unmarshal(raw, &a.PosixTimezone)
+		if err != nil {
+			return fmt.Errorf("error reading 'posix_timezone': %w", err)
+		}
+		delete(object, "posix_timezone")
+	}
+
+	if raw, found := object["rssi"]; found {
+		err = json.Unmarshal(raw, &a.Rssi)
+		if err != nil {
+			return fmt.Errorf("error reading 'rssi': %w", err)
+		}
+		delete(object, "rssi")
+	}
+
+	if raw, found := object["sn"]; found {
+		err = json.Unmarshal(raw, &a.Sn)
+		if err != nil {
+			return fmt.Errorf("error reading 'sn': %w", err)
+		}
+		delete(object, "sn")
+	}
+
+	if raw, found := object["ssid"]; found {
+		err = json.Unmarshal(raw, &a.Ssid)
+		if err != nil {
+			return fmt.Errorf("error reading 'ssid': %w", err)
+		}
+		delete(object, "ssid")
+	}
+
+	if raw, found := object["timezone"]; found {
+		err = json.Unmarshal(raw, &a.Timezone)
+		if err != nil {
+			return fmt.Errorf("error reading 'timezone': %w", err)
+		}
+		delete(object, "timezone")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+		for fieldName, fieldBuf := range object {
+			var fieldVal json.RawMessage
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for InventoryProductInfo to handle AdditionalProperties
+func (a InventoryProductInfo) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	if a.Ip != nil {
+		object["ip"], err = json.Marshal(a.Ip)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'ip': %w", err)
+		}
+	}
+
+	if a.Mac != nil {
+		object["mac"], err = json.Marshal(a.Mac)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'mac': %w", err)
+		}
+	}
+
+	if a.Oba != nil {
+		object["oba"], err = json.Marshal(a.Oba)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'oba': %w", err)
+		}
+	}
+
+	if a.PosixTimezone != nil {
+		object["posix_timezone"], err = json.Marshal(a.PosixTimezone)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'posix_timezone': %w", err)
+		}
+	}
+
+	if a.Rssi != nil {
+		object["rssi"], err = json.Marshal(a.Rssi)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'rssi': %w", err)
+		}
+	}
+
+	if a.Sn != nil {
+		object["sn"], err = json.Marshal(a.Sn)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'sn': %w", err)
+		}
+	}
+
+	if a.Ssid != nil {
+		object["ssid"], err = json.Marshal(a.Ssid)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'ssid': %w", err)
+		}
+	}
+
+	if a.Timezone != nil {
+		object["timezone"], err = json.Marshal(a.Timezone)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'timezone': %w", err)
+		}
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for InventoryProductOBA. Returns the specified
+// element and whether it was found
+func (a InventoryProductOBA) Get(fieldName string) (value json.RawMessage, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for InventoryProductOBA
+func (a *InventoryProductOBA) Set(fieldName string, value json.RawMessage) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for InventoryProductOBA to handle AdditionalProperties
+func (a *InventoryProductOBA) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["bom"]; found {
+		err = json.Unmarshal(raw, &a.Bom)
+		if err != nil {
+			return fmt.Errorf("error reading 'bom': %w", err)
+		}
+		delete(object, "bom")
+	}
+
+	if raw, found := object["featureset"]; found {
+		err = json.Unmarshal(raw, &a.Featureset)
+		if err != nil {
+			return fmt.Errorf("error reading 'featureset': %w", err)
+		}
+		delete(object, "featureset")
+	}
+
+	if raw, found := object["language"]; found {
+		err = json.Unmarshal(raw, &a.Language)
+		if err != nil {
+			return fmt.Errorf("error reading 'language': %w", err)
+		}
+		delete(object, "language")
+	}
+
+	if raw, found := object["location"]; found {
+		err = json.Unmarshal(raw, &a.Location)
+		if err != nil {
+			return fmt.Errorf("error reading 'location': %w", err)
+		}
+		delete(object, "location")
+	}
+
+	if raw, found := object["loglevel"]; found {
+		err = json.Unmarshal(raw, &a.Loglevel)
+		if err != nil {
+			return fmt.Errorf("error reading 'loglevel': %w", err)
+		}
+		delete(object, "loglevel")
+	}
+
+	if raw, found := object["logserver"]; found {
+		err = json.Unmarshal(raw, &a.Logserver)
+		if err != nil {
+			return fmt.Errorf("error reading 'logserver': %w", err)
+		}
+		delete(object, "logserver")
+	}
+
+	if raw, found := object["name"]; found {
+		err = json.Unmarshal(raw, &a.Name)
+		if err != nil {
+			return fmt.Errorf("error reading 'name': %w", err)
+		}
+		delete(object, "name")
+	}
+
+	if raw, found := object["timezone"]; found {
+		err = json.Unmarshal(raw, &a.Timezone)
+		if err != nil {
+			return fmt.Errorf("error reading 'timezone': %w", err)
+		}
+		delete(object, "timezone")
+	}
+
+	if raw, found := object["wifiplan"]; found {
+		err = json.Unmarshal(raw, &a.Wifiplan)
+		if err != nil {
+			return fmt.Errorf("error reading 'wifiplan': %w", err)
+		}
+		delete(object, "wifiplan")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+		for fieldName, fieldBuf := range object {
+			var fieldVal json.RawMessage
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for InventoryProductOBA to handle AdditionalProperties
+func (a InventoryProductOBA) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	if a.Bom != nil {
+		object["bom"], err = json.Marshal(a.Bom)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'bom': %w", err)
+		}
+	}
+
+	if a.Featureset != nil {
+		object["featureset"], err = json.Marshal(a.Featureset)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'featureset': %w", err)
+		}
+	}
+
+	if a.Language != nil {
+		object["language"], err = json.Marshal(a.Language)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'language': %w", err)
+		}
+	}
+
+	if a.Location != nil {
+		object["location"], err = json.Marshal(a.Location)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'location': %w", err)
+		}
+	}
+
+	if a.Loglevel != nil {
+		object["loglevel"], err = json.Marshal(a.Loglevel)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'loglevel': %w", err)
+		}
+	}
+
+	if a.Logserver != nil {
+		object["logserver"], err = json.Marshal(a.Logserver)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'logserver': %w", err)
+		}
+	}
+
+	if a.Name != nil {
+		object["name"], err = json.Marshal(a.Name)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'name': %w", err)
+		}
+	}
+
+	if a.Timezone != nil {
+		object["timezone"], err = json.Marshal(a.Timezone)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'timezone': %w", err)
+		}
+	}
+
+	if a.Wifiplan != nil {
+		object["wifiplan"], err = json.Marshal(a.Wifiplan)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'wifiplan': %w", err)
+		}
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for InventoryProgramState. Returns the specified
+// element and whether it was found
+func (a InventoryProgramState) Get(fieldName string) (value json.RawMessage, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for InventoryProgramState
+func (a *InventoryProgramState) Set(fieldName string, value json.RawMessage) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for InventoryProgramState to handle AdditionalProperties
+func (a *InventoryProgramState) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["f"]; found {
+		err = json.Unmarshal(raw, &a.F)
+		if err != nil {
+			return fmt.Errorf("error reading 'f': %w", err)
+		}
+		delete(object, "f")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+		for fieldName, fieldBuf := range object {
+			var fieldVal json.RawMessage
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for InventoryProgramState to handle AdditionalProperties
+func (a InventoryProgramState) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	if a.F != nil {
+		object["f"], err = json.Marshal(a.F)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'f': %w", err)
+		}
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
 // Getter for additional properties for ProductProperty. Returns the specified
 // element and whether it was found
 func (a ProductProperty) Get(fieldName string) (value json.RawMessage, found bool) {
@@ -1356,4 +2981,271 @@ func (a ProductProperty) MarshalJSON() ([]byte, error) {
 		}
 	}
 	return json.Marshal(object)
+}
+
+// Getter for additional properties for ProductPropertyConstraints. Returns the specified
+// element and whether it was found
+func (a ProductPropertyConstraints) Get(fieldName string) (value json.RawMessage, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for ProductPropertyConstraints
+func (a *ProductPropertyConstraints) Set(fieldName string, value json.RawMessage) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for ProductPropertyConstraints to handle AdditionalProperties
+func (a *ProductPropertyConstraints) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["max"]; found {
+		err = json.Unmarshal(raw, &a.Max)
+		if err != nil {
+			return fmt.Errorf("error reading 'max': %w", err)
+		}
+		delete(object, "max")
+	}
+
+	if raw, found := object["min"]; found {
+		err = json.Unmarshal(raw, &a.Min)
+		if err != nil {
+			return fmt.Errorf("error reading 'min': %w", err)
+		}
+		delete(object, "min")
+	}
+
+	if raw, found := object["range"]; found {
+		err = json.Unmarshal(raw, &a.Range)
+		if err != nil {
+			return fmt.Errorf("error reading 'range': %w", err)
+		}
+		delete(object, "range")
+	}
+
+	if raw, found := object["scale"]; found {
+		err = json.Unmarshal(raw, &a.Scale)
+		if err != nil {
+			return fmt.Errorf("error reading 'scale': %w", err)
+		}
+		delete(object, "scale")
+	}
+
+	if raw, found := object["step"]; found {
+		err = json.Unmarshal(raw, &a.Step)
+		if err != nil {
+			return fmt.Errorf("error reading 'step': %w", err)
+		}
+		delete(object, "step")
+	}
+
+	if raw, found := object["unit"]; found {
+		err = json.Unmarshal(raw, &a.Unit)
+		if err != nil {
+			return fmt.Errorf("error reading 'unit': %w", err)
+		}
+		delete(object, "unit")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+		for fieldName, fieldBuf := range object {
+			var fieldVal json.RawMessage
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for ProductPropertyConstraints to handle AdditionalProperties
+func (a ProductPropertyConstraints) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	if a.Max != nil {
+		object["max"], err = json.Marshal(a.Max)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'max': %w", err)
+		}
+	}
+
+	if a.Min != nil {
+		object["min"], err = json.Marshal(a.Min)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'min': %w", err)
+		}
+	}
+
+	if a.Range != nil {
+		object["range"], err = json.Marshal(a.Range)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'range': %w", err)
+		}
+	}
+
+	if a.Scale != nil {
+		object["scale"], err = json.Marshal(a.Scale)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'scale': %w", err)
+		}
+	}
+
+	if a.Step != nil {
+		object["step"], err = json.Marshal(a.Step)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'step': %w", err)
+		}
+	}
+
+	if a.Unit != nil {
+		object["unit"], err = json.Marshal(a.Unit)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'unit': %w", err)
+		}
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// AsInventoryBooleanOrInteger0 returns the union data inside the InventoryBooleanOrInteger as a InventoryBooleanOrInteger0
+func (t InventoryBooleanOrInteger) AsInventoryBooleanOrInteger0() (InventoryBooleanOrInteger0, error) {
+	var body InventoryBooleanOrInteger0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromInventoryBooleanOrInteger0 overwrites any union data inside the InventoryBooleanOrInteger as the provided InventoryBooleanOrInteger0
+func (t *InventoryBooleanOrInteger) FromInventoryBooleanOrInteger0(v InventoryBooleanOrInteger0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeInventoryBooleanOrInteger0 performs a merge with any union data inside the InventoryBooleanOrInteger, using the provided InventoryBooleanOrInteger0
+func (t *InventoryBooleanOrInteger) MergeInventoryBooleanOrInteger0(v InventoryBooleanOrInteger0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsInventoryBooleanOrInteger1 returns the union data inside the InventoryBooleanOrInteger as a InventoryBooleanOrInteger1
+func (t InventoryBooleanOrInteger) AsInventoryBooleanOrInteger1() (InventoryBooleanOrInteger1, error) {
+	var body InventoryBooleanOrInteger1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromInventoryBooleanOrInteger1 overwrites any union data inside the InventoryBooleanOrInteger as the provided InventoryBooleanOrInteger1
+func (t *InventoryBooleanOrInteger) FromInventoryBooleanOrInteger1(v InventoryBooleanOrInteger1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeInventoryBooleanOrInteger1 performs a merge with any union data inside the InventoryBooleanOrInteger, using the provided InventoryBooleanOrInteger1
+func (t *InventoryBooleanOrInteger) MergeInventoryBooleanOrInteger1(v InventoryBooleanOrInteger1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t InventoryBooleanOrInteger) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *InventoryBooleanOrInteger) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsProductPropertyID0 returns the union data inside the ProductPropertyID as a ProductPropertyID0
+func (t ProductPropertyID) AsProductPropertyID0() (ProductPropertyID0, error) {
+	var body ProductPropertyID0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromProductPropertyID0 overwrites any union data inside the ProductPropertyID as the provided ProductPropertyID0
+func (t *ProductPropertyID) FromProductPropertyID0(v ProductPropertyID0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeProductPropertyID0 performs a merge with any union data inside the ProductPropertyID, using the provided ProductPropertyID0
+func (t *ProductPropertyID) MergeProductPropertyID0(v ProductPropertyID0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsProductPropertyID1 returns the union data inside the ProductPropertyID as a ProductPropertyID1
+func (t ProductPropertyID) AsProductPropertyID1() (ProductPropertyID1, error) {
+	var body ProductPropertyID1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromProductPropertyID1 overwrites any union data inside the ProductPropertyID as the provided ProductPropertyID1
+func (t *ProductPropertyID) FromProductPropertyID1(v ProductPropertyID1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeProductPropertyID1 performs a merge with any union data inside the ProductPropertyID, using the provided ProductPropertyID1
+func (t *ProductPropertyID) MergeProductPropertyID1(v ProductPropertyID1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t ProductPropertyID) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *ProductPropertyID) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
 }
