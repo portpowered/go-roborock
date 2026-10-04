@@ -21,6 +21,11 @@ func (s *DeviceSession) cleanFamilyRooms(
 		return CommandAcknowledgement{}, unsupportedMap("CleanSegments repeats")
 	}
 
+	err := validateFamilyRoomIDs(s.deviceFamily(), request.Segments)
+	if err != nil {
+		return CommandAcknowledgement{}, err
+	}
+
 	transport, err := s.mapsTransport("CleanSegments")
 	if err != nil {
 		return CommandAcknowledgement{}, err
@@ -31,6 +36,25 @@ func (s *DeviceSession) cleanFamilyRooms(
 	}
 
 	return cleanQ7Rooms(ctx, transport, request.Segments)
+}
+
+func validateFamilyRoomIDs(family DeviceFamily, segments []int64) error {
+	minimum := int64(protocol.B01Q7RoomIDMinimum)
+	maximum := int64(protocol.B01Q7RoomIDMaximum)
+
+	if family == FamilyB01Q10 {
+		minimum = int64(protocol.B01Q10RoomIDMinimum)
+		maximum = int64(protocol.B01Q10RoomIDMaximum)
+	}
+
+	for _, id := range segments {
+		if id < minimum || id > maximum {
+			return roborockerrors.New(roborockerrors.InvalidArgument, "CleanSegments",
+				"room ID outside the family map identifier representation", nil)
+		}
+	}
+
+	return nil
 }
 
 func cleanQ10Rooms(ctx context.Context, transport *mapProvider, segments []int64) (CommandAcknowledgement, error) {
@@ -48,20 +72,8 @@ func cleanQ10Rooms(ctx context.Context, transport *mapProvider, segments []int64
 }
 
 func cleanQ7Rooms(ctx context.Context, transport *mapProvider, segments []int64) (CommandAcknowledgement, error) {
-	ids := make([]int, 0, len(segments))
-
-	for _, id := range segments {
-		converted := int(id)
-		if id < 0 || int64(converted) != id {
-			return CommandAcknowledgement{}, roborockerrors.New(roborockerrors.InvalidArgument,
-				"CleanSegments", "room ID outside supported range", nil)
-		}
-
-		ids = append(ids, converted)
-	}
-
 	parameters, err := json.Marshal(dependencymodels.Q7RoomCleanRequest{
-		CleanType: protocol.B01Q7RoomCleanType, CtrlValue: protocol.B01Q7CleanStart, RoomIds: ids})
+		CleanType: protocol.B01Q7RoomCleanType, CtrlValue: protocol.B01Q7CleanStart, RoomIds: segments})
 	if err != nil {
 		return CommandAcknowledgement{}, operationError("CleanSegments", err)
 	}
