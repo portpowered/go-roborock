@@ -108,14 +108,35 @@ func findResponseSchema(schemas map[string]*openapi3.Schema, key string) *openap
 	}
 
 	for route, candidate := range schemas {
-		prefix, _, hasID := strings.Cut(route, "{homeID}")
-		if hasID && strings.HasPrefix(key, prefix) {
-			id := strings.TrimPrefix(key, prefix)
-			if id != "" && !strings.Contains(id, "/") {
-				return candidate
-			}
+		if matchesRoute(route, key) {
+			return candidate
 		}
 	}
 
 	return nil
+}
+
+func matchesRoute(template, key string) bool {
+	expected := strings.Split(template, "/")
+	actual := strings.Split(key, "/")
+
+	if len(expected) != len(actual) {
+		return false
+	}
+
+	for index, segment := range expected {
+		if strings.HasPrefix(segment, "{") && strings.HasSuffix(segment, "}") {
+			if actual[index] == "" {
+				return false
+			}
+
+			continue
+		}
+
+		if segment != actual[index] {
+			return false
+		}
+	}
+
+	return true
 }
