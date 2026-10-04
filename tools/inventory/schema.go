@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"maps"
 	"os"
 	"path/filepath"
 	"sort"
@@ -286,6 +287,10 @@ func collectKnownOwners(result schemaIndex, output, file string, schemas map[str
 			pointer := "#/components/schemas/" + escape(name) + "/x-known-values/" + escape(constant)
 			known[normalized(constant)] = schemaOwner{filepath.ToSlash(file), pointer}
 		}
+	}
+
+	if output == "internal/mapmodel/models.gen.go" {
+		maps.Copy(result["pkg/roborock/maps_models.gen.go"], known)
 	}
 
 	result[strings.TrimSuffix(strings.TrimSuffix(output, ".gen.go"), "_models")+"_constants.gen.go"] = known

@@ -3,7 +3,7 @@
   "info": {
     "title": "Roborock map commands and binary pushes",
     "version": "1.0.0",
-    "description": "Map retrieval requests and family-specific results. Q10 current-map reads use DP102 empty object only; DP61 op:get can initiate movement and is excluded."
+    "description": "Map retrieval requests and family-specific results. Q10 current-map reads use DP102 empty object only; DP61 op:get can initiate movement and is excluded. Known operations bind decoded encrypted-frame payloads to method and datapoint variants; generic carriers preserve future firmware fields."
   },
   "defaultContentType": "application/json",
   "channels": {
@@ -12,6 +12,18 @@
       "messages": {
         "MapsBinaryPayload": {
           "$ref": "#/components/messages/MapsBinaryPayload"
+        },
+        "MapsQ7BinaryPush": {
+          "$ref": "#/components/messages/MapsQ7BinaryPush"
+        },
+        "MapsQ10CurrentMapPush": {
+          "$ref": "#/components/messages/MapsQ10CurrentMapPush"
+        },
+        "MapsQ10TracePush": {
+          "$ref": "#/components/messages/MapsQ10TracePush"
+        },
+        "MapsV1BinaryPush": {
+          "$ref": "#/components/messages/MapsV1BinaryPush"
         }
       },
       "parameters": {
@@ -23,6 +35,77 @@
         },
         "endpoint": {
           "description": "Session endpoint identifier."
+        }
+      }
+    },
+    "responses": {
+      "address": "rr/m/o/{username}/{endpoint}/{deviceId}",
+      "parameters": {
+        "username": {
+          "description": "Account MQTT topic username."
+        },
+        "endpoint": {
+          "description": "Session endpoint identifier."
+        },
+        "deviceId": {
+          "description": "Device identifier."
+        }
+      },
+      "messages": {
+        "MapsQ7ListReply": {
+          "$ref": "#/components/messages/MapsQ7ListReply"
+        },
+        "MapsQ10ListReply": {
+          "$ref": "#/components/messages/MapsQ10ListReply"
+        },
+        "ListV1MapsReply": {
+          "$ref": "#/components/messages/ListV1MapsReply"
+        },
+        "GetV1RoomsReply": {
+          "$ref": "#/components/messages/GetV1RoomsReply"
+        },
+        "LoadV1MapReply": {
+          "$ref": "#/components/messages/LoadV1MapReply"
+        }
+      }
+    },
+    "requests": {
+      "address": "rr/m/i/{username}/{endpoint}/{deviceId}",
+      "parameters": {
+        "username": {
+          "description": "Account MQTT topic username."
+        },
+        "endpoint": {
+          "description": "Session endpoint identifier."
+        },
+        "deviceId": {
+          "description": "Device identifier."
+        }
+      },
+      "messages": {
+        "MapsQ7ListEnvelope": {
+          "$ref": "#/components/messages/MapsQ7ListEnvelope"
+        },
+        "MapsQ7UploadEnvelope": {
+          "$ref": "#/components/messages/MapsQ7UploadEnvelope"
+        },
+        "MapsQ10ListEnvelope": {
+          "$ref": "#/components/messages/MapsQ10ListEnvelope"
+        },
+        "MapsQ10ReadEnvelope": {
+          "$ref": "#/components/messages/MapsQ10ReadEnvelope"
+        },
+        "RequestV1MapRequest": {
+          "$ref": "#/components/messages/RequestV1MapRequest"
+        },
+        "ListV1MapsRequest": {
+          "$ref": "#/components/messages/ListV1MapsRequest"
+        },
+        "GetV1RoomsRequest": {
+          "$ref": "#/components/messages/GetV1RoomsRequest"
+        },
+        "LoadV1MapRequest": {
+          "$ref": "#/components/messages/LoadV1MapRequest"
         }
       }
     }
@@ -37,7 +120,307 @@
         {
           "name": "maps"
         }
+      ],
+      "messages": [
+        {
+          "$ref": "#/channels/maps/messages/MapsBinaryPayload"
+        }
+      ],
+      "description": "Carries future firmware payloads outside the verified operation variants."
+    },
+    "RequestQ7MapList": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/MapsQ7ListEnvelope"
+        }
+      ],
+      "summary": "Requests the Q7 saved-map list",
+      "description": "Requests the Q7 saved-map list.",
+      "tags": [
+        {
+          "name": "maps"
+        }
+      ],
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/MapsQ7ListReply"
+          }
+        ]
+      }
+    },
+    "UploadQ7Map": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/MapsQ7UploadEnvelope"
+        }
+      ],
+      "summary": "Requests a Q7 map by identifier",
+      "description": "Requests a Q7 map by identifier.",
+      "tags": [
+        {
+          "name": "maps"
+        }
       ]
+    },
+    "QueryQ10MapList": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/MapsQ10ListEnvelope"
+        }
+      ],
+      "summary": "Requests Q10 map metadata using read-only op list",
+      "description": "Requests Q10 map metadata and observes an uncorrelated list reply without a freshness guarantee.",
+      "tags": [
+        {
+          "name": "maps"
+        }
+      ],
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/MapsQ10ListReply"
+          }
+        ]
+      }
+    },
+    "ReceiveQ10MapList": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/responses"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/responses/messages/MapsQ10ListReply"
+        }
+      ],
+      "summary": "Reports the next observed Q10 map list without a freshness guarantee",
+      "description": "Reports the next observed Q10 map list without a freshness guarantee.",
+      "tags": [
+        {
+          "name": "maps"
+        }
+      ]
+    },
+    "RequestQ10CurrentMap": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/MapsQ10ReadEnvelope"
+        }
+      ],
+      "summary": "Requests the next observed Q10 current map without a freshness guarantee",
+      "description": "Requests the next observed Q10 current map without a freshness guarantee.",
+      "tags": [
+        {
+          "name": "maps"
+        }
+      ]
+    },
+    "RequestQ10Trace": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/MapsQ10ReadEnvelope"
+        }
+      ],
+      "summary": "Requests the next observed Q10 trace without a freshness guarantee",
+      "description": "Requests the next observed Q10 trace without a freshness guarantee.",
+      "tags": [
+        {
+          "name": "maps"
+        }
+      ]
+    },
+    "ReceiveQ7Map": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/maps"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/maps/messages/MapsQ7BinaryPush"
+        }
+      ],
+      "summary": "Receives a Q7 protocol-301 map without request correlation",
+      "description": "Receives a Q7 protocol-301 map without request correlation.",
+      "tags": [
+        {
+          "name": "maps"
+        }
+      ]
+    },
+    "ReceiveQ10CurrentMap": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/maps"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/maps/messages/MapsQ10CurrentMapPush"
+        }
+      ],
+      "summary": "Receives a Q10 protocol-301 current map with prefix 01 01",
+      "description": "Receives a Q10 protocol-301 current map with prefix 01 01.",
+      "tags": [
+        {
+          "name": "maps"
+        }
+      ]
+    },
+    "ReceiveQ10Trace": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/maps"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/maps/messages/MapsQ10TracePush"
+        }
+      ],
+      "summary": "Receives a Q10 protocol-301 trace with prefix 02 01",
+      "description": "Receives a Q10 protocol-301 trace with prefix 02 01.",
+      "tags": [
+        {
+          "name": "maps"
+        }
+      ]
+    },
+    "RequestV1Map": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/RequestV1MapRequest"
+        }
+      ],
+      "summary": "Requests the current V1 map",
+      "description": "Requests the current V1 map.",
+      "tags": [
+        {
+          "name": "maps"
+        }
+      ],
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/maps"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/maps/messages/MapsV1BinaryPush"
+          }
+        ]
+      }
+    },
+    "ListV1Maps": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/ListV1MapsRequest"
+        }
+      ],
+      "summary": "Requests the V1 saved-map list",
+      "description": "Requests the V1 saved-map list.",
+      "tags": [
+        {
+          "name": "maps"
+        }
+      ],
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/ListV1MapsReply"
+          }
+        ]
+      }
+    },
+    "GetV1Rooms": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/GetV1RoomsRequest"
+        }
+      ],
+      "summary": "Requests V1 room mappings",
+      "description": "Requests V1 room mappings.",
+      "tags": [
+        {
+          "name": "maps"
+        }
+      ],
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/GetV1RoomsReply"
+          }
+        ]
+      }
+    },
+    "LoadV1Map": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/LoadV1MapRequest"
+        }
+      ],
+      "summary": "Selects the active V1 map",
+      "description": "Selects the active V1 map.",
+      "tags": [
+        {
+          "name": "maps"
+        }
+      ],
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/LoadV1MapReply"
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -46,6 +429,313 @@
         "contentType": "application/octet-stream",
         "payload": {
           "$ref": "#/components/schemas/MapsBinaryPayload"
+        }
+      },
+      "MapsQ7ListEnvelope": {
+        "name": "MapsQ7ListEnvelope",
+        "summary": "Requests the Q7 saved-map list",
+        "payload": {
+          "$ref": "#/components/schemas/MapsQ7ListEnvelope"
+        }
+      },
+      "MapsQ7ListReply": {
+        "name": "MapsQ7ListReply",
+        "summary": "Returns a decoded Q7 RPC response from JSON-string datapoint 10000",
+        "payload": {
+          "$ref": "#/components/schemas/MapsQ7ListReply"
+        },
+        "correlationId": {
+          "location": "$message.payload#/msgId"
+        },
+        "x-datapoint": "10000",
+        "description": "The MQTT datapoint contains a JSON string; this schema describes its decoded object."
+      },
+      "MapsQ7UploadEnvelope": {
+        "name": "MapsQ7UploadEnvelope",
+        "summary": "Requests a Q7 map by identifier",
+        "payload": {
+          "$ref": "#/components/schemas/MapsQ7UploadEnvelope"
+        }
+      },
+      "MapsQ10ListEnvelope": {
+        "name": "MapsQ10ListEnvelope",
+        "summary": "Requests Q10 map metadata using read-only op list",
+        "payload": {
+          "$ref": "#/components/schemas/MapsQ10ListEnvelope"
+        }
+      },
+      "MapsQ10ListReply": {
+        "name": "MapsQ10ListReply",
+        "summary": "Reports the next observed Q10 map list without a freshness guarantee",
+        "payload": {
+          "$ref": "#/components/schemas/MapsQ10ListReply"
+        }
+      },
+      "MapsQ10ReadEnvelope": {
+        "name": "MapsQ10ReadEnvelope",
+        "summary": "Requests Q10 current-map or trace pushes using read-only DP102",
+        "payload": {
+          "$ref": "#/components/schemas/MapsQ10ReadEnvelope"
+        }
+      },
+      "MapsQ7BinaryPush": {
+        "name": "MapsQ7BinaryPush",
+        "summary": "Receives a Q7 protocol-301 map without request correlation",
+        "payload": {
+          "$ref": "#/components/schemas/MapsBinaryPayload"
+        },
+        "contentType": "application/octet-stream",
+        "x-frame-protocol": 301
+      },
+      "MapsQ10CurrentMapPush": {
+        "name": "MapsQ10CurrentMapPush",
+        "summary": "Receives a Q10 protocol-301 current map with prefix 01 01",
+        "payload": {
+          "$ref": "#/components/schemas/MapsBinaryPayload"
+        },
+        "contentType": "application/octet-stream",
+        "x-frame-protocol": 301,
+        "x-payload-prefix": "0101"
+      },
+      "MapsQ10TracePush": {
+        "name": "MapsQ10TracePush",
+        "summary": "Receives a Q10 protocol-301 trace with prefix 02 01",
+        "payload": {
+          "$ref": "#/components/schemas/MapsBinaryPayload"
+        },
+        "contentType": "application/octet-stream",
+        "x-frame-protocol": 301,
+        "x-payload-prefix": "0201"
+      },
+      "RequestV1MapRequest": {
+        "name": "RequestV1MapRequest",
+        "summary": "Requests the current V1 map",
+        "x-datapoint": "101",
+        "description": "Decoded RPC object stored as a JSON string in datapoint 101 of the encrypted V1 frame.",
+        "correlationId": {
+          "location": "$message.payload#/id"
+        },
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "get_map_v1"
+              ]
+            },
+            "params": {
+              "$ref": "./vacuum.asyncapi.yaml#/components/schemas/NoParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        }
+      },
+      "MapsV1BinaryPush": {
+        "name": "MapsV1BinaryPush",
+        "summary": "Returns a V1 protocol-301 map matched by the frame endpoint and request identifier",
+        "contentType": "application/octet-stream",
+        "x-frame-protocol": 301,
+        "payload": {
+          "$ref": "#/components/schemas/MapsBinaryPayload"
+        }
+      },
+      "ListV1MapsRequest": {
+        "name": "ListV1MapsRequest",
+        "summary": "Requests the V1 saved-map list",
+        "x-datapoint": "101",
+        "description": "Decoded RPC object stored as a JSON string in datapoint 101 of the encrypted V1 frame.",
+        "correlationId": {
+          "location": "$message.payload#/id"
+        },
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "get_multi_maps_list"
+              ]
+            },
+            "params": {
+              "$ref": "./vacuum.asyncapi.yaml#/components/schemas/NoParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        }
+      },
+      "ListV1MapsReply": {
+        "name": "ListV1MapsReply",
+        "summary": "Returns a correlated V1 RPC result",
+        "x-datapoint": "102",
+        "correlationId": {
+          "location": "$message.payload#/id"
+        },
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/MapsV1ListResult"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        }
+      },
+      "GetV1RoomsRequest": {
+        "name": "GetV1RoomsRequest",
+        "summary": "Requests V1 room mappings",
+        "x-datapoint": "101",
+        "description": "Decoded RPC object stored as a JSON string in datapoint 101 of the encrypted V1 frame.",
+        "correlationId": {
+          "location": "$message.payload#/id"
+        },
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "get_room_mapping"
+              ]
+            },
+            "params": {
+              "$ref": "./vacuum.asyncapi.yaml#/components/schemas/NoParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        }
+      },
+      "GetV1RoomsReply": {
+        "name": "GetV1RoomsReply",
+        "summary": "Returns a correlated V1 RPC result",
+        "x-datapoint": "102",
+        "correlationId": {
+          "location": "$message.payload#/id"
+        },
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/MapsV1RoomsResult"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        }
+      },
+      "LoadV1MapRequest": {
+        "name": "LoadV1MapRequest",
+        "summary": "Selects the active V1 map",
+        "x-datapoint": "101",
+        "description": "Decoded RPC object stored as a JSON string in datapoint 101 of the encrypted V1 frame.",
+        "correlationId": {
+          "location": "$message.payload#/id"
+        },
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "load_multi_map"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/MapsV1LoadRequest"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        }
+      },
+      "LoadV1MapReply": {
+        "name": "LoadV1MapReply",
+        "summary": "Returns a correlated V1 RPC result",
+        "x-datapoint": "102",
+        "correlationId": {
+          "location": "$message.payload#/id"
+        },
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "./vacuum.asyncapi.yaml#/components/schemas/Acknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
         }
       }
     },
@@ -66,7 +756,8 @@
             "type": "integer",
             "format": "int64"
           }
-        }
+        },
+        "additionalProperties": false
       },
       "MapsQ7ListEntry": {
         "type": "object",
@@ -103,7 +794,8 @@
               "list"
             ]
           }
-        }
+        },
+        "additionalProperties": false
       },
       "MapsQ10ListResult": {
         "type": "object",
@@ -276,6 +968,297 @@
       "MapsQ7ListRequest": {
         "additionalProperties": false,
         "type": "object"
+      },
+      "MapsKnownEmptyObject": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      },
+      "MapsQ7ListRPC": {
+        "type": "object",
+        "properties": {
+          "method": {
+            "type": "string",
+            "enum": [
+              "service.get_map_list"
+            ],
+            "x-enum-varnames": [
+              "MapsQ7ListRPCPropertiesMethod0Value"
+            ]
+          },
+          "msgId": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{11}$"
+          },
+          "params": {
+            "$ref": "#/components/schemas/MapsQ7ListRequest"
+          }
+        },
+        "required": [
+          "method",
+          "msgId",
+          "params"
+        ],
+        "additionalProperties": false
+      },
+      "MapsQ7ListEnvelopeDatapoints": {
+        "type": "object",
+        "properties": {
+          "10000": {
+            "$ref": "#/components/schemas/MapsQ7ListRPC"
+          }
+        },
+        "required": [
+          "10000"
+        ],
+        "additionalProperties": false
+      },
+      "MapsQ7ListEnvelope": {
+        "type": "object",
+        "properties": {
+          "dps": {
+            "$ref": "#/components/schemas/MapsQ7ListEnvelopeDatapoints"
+          }
+        },
+        "required": [
+          "dps"
+        ],
+        "additionalProperties": false
+      },
+      "MapsQ7ListReply": {
+        "type": "object",
+        "properties": {
+          "msgId": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{11}$"
+          },
+          "code": {
+            "type": "integer",
+            "default": 0
+          },
+          "data": {
+            "$ref": "#/components/schemas/MapsQ7ListResult"
+          }
+        },
+        "required": [
+          "msgId"
+        ]
+      },
+      "MapsQ7UploadRPC": {
+        "type": "object",
+        "properties": {
+          "method": {
+            "type": "string",
+            "enum": [
+              "service.upload_by_mapid"
+            ],
+            "x-enum-varnames": [
+              "MapsQ7UploadRPCPropertiesMethod0Value"
+            ]
+          },
+          "msgId": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{11}$"
+          },
+          "params": {
+            "$ref": "#/components/schemas/MapsQ7UploadRequest"
+          }
+        },
+        "required": [
+          "method",
+          "msgId",
+          "params"
+        ],
+        "additionalProperties": false
+      },
+      "MapsQ7UploadEnvelopeDatapoints": {
+        "type": "object",
+        "properties": {
+          "10000": {
+            "$ref": "#/components/schemas/MapsQ7UploadRPC"
+          }
+        },
+        "required": [
+          "10000"
+        ],
+        "additionalProperties": false
+      },
+      "MapsQ7UploadEnvelope": {
+        "type": "object",
+        "properties": {
+          "dps": {
+            "$ref": "#/components/schemas/MapsQ7UploadEnvelopeDatapoints"
+          }
+        },
+        "required": [
+          "dps"
+        ],
+        "additionalProperties": false
+      },
+      "MapsQ10ListCommonRequest": {
+        "type": "object",
+        "properties": {
+          "61": {
+            "$ref": "#/components/schemas/MapsQ10ListRequest"
+          }
+        },
+        "required": [
+          "61"
+        ],
+        "additionalProperties": false
+      },
+      "MapsQ10ListEnvelopeDatapoints": {
+        "type": "object",
+        "properties": {
+          "101": {
+            "$ref": "#/components/schemas/MapsQ10ListCommonRequest"
+          }
+        },
+        "required": [
+          "101"
+        ],
+        "additionalProperties": false
+      },
+      "MapsQ10ListEnvelope": {
+        "type": "object",
+        "properties": {
+          "dps": {
+            "$ref": "#/components/schemas/MapsQ10ListEnvelopeDatapoints"
+          }
+        },
+        "required": [
+          "dps"
+        ],
+        "additionalProperties": false
+      },
+      "MapsQ10ListSuccess": {
+        "type": "object",
+        "required": [
+          "op",
+          "result"
+        ],
+        "properties": {
+          "op": {
+            "type": "string",
+            "enum": [
+              "list"
+            ],
+            "x-enum-varnames": [
+              "MapsQ10ListSuccessOpList"
+            ]
+          },
+          "result": {
+            "type": "integer",
+            "enum": [
+              1
+            ],
+            "x-enum-varnames": [
+              "MapsQ10ListSuccessResultAccepted"
+            ]
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MapsQ10ListEntry"
+            }
+          }
+        }
+      },
+      "MapsQ10ListCommonReply": {
+        "type": "object",
+        "properties": {
+          "61": {
+            "$ref": "#/components/schemas/MapsQ10ListSuccess"
+          }
+        },
+        "required": [
+          "61"
+        ]
+      },
+      "MapsQ10NestedListReplyEnvelopeDatapoints": {
+        "type": "object",
+        "properties": {
+          "101": {
+            "$ref": "#/components/schemas/MapsQ10ListCommonReply"
+          }
+        },
+        "required": [
+          "101"
+        ],
+        "additionalProperties": false
+      },
+      "MapsQ10NestedListReplyEnvelope": {
+        "type": "object",
+        "properties": {
+          "dps": {
+            "$ref": "#/components/schemas/MapsQ10NestedListReplyEnvelopeDatapoints"
+          }
+        },
+        "required": [
+          "dps"
+        ],
+        "additionalProperties": false
+      },
+      "MapsQ10ListReplyEnvelopeDatapoints": {
+        "type": "object",
+        "properties": {
+          "61": {
+            "$ref": "#/components/schemas/MapsQ10ListSuccess"
+          }
+        },
+        "required": [
+          "61"
+        ],
+        "additionalProperties": false
+      },
+      "MapsQ10ListReplyEnvelope": {
+        "type": "object",
+        "properties": {
+          "dps": {
+            "$ref": "#/components/schemas/MapsQ10ListReplyEnvelopeDatapoints"
+          }
+        },
+        "required": [
+          "dps"
+        ],
+        "additionalProperties": false
+      },
+      "MapsQ10ListReply": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/MapsQ10NestedListReplyEnvelope"
+          },
+          {
+            "$ref": "#/components/schemas/MapsQ10ListReplyEnvelope"
+          }
+        ],
+        "x-go-type": "json.RawMessage",
+        "description": "Successful map-list update nested inside DP101 or carried directly in DP61; it has no request identifier."
+      },
+      "MapsQ10ReadEnvelopeDatapoints": {
+        "type": "object",
+        "properties": {
+          "102": {
+            "$ref": "#/components/schemas/MapsKnownEmptyObject"
+          }
+        },
+        "required": [
+          "102"
+        ],
+        "additionalProperties": false
+      },
+      "MapsQ10ReadEnvelope": {
+        "type": "object",
+        "properties": {
+          "dps": {
+            "$ref": "#/components/schemas/MapsQ10ReadEnvelopeDatapoints"
+          }
+        },
+        "required": [
+          "dps"
+        ],
+        "additionalProperties": false
       }
     }
   },

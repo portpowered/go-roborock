@@ -43,16 +43,19 @@ type MapArea struct {
 	// Frame Q10 trace is dock-relative; Q10 array is absolute raster coordinates; these frames must not be combined without explicit calibration.
 	Frame MapFrame `json:"frame"`
 
-	// Kind Known source restriction name, or unknown when semantics are not verified.
-	Kind         string     `json:"kind"`
-	Points       []MapPoint `json:"points"`
-	SourceIndex  *int64     `json:"sourceIndex,omitempty"`
-	SourceStatus *int64     `json:"sourceStatus,omitempty"`
+	// Kind Open area kind. Known values describe current cleaning zones, walls, no-go, no-mop, no-carpet, erase areas, or unknown semantics; future kinds remain representable.
+	Kind         MapAreaKind `json:"kind"`
+	Points       []MapPoint  `json:"points"`
+	SourceIndex  *int64      `json:"sourceIndex,omitempty"`
+	SourceStatus *int64      `json:"sourceStatus,omitempty"`
 
 	// SourceType Uninterpreted source area type when present.
 	SourceType *int64  `json:"sourceType,omitempty"`
 	Unit       MapUnit `json:"unit"`
 }
+
+// MapAreaKind Open area kind. Known values describe current cleaning zones, walls, no-go, no-mop, no-carpet, erase areas, or unknown semantics; future kinds remain representable.
+type MapAreaKind = string
 
 // MapFormat defines model for MapFormat.
 type MapFormat string
@@ -97,11 +100,14 @@ type MapPath struct {
 	// Frame Q10 trace is dock-relative; Q10 array is absolute raster coordinates; these frames must not be combined without explicit calibration.
 	Frame MapFrame `json:"frame"`
 
-	// Kind Source path kind; clean, goto, predicted or trace.
-	Kind   string     `json:"kind"`
-	Points []MapPoint `json:"points"`
-	Unit   MapUnit    `json:"unit"`
+	// Kind Open path kind. Known values are clean, goto, predicted, and trace; future source kinds remain representable.
+	Kind   MapPathKind `json:"kind"`
+	Points []MapPoint  `json:"points"`
+	Unit   MapUnit     `json:"unit"`
 }
+
+// MapPathKind Open path kind. Known values are clean, goto, predicted, and trace; future source kinds remain representable.
+type MapPathKind = string
 
 // MapPoint defines model for MapPoint.
 type MapPoint struct {

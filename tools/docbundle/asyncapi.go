@@ -52,6 +52,8 @@ func buildAsync(files []string) ([]byte, error) {
 		}
 	}
 
+	inlineChannelMessages(document)
+
 	data, err := json.MarshalIndent(document, "", "  ")
 	if err != nil {
 		return nil, fmt.Errorf("encode MQTT documentation: %w", err)
@@ -180,5 +182,29 @@ func mergeAsyncComponents(destination object, key, stem string, value any) {
 
 	for name, component := range components {
 		joined[stem+"."+name] = component
+	}
+}
+
+// The renderer resolves operation message references once. Expand their channel
+// targets in the documentation copy while retaining canonical schema ownership.
+func inlineChannelMessages(document object) {
+	components, _ := document[componentKey].(object)
+	definitions, _ := components["messages"].(object)
+
+	channels, _ := document["channels"].(object)
+
+	for _, value := range channels {
+		channel, _ := value.(map[string]any)
+
+		messages, _ := channel["messages"].(map[string]any)
+
+		for key, message := range messages {
+			entry, _ := message.(map[string]any)
+
+			reference, _ := entry["$ref"].(string)
+			if after, ok := strings.CutPrefix(reference, "#/components/messages/"); ok {
+				messages[key] = definitions[after]
+			}
+		}
 	}
 }

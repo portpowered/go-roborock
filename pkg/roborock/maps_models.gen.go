@@ -52,6 +52,9 @@ const MapUnitPixels = mapmodel.MapUnitPixels
 // MapArea describes a decoded Roborock map value.
 type MapArea = mapmodel.MapArea
 
+// MapAreaKind describes a decoded Roborock map value.
+type MapAreaKind = mapmodel.MapAreaKind
+
 // MapFormat describes a decoded Roborock map value.
 type MapFormat = mapmodel.MapFormat
 
@@ -66,6 +69,9 @@ type MapGridRowYDirection = mapmodel.MapGridRowYDirection
 
 // MapPath describes a decoded Roborock map value.
 type MapPath = mapmodel.MapPath
+
+// MapPathKind describes a decoded Roborock map value.
+type MapPathKind = mapmodel.MapPathKind
 
 // MapPoint describes a decoded Roborock map value.
 type MapPoint = mapmodel.MapPoint
@@ -90,3 +96,36 @@ type MapUnit = mapmodel.MapUnit
 
 // MapUnknownBlock describes a decoded Roborock map value.
 type MapUnknownBlock = mapmodel.MapUnknownBlock
+
+// MapAreaKindCurrent is a map protocol value.
+const MapAreaKindCurrent = mapmodel.MapAreaKindCurrent
+
+// MapAreaKindErase is a map protocol value.
+const MapAreaKindErase = mapmodel.MapAreaKindErase
+
+// MapAreaKindNoCarpet is a map protocol value.
+const MapAreaKindNoCarpet = mapmodel.MapAreaKindNoCarpet
+
+// MapAreaKindNoGo is a map protocol value.
+const MapAreaKindNoGo = mapmodel.MapAreaKindNoGo
+
+// MapAreaKindNoMop is a map protocol value.
+const MapAreaKindNoMop = mapmodel.MapAreaKindNoMop
+
+// MapAreaKindUnknown is a map protocol value.
+const MapAreaKindUnknown = mapmodel.MapAreaKindUnknown
+
+// MapAreaKindWall is a map protocol value.
+const MapAreaKindWall = mapmodel.MapAreaKindWall
+
+// MapPathKindClean is a map protocol value.
+const MapPathKindClean = mapmodel.MapPathKindClean
+
+// MapPathKindGoto is a map protocol value.
+const MapPathKindGoto = mapmodel.MapPathKindGoto
+
+// MapPathKindPredicted is a map protocol value.
+const MapPathKindPredicted = mapmodel.MapPathKindPredicted
+
+// MapPathKindTrace is a map protocol value.
+const MapPathKindTrace = mapmodel.MapPathKindTrace

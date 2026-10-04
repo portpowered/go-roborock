@@ -14,14 +14,70 @@ const (
 	List MapsQ10ListRequestOp = "list"
 )
 
+// Defines values for MapsQ10ListSuccessOp.
+const (
+	MapsQ10ListSuccessOpList MapsQ10ListSuccessOp = "list"
+)
+
+// Defines values for MapsQ10ListSuccessResult.
+const (
+	MapsQ10ListSuccessResultAccepted MapsQ10ListSuccessResult = 1
+)
+
+// Defines values for MapsQ7ListRPCMethod.
+const (
+	MapsQ7ListRPCPropertiesMethod0Value MapsQ7ListRPCMethod = "service.get_map_list"
+)
+
+// Defines values for MapsQ7UploadRPCMethod.
+const (
+	MapsQ7UploadRPCPropertiesMethod0Value MapsQ7UploadRPCMethod = "service.upload_by_mapid"
+)
+
 // MapsBinaryPayload Decoded protocol-301 payload, before family-specific map decoding.
 type MapsBinaryPayload = []byte
+
+// MapsKnownEmptyObject defines model for MapsKnownEmptyObject.
+type MapsKnownEmptyObject = map[string]interface{}
+
+// MapsQ10ListCommonReply defines model for MapsQ10ListCommonReply.
+type MapsQ10ListCommonReply struct {
+	N61 MapsQ10ListSuccess `json:"61"`
+}
+
+// MapsQ10ListCommonRequest defines model for MapsQ10ListCommonRequest.
+type MapsQ10ListCommonRequest struct {
+	N61 MapsQ10ListRequest `json:"61"`
+}
 
 // MapsQ10ListEntry defines model for MapsQ10ListEntry.
 type MapsQ10ListEntry struct {
 	Id        string  `json:"id"`
 	Name      *string `json:"name,omitempty"`
 	Timestamp *int64  `json:"timestamp,omitempty"`
+}
+
+// MapsQ10ListEnvelope defines model for MapsQ10ListEnvelope.
+type MapsQ10ListEnvelope struct {
+	Dps MapsQ10ListEnvelopeDatapoints `json:"dps"`
+}
+
+// MapsQ10ListEnvelopeDatapoints defines model for MapsQ10ListEnvelopeDatapoints.
+type MapsQ10ListEnvelopeDatapoints struct {
+	N101 MapsQ10ListCommonRequest `json:"101"`
+}
+
+// MapsQ10ListReply Successful map-list update nested inside DP101 or carried directly in DP61; it has no request identifier.
+type MapsQ10ListReply = json.RawMessage
+
+// MapsQ10ListReplyEnvelope defines model for MapsQ10ListReplyEnvelope.
+type MapsQ10ListReplyEnvelope struct {
+	Dps MapsQ10ListReplyEnvelopeDatapoints `json:"dps"`
+}
+
+// MapsQ10ListReplyEnvelopeDatapoints defines model for MapsQ10ListReplyEnvelopeDatapoints.
+type MapsQ10ListReplyEnvelopeDatapoints struct {
+	N61 MapsQ10ListSuccess `json:"61"`
 }
 
 // MapsQ10ListRequest defines model for MapsQ10ListRequest.
@@ -39,10 +95,70 @@ type MapsQ10ListResult struct {
 	Result *int                `json:"result,omitempty"`
 }
 
+// MapsQ10ListSuccess defines model for MapsQ10ListSuccess.
+type MapsQ10ListSuccess struct {
+	Data   *[]MapsQ10ListEntry      `json:"data,omitempty"`
+	Op     MapsQ10ListSuccessOp     `json:"op"`
+	Result MapsQ10ListSuccessResult `json:"result"`
+}
+
+// MapsQ10ListSuccessOp defines model for MapsQ10ListSuccess.Op.
+type MapsQ10ListSuccessOp string
+
+// MapsQ10ListSuccessResult defines model for MapsQ10ListSuccess.Result.
+type MapsQ10ListSuccessResult int
+
+// MapsQ10NestedListReplyEnvelope defines model for MapsQ10NestedListReplyEnvelope.
+type MapsQ10NestedListReplyEnvelope struct {
+	Dps MapsQ10NestedListReplyEnvelopeDatapoints `json:"dps"`
+}
+
+// MapsQ10NestedListReplyEnvelopeDatapoints defines model for MapsQ10NestedListReplyEnvelopeDatapoints.
+type MapsQ10NestedListReplyEnvelopeDatapoints struct {
+	N101 MapsQ10ListCommonReply `json:"101"`
+}
+
+// MapsQ10ReadEnvelope defines model for MapsQ10ReadEnvelope.
+type MapsQ10ReadEnvelope struct {
+	Dps MapsQ10ReadEnvelopeDatapoints `json:"dps"`
+}
+
+// MapsQ10ReadEnvelopeDatapoints defines model for MapsQ10ReadEnvelopeDatapoints.
+type MapsQ10ReadEnvelopeDatapoints struct {
+	N102 MapsKnownEmptyObject `json:"102"`
+}
+
 // MapsQ7ListEntry defines model for MapsQ7ListEntry.
 type MapsQ7ListEntry struct {
 	Cur *bool  `json:"cur,omitempty"`
 	Id  *int64 `json:"id,omitempty"`
+}
+
+// MapsQ7ListEnvelope defines model for MapsQ7ListEnvelope.
+type MapsQ7ListEnvelope struct {
+	Dps MapsQ7ListEnvelopeDatapoints `json:"dps"`
+}
+
+// MapsQ7ListEnvelopeDatapoints defines model for MapsQ7ListEnvelopeDatapoints.
+type MapsQ7ListEnvelopeDatapoints struct {
+	N10000 MapsQ7ListRPC `json:"10000"`
+}
+
+// MapsQ7ListRPC defines model for MapsQ7ListRPC.
+type MapsQ7ListRPC struct {
+	Method MapsQ7ListRPCMethod `json:"method"`
+	MsgId  string              `json:"msgId"`
+	Params MapsQ7ListRequest   `json:"params"`
+}
+
+// MapsQ7ListRPCMethod defines model for MapsQ7ListRPC.Method.
+type MapsQ7ListRPCMethod string
+
+// MapsQ7ListReply defines model for MapsQ7ListReply.
+type MapsQ7ListReply struct {
+	Code  *int              `json:"code,omitempty"`
+	Data  *MapsQ7ListResult `json:"data,omitempty"`
+	MsgId string            `json:"msgId"`
 }
 
 // MapsQ7ListRequest defines model for MapsQ7ListRequest.
@@ -52,6 +168,26 @@ type MapsQ7ListRequest = map[string]interface{}
 type MapsQ7ListResult struct {
 	MapList *[]MapsQ7ListEntry `json:"map_list,omitempty"`
 }
+
+// MapsQ7UploadEnvelope defines model for MapsQ7UploadEnvelope.
+type MapsQ7UploadEnvelope struct {
+	Dps MapsQ7UploadEnvelopeDatapoints `json:"dps"`
+}
+
+// MapsQ7UploadEnvelopeDatapoints defines model for MapsQ7UploadEnvelopeDatapoints.
+type MapsQ7UploadEnvelopeDatapoints struct {
+	N10000 MapsQ7UploadRPC `json:"10000"`
+}
+
+// MapsQ7UploadRPC defines model for MapsQ7UploadRPC.
+type MapsQ7UploadRPC struct {
+	Method MapsQ7UploadRPCMethod `json:"method"`
+	MsgId  string                `json:"msgId"`
+	Params MapsQ7UploadRequest   `json:"params"`
+}
+
+// MapsQ7UploadRPCMethod defines model for MapsQ7UploadRPC.Method.
+type MapsQ7UploadRPCMethod string
 
 // MapsQ7UploadRequest defines model for MapsQ7UploadRequest.
 type MapsQ7UploadRequest struct {

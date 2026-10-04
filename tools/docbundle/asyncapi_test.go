@@ -76,3 +76,23 @@ func verifyAsyncBundle(t *testing.T, document map[string]any) {
 		t.Fatal("cross-document schema reference was not rewritten")
 	}
 }
+
+func TestDocumentationMessagesResolveInOneHop(t *testing.T) {
+	t.Parallel()
+
+	payload := map[string]any{"$ref": "#/components/schemas/wire.Request"}
+	definition := map[string]any{"payload": payload}
+	messages := map[string]any{"request": map[string]any{"$ref": "#/components/messages/wire.Request"}}
+	document := object{
+		componentKey: object{"messages": object{"wire.Request": definition}},
+		"channels":   object{"wire.requests": map[string]any{"messages": messages}},
+	}
+	inlineChannelMessages(document)
+
+	message, _ := messages["request"].(map[string]any)
+
+	schema, _ := message["payload"].(map[string]any)
+	if schema["$ref"] != "#/components/schemas/wire.Request" {
+		t.Fatal("operation message targets must expose payloads after one reference resolution")
+	}
+}
