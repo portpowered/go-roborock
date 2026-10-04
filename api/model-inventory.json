@@ -1859,12 +1859,12 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/q10.go",
-          "line": 43,
+          "line": 46,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q10CommonDatapoint"
         },
         {
           "file": "pkg/dependencies/mqtt/q10.go",
-          "line": 85,
+          "line": 88,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q10CommonDatapoint"
         }
       ]
@@ -1908,7 +1908,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/q10.go",
-          "line": 81,
+          "line": 84,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q10MapListDatapoint"
         }
       ]
@@ -1930,7 +1930,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/q10.go",
-          "line": 111,
+          "line": 114,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q10MapListOperation"
         }
       ]
@@ -1952,7 +1952,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/q10.go",
-          "line": 43,
+          "line": 46,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q10MapListRequestJSON"
         }
       ]
@@ -1974,7 +1974,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/q10.go",
-          "line": 116,
+          "line": 185,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q10MapListSuccess"
         }
       ]
@@ -2002,11 +2002,55 @@
       ]
     },
     {
-      "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q10StartCleanDatapoint",
+      "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q10RoomIDMaximum",
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
         "line": 16,
+        "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q10RoomIDMaximum"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/x-wire-constants/B01Q10RoomIDMaximum"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "65535",
+      "productionUses": [
+        {
+          "file": "pkg/roborock/family_cleaning.go",
+          "line": 47,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q10RoomIDMaximum"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q10RoomIDMinimum",
+      "kind": "constant",
+      "definition": {
+        "file": "internal/protocol/b01.gen.go",
+        "line": 17,
+        "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q10RoomIDMinimum"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/x-wire-constants/B01Q10RoomIDMinimum"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "0",
+      "productionUses": [
+        {
+          "file": "pkg/roborock/family_cleaning.go",
+          "line": 46,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q10RoomIDMinimum"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q10StartCleanDatapoint",
+      "kind": "constant",
+      "definition": {
+        "file": "internal/protocol/b01.gen.go",
+        "line": 18,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q10StartCleanDatapoint"
       },
       "schema": {
@@ -2028,7 +2072,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 17,
+        "line": 19,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q10ZoneCleanCommand"
       },
       "schema": {
@@ -2050,7 +2094,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 18,
+        "line": 20,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q7CleanStart"
       },
       "schema": {
@@ -2062,7 +2106,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/family_cleaning.go",
-          "line": 64,
+          "line": 76,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q7CleanStart"
         }
       ]
@@ -2072,7 +2116,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 19,
+        "line": 21,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q7Datapoint"
       },
       "schema": {
@@ -2094,7 +2138,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 20,
+        "line": 22,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q7MapKeyHexEnd"
       },
       "schema": {
@@ -2116,7 +2160,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 21,
+        "line": 23,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q7MapKeyHexStart"
       },
       "schema": {
@@ -2138,7 +2182,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 22,
+        "line": 24,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q7MapKeyInputFormat"
       },
       "schema": {
@@ -2160,7 +2204,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 23,
+        "line": 25,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q7MessageIDBase"
       },
       "schema": {
@@ -2197,7 +2241,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 24,
+        "line": 26,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q7MessageIDRange"
       },
       "schema": {
@@ -2219,7 +2263,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 25,
+        "line": 27,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q7MethodPattern"
       },
       "schema": {
@@ -2235,7 +2279,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 26,
+        "line": 28,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q7ModelKeyBytes"
       },
       "schema": {
@@ -2262,7 +2306,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 27,
+        "line": 29,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q7ModelKeyPadding"
       },
       "schema": {
@@ -2284,7 +2328,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 28,
+        "line": 30,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q7RoomCleanType"
       },
       "schema": {
@@ -2296,8 +2340,52 @@
       "productionUses": [
         {
           "file": "pkg/roborock/family_cleaning.go",
-          "line": 64,
+          "line": 76,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q7RoomCleanType"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q7RoomIDMaximum",
+      "kind": "constant",
+      "definition": {
+        "file": "internal/protocol/b01.gen.go",
+        "line": 31,
+        "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q7RoomIDMaximum"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/x-wire-constants/B01Q7RoomIDMaximum"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "4294967295",
+      "productionUses": [
+        {
+          "file": "pkg/roborock/family_cleaning.go",
+          "line": 43,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q7RoomIDMaximum"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q7RoomIDMinimum",
+      "kind": "constant",
+      "definition": {
+        "file": "internal/protocol/b01.gen.go",
+        "line": 32,
+        "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q7RoomIDMinimum"
+      },
+      "schema": {
+        "file": "api/b01.asyncapi.yaml",
+        "pointer": "#/x-wire-constants/B01Q7RoomIDMinimum"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "0",
+      "productionUses": [
+        {
+          "file": "pkg/roborock/family_cleaning.go",
+          "line": 42,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q7RoomIDMinimum"
         }
       ]
     },
@@ -2306,7 +2394,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 29,
+        "line": 33,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Version"
       },
       "schema": {
@@ -2358,7 +2446,7 @@
         },
         {
           "file": "pkg/dependencies/mqtt/q10.go",
-          "line": 19,
+          "line": 22,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Version"
         },
         {
@@ -2373,7 +2461,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 30,
+        "line": 34,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.DeviceCategoryVacuum"
       },
       "schema": {
@@ -2395,7 +2483,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 31,
+        "line": 35,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.DeviceCategoryWasher"
       },
       "schema": {
@@ -2417,7 +2505,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 32,
+        "line": 36,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.DeviceCategoryWetDry"
       },
       "schema": {
@@ -2439,7 +2527,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 33,
+        "line": 37,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.DeviceQ10ModelPrefix"
       },
       "schema": {
@@ -2461,7 +2549,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 34,
+        "line": 38,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.DeviceQ7ModelPrefix"
       },
       "schema": {
@@ -7145,7 +7233,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 35,
+        "line": 39,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.Q10ZoneCoordinateBytes"
       },
       "schema": {
@@ -7172,7 +7260,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 36,
+        "line": 40,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.Q10ZoneCoordinateOffsetMM"
       },
       "schema": {
@@ -7204,7 +7292,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 37,
+        "line": 41,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.Q10ZoneCount"
       },
       "schema": {
@@ -7226,7 +7314,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 38,
+        "line": 42,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.Q10ZoneHeaderSize"
       },
       "schema": {
@@ -7253,7 +7341,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 39,
+        "line": 43,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.Q10ZoneMaxRepeat"
       },
       "schema": {
@@ -7275,7 +7363,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 40,
+        "line": 44,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.Q10ZoneMinRepeat"
       },
       "schema": {
@@ -7297,7 +7385,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 41,
+        "line": 45,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.Q10ZoneNameBytes"
       },
       "schema": {
@@ -7319,7 +7407,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 42,
+        "line": 46,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.Q10ZoneNameLengthBytes"
       },
       "schema": {
@@ -7341,7 +7429,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 43,
+        "line": 47,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.Q10ZoneVectorUnitMM"
       },
       "schema": {
@@ -7378,7 +7466,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 44,
+        "line": 48,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.Q10ZoneVersion"
       },
       "schema": {
@@ -7400,7 +7488,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 45,
+        "line": 49,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.Q10ZoneVertexBytes"
       },
       "schema": {
@@ -7422,7 +7510,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/b01.gen.go",
-        "line": 46,
+        "line": 50,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.Q10ZoneVertices"
       },
       "schema": {
@@ -8863,7 +8951,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 97,
+          "line": 104,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.RPCGetMultiMapsList"
         }
       ]
@@ -8907,7 +8995,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 133,
+          "line": 226,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.RPCLoadMultiMap"
         }
       ]
@@ -9521,7 +9609,7 @@
         },
         {
           "file": "pkg/dependencies/mqtt/b01.go",
-          "line": 173,
+          "line": 177,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.B01RPCResponse"
         }
       ]
@@ -15381,7 +15469,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/b01.go",
-          "line": 183,
+          "line": 187,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MQTTRPCError"
         },
         {
@@ -15557,7 +15645,13 @@
         "pointer": "#/components/schemas/MapsQ10ListEntry"
       },
       "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
-      "productionUses": []
+      "productionUses": [
+        {
+          "file": "pkg/dependencies/mqtt/q10.go",
+          "line": 150,
+          "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListEntry"
+        }
+      ]
     },
     {
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListEnvelope",
@@ -15680,17 +15774,27 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/q10.go",
-          "line": 17,
+          "line": 20,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListResult"
         },
         {
           "file": "pkg/dependencies/mqtt/q10.go",
-          "line": 18,
+          "line": 21,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListResult"
         },
         {
           "file": "pkg/dependencies/mqtt/q10.go",
-          "line": 104,
+          "line": 107,
+          "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListResult"
+        },
+        {
+          "file": "pkg/dependencies/mqtt/q10.go",
+          "line": 149,
+          "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListResult"
+        },
+        {
+          "file": "pkg/dependencies/mqtt/q10.go",
+          "line": 180,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListResult"
         },
         {
@@ -15959,7 +16063,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 48,
+          "line": 55,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7ListRequest"
         }
       ]
@@ -15980,7 +16084,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 58,
+          "line": 65,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7ListResult"
         }
       ]
@@ -16143,7 +16247,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 102,
+          "line": 109,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1ListResult"
         }
       ]
@@ -16164,7 +16268,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 134,
+          "line": 227,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1LoadRequest"
         }
       ]
@@ -16363,7 +16467,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/family_cleaning.go",
-          "line": 42,
+          "line": 66,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.N2"
         }
       ]
@@ -16385,7 +16489,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/family_cleaning.go",
-          "line": 109,
+          "line": 121,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.N3"
         }
       ]
@@ -16411,7 +16515,7 @@
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 97,
+          "line": 104,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.NoParameters"
         },
         {
@@ -16930,12 +17034,12 @@
         },
         {
           "file": "pkg/roborock/family_cleaning.go",
-          "line": 42,
+          "line": 66,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.Q10CleanCommand"
         },
         {
           "file": "pkg/roborock/family_cleaning.go",
-          "line": 108,
+          "line": 120,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.Q10CleanCommand"
         },
         {
@@ -16976,7 +17080,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/family_cleaning.go",
-          "line": 63,
+          "line": 75,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.Q7RoomCleanRequest"
         }
       ]
@@ -16986,7 +17090,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/b01.gen.go",
-        "line": 165,
+        "line": 167,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.Q7RoomCleanRequestCleanType"
       },
       "schema": {
@@ -17001,7 +17105,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/b01.gen.go",
-        "line": 168,
+        "line": 170,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.Q7RoomCleanRequestCtrlValue"
       },
       "schema": {
@@ -17543,12 +17647,12 @@
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 97,
+          "line": 104,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCMethod"
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 133,
+          "line": 226,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCMethod"
         },
         {
@@ -18268,7 +18372,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 53,
+          "line": 60,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.ServiceGetMapList"
         }
       ]
@@ -18290,7 +18394,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/family_cleaning.go",
-          "line": 69,
+          "line": 81,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.ServiceSetRoomClean"
         }
       ]
@@ -21158,7 +21262,7 @@
         },
         {
           "file": "pkg/roborock/family_cleaning.go",
-          "line": 78,
+          "line": 90,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CleanZonesRequest"
         },
         {
@@ -21400,37 +21504,22 @@
         },
         {
           "file": "pkg/roborock/family_cleaning.go",
-          "line": 36,
+          "line": 31,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/family_cleaning.go",
-          "line": 39,
+          "line": 60,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/family_cleaning.go",
-          "line": 44,
+          "line": 63,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/family_cleaning.go",
-          "line": 47,
-          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
-        },
-        {
-          "file": "pkg/roborock/family_cleaning.go",
-          "line": 50,
-          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
-        },
-        {
-          "file": "pkg/roborock/family_cleaning.go",
-          "line": 56,
-          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
-        },
-        {
-          "file": "pkg/roborock/family_cleaning.go",
-          "line": 66,
+          "line": 68,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
@@ -21445,42 +21534,57 @@
         },
         {
           "file": "pkg/roborock/family_cleaning.go",
-          "line": 79,
+          "line": 78,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/family_cleaning.go",
-          "line": 81,
+          "line": 83,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/family_cleaning.go",
-          "line": 85,
+          "line": 86,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/family_cleaning.go",
-          "line": 94,
+          "line": 91,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/family_cleaning.go",
-          "line": 100,
+          "line": 93,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/family_cleaning.go",
-          "line": 105,
+          "line": 97,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/family_cleaning.go",
-          "line": 111,
+          "line": 106,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/family_cleaning.go",
-          "line": 114,
+          "line": 112,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
+        },
+        {
+          "file": "pkg/roborock/family_cleaning.go",
+          "line": 117,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
+        },
+        {
+          "file": "pkg/roborock/family_cleaning.go",
+          "line": 123,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
+        },
+        {
+          "file": "pkg/roborock/family_cleaning.go",
+          "line": 126,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
@@ -21490,17 +21594,17 @@
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 120,
+          "line": 213,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 125,
+          "line": 218,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 130,
+          "line": 223,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
@@ -22810,6 +22914,11 @@
         {
           "file": "pkg/roborock/family.go",
           "line": 50,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.DeviceFamily"
+        },
+        {
+          "file": "pkg/roborock/family_cleaning.go",
+          "line": 41,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.DeviceFamily"
         }
       ]
@@ -26375,7 +26484,7 @@
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 15,
+          "line": 22,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
@@ -26587,12 +26696,17 @@
         },
         {
           "file": "pkg/roborock/family_cleaning.go",
-          "line": 29,
+          "line": 34,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.FamilyB01Q10"
         },
         {
           "file": "pkg/roborock/family_cleaning.go",
-          "line": 80,
+          "line": 45,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.FamilyB01Q10"
+        },
+        {
+          "file": "pkg/roborock/family_cleaning.go",
+          "line": 92,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.FamilyB01Q10"
         },
         {
@@ -26612,7 +26726,7 @@
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 31,
+          "line": 38,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.FamilyB01Q10"
         }
       ]
@@ -26669,7 +26783,7 @@
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 29,
+          "line": 36,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.FamilyB01Q7"
         }
       ]
@@ -26706,7 +26820,7 @@
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 33,
+          "line": 40,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.FamilyDyad"
         }
       ]
@@ -26758,7 +26872,7 @@
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 33,
+          "line": 40,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.FamilyUnknown"
         }
       ]
@@ -26810,12 +26924,12 @@
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 27,
+          "line": 34,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.FamilyV1Vacuum"
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 124,
+          "line": 217,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.FamilyV1Vacuum"
         },
         {
@@ -26862,7 +26976,7 @@
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 33,
+          "line": 40,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.FamilyZeo"
         }
       ]
@@ -27300,47 +27414,47 @@
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 15,
+          "line": 22,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ListMapsResult"
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 21,
+          "line": 28,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ListMapsResult"
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 24,
+          "line": 31,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ListMapsResult"
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 40,
+          "line": 47,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ListMapsResult"
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 41,
+          "line": 48,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ListMapsResult"
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 74,
+          "line": 81,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ListMapsResult"
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 75,
+          "line": 82,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ListMapsResult"
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 94,
+          "line": 101,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ListMapsResult"
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 95,
+          "line": 102,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ListMapsResult"
         }
       ]
@@ -27890,27 +28004,22 @@
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 24,
+          "line": 31,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapInfo"
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 41,
+          "line": 48,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapInfo"
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 67,
+          "line": 74,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapInfo"
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 75,
-          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapInfo"
-        },
-        {
-          "file": "pkg/roborock/maps_list.go",
-          "line": 88,
+          "line": 82,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapInfo"
         },
         {
@@ -27920,7 +28029,12 @@
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 112,
+          "line": 102,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapInfo"
+        },
+        {
+          "file": "pkg/roborock/maps_list.go",
+          "line": 124,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapInfo"
         }
       ]
@@ -28997,7 +29111,7 @@
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 120,
+          "line": 213,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SelectMapRequest"
         }
       ]
@@ -33945,7 +34059,7 @@
     },
     {
       "file": "pkg/dependencies/mqtt/errors.go",
-      "line": 59,
+      "line": 63,
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/mqtt.RPCError"
     },
     {
@@ -33955,7 +34069,7 @@
     },
     {
       "file": "pkg/dependencies/mqtt/q10.go",
-      "line": 12,
+      "line": 15,
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/mqtt.q10Query"
     },
     {
@@ -36167,7 +36281,7 @@
     {
       "site": {
         "file": "pkg/dependencies/mqtt/q10.go",
-        "line": 43,
+        "line": 46,
         "symbol": "encoding/json.RawMessage"
       },
       "argumentTypes": [
@@ -36177,7 +36291,7 @@
     {
       "site": {
         "file": "pkg/dependencies/mqtt/q10.go",
-        "line": 54,
+        "line": 57,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -36188,7 +36302,7 @@
     {
       "site": {
         "file": "pkg/dependencies/mqtt/q10.go",
-        "line": 88,
+        "line": 91,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -36199,12 +36313,34 @@
     {
       "site": {
         "file": "pkg/dependencies/mqtt/q10.go",
-        "line": 106,
+        "line": 109,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
         "encoding/json.RawMessage",
         "*github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ10ListResult"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencies/mqtt/q10.go",
+        "line": 144,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "*map[string]encoding/json.RawMessage"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencies/mqtt/q10.go",
+        "line": 165,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "*[]map[string]encoding/json.RawMessage"
       ]
     },
     {
@@ -45537,7 +45673,7 @@
     {
       "site": {
         "file": "pkg/roborock/family_cleaning.go",
-        "line": 37,
+        "line": 61,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45547,7 +45683,7 @@
     {
       "site": {
         "file": "pkg/roborock/family_cleaning.go",
-        "line": 63,
+        "line": 75,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45557,7 +45693,7 @@
     {
       "site": {
         "file": "pkg/roborock/family_cleaning.go",
-        "line": 98,
+        "line": 110,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45611,7 +45747,7 @@
     {
       "site": {
         "file": "pkg/roborock/maps_list.go",
-        "line": 48,
+        "line": 55,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45621,23 +45757,34 @@
     {
       "site": {
         "file": "pkg/roborock/maps_list.go",
-        "line": 60,
+        "line": 132,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
         "encoding/json.RawMessage",
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7ListResult"
+        "any"
       ]
     },
     {
       "site": {
         "file": "pkg/roborock/maps_list.go",
-        "line": 104,
+        "line": 159,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
         "encoding/json.RawMessage",
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1ListResult"
+        "*[]encoding/json.RawMessage"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/roborock/maps_list.go",
+        "line": 179,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "*map[string]encoding/json.RawMessage"
       ]
     },
     {
