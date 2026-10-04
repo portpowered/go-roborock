@@ -77,3 +77,19 @@ func TestSharedPrimitiveBindingIsDeterministic(t *testing.T) {
 		t.Fatal("shared primitive selected an unstable owner")
 	}
 }
+
+func TestExplicitComponentOwnsNormalizedPropertyCollision(t *testing.T) {
+	t.Parallel()
+
+	entries := make(map[string]schemaOwner)
+	property := map[string]any{"type": "string"}
+	collectSchema(entries, "api/example.yaml", "#/components/schemas/ProductProperty/properties/id",
+		"ProductPropertyID", property)
+
+	components := map[string]any{"ProductPropertyID": property}
+	componentNames(entries, "api/example.yaml", components)
+
+	if entries[normalized("ProductPropertyID")].Pointer != "#/components/schemas/ProductPropertyID" {
+		t.Fatal("implicit property shadowed the explicit component owner")
+	}
+}

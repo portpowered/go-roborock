@@ -56,6 +56,8 @@ func owners() (schemaIndex, error) {
 			collectSchema(entries, filepath.ToSlash(file), "#/components/schemas/"+escape(name), name, schema)
 		}
 
+		componentNames(entries, file, schemas)
+
 		collectOperations(doc, file, entries, result, schemas)
 		stem := strings.TrimSuffix(filepath.Base(file), ".openapi.yaml")
 
@@ -91,6 +93,14 @@ func owners() (schemaIndex, error) {
 
 func escape(value string) string {
 	return strings.ReplaceAll(strings.ReplaceAll(value, "~", "~0"), "/", "~1")
+}
+
+// SCHEMA-13: explicit reusable components own their generated names when a
+// nested property path normalizes to the same identifier (for example ID).
+func componentNames(entries map[string]schemaOwner, file string, schemas map[string]any) {
+	for name := range schemas {
+		entries[normalized(name)] = schemaOwner{filepath.ToSlash(file), "#/components/schemas/" + escape(name)}
+	}
 }
 
 func putOwner(entries map[string]schemaOwner, name string, owner schemaOwner) {
