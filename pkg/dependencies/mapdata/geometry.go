@@ -14,44 +14,62 @@ func calibrated(grid mapmodel.MapGrid) error {
 		!finite(grid.Origin.X) || !finite(grid.Origin.Y) || (grid.RowYDirection != 1 && grid.RowYDirection != -1) {
 		return fmt.Errorf("grid calibration unavailable: %w", ErrMalformed)
 	}
+
 	_, err := cells(grid.Width, grid.Height)
+
 	return err
 }
 
 // MapToPixel converts source-frame world coordinates to displayed top-down pixels.
 func MapToPixel(grid mapmodel.MapGrid, point mapmodel.MapPoint) (mapmodel.MapPoint, error) {
-	if err := calibrated(grid); err != nil {
+	err := calibrated(grid)
+	if err != nil {
 		return mapmodel.MapPoint{}, err
 	}
+
 	if !finite(point.X) || !finite(point.Y) {
 		return mapmodel.MapPoint{}, fmt.Errorf("non-finite point: %w", ErrMalformed)
 	}
-	result := mapmodel.MapPoint{X: (point.X - grid.Origin.X) / *grid.Resolution, Y: (point.Y - grid.Origin.Y) / *grid.Resolution / float64(grid.RowYDirection)}
+
+	result := mapmodel.MapPoint{
+		X: (point.X - grid.Origin.X) / *grid.Resolution,
+		Y: (point.Y - grid.Origin.Y) / *grid.Resolution / float64(grid.RowYDirection),
+	}
 	if !grid.TopDown {
 		result.Y = float64(grid.Height-1) - result.Y
 	}
+
 	if !finite(result.X) || !finite(result.Y) {
 		return mapmodel.MapPoint{}, fmt.Errorf("point overflow: %w", ErrMalformed)
 	}
+
 	return result, nil
 }
 
 // PixelToMap reverses MapToPixel without rounding or changing firmware frames.
 func PixelToMap(grid mapmodel.MapGrid, point mapmodel.MapPoint) (mapmodel.MapPoint, error) {
-	if err := calibrated(grid); err != nil {
+	err := calibrated(grid)
+	if err != nil {
 		return mapmodel.MapPoint{}, err
 	}
+
 	if !finite(point.X) || !finite(point.Y) {
 		return mapmodel.MapPoint{}, fmt.Errorf("non-finite point: %w", ErrMalformed)
 	}
-	y := point.Y
+
+	rowY := point.Y
 	if !grid.TopDown {
-		y = float64(grid.Height-1) - y
+		rowY = float64(grid.Height-1) - rowY
 	}
-	result := mapmodel.MapPoint{X: grid.Origin.X + point.X**grid.Resolution, Y: grid.Origin.Y + y**grid.Resolution*float64(grid.RowYDirection)}
+
+	result := mapmodel.MapPoint{
+		X: grid.Origin.X + point.X**grid.Resolution,
+		Y: grid.Origin.Y + rowY**grid.Resolution*float64(grid.RowYDirection),
+	}
 	if !finite(result.X) || !finite(result.Y) {
 		return mapmodel.MapPoint{}, fmt.Errorf("point overflow: %w", ErrMalformed)
 	}
+
 	return result, nil
 }
 
@@ -61,14 +79,29 @@ func PixelRectangleToMap(grid mapmodel.MapGrid, rectangle mapmodel.MapRectangle)
 		rectangle.Max.Y > float64(grid.Height-1) || rectangle.Min.X >= rectangle.Max.X || rectangle.Min.Y >= rectangle.Max.Y {
 		return mapmodel.MapRectangle{}, fmt.Errorf("rectangle outside grid or degenerate: %w", ErrMalformed)
 	}
-	a, err := PixelToMap(grid, rectangle.Min)
+
+	minimum, err := PixelToMap(grid, rectangle.Min)
 	if err != nil {
 		return mapmodel.MapRectangle{}, err
 	}
-	b, err := PixelToMap(grid, rectangle.Max)
+
+	maximum, err := PixelToMap(grid, rectangle.Max)
 	if err != nil {
 		return mapmodel.MapRectangle{}, err
 	}
-	return mapmodel.MapRectangle{Min: mapmodel.MapPoint{X: math.Min(a.X, b.X), Y: math.Min(a.Y, b.Y)},
-		Max: mapmodel.MapPoint{X: math.Max(a.X, b.X), Y: math.Max(a.Y, b.Y)}}, nil
+
+	return mapmodel.MapRectangle{
+		Min: mapmodel.MapPoint{
+			X: math.Min(minimum.X,
+				maximum.X),
+			Y: math.Min(minimum.Y,
+				maximum.Y),
+		},
+		Max: mapmodel.MapPoint{
+			X: math.Max(minimum.X,
+				maximum.X),
+			Y: math.Max(minimum.Y,
+				maximum.Y),
+		},
+	}, nil
 }

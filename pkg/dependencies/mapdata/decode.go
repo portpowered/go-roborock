@@ -21,10 +21,24 @@ func Decode(format mapmodel.MapFormat, payload []byte) (*mapmodel.MapSnapshot, e
 	if len(payload) == 0 || len(payload) > maxPayload {
 		return nil, fmt.Errorf("payload size %d: %w", len(payload), ErrMalformed)
 	}
-	snapshot := &mapmodel.MapSnapshot{Format: format, Paths: []mapmodel.MapPath{}, Rooms: []mapmodel.MapRoom{},
-		CurrentZones: []mapmodel.MapArea{}, Restrictions: []mapmodel.MapArea{}, Walls: []mapmodel.MapArea{},
-		UnknownBlocks: []mapmodel.MapUnknownBlock{}}
+
+	snapshot := &mapmodel.MapSnapshot{
+		Format:        format,
+		Paths:         []mapmodel.MapPath{},
+		Rooms:         []mapmodel.MapRoom{},
+		CurrentZones:  []mapmodel.MapArea{},
+		Restrictions:  []mapmodel.MapArea{},
+		Walls:         []mapmodel.MapArea{},
+		UnknownBlocks: []mapmodel.MapUnknownBlock{},
+		Dock:          nil,
+		FormatId:      nil,
+		Grid:          nil,
+		MapId:         nil,
+		Robot:         nil,
+	}
+
 	var err error
+
 	switch format {
 	case mapmodel.MapFormatV1:
 		err = decodeV1(payload, snapshot)
@@ -35,9 +49,11 @@ func Decode(format mapmodel.MapFormat, payload []byte) (*mapmodel.MapSnapshot, e
 	default:
 		err = fmt.Errorf("format %q: %w", format, ErrMalformed)
 	}
+
 	if err != nil {
 		return nil, err
 	}
+
 	return snapshot, nil
 }
 
@@ -47,5 +63,6 @@ func cells(width, height int) (int, error) {
 	if width <= 0 || height <= 0 || width > maxCells/height {
 		return 0, fmt.Errorf("grid dimensions %dx%d: %w", width, height, ErrMalformed)
 	}
+
 	return width * height, nil
 }
