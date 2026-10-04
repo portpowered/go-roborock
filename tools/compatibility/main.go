@@ -15,8 +15,8 @@ import (
 )
 
 const (
-	defaultModulePath        = "github.com/example/your-service-go"
-	defaultPublicPackages    = ".,httpclient"
+	defaultModulePath        = "github.com/portpowered/go-roborock"
+	defaultPublicPackages    = "pkg/roborock"
 	apiDiffTool              = "golang.org/x/exp/cmd/apidiff@v0.0.0-20260908205506-85c1c2202aba"
 	previousRelease          = "previous-release"
 	policyReport             = "report"

@@ -1,0 +1,83 @@
+version: "2"
+
+run:
+  timeout: 5m
+
+linters:
+  default: all
+  settings:
+    depguard:
+      rules:
+        Main:
+          # The example, HTTP client, and their tests intentionally import this module.
+          list-mode: strict
+          allow:
+            - $gostd
+            - github.com/portpowered/go-roborock
+            - github.com/getkin/kin-openapi
+            - github.com/oapi-codegen/runtime
+            - golang.org/x/tools
+            - gopkg.in/yaml.v3
+  exclusions:
+    generated: strict
+    rules:
+      # API-09/GO-09: DeviceSession owns its opening context and uses bounded independent camera teardown.
+      - path: '^pkg[\\/]roborock[\\/]client\.go$'
+        linters: [containedctx, contextcheck]
+      # SCHEMA-10: This generic pointer projection helper returns its concrete semantic type instantiation.
+      - path: '^pkg[\\/]roborock[\\/]accounts\.go$'
+        linters: [ireturn]
+      # API-09/GO-09: CameraSession owns its lifecycle context and uses an independently bounded stop cleanup.
+      - path: '^pkg[\\/]roborock[\\/]camera\.go$'
+        linters: [containedctx, contextcheck]
+      # API-01: This provider interface exposes the complete supported typed operation inventory.
+      - path: '^pkg[\\/]roborock[\\/]vacuum\.go$'
+        linters: [interfacebloat]
+      # SCHEMA-10: The generic helper projects generated wire data into a concrete generated public type.
+      - path: '^pkg[\\/]roborock[\\/]vacuum_helpers\.go$'
+        linters: [ireturn]
+      # GO-05: Roborock requires MD5 for the camera pattern-password protocol; this is not password storage.
+      - path: '^pkg[\\/]roborock[\\/]camera_helpers\.go$'
+        text: 'G(401|501):'
+        linters: [gosec]
+      # LIB-05: These exact paired-replay tests inject the private RPC seam without adding test APIs to the SDK.
+      - path: '^pkg[\\/]roborock[\\/](camera|vacuum|a01)_test\.go$'
+        linters: [testpackage]
+      # GO-05: The provider's Hawk authentication requires MD5 path signing and paired replay verifies it independently.
+      - path: '^(pkg[\\/]dependencies[\\/]rest[\\/]signing\.go|tests[\\/]replay[\\/]rest_test\.go)$'
+        text: 'G(401|501):'
+        linters: [gosec]
+      # SCHEMA-11: This private immutable once-loaded schema cache is shared safely by concurrent validators.
+      - path: '^pkg[\\/]dependencies[\\/]rest[\\/]validation\.go$'
+        text: 'responseSchemas'
+        linters: [gochecknoglobals]
+      # SCHEMA-11: go:embed must populate a package variable to expose checked-in contract bytes.
+      - path: '^api[\\/]contracts\.go$'
+        text: 'RESTContracts'
+        linters: [gochecknoglobals]
+      # LIB-05: These named unit tests exercise private helpers; public paired replay lives in tests/replay.
+      - path: '^pkg[\\/]dependencies[\\/]rest[\\/](client|validation)_test\.go$'
+        linters: [testpackage]
+      # SCHEMA-07: A provider JSON null metadata value intentionally decodes to a nil typed pointer without an error.
+      - path: '^pkg[\\/]dependencies[\\/]rest[\\/]inventory\.go$'
+        text: 'return both a nil error and an invalid value'
+        linters: [nilnil]
+      # LIB-09: The opt-in integration test opens the explicitly supplied private auth filename, never network-controlled input.
+      - path: '^tests[\\/]integration[\\/]inventory_test\.go$'
+        text: 'G703: Path traversal via taint analysis'
+        linters: [gosec]
+      # GO-15/LIB-05: Independently reviewed named CLI paired-fixture tests use diagnostic errors,
+      # complete ordered transcript validators, literal JSON exchanges, and sparse synthetic HTTP values.
+      - path: '^cmd[\\/]go-roborock[\\/](run|device|rpc|discovery)_test\.go$'
+        linters: [err113, wrapcheck, cyclop, lll, exhaustruct, exhaustruct_v5]
+      # GO-05/LIB-05: These exact paired fixtures independently implement the required legacy MD5 wire oracle.
+      - path: '^cmd[\\/]go-roborock[\\/](rpc|discovery)_test\.go$'
+        text: 'G(401|501):'
+        linters: [gosec]
+      # LIB-05/GO-10: These named codec/session tests inject private framing and lifecycle seams under the race detector.
+      - path: '^pkg[\\/]dependencies[\\/]mqtt[\\/](codec|session)_test\.go$'
+        linters: [testpackage]
+
+formatters:
+  enable:
+    - gofmt

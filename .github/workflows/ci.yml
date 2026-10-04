@@ -1,0 +1,44 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    env:
+      ROBOROCK_INTEGRATION_AUTH_FILE: ''
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        go: ['1.24.x', '1.26.x']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go }}
+          cache-dependency-path: |
+            go.sum
+            cmd/go-roborock/go.sum
+      - name: Install make on Windows
+        if: runner.os == 'Windows'
+        run: choco install make --no-progress -y
+      - name: Blocking all-linter and complete offline verification
+        run: make check
+      - name: Report public API changes
+        if: github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest' && matrix.go == '1.24.x'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: go run ./tools/compatibility -base "$BASE_SHA" -module github.com/portpowered/go-roborock -packages pkg/roborock -policy report
+      - uses: actions/upload-artifact@v4
+        if: matrix.os == 'ubuntu-latest' && matrix.go == '1.24.x'
+        with:
+          name: coverage
+          path: |
+            coverage.out
+            coverage.filtered.out

@@ -1,0 +1,41 @@
+name: CLI release verification
+on:
+  push:
+    tags: ['cmd/go-roborock/v*']
+permissions:
+  contents: read
+jobs:
+  verify-cli-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.24.x'
+      - name: Verify exact CLI tag commit
+        run: make check
+      - name: Verify matching released SDK tree and published CLI metadata
+        env:
+          CLI_TAG: ${{ github.ref_name }}
+          GOWORK: 'off'
+        run: |
+          version="${CLI_TAG#cmd/go-roborock/}"
+          git rev-parse "$version^{commit}"
+          git diff --exit-code "$version" HEAD -- . ':!cmd/go-roborock/go.mod' ':!cmd/go-roborock/go.sum'
+          go -C cmd/go-roborock mod tidy -diff
+      - name: Verify public CLI installation
+        env:
+          CLI_TAG: ${{ github.ref_name }}
+          GOWORK: 'off'
+        run: |
+          version="${CLI_TAG#cmd/go-roborock/}"
+          consumer=$(mktemp -d)
+          cd "$consumer"
+          go mod init consumer.example/roborock-cli
+          for attempt in 1 2 3 4 5 6; do
+            if go install github.com/portpowered/go-roborock/cmd/go-roborock@"$version"; then break; fi
+            if test "$attempt" = 6; then exit 1; fi
+            sleep 10
+          done
