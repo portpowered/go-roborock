@@ -1,0 +1,47 @@
+asyncapi: 3.0.0
+info:
+  title: Roborock map binary primitives
+  version: 1.0.0
+  description: Inner map binary layout constants, independent of transport encryption and retrieval.
+channels: {}
+operations: {}
+x-wire-constants:
+  MapV1Magic: rr
+  MapV1HeaderMinimum: 20
+  MapBlockHeaderMinimum: 8
+  MapBlockCharger: 1
+  MapBlockImage: 2
+  MapBlockPath: 3
+  MapBlockGotoPath: 4
+  MapBlockPredictedPath: 5
+  MapBlockCurrentZones: 6
+  MapBlockGotoTarget: 7
+  MapBlockRobot: 8
+  MapBlockNoGo: 9
+  MapBlockWalls: 10
+  MapBlockRooms: 11
+  MapBlockNoMop: 12
+  MapBlockNoCarpet: 19
+  MapQ10HeaderLength: 29
+  MapQ10IDOffset: 2
+  MapQ10WidthOffset: 7
+  MapQ10HeightOffset: 9
+  MapQ10OriginXOffset: 11
+  MapQ10OriginYOffset: 13
+  MapQ10ResolutionOffset: 15
+  MapQ10DockXOffset: 17
+  MapQ10DockYOffset: 19
+  MapQ10DockHeadingOffset: 21
+  MapQ10CompressedLengthOffset: 27
+  MapQ10RoomRecordLength: 47
+  MapQ10RoomNameLengthOffset: 26
+  MapQ10RoomNameOffset: 27
+  MapQ10TraceHeaderLength: 14
+  MapQ10TracePointCountOffset: 8
+  MapQ10TraceHeadingOffset: 10
+components:
+  schemas:
+    MapBinaryPayload:
+      type: string
+      format: binary
+      description: Inflated V1 RRMap, inflated Q7 RobotMap protobuf, or Q10 custom LZ4 map/trace packet.
