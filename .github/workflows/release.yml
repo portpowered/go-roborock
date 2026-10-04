@@ -2,25 +2,32 @@ name: Release
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Existing SDK tag to verify
+        required: true
+        type: string
 permissions:
   contents: write
 jobs:
   verify-tag:
     runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ inputs.version || github.ref_name }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ inputs.version || github.ref }}
       - uses: actions/setup-go@v5
         with:
           go-version: '1.24.x'
       - name: Verify exact tag commit
         run: make check
       - name: Verify public API version policy
-        run: go run ./tools/compatibility -base previous-release -module github.com/portpowered/go-roborock -packages pkg/roborock -policy release -version '${{ github.ref_name }}'
+        run: go run ./tools/compatibility -base previous-release -module github.com/portpowered/go-roborock -packages pkg/roborock -policy release -version "$VERSION"
       - name: Verify published public SDK as a consumer
-        env:
-          VERSION: ${{ github.ref_name }}
         run: |
           consumer=$(mktemp -d)
           cd "$consumer"
@@ -31,9 +38,12 @@ jobs:
             sleep 10
           done
           printf 'package consumer\nimport _ "github.com/portpowered/go-roborock/pkg/roborock"\n' > consumer.go
+          go mod tidy
           go build ./...
       - name: Prepare draft release for final independent review
         env:
           GH_TOKEN: ${{ github.token }}
-          VERSION: ${{ github.ref_name }}
-        run: gh release create "$VERSION" --draft --verify-tag --generate-notes
+        run: |
+          if ! gh release view "$VERSION" >/dev/null 2>&1; then
+            gh release create "$VERSION" --draft --verify-tag --generate-notes
+          fi
