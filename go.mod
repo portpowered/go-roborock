@@ -3,9 +3,11 @@ module github.com/portpowered/go-roborock
 go 1.24.0
 
 require (
+	github.com/bufbuild/protocompile v0.14.1
 	github.com/getkin/kin-openapi v0.135.0
 	github.com/oapi-codegen/runtime v1.1.2
 	golang.org/x/tools v0.34.0
+	google.golang.org/protobuf v1.36.11
 	gopkg.in/yaml.v3 v3.0.1
 )
 
