@@ -37,8 +37,8 @@ oapi-codegen generator reads an ephemeral, components-only OpenAPI projection
 of each AsyncAPI document. It also preserves request aliases through
 `x-go-request-schema`; the projection has no HTTP operations and is neither
 checked in nor published. This compatibility adapter retains the existing
-`x-go-type` custom decoding behavior instead of switching existing types to
-Modelina under SCHEMA-10. Future changes continue to edit the canonical schemas.
+`x-go-type` custom decoding behavior. SCHEMA-10 records this compatibility
+adapter; future changes continue to edit the canonical schemas.
 
 `make check` requires Node.js 22 and npm in addition to Go and make. The
 Go-owned contracts command invokes the official pinned AsyncAPI CLI 6.2.0
