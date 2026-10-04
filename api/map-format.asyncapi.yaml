@@ -39,9 +39,69 @@ x-wire-constants:
   MapQ10TraceHeaderLength: 14
   MapQ10TracePointCountOffset: 8
   MapQ10TraceHeadingOffset: 10
+  MapV1Resolution: 50
+  MapV1MapIDOffset: 12
+  MapV1MapIDLength: 4
+  MapV1HeaderLengthOffset: 2
+  MapV1HeaderLengthSize: 2
+  MapBlockTypeOffset: 0
+  MapBlockTypeSize: 2
+  MapBlockHeaderLengthOffset: 2
+  MapBlockHeaderLengthSize: 2
+  MapBlockDataLengthOffset: 4
+  MapBlockDataLengthSize: 4
+  MapV1ImageHeaderMinimum: 24
+  MapV1ImageFieldsLength: 16
+  MapV1ImageTopOffset: 0
+  MapV1ImageLeftOffset: 4
+  MapV1ImageHeightOffset: 8
+  MapV1ImageWidthOffset: 12
+  MapV1CoordinateSize: 4
+  MapV1PoseLength: 8
+  MapV1PoseHeadingLength: 12
+  MapV1PoseHeadingOffset: 8
+  MapV1HeadingMask: 255
+  MapV1HeadingWrap: 256
+  MapV1PointStride: 4
+  MapV1PointCoordinateSize: 2
+  MapV1PathHeaderLength: 20
+  MapV1AreaCountHeaderLength: 10
+  MapV1AreaCountOffset: 8
+  MapV1AreaCountSize: 2
+  MapV1ZoneStride: 8
+  MapV1PolygonStride: 16
+  MapV1CellLegacyFloor: 255
+  MapV1CellScan: 7
+  MapV1CellKindMask: 7
+  MapV1RoomIDShift: 3
+  MapQ10MarkerRevision: 1
+  MapQ10KindCurrent: 1
+  MapQ10KindTrace: 2
+  MapQ10KindCleanRecord: 3
+  MapQ10KindSaved: 4
+  MapQ10MaximumRooms: 32
+  MapQ10WorldUnitMillimeters: 5.0
+  MapQ10TraceUnitMillimeters: 2.5
+  MapQ10HeaderUnitsPerPixel: 10.0
+  MapQ10ResolutionUnitMillimeters: 10.0
+  MapQ10SignedCoordinateSize: 2
+  MapQ10RoomHeaderLength: 2
+  MapQ10RoomHeaderMarker: 1
+  MapQ10RoomCountOffset: 1
+  MapQ10RoomIDLength: 2
+  MapQ10PointStride: 4
+  MapQ10EraseHeaderLength: 2
+  MapQ10EraseMaximumVertices: 16
+  MapLZ4NibbleExtension: 15
+  MapLZ4LengthExtension: 255
+  MapLZ4MatchMinimum: 4
+  MapLZ4OffsetSize: 2
+  MapLZ4ByteBits: 8
+  MapLZ4TokenShift: 4
 components:
   schemas:
     MapBinaryPayload:
       type: string
       format: binary
       description: Inflated V1 RRMap, inflated Q7 RobotMap protobuf, or Q10 custom LZ4 map/trace packet.
+
