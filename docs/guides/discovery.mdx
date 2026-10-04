@@ -24,5 +24,6 @@ defer session.Close()
 
 The local key is required for device encryption. A session binds one account and device until closed. Keep `sessionCtx` alive for that whole lifetime and use separate deadlines for RPC calls. Discovery preserves future protocol values; unsupported connection protocols fail with `Unsupported`.
 
-Continue with [vacuum operations](/docs/guides/vacuum) or [A01](/docs/guides/a01). See the [generated reference](/docs/openapi/devices/GetHomeDatav3) for account and device contract shapes.
+Choose operations using [device families](/docs/guides/device-families), then continue with [vacuum operations](/docs/guides/vacuum), [maps](/docs/guides/maps), or [A01](/docs/guides/a01). See the [generated reference](/docs/openapi/devices/GetHomeDatav3) for account and device contract shapes.
+
 
