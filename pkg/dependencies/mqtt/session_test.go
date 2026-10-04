@@ -1368,3 +1368,86 @@ func assertSessionClosed(t *testing.T, session *Session, expected bool) {
 		t.Fatalf("session closed=%t expected=%t", closed, expected)
 	}
 }
+
+func TestIncomingMapFailuresAreProtocol(t *testing.T) {
+	t.Parallel()
+
+	session := new(Session)
+	session.config = testConfig(protocol.MQTTVersionV1)
+
+	_, err := session.matchesMap([]byte{1}, &mapQuery{id: 1, prefix: 0, reply: nil})
+	if !errors.Is(err, roborockerrors.New(roborockerrors.Protocol, "", "", nil)) ||
+		!errors.Is(err, errTruncatedDevicePayload) {
+		t.Fatalf("truncated header: %v", err)
+	}
+
+	_, err = inflateMap(io.NopCloser(io.LimitReader(&zeroMapReader{}, maxMapData+1)))
+	if !errors.Is(err, roborockerrors.New(roborockerrors.Protocol, "", "", nil)) ||
+		!errors.Is(err, errDevicePayloadExceedsWireLimit) {
+		t.Fatalf("map size limit: %v", err)
+	}
+
+	err = session.deliverB01RPC([]byte(`{"msgId":"bad","code":0}`))
+
+	var numeric *strconv.NumError
+
+	if !errors.Is(err, roborockerrors.New(roborockerrors.Protocol, "", "", nil)) ||
+		!errors.As(err, &numeric) {
+		t.Fatalf("message identifier: %v", err)
+	}
+
+	err = session.deliverB01RPC([]byte(`{"msgId":"1","code":0}`))
+	if !errors.Is(err, roborockerrors.New(roborockerrors.Protocol, "", "", nil)) ||
+		!errors.Is(err, errInvalidB01MessageID) {
+		t.Fatalf("identifier range: %v", err)
+	}
+}
+
+type zeroMapReader struct{}
+
+func (*zeroMapReader) Read(value []byte) (int, error) {
+	clear(value)
+
+	return len(value), nil
+}
+
+func TestQ10ListRejectsMissingIdentifier(t *testing.T) {
+	t.Parallel()
+
+	session := new(Session)
+
+	session.q10Query = &q10Query{reply: make(chan response, 1)}
+
+	for _, raw := range []string{
+		`{"op":"list","result":1,"data":null}`,
+		`{"op":"list","result":1,"data":[{}]}`,
+		`{"op":"list","result":1,"data":[{"id":null}]}`,
+	} {
+		err := session.deliverQ10List(json.RawMessage(raw))
+		if !errors.Is(err, roborockerrors.New(roborockerrors.Protocol, "", "", nil)) ||
+			!errors.Is(err, errInvalidMapListShape) {
+			t.Fatalf("missing identifier: %v", err)
+		}
+	}
+
+	err := session.deliverQ10List(json.RawMessage(`{"op":"list","result":1,"data":[{"id":"","future":true}]}`))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	<-session.q10Query.reply
+
+	err = session.deliverQ10List(json.RawMessage(`{"op":"list","result":7}`))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	reply := <-session.q10Query.reply
+
+	var rejected *RPCError
+
+	if !errors.Is(reply.err, roborockerrors.New(roborockerrors.Protocol, "", "", nil)) ||
+		!errors.As(reply.err, &rejected) || rejected.Code != 7 {
+		t.Fatalf("list rejection: %v", reply.err)
+	}
+}

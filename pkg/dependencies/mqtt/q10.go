@@ -1,9 +1,12 @@
 package mqtt
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"maps"
+	"reflect"
+	"strings"
 
 	"github.com/portpowered/go-roborock/internal/protocol"
 	"github.com/portpowered/go-roborock/pkg/dependencymodels"
@@ -75,7 +78,7 @@ func (s *Session) endQ10() {
 func (s *Session) deliverQ10(dps map[string]json.RawMessage) error {
 	err := expandQ10DPS(dps)
 	if err != nil {
-		return err
+		return protocolError("Q10 map list shape", err)
 	}
 
 	return s.deliverQ10List(dps[protocol.B01Q10MapListDatapoint])
@@ -112,10 +115,13 @@ func (s *Session) deliverQ10List(value json.RawMessage) error {
 		return nil
 	}
 
-	reply := response{value: value, err: nil}
-	if result.Result == nil || *result.Result != protocol.B01Q10MapListSuccess {
-		reply.err = invalid("Q10 map list", "device rejected map list request")
+	err = validateQ10MapListEntries(value)
+	if err != nil {
+		return transportError("Q10 map list", err)
 	}
+
+	reply := response{value: value, err: nil}
+	reply.err = q10ListRejection(result)
 
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -128,4 +134,57 @@ func (s *Session) deliverQ10List(value json.RawMessage) error {
 	}
 
 	return nil
+}
+
+// validateQ10MapListEntries checks required identifier presence before decoding
+// loses that distinction. JSON tags come from the canonical generated wire model.
+func validateQ10MapListEntries(value json.RawMessage) error {
+	var object map[string]json.RawMessage
+
+	err := json.Unmarshal(value, &object)
+	if err != nil {
+		return protocolError("Q10 map list shape", err)
+	}
+
+	dataField, _ := reflect.TypeFor[dependencymodels.MapsQ10ListResult]().FieldByName("Data")
+	idField, _ := reflect.TypeFor[dependencymodels.MapsQ10ListEntry]().FieldByName("Id")
+	dataKey, _, _ := strings.Cut(dataField.Tag.Get("json"), ",")
+	idKey, _, _ := strings.Cut(idField.Tag.Get("json"), ",")
+
+	data, present := object[dataKey]
+	if !present {
+		return nil
+	}
+
+	if bytes.Equal(bytes.TrimSpace(data), []byte("null")) {
+		return errInvalidMapListShape
+	}
+
+	var entries []map[string]json.RawMessage
+
+	err = json.Unmarshal(data, &entries)
+	if err != nil {
+		return protocolError("Q10 map list shape", err)
+	}
+
+	for _, entry := range entries {
+		identifier, present := entry[idKey]
+		if !present || bytes.Equal(bytes.TrimSpace(identifier), []byte("null")) {
+			return errInvalidMapListShape
+		}
+	}
+
+	return nil
+}
+
+func q10ListRejection(result dependencymodels.MapsQ10ListResult) error {
+	if result.Result == nil {
+		return protocolError("Q10 map list", errInvalidMapListShape)
+	}
+
+	if *result.Result == protocol.B01Q10MapListSuccess {
+		return nil
+	}
+
+	return protocolError("Q10 map list", &RPCError{Code: *result.Result, Message: "device rejected map list request"})
 }

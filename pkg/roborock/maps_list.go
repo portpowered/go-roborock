@@ -1,15 +1,22 @@
 package roborock
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
+	"fmt"
+	"reflect"
 	"strconv"
+	"strings"
 
 	"github.com/portpowered/go-roborock/internal/protocol"
 
 	"github.com/portpowered/go-roborock/pkg/dependencymodels"
 	"github.com/portpowered/go-roborock/pkg/roborockerrors"
 )
+
+var errMalformedMapList = errors.New("device map list does not match its known response shape")
 
 // ListMaps retrieves saved-map metadata. Q10 list order does not imply an active map.
 func (s *DeviceSession) ListMaps(ctx context.Context, _ EmptyRequest) (ListMapsResult, error) {
@@ -57,7 +64,7 @@ func (s *DeviceSession) listQ7Maps(ctx context.Context) (ListMapsResult, error) 
 
 	var list dependencymodels.MapsQ7ListResult
 
-	err = json.Unmarshal(raw, &list)
+	err = decodeKnownMapList(raw, &list)
 	if err != nil {
 		return result, roborockerrors.New(roborockerrors.Protocol, "ListMaps", "malformed Q7 map list", err)
 	}
@@ -101,9 +108,14 @@ func (s *DeviceSession) listV1Maps(ctx context.Context) (ListMapsResult, error) 
 
 	var lists dependencymodels.MapsV1ListResult
 
-	err = json.Unmarshal(raw, &lists)
+	err = decodeKnownMapList(raw, &lists)
 	if err != nil {
 		return result, roborockerrors.New(roborockerrors.Protocol, "ListMaps", "malformed V1 map list", err)
+	}
+
+	if len(lists) == 0 {
+		return result, roborockerrors.New(roborockerrors.Protocol, "ListMaps", "empty V1 map list response",
+			errMalformedMapList)
 	}
 
 	for _, list := range lists {
@@ -114,6 +126,87 @@ func (s *DeviceSession) listV1Maps(ctx context.Context) (ListMapsResult, error) 
 	}
 
 	return result, nil
+}
+
+func decodeKnownMapList(raw json.RawMessage, target any) error {
+	err := json.Unmarshal(raw, target)
+	if err != nil {
+		return fmt.Errorf("decode device map list: %w", err)
+	}
+
+	return validateMapListShape(raw, reflect.TypeOf(target).Elem())
+}
+
+func validateMapListShape(raw json.RawMessage, model reflect.Type) error {
+	for model.Kind() == reflect.Pointer {
+		model = model.Elem()
+	}
+
+	if model == reflect.TypeFor[json.RawMessage]() {
+		return nil
+	}
+
+	if bytes.Equal(bytes.TrimSpace(raw), []byte("null")) {
+		return errMalformedMapList
+	}
+
+	switch {
+	case model.Kind() == reflect.Struct:
+		return validateMapListObject(raw, model)
+	case model.Kind() == reflect.Slice:
+		var values []json.RawMessage
+
+		err := json.Unmarshal(raw, &values)
+		if err != nil {
+			return fmt.Errorf("decode map list sequence: %w", err)
+		}
+
+		for _, value := range values {
+			err = validateMapListShape(value, model.Elem())
+			if err != nil {
+				return err
+			}
+		}
+	default:
+	}
+
+	return nil
+}
+
+func validateMapListObject(raw json.RawMessage, model reflect.Type) error {
+	var object map[string]json.RawMessage
+
+	err := json.Unmarshal(raw, &object)
+	if err != nil {
+		return fmt.Errorf("decode map list object: %w", err)
+	}
+
+	for index := range model.NumField() {
+		field := model.Field(index)
+
+		tag := field.Tag.Get("json")
+		if tag == "" || tag == "-" {
+			continue
+		}
+
+		parts := strings.Split(tag, ",")
+
+		value, present := object[parts[0]]
+		if !present {
+			if !strings.Contains(tag, ",omitempty") {
+				return fmt.Errorf("%w: missing %s", errMalformedMapList, parts[0])
+			}
+
+			continue
+		}
+
+		err = validateMapListShape(value, field.Type)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 // SelectMap explicitly changes the V1 active map. Reads never select maps implicitly.

@@ -2,16 +2,19 @@ package mqtt
 
 import (
 	"bytes"
+	"encoding/base64"
 	"encoding/binary"
 	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"hash/crc32"
+	"io"
 	"math"
 	"os"
 	"testing"
 
 	"github.com/portpowered/go-roborock/internal/protocol"
+	"github.com/portpowered/go-roborock/pkg/roborockerrors"
 )
 
 func TestFrameEncryptionAndIntegrity(t *testing.T) {
@@ -386,5 +389,25 @@ func verifyFrameHeader(t *testing.T, decoded, frame deviceFrame) {
 	if decoded.Version != frame.Version || decoded.Sequence != frame.Sequence || decoded.Random != frame.Random ||
 		decoded.Timestamp != frame.Timestamp || decoded.Protocol != frame.Protocol {
 		t.Fatalf("decoded Python header=%v expected=%v", decoded, frame)
+	}
+}
+
+func TestEmptyCompressedMapIsProtocol(t *testing.T) {
+	t.Parallel()
+	// Independent Python cryptography AES-ECB encryption of a PKCS7 empty block.
+	// CBC with a zero IV has the same first block; both decrypted streams are empty.
+	encrypted, err := hex.DecodeString("377222e061a924c591cd9c27ea163ed4")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, err = decodeV1Map(encrypted, hex.EncodeToString([]byte(syntheticKey)))
+	if !errors.Is(err, roborockerrors.New(roborockerrors.Protocol, "", "", nil)) || !errors.Is(err, io.EOF) {
+		t.Fatalf("empty gzip: %v", err)
+	}
+
+	_, err = decodeQ7Map([]byte(base64.StdEncoding.EncodeToString(encrypted)), []byte(syntheticKey))
+	if !errors.Is(err, roborockerrors.New(roborockerrors.Protocol, "", "", nil)) || !errors.Is(err, io.ErrUnexpectedEOF) {
+		t.Fatalf("empty zlib: %v", err)
 	}
 }

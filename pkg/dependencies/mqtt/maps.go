@@ -251,7 +251,7 @@ func (s *Session) deliverMap(payload []byte) error {
 func (s *Session) matchesMap(payload []byte, query *mapQuery) (bool, error) {
 	if s.config.Protocol == protocol.MQTTVersionV1 {
 		if len(payload) < protocol.MapsV1HeaderSize {
-			return false, invalid("V1 map", "truncated map header")
+			return false, transportError("V1 map header", errTruncatedDevicePayload)
 		}
 
 		endpoint := payload[protocol.MapsV1EndpointOffset:protocol.MapsV1EndpointEnd]

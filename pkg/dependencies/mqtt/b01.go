@@ -162,7 +162,11 @@ func (s *Session) deliverB01RPC(value []byte) error {
 	requestID, err := strconv.ParseInt(result.MsgId, 10, 64)
 	if err != nil || requestID < protocol.B01Q7MessageIDBase ||
 		requestID >= protocol.B01Q7MessageIDBase+protocol.B01Q7MessageIDRange {
-		return invalid("B01 response", "invalid message identifier")
+		if err != nil {
+			return transportError("B01 response identifier", err)
+		}
+
+		return transportError("B01 response identifier", errInvalidB01MessageID)
 	}
 
 	s.deliverReply(requestID, b01Result(result))

@@ -24,16 +24,16 @@ const (
 func decodeV1Map(encrypted []byte, nonce string) ([]byte, error) {
 	key, err := hex.DecodeString(nonce)
 	if err != nil {
-		return nil, transportError("V1 map nonce", err)
+		return nil, protocolError("V1 map nonce", err)
 	}
 
 	block, err := aes.NewCipher(key)
 	if err != nil {
-		return nil, transportError("V1 map cipher", err)
+		return nil, protocolError("V1 map cipher", err)
 	}
 
 	if len(encrypted) == 0 || len(encrypted)%aes.BlockSize != 0 {
-		return nil, transportError("V1 map", errInvalidCiphertextLength)
+		return nil, protocolError("V1 map", errInvalidCiphertextLength)
 	}
 
 	plain := make([]byte, len(encrypted))
@@ -41,12 +41,12 @@ func decodeV1Map(encrypted []byte, nonce string) ([]byte, error) {
 
 	plain, err = unpadPayload(plain)
 	if err != nil {
-		return nil, transportError("V1 map padding", err)
+		return nil, protocolError("V1 map padding", err)
 	}
 
 	reader, err := gzip.NewReader(bytes.NewReader(plain))
 	if err != nil {
-		return nil, transportError("V1 map gzip", err)
+		return nil, protocolError("V1 map gzip", err)
 	}
 
 	return inflateMap(reader)
@@ -65,7 +65,7 @@ func q7MapKey(serial, model string) ([]byte, error) {
 
 	block, err := aes.NewCipher([]byte(modelKey))
 	if err != nil {
-		return nil, transportError("Q7 model key", err)
+		return nil, protocolError("Q7 model key", err)
 	}
 
 	material := []byte(fmt.Sprintf(protocol.B01Q7MapKeyInputFormat, serial, suffix, serial))
@@ -91,16 +91,16 @@ func decodeQ7Map(payload, key []byte) ([]byte, error) {
 
 	encrypted, err := base64.StdEncoding.Strict().DecodeString(text)
 	if err != nil {
-		return nil, transportError("Q7 map base64", err)
+		return nil, protocolError("Q7 map base64", err)
 	}
 
 	if len(encrypted) == 0 || len(encrypted)%aes.BlockSize != 0 {
-		return nil, transportError("Q7 map", errInvalidCiphertextLength)
+		return nil, protocolError("Q7 map", errInvalidCiphertextLength)
 	}
 
 	block, err := aes.NewCipher(key)
 	if err != nil {
-		return nil, transportError("Q7 map cipher", err)
+		return nil, protocolError("Q7 map cipher", err)
 	}
 
 	plain := make([]byte, len(encrypted))
@@ -110,17 +110,17 @@ func decodeQ7Map(payload, key []byte) ([]byte, error) {
 
 	plain, err = unpadPayload(plain)
 	if err != nil {
-		return nil, transportError("Q7 map padding", err)
+		return nil, protocolError("Q7 map padding", err)
 	}
 
 	compressed, err := hex.DecodeString(string(plain))
 	if err != nil {
-		return nil, transportError("Q7 map hex", err)
+		return nil, protocolError("Q7 map hex", err)
 	}
 
 	reader, err := zlib.NewReader(bytes.NewReader(compressed))
 	if err != nil {
-		return nil, transportError("Q7 map zlib", err)
+		return nil, protocolError("Q7 map zlib", err)
 	}
 
 	return inflateMap(reader)
@@ -131,11 +131,11 @@ func inflateMap(reader io.ReadCloser) ([]byte, error) {
 
 	data, err := io.ReadAll(io.LimitReader(reader, maxMapData+1))
 	if err != nil {
-		return nil, transportError("map decompression", err)
+		return nil, protocolError("map decompression", err)
 	}
 
 	if len(data) > maxMapData {
-		return nil, invalid("map", "decompressed map exceeds size limit")
+		return nil, protocolError("map decompression", errDevicePayloadExceedsWireLimit)
 	}
 
 	return data, nil
