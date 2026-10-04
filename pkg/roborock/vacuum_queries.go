@@ -93,6 +93,7 @@ func decodeSummaryTuple(raw json.RawMessage) (CleaningSummary, error) {
 	}
 
 	fields := []**int64{&result.CleanTime, &result.CleanArea, &result.CleanCount}
+
 	err = decodeIntegerTuple(values, fields)
 	if err != nil {
 		return result, err

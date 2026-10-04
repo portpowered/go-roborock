@@ -120,7 +120,7 @@ func defaultDial(ctx context.Context, network, address string) (net.Conn, error)
 
 	conn, err := dialer.DialContext(ctx, network, address)
 	if err != nil {
-		return nil, transportError("TLS connect", err)
+		return nil, transportError("connect", err)
 	}
 
 	return conn, nil

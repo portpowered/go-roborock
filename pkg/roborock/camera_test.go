@@ -273,7 +273,9 @@ func TestCloseDuringCameraOpeningCancelsReservation(t *testing.T) {
 
 func closeCameraConcurrently(t *testing.T, camera *CameraSession) {
 	t.Helper()
+
 	var group sync.WaitGroup
+
 	for range 10 {
 		group.Add(1)
 
@@ -288,5 +290,4 @@ func closeCameraConcurrently(t *testing.T, camera *CameraSession) {
 	}
 
 	group.Wait()
-
 }

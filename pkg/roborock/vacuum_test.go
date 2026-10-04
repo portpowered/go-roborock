@@ -8,13 +8,15 @@ import (
 	"reflect"
 	"sync"
 	"testing"
+	"time"
 )
 
 const (
-	fixtureAcknowledgement = `["ok"]`
-	fixtureStopPreview     = "stop_camera_preview"
-	fixtureSDPOffer        = "v=0 offer"
-	fixtureICECandidate    = "candidate:1"
+	fixtureAcknowledgement   = `["ok"]`
+	fixtureStopPreview       = "stop_camera_preview"
+	fixtureSDPOffer          = "v=0 offer"
+	fixtureICECandidate      = "candidate:1"
+	fixtureVendorFailureCode = 142
 )
 
 type rpcExchange struct {
@@ -170,7 +172,11 @@ func TestVacuumCommandPairs(t *testing.T) {
 func TestSummaryShapes(t *testing.T) {
 	t.Parallel()
 
-	for _, payload := range []string{`{"clean_time":3600,"clean_area":1000000,"clean_count":1,"records":[123]}`, `[3600,1000000,1,[123]]`} {
+	payloads := []string{
+		`{"clean_time":3600,"clean_area":1000000,"clean_count":1,"records":[123]}`,
+		`[3600,1000000,1,[123]]`,
+	}
+	for _, payload := range payloads {
 		t.Run(payload, func(t *testing.T) {
 			t.Parallel()
 			session := operationSession(
@@ -194,7 +200,12 @@ func TestSummaryShapes(t *testing.T) {
 func TestRecordShapes(t *testing.T) {
 	t.Parallel()
 
-	for _, payload := range []string{`{"begin":1,"end":2,"duration":3,"area":4}`, `[{"begin":1,"end":2,"duration":3,"area":4}]`, `[1,2,3,4]`} {
+	payloads := []string{
+		`{"begin":1,"end":2,"duration":3,"area":4}`,
+		`[{"begin":1,"end":2,"duration":3,"area":4}]`,
+		`[1,2,3,4]`,
+	}
+	for _, payload := range payloads {
 		t.Run(payload, func(t *testing.T) {
 			t.Parallel()
 			session := operationSession(
@@ -233,6 +244,7 @@ func TestOperationRejections(t *testing.T) {
 	}
 
 	session := operationSession(t)
+
 	_, err := session.RCMove(context.Background(), RCMoveRequest{Velocity: 1, Omega: 0, Duration: 100, Sequence: 0})
 	if !errors.Is(
 		err,
@@ -253,5 +265,143 @@ func TestCommandRejectsUncertainAcknowledgement(t *testing.T) {
 	if ack.Acknowledged ||
 		!errors.Is(err, roborockerrors.New(roborockerrors.Protocol, "test", "", nil)) {
 		t.Fatalf("ack %v err %v", ack, err)
+	}
+}
+
+type terminalLifecycleRPC struct {
+	deviceRPC
+
+	done    chan struct{}
+	failure error
+}
+
+func (r *terminalLifecycleRPC) Done() <-chan struct{} { return r.done }
+func (r *terminalLifecycleRPC) Err() error {
+	select {
+	case <-r.done:
+		return r.failure
+	default:
+		return nil
+	}
+}
+
+func TestDeviceObservesTerminalTransportFailure(t *testing.T) {
+	t.Parallel()
+	session := operationSession(t)
+
+	cause := errResultShape
+	failure := roborockerrors.New(roborockerrors.Unavailable, "synthetic_connection", "connection failed", cause)
+	failure.Code = fixtureVendorFailureCode
+
+	transport := &terminalLifecycleRPC{deviceRPC: session.rpc, done: make(chan struct{}), failure: failure}
+	session.rpc = transport
+
+	if session.Err() != nil {
+		t.Fatal("active session reported failure")
+	}
+
+	go session.observeTransport(transport)
+
+	close(transport.done)
+
+	wait, cancel := context.WithTimeout(t.Context(), time.Second)
+	defer cancel()
+
+	select {
+	case <-session.Done():
+	case <-wait.Done():
+		t.Fatal("device observer did not terminate")
+	}
+
+	terminal := session.Err()
+
+	var typed *roborockerrors.Error
+	if !errors.Is(terminal, cause) || !errors.As(terminal, &typed) || typed.Code != fixtureVendorFailureCode ||
+		typed.Kind != roborockerrors.Unavailable {
+		t.Fatalf("terminal failure lost: %v", terminal)
+	}
+}
+
+type lifecycleEndCase struct {
+	name     string
+	manual   bool
+	deadline bool
+	kind     roborockerrors.Kind
+	cause    error
+}
+
+func TestDeviceLifecycleTerminationClasses(t *testing.T) {
+	t.Parallel()
+
+	cases := []lifecycleEndCase{
+		{name: "manual", manual: true, deadline: false, kind: roborockerrors.Closed, cause: nil},
+		{
+			name:     "canceled",
+			manual:   false,
+			deadline: false,
+			kind:     roborockerrors.Canceled,
+			cause:    context.Canceled,
+		},
+		{
+			name:     "deadline",
+			manual:   false,
+			deadline: true,
+			kind:     roborockerrors.Timeout,
+			cause:    context.DeadlineExceeded,
+		},
+	}
+	for _, testCase := range cases {
+		t.Run(testCase.name, func(t *testing.T) {
+			t.Parallel()
+			session := operationSession(t)
+
+			life, cancel := context.WithCancel(t.Context())
+			if testCase.deadline {
+				cancel()
+
+				life, cancel = context.WithDeadline(t.Context(), time.Now().Add(-time.Second))
+			}
+
+			t.Cleanup(cancel)
+
+			session.life, session.cancel = life, cancel
+			transport := &terminalLifecycleRPC{deviceRPC: session.rpc, done: make(chan struct{}), failure: nil}
+			session.rpc = transport
+			observed := make(chan struct{})
+			go func() { session.observeTransport(transport); close(observed) }()
+
+			if testCase.manual {
+				err := session.Close()
+				if err != nil {
+					t.Fatal(err)
+				}
+			} else if !testCase.deadline {
+				cancel()
+			}
+
+			wait, cancelWait := context.WithTimeout(t.Context(), time.Second)
+			defer cancelWait()
+
+			select {
+			case <-observed:
+			case <-wait.Done():
+				t.Fatal("termination observer did not exit")
+			}
+
+			select {
+			case <-session.Done():
+			default:
+				t.Fatal("device Done did not close")
+			}
+
+			terminal := session.Err()
+			if !errors.Is(terminal, roborockerrors.New(testCase.kind, "test", "", nil)) {
+				t.Fatalf("terminal class %v", terminal)
+			}
+
+			if testCase.cause != nil && !errors.Is(terminal, testCase.cause) {
+				t.Fatalf("terminal cause %v", terminal)
+			}
+		})
 	}
 }

@@ -6,12 +6,13 @@ import (
 	"strings"
 
 	"github.com/portpowered/go-roborock/internal/protocol"
+	"github.com/portpowered/go-roborock/pkg/roborockerrors"
 )
 
 func validateConfig(config Config) (*url.URL, error) {
 	endpoint, err := url.Parse(config.BrokerURL)
 	if err != nil {
-		return nil, transportError("broker URL", err)
+		return nil, roborockerrors.New(roborockerrors.InvalidArgument, "mqtt open", "invalid broker URL", err)
 	}
 
 	err = validateEndpoint(endpoint)
