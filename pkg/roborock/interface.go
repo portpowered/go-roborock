@@ -10,6 +10,8 @@ type ClientAPI interface {
 	LoginWithPassword(ctx context.Context, request LoginWithPasswordRequest) (LoginResult, error)
 	GetHome(ctx context.Context, request AccountRequest) (Home, error)
 	GetHomeData(ctx context.Context, request HomeDataRequest) (HomeData, error)
+	GetHomeRooms(ctx context.Context, request HomeRoomsRequest) (RoomsResult, error)
+	GetSharedDeviceRooms(ctx context.Context, request SharedDeviceRoomsRequest) (RoomsResult, error)
 	ListDevices(ctx context.Context, request AccountRequest) (ListDevicesResult, error)
 	OpenDevice(ctx context.Context, request OpenDeviceRequest) (*DeviceSession, error)
 }
@@ -59,3 +61,13 @@ type OpenDeviceRequest struct {
 }
 
 var _ ClientAPI = (*Client)(nil)
+
+// MapOperations lists map reads and explicit map selection on the account-bound session.
+type MapOperations interface {
+	GetMap(ctx context.Context, request GetMapRequest) (MapSnapshot, error)
+	GetMapTrace(ctx context.Context, request EmptyRequest) (MapSnapshot, error)
+	ListMaps(ctx context.Context, request EmptyRequest) (ListMapsResult, error)
+	GetRooms(ctx context.Context, request EmptyRequest) (MapRoomsResult, error)
+	SelectMap(ctx context.Context, request SelectMapRequest) (CommandAcknowledgement, error)
+	GetCapabilities(ctx context.Context, request EmptyRequest) (DeviceCapabilities, error)
+}

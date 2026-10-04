@@ -1,0 +1,50 @@
+---
+title: Zone cleaning
+description: Clean a rectangle or selected rooms on the active map.
+---
+
+Choose between a geometric zone and a room selection.
+
+| Selection | Input | Meaning |
+| --- | --- | --- |
+| Rectangle | Two world-coordinate corners and repeat count | Clean an arbitrary area on the active map. |
+| Rooms or segments | IDs returned for that map | Clean the device's existing room segmentation. |
+| Observed cleaned zone | Map data | A past or current cleaning region, not a command. |
+| Restriction zone or virtual wall | Map data | A boundary the device may enforce, not a cleaning target. |
+
+V1 and Q10 rectangle requests use 1–3 repeats. Q10 accepts one rectangle per request, with each corner aligned to 5 millimeters. A rectangle does not need to match a room boundary. Its corners must form a non-empty, ordered rectangle in the active map's world frame. Repeats describe the requested cleaning passes; acknowledgement does not establish completion.
+
+| Family | Rectangle cleaning | Room cleaning |
+| --- | --- | --- |
+| V1 vacuum | Millimeter coordinates | Device segment IDs. |
+| B01 Q10 | Common Roborock millimeters; convert decoded Q10 relative coordinates | Device room IDs. |
+| B01 Q7 | Unsupported: the rectangle command contract is not established | Device room IDs. |
+| A01 | No vacuum zone operation | No vacuum room operation. |
+
+Use corners chosen from the active map, rather than copying fixed coordinates from an example. For Q10, add 25500 to each decoded relative `q10-world` coordinate to obtain the common Roborock millimeters accepted here:
+
+```go
+_, err := session.CleanZones(ctx, roborock.CleanZonesRequest{
+    Zones: []roborock.Zone{{X1: x1, Y1: y1, X2: x2, Y2: y2, Repeats: 1}},
+})
+if err != nil { return err }
+```
+
+For Q10, each `(coordinate - 25500) / 5` must fit a signed 16-bit integer. These inputs remain world millimeters; do not pass the encoded integer yourself. The SDK validates alignment and bounds before publishing.
+
+Fetch `GetRooms`, choose a returned `SegmentID`, and request one pass:
+
+```go
+_, err := session.CleanSegments(ctx, roborock.CleanSegmentsRequest{
+    Segments: []int64{segmentID}, Repeats: 1,
+})
+if err != nil { return err }
+```
+
+B01 room cleaning requires `Repeats: 1`; it does not have a verified repeat parameter. V1 supports its own repeat contract. Q7 reports correlated device acceptance. Q10 reports MQTT publication with `Acknowledged: false`. Neither establishes physical completion.
+
+Read [maps and rooms](/docs/guides/maps), confirm the active map, then use that map's coordinates or room IDs. Never substitute account room IDs, screen pixels, or coordinates from a different floor. Q7's map geometry can be read without assuming an unsupported zone-cleaning payload.
+
+The MQTT references describe [Q7 room cleaning](/docs/asyncapi/b01/CleanQ7Rooms), [Q10 room cleaning](/docs/asyncapi/b01/CleanQ10Rooms), and [Q10 rectangle cleaning](/docs/asyncapi/b01/CleanQ10Zones). The SDK converts typed room IDs or rectangle coordinates into these payloads; callers do not construct the encoded datapoint values.
+
+A control call is an explicit device change. After a timeout, inspect V1 status or the B01 device/app before deciding what to do next; the SDK does not retry uncertain movement automatically. See [errors and lifecycle](/docs/guides/lifecycle).

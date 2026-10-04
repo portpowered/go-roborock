@@ -1,0 +1,29 @@
+{
+  "provenance": "synthetic",
+  "cases": [
+    {
+      "name": "future path kind remains open",
+      "schema": "MapPath",
+      "valid": true,
+      "payload": {"kind": "future-source-path", "points": [], "unit": "meters", "frame": "q7-world"}
+    },
+    {
+      "name": "future area kind remains open",
+      "schema": "MapArea",
+      "valid": true,
+      "payload": {"kind": "future-source-area", "points": [], "unit": "meters", "frame": "q7-world"}
+    },
+    {
+      "name": "numeric path kind rejected",
+      "schema": "MapPath",
+      "valid": false,
+      "payload": {"kind": 1, "points": [], "unit": "meters", "frame": "q7-world"}
+    },
+    {
+      "name": "numeric area kind rejected",
+      "schema": "MapArea",
+      "valid": false,
+      "payload": {"kind": 1, "points": [], "unit": "meters", "frame": "q7-world"}
+    }
+  ]
+}

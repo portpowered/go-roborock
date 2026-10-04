@@ -21,6 +21,7 @@ const (
 	directoryMode  = 0o750
 	fileMode       = 0o600
 	componentParts = 2
+	componentKey   = "components"
 )
 
 type bundle struct {
@@ -65,7 +66,7 @@ func run(ctx context.Context, source, output string) error {
 		return fmt.Errorf("write documentation bundle: %w", err)
 	}
 
-	return nil
+	return writeAsyncBundle(source, filepath.Join(filepath.Dir(output), "docs.asyncapi.yaml"))
 }
 
 func build(ctx context.Context, files []string) ([]byte, error) {
@@ -92,7 +93,7 @@ func build(ctx context.Context, files []string) ([]byte, error) {
 		"openapi": "3.0.3",
 		"info": object{"title": "Roborock SDK contracts", "version": "0.1.0",
 			"description": "Documentation bundle of implementation-derived contracts; original schemas remain wire owners."},
-		"paths": joined.paths, "components": joined.components,
+		"paths": joined.paths, componentKey: joined.components,
 	}
 
 	data, err := json.MarshalIndent(document, "", "  ")
@@ -145,7 +146,7 @@ func (b bundle) add(ctx context.Context, file string, sources map[string]string)
 		return err
 	}
 
-	components, _ := document["components"].(map[string]any)
+	components, _ := document[componentKey].(map[string]any)
 
 	for category, value := range components {
 		entries, _ := value.(map[string]any)

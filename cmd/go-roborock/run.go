@@ -26,6 +26,14 @@ Commands:
   status         Read vacuum status
   consumables    Read vacuum consumable counters
   summary        Read cleaning summary
+  maps           List saved map identifiers and names
+  map            Read map snapshot and geometry (optional mapId)
+  rooms          List map room identifiers and names
+  trace          Read the current map trace and geometry
+  capabilities   Read device capabilities
+  select-map     Select a saved map (mapId; explicit change)
+  clean-zones    Clean rectangular zones (cleanZones; explicit movement)
+  clean-rooms    Clean selected room identifiers (cleanRooms; explicit movement)
   start          Start cleaning (explicit movement)
   stop           Stop cleaning (explicit movement)
   pause          Pause cleaning (explicit movement)
@@ -92,6 +100,10 @@ func run(
 }
 
 func knownCommand(command string) bool {
+	if isMapCommand(command) {
+		return true
+	}
+
 	switch command {
 	case commandResolveLogin, "request-code", commandLoginCode, commandLoginPassword, commandHome, commandDevices,
 		commandStatus, "consumables", "summary", "start", "stop", "pause", "dock", "dyad", "zeo", commandCamera:

@@ -16,8 +16,9 @@ func executeDevice(
 	input CommandInput,
 	exportPath string,
 ) (result any, err error) {
-	if input.DeviceID == "" || input.LocalKey == "" || input.Protocol == "" {
-		return nil, errDeviceInput
+	err = validateDeviceInput(command, input)
+	if err != nil {
+		return nil, err
 	}
 
 	request := roborock.OpenDeviceRequest{
@@ -39,6 +40,10 @@ func executeDevice(
 	case commandCamera:
 		return cameraOperation(ctx, session, input, exportPath)
 	default:
+		if isMapCommand(command) {
+			return mapOperation(ctx, session, command, input)
+		}
+
 		return deviceOperation(ctx, session, command)
 	}
 }
@@ -87,4 +92,18 @@ func deviceOperation(ctx context.Context, session *roborock.DeviceSession, comma
 	default:
 		return nil, fmt.Errorf("%w: %q", errUnknownCommand, command)
 	}
+}
+
+func validateDeviceInput(command string, input CommandInput) error {
+	if input.DeviceID == "" || input.LocalKey == "" || input.Protocol == "" {
+		return errDeviceInput
+	}
+
+	if command != commandCleanZones {
+		return nil
+	}
+
+	_, err := cleanZonesRequest(input.CleanZones)
+
+	return err
 }

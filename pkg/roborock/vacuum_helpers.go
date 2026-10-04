@@ -84,7 +84,7 @@ func (s *DeviceSession) command(
 		)
 	}
 
-	return CommandAcknowledgement{Acknowledged: true}, nil
+	return CommandAcknowledgement{Acknowledged: true, Sent: true}, nil
 }
 
 func validDND(req SetDNDRequest) bool {

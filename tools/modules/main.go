@@ -10,6 +10,8 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+
+	"golang.org/x/mod/modfile"
 )
 
 const (
@@ -97,11 +99,9 @@ func publishedChecksums(directory string) (bool, error) {
 		return false, fmt.Errorf("read CLI module: %w", err)
 	}
 
-	for line := range strings.SplitSeq(string(module), "\n") {
-		fields := strings.Fields(line)
-		if len(fields) > 0 && (fields[0] == "replace" || strings.HasPrefix(fields[0], "replace(")) {
-			return false, fmt.Errorf("%w: published CLI must not contain replacements", errModuleDrift)
-		}
+	version, err := requiredSDKVersion(module)
+	if err != nil {
+		return false, err
 	}
 
 	sums, err := os.ReadFile(filepath.Join(directory, "go.sum")) //nolint:gosec // Fixed repository CLI checksums.
@@ -109,7 +109,46 @@ func publishedChecksums(directory string) (bool, error) {
 		return false, fmt.Errorf("read CLI checksums: %w", err)
 	}
 
-	return strings.Contains(string(sums), sdkModule+" "), nil
+	return matchingChecksums(sums, version), nil
+}
+
+func requiredSDKVersion(data []byte) (string, error) {
+	module, err := modfile.Parse("go.mod", data, nil)
+	if err != nil {
+		return "", fmt.Errorf("parse CLI module: %w", err)
+	}
+
+	if len(module.Replace) != 0 {
+		return "", fmt.Errorf("%w: published CLI must not contain replacements", errModuleDrift)
+	}
+
+	for _, requirement := range module.Require {
+		if requirement.Mod.Path == sdkModule {
+			return requirement.Mod.Version, nil
+		}
+	}
+
+	return "", fmt.Errorf("%w: CLI must require the SDK", errModuleDrift)
+}
+
+func matchingChecksums(data []byte, version string) bool {
+	var modulePresent, metadataPresent bool
+
+	for line := range strings.SplitSeq(string(data), "\n") {
+		fields := strings.Fields(line)
+		if len(fields) != 3 || fields[0] != sdkModule {
+			continue
+		}
+
+		switch fields[1] {
+		case version:
+			modulePresent = true
+		case version + "/go.mod":
+			metadataPresent = true
+		}
+	}
+
+	return modulePresent && metadataPresent
 }
 
 func verifyPublished(ctx context.Context, directory string) error {

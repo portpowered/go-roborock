@@ -1,67 +1,114 @@
 {
-  "openapi": "3.0.3",
+  "asyncapi": "3.0.0",
   "info": {
     "title": "Roborock A01 Wire Models",
     "version": "0.1.0",
-    "description": "Documentation inventory for A01 MQTT datapoint exchanges. The paths below identify protocol operations for documentation; they are not HTTP endpoints. Contracts are reference-derived and not live-device verified."
+    "description": "Appliance datapoint queries, updates, and settings over encrypted A01 MQTT."
   },
-  "paths": {
-    "/query_values": {
-      "post": {
-        "tags": [
-          "a01"
-        ],
-        "operationId": "queryA01Values",
-        "summary": "Query selected appliance properties",
-        "description": "Documentation-only MQTT operation. GetDyadState or GetZeoState sends an A01 datapoint query and waits for every selected, appliance-supported property. Unselected public fields remain absent. Missing properties result in timeout when the caller deadline expires.",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/A01QueryRequest"
-              }
-            }
-          }
+  "defaultContentType": "application/json",
+  "channels": {
+    "requests": {
+      "address": "rr/m/i/{username}/{endpoint}/{deviceId}",
+      "parameters": {
+        "username": {
+          "description": "Account MQTT topic username."
         },
-        "responses": {
-          "200": {
-            "description": "One or more MQTT datapoint updates carrying the selected values.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/A01QueryResponse"
-                }
-              }
-            }
-          }
+        "endpoint": {
+          "description": "Session endpoint identifier."
+        },
+        "deviceId": {
+          "description": "Roborock device identifier."
+        }
+      },
+      "messages": {
+        "queryA01ValuesRequest": {
+          "$ref": "#/components/messages/queryA01ValuesRequest"
+        },
+        "setA01ValuesRequest": {
+          "$ref": "#/components/messages/setA01ValuesRequest"
         }
       }
     },
-    "/set_values": {
-      "post": {
-        "tags": [
-          "a01"
-        ],
-        "operationId": "setA01Values",
-        "summary": "Publish appliance settings or start a washer cycle",
-        "description": "Documentation-only MQTT operation. SetDyadSettings and SetZeoSettings publish sparse independent settings. StartZeo bundles the start signal with mode, program, and optional cycle parameters. Publication does not confirm device acceptance or physical completion; commands are never retried automatically.",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/A01SetRequest"
-              }
-            }
-          }
+    "responses": {
+      "address": "rr/m/o/{username}/{endpoint}/{deviceId}",
+      "parameters": {
+        "username": {
+          "description": "Account MQTT topic username."
         },
-        "responses": {
-          "204": {
-            "description": "MQTT publication completed. There is no correlated device acknowledgement for this operation."
-          }
+        "endpoint": {
+          "description": "Session endpoint identifier."
+        },
+        "deviceId": {
+          "description": "Roborock device identifier."
+        }
+      },
+      "messages": {
+        "queryA01ValuesResponse": {
+          "$ref": "#/components/messages/queryA01ValuesResponse"
         }
       }
+    }
+  },
+  "operations": {
+    "queryA01Values": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/queryA01ValuesRequest"
+        }
+      ],
+      "summary": "Query selected appliance properties",
+      "description": "Queries selected supported appliance properties.",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/A01QueryRequest"
+      },
+      "tags": [
+        {
+          "name": "a01"
+        }
+      ]
+    },
+    "setA01Values": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/setA01ValuesRequest"
+        }
+      ],
+      "summary": "Publish appliance settings or start a washer cycle",
+      "description": "Publishes appliance settings or starts a washer cycle without a correlated acknowledgement.",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/A01SetRequest"
+      },
+      "tags": [
+        {
+          "name": "a01"
+        }
+      ]
+    },
+    "receiveA01Values": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/responses"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/responses/messages/queryA01ValuesResponse"
+        }
+      ],
+      "summary": "Receive appliance property updates",
+      "description": "Receives selected appliance properties across one or more datapoint updates.",
+      "tags": [
+        {
+          "name": "a01"
+        }
+      ]
     }
   },
   "components": {
@@ -784,14 +831,33 @@
           }
         }
       }
+    },
+    "messages": {
+      "queryA01ValuesRequest": {
+        "name": "queryA01ValuesRequest",
+        "title": "Query selected appliance properties",
+        "summary": "Query selected appliance properties.",
+        "payload": {
+          "$ref": "#/components/schemas/A01QueryRequest"
+        }
+      },
+      "queryA01ValuesResponse": {
+        "name": "queryA01ValuesResponse",
+        "summary": "Returns query selected appliance properties.",
+        "payload": {
+          "$ref": "#/components/schemas/A01QueryResponse"
+        }
+      },
+      "setA01ValuesRequest": {
+        "name": "setA01ValuesRequest",
+        "title": "Publish appliance settings or start a washer cycle",
+        "summary": "Publish appliance settings or start a washer cycle.",
+        "payload": {
+          "$ref": "#/components/schemas/A01SetRequest"
+        }
+      }
     }
   },
-  "tags": [
-    {
-      "name": "a01",
-      "description": "Typed wet-cleaner and washer operations over an account-bound MQTT device session."
-    }
-  ],
   "x-wire-constants": {
     "A01ZeoStartEnabled": true
   }

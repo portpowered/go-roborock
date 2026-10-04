@@ -1,0 +1,33 @@
+---
+title: Device families
+description: Choose operations from the discovered protocol, model, and capabilities.
+---
+
+Account login and discovery use the same cloud HTTP API across families. Open a session with the discovered device; the SDK selects its MQTT adapter. Use typed operations and check the session's capabilities.
+
+| Family | Discovery rule | Use |
+| --- | --- | --- |
+| V1 vacuum | Protocol `1.0` and vacuum category | Vacuum controls, maps, rooms, and supported camera signaling. |
+| B01 Q10 | Protocol `B01`; final model segment contains `ss` | Map reads, trace, room cleaning, and rectangle cleaning. |
+| B01 Q7 | Protocol `B01`; final model segment contains `sc` | Map reads and room cleaning; rectangle cleaning is unsupported. |
+| A01 Dyad | Protocol `A01`; wet/dry cleaner family | Typed cleaner state and settings. |
+| A01 Zeo | Protocol `A01`; washing-machine family | Typed washer state, settings, and cycle start. |
+
+For B01, the `ss` rule is checked before `sc`. Other B01 model shapes and unsupported protocols return `Unsupported` instead of guessing a command format.
+
+Q7 and Q10 in this table identify protocol families. A product named Q7 that reports `1.0` follows the V1 adapter. A product name alone does not establish its protocol or capabilities.
+
+Vacuum commands do not apply to Dyad or Zeo appliances. A01 has no vacuum map operations. The general status, dock, settings, remote-control, and camera operations currently use V1. B01 support is limited to the map and cleaning capabilities below; a common method name does not imply support on every protocol. Unsupported calls return a typed error.
+
+| Capability | V1 vacuum | B01 Q7 | B01 Q10 | A01 |
+| --- | --- | --- | --- | --- |
+| Current map, saved-map list, rooms | Yes | Yes | Yes | No |
+| Explicit saved-map download | Unsupported | Yes | Unsupported | No |
+| Select active map | Yes | No | No | No |
+| Separate trace read | No | No | Yes | No |
+| Clean selected rooms | Yes | Yes, one pass | Yes, one pass | No |
+| Clean rectangles | Yes | No | Yes, one rectangle | No |
+
+`GetCapabilities(ctx, roborock.EmptyRequest{})` reports these SDK operation capabilities. It is not a guarantee that a particular firmware or physical device will accept a command.
+
+Continue with [vacuum operations](/docs/guides/vacuum), [maps and rooms](/docs/guides/maps), [zone cleaning](/docs/guides/zone-cleaning), or [A01 appliances](/docs/guides/a01).

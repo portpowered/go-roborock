@@ -165,6 +165,14 @@ type HomeRoom struct {
 	AdditionalProperties map[string]json.RawMessage `json:"-"`
 }
 
+// HomeRoomsResponse defines model for HomeRoomsResponse.
+type HomeRoomsResponse struct {
+	Code                 *int                       `json:"code,omitempty"`
+	Result               *[]RefreshedRoom           `json:"result,omitempty"`
+	Success              bool                       `json:"success"`
+	AdditionalProperties map[string]json.RawMessage `json:"-"`
+}
+
 // InventoryBooleanOrInteger defines model for InventoryBooleanOrInteger.
 type InventoryBooleanOrInteger struct {
 	union json.RawMessage
@@ -280,8 +288,48 @@ type ProductPropertyMode = string
 // ProductPropertyType Open property value kind.
 type ProductPropertyType = string
 
+// RefreshedRoom defines model for RefreshedRoom.
+type RefreshedRoom struct {
+	Id                   int64                      `json:"id"`
+	Name                 *string                    `json:"name,omitempty"`
+	AdditionalProperties map[string]json.RawMessage `json:"-"`
+}
+
+// SharedDeviceRoom defines model for SharedDeviceRoom.
+type SharedDeviceRoom struct {
+	Id                   *int64                     `json:"id,omitempty"`
+	Name                 *string                    `json:"name,omitempty"`
+	RoomId               *int64                     `json:"roomId,omitempty"`
+	AdditionalProperties map[string]json.RawMessage `json:"-"`
+	union                json.RawMessage
+}
+
+// SharedDeviceRoom0 defines model for .
+type SharedDeviceRoom0 = interface{}
+
+// SharedDeviceRoom1 defines model for .
+type SharedDeviceRoom1 = interface{}
+
+// SharedDeviceRoomsResponse defines model for SharedDeviceRoomsResponse.
+type SharedDeviceRoomsResponse struct {
+	Code                 *int                       `json:"code,omitempty"`
+	Result               *[]SharedDeviceRoom        `json:"result,omitempty"`
+	Success              bool                       `json:"success"`
+	AdditionalProperties map[string]json.RawMessage `json:"-"`
+}
+
+// GetSharedDeviceRoomsParams defines parameters for GetSharedDeviceRooms.
+type GetSharedDeviceRoomsParams struct {
+	Authorization string `json:"Authorization"`
+}
+
 // GetHomeDatav1Params defines parameters for GetHomeDatav1.
 type GetHomeDatav1Params struct {
+	Authorization string `json:"Authorization"`
+}
+
+// GetHomeRoomsParams defines parameters for GetHomeRooms.
+type GetHomeRoomsParams struct {
 	Authorization string `json:"Authorization"`
 }
 
@@ -2177,6 +2225,102 @@ func (a HomeRoom) MarshalJSON() ([]byte, error) {
 	return json.Marshal(object)
 }
 
+// Getter for additional properties for HomeRoomsResponse. Returns the specified
+// element and whether it was found
+func (a HomeRoomsResponse) Get(fieldName string) (value json.RawMessage, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for HomeRoomsResponse
+func (a *HomeRoomsResponse) Set(fieldName string, value json.RawMessage) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for HomeRoomsResponse to handle AdditionalProperties
+func (a *HomeRoomsResponse) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["code"]; found {
+		err = json.Unmarshal(raw, &a.Code)
+		if err != nil {
+			return fmt.Errorf("error reading 'code': %w", err)
+		}
+		delete(object, "code")
+	}
+
+	if raw, found := object["result"]; found {
+		err = json.Unmarshal(raw, &a.Result)
+		if err != nil {
+			return fmt.Errorf("error reading 'result': %w", err)
+		}
+		delete(object, "result")
+	}
+
+	if raw, found := object["success"]; found {
+		err = json.Unmarshal(raw, &a.Success)
+		if err != nil {
+			return fmt.Errorf("error reading 'success': %w", err)
+		}
+		delete(object, "success")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+		for fieldName, fieldBuf := range object {
+			var fieldVal json.RawMessage
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for HomeRoomsResponse to handle AdditionalProperties
+func (a HomeRoomsResponse) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	if a.Code != nil {
+		object["code"], err = json.Marshal(a.Code)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'code': %w", err)
+		}
+	}
+
+	if a.Result != nil {
+		object["result"], err = json.Marshal(a.Result)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'result': %w", err)
+		}
+	}
+
+	object["success"], err = json.Marshal(a.Success)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'success': %w", err)
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
 // Getter for additional properties for InventoryOTA. Returns the specified
 // element and whether it was found
 func (a InventoryOTA) Get(fieldName string) (value json.RawMessage, found bool) {
@@ -3126,6 +3270,200 @@ func (a ProductPropertyConstraints) MarshalJSON() ([]byte, error) {
 	return json.Marshal(object)
 }
 
+// Getter for additional properties for RefreshedRoom. Returns the specified
+// element and whether it was found
+func (a RefreshedRoom) Get(fieldName string) (value json.RawMessage, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for RefreshedRoom
+func (a *RefreshedRoom) Set(fieldName string, value json.RawMessage) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for RefreshedRoom to handle AdditionalProperties
+func (a *RefreshedRoom) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["id"]; found {
+		err = json.Unmarshal(raw, &a.Id)
+		if err != nil {
+			return fmt.Errorf("error reading 'id': %w", err)
+		}
+		delete(object, "id")
+	}
+
+	if raw, found := object["name"]; found {
+		err = json.Unmarshal(raw, &a.Name)
+		if err != nil {
+			return fmt.Errorf("error reading 'name': %w", err)
+		}
+		delete(object, "name")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+		for fieldName, fieldBuf := range object {
+			var fieldVal json.RawMessage
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for RefreshedRoom to handle AdditionalProperties
+func (a RefreshedRoom) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	object["id"], err = json.Marshal(a.Id)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'id': %w", err)
+	}
+
+	if a.Name != nil {
+		object["name"], err = json.Marshal(a.Name)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'name': %w", err)
+		}
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for SharedDeviceRoom. Returns the specified
+// element and whether it was found
+func (a SharedDeviceRoom) Get(fieldName string) (value json.RawMessage, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for SharedDeviceRoom
+func (a *SharedDeviceRoom) Set(fieldName string, value json.RawMessage) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Getter for additional properties for SharedDeviceRoomsResponse. Returns the specified
+// element and whether it was found
+func (a SharedDeviceRoomsResponse) Get(fieldName string) (value json.RawMessage, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for SharedDeviceRoomsResponse
+func (a *SharedDeviceRoomsResponse) Set(fieldName string, value json.RawMessage) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for SharedDeviceRoomsResponse to handle AdditionalProperties
+func (a *SharedDeviceRoomsResponse) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["code"]; found {
+		err = json.Unmarshal(raw, &a.Code)
+		if err != nil {
+			return fmt.Errorf("error reading 'code': %w", err)
+		}
+		delete(object, "code")
+	}
+
+	if raw, found := object["result"]; found {
+		err = json.Unmarshal(raw, &a.Result)
+		if err != nil {
+			return fmt.Errorf("error reading 'result': %w", err)
+		}
+		delete(object, "result")
+	}
+
+	if raw, found := object["success"]; found {
+		err = json.Unmarshal(raw, &a.Success)
+		if err != nil {
+			return fmt.Errorf("error reading 'success': %w", err)
+		}
+		delete(object, "success")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+		for fieldName, fieldBuf := range object {
+			var fieldVal json.RawMessage
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for SharedDeviceRoomsResponse to handle AdditionalProperties
+func (a SharedDeviceRoomsResponse) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	if a.Code != nil {
+		object["code"], err = json.Marshal(a.Code)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'code': %w", err)
+		}
+	}
+
+	if a.Result != nil {
+		object["result"], err = json.Marshal(a.Result)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'result': %w", err)
+		}
+	}
+
+	object["success"], err = json.Marshal(a.Success)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'success': %w", err)
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
 // AsInventoryBooleanOrInteger0 returns the union data inside the InventoryBooleanOrInteger as a InventoryBooleanOrInteger0
 func (t InventoryBooleanOrInteger) AsInventoryBooleanOrInteger0() (InventoryBooleanOrInteger0, error) {
 	var body InventoryBooleanOrInteger0
@@ -3248,4 +3586,151 @@ func (t ProductPropertyID) MarshalJSON() ([]byte, error) {
 func (t *ProductPropertyID) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
+}
+
+// AsSharedDeviceRoom0 returns the union data inside the SharedDeviceRoom as a SharedDeviceRoom0
+func (t SharedDeviceRoom) AsSharedDeviceRoom0() (SharedDeviceRoom0, error) {
+	var body SharedDeviceRoom0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSharedDeviceRoom0 overwrites any union data inside the SharedDeviceRoom as the provided SharedDeviceRoom0
+func (t *SharedDeviceRoom) FromSharedDeviceRoom0(v SharedDeviceRoom0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSharedDeviceRoom0 performs a merge with any union data inside the SharedDeviceRoom, using the provided SharedDeviceRoom0
+func (t *SharedDeviceRoom) MergeSharedDeviceRoom0(v SharedDeviceRoom0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSharedDeviceRoom1 returns the union data inside the SharedDeviceRoom as a SharedDeviceRoom1
+func (t SharedDeviceRoom) AsSharedDeviceRoom1() (SharedDeviceRoom1, error) {
+	var body SharedDeviceRoom1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSharedDeviceRoom1 overwrites any union data inside the SharedDeviceRoom as the provided SharedDeviceRoom1
+func (t *SharedDeviceRoom) FromSharedDeviceRoom1(v SharedDeviceRoom1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSharedDeviceRoom1 performs a merge with any union data inside the SharedDeviceRoom, using the provided SharedDeviceRoom1
+func (t *SharedDeviceRoom) MergeSharedDeviceRoom1(v SharedDeviceRoom1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// Override default JSON handling for SharedDeviceRoom to handle AdditionalProperties and union
+func (a *SharedDeviceRoom) UnmarshalJSON(b []byte) error {
+	err := a.union.UnmarshalJSON(b)
+	if err != nil {
+		return err
+	}
+	object := make(map[string]json.RawMessage)
+	err = json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["id"]; found {
+		err = json.Unmarshal(raw, &a.Id)
+		if err != nil {
+			return fmt.Errorf("error reading 'id': %w", err)
+		}
+		delete(object, "id")
+	}
+
+	if raw, found := object["name"]; found {
+		err = json.Unmarshal(raw, &a.Name)
+		if err != nil {
+			return fmt.Errorf("error reading 'name': %w", err)
+		}
+		delete(object, "name")
+	}
+
+	if raw, found := object["roomId"]; found {
+		err = json.Unmarshal(raw, &a.RoomId)
+		if err != nil {
+			return fmt.Errorf("error reading 'roomId': %w", err)
+		}
+		delete(object, "roomId")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]json.RawMessage)
+		for fieldName, fieldBuf := range object {
+			var fieldVal json.RawMessage
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for SharedDeviceRoom to handle AdditionalProperties and union
+func (a SharedDeviceRoom) MarshalJSON() ([]byte, error) {
+	var err error
+	b, err := a.union.MarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	object := make(map[string]json.RawMessage)
+	if a.union != nil {
+		err = json.Unmarshal(b, &object)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	if a.Id != nil {
+		object["id"], err = json.Marshal(a.Id)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'id': %w", err)
+		}
+	}
+
+	if a.Name != nil {
+		object["name"], err = json.Marshal(a.Name)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'name': %w", err)
+		}
+	}
+
+	if a.RoomId != nil {
+		object["roomId"], err = json.Marshal(a.RoomId)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'roomId': %w", err)
+		}
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
 }

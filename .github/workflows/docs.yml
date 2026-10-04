@@ -28,9 +28,12 @@ jobs:
         with:
           title: Roborock Go SDK
           openapi: tmp/docs.openapi.yaml
+          asyncapi: tmp/docs.asyncapi.yaml
           discover: false
           guides-directory: docs/guides
           output: site
+      - name: Prepare static navigation Flight asset aliases
+        run: go run ./tools/siteassets -root site
       - name: Measure unit, replay, and combined coverage separately
         shell: bash
         run: |

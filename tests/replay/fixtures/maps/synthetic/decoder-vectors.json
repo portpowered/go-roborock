@@ -1,0 +1,57 @@
+{
+  "provenance": "synthetic",
+  "revision": "a8260c5211e60647fc352d6b496b827865938b21",
+  "wheelSha256": "125422c863049a519e2d76ad8683a6756e44414fc9e30a5e2b7dd5281b481281",
+  "vectors": [
+    {
+      "name": "v1",
+      "format": "v1",
+      "payload": "cnIUAAAAAAABAAAABwAAAAEAAAACABgABAAAAAIAAAADAAAAAgAAAAIAAAAPDwEACAAIAAgAAACWAAAAZAAAAA==",
+      "unit": "millimeters",
+      "frame": "v1-world",
+      "width": 2,
+      "height": 2,
+      "origin": [
+        150,
+        100
+      ]
+    },
+    {
+      "name": "q7",
+      "format": "b01-q7",
+      "payload": "CAAaHRACGAIlAACAPy0AAABANc3MjD89ZmYGQEXNzEw9IgYKBH+AAH9CDx1mZoY/JTMzA0AtAAAAP0oSCAAQCRgBIgoNAACAPxUAAABAYhQIABIOU3ludGhldGljIHJvb20gAA==",
+      "unit": "meters",
+      "frame": "q7-world",
+      "width": 2,
+      "height": 2,
+      "origin": [
+        1,
+        2
+      ]
+    },
+    {
+      "name": "q10",
+      "format": "b01-q10",
+      "payload": "AQEAAAALAAACAAIACgAUAAUACgAUAAAAAAAAAAdgBATw8wEA",
+      "unit": "millimeters",
+      "frame": "q10-world",
+      "width": 2,
+      "height": 2,
+      "origin": [
+        -50,
+        100
+      ]
+    },
+    {
+      "name": "q10-trace",
+      "format": "b01-q10",
+      "payload": "AgEAAAAAAAAAAgBaAAAAAf//AAMAAg==",
+      "unit": "millimeters",
+      "frame": "q10-trace",
+      "width": 0,
+      "height": 0,
+      "origin": null
+    }
+  ]
+}
+

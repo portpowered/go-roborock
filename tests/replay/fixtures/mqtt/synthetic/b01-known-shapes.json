@@ -1,0 +1,818 @@
+{
+  "provenance": "synthetic",
+  "source": "paired MQTT request expectations and pinned python-roborock Q7/Q10 decoded reply contracts; negative shapes are synthetic mutations",
+  "revision": "a8260c5211e60647fc352d6b496b827865938b21",
+  "cases": [
+    {
+      "name": "q7-list",
+      "contract": "maps",
+      "operation": "RequestQ7MapList",
+      "payload": {
+        "dps": {
+          "10000": {
+            "method": "service.get_map_list",
+            "msgId": "100000000001",
+            "params": {}
+          }
+        }
+      },
+      "valid": true,
+      "reply": false,
+      "pairedCase": 0,
+      "pairedStep": 0
+    },
+    {
+      "name": "q7-upload",
+      "contract": "maps",
+      "operation": "UploadQ7Map",
+      "payload": {
+        "dps": {
+          "10000": {
+            "method": "service.upload_by_mapid",
+            "msgId": "100000000003",
+            "params": {
+              "map_id": 7
+            }
+          }
+        }
+      },
+      "valid": true,
+      "reply": false,
+      "pairedCase": 0,
+      "pairedStep": 1
+    },
+    {
+      "name": "q7-rooms",
+      "contract": "b01",
+      "operation": "CleanQ7Rooms",
+      "payload": {
+        "dps": {
+          "10000": {
+            "method": "service.set_room_clean",
+            "msgId": "100000000005",
+            "params": {
+              "clean_type": 1,
+              "ctrl_value": 1,
+              "room_ids": [
+                9
+              ]
+            }
+          }
+        }
+      },
+      "valid": true,
+      "reply": false,
+      "pairedCase": 0,
+      "pairedStep": 2
+    },
+    {
+      "name": "q10-list",
+      "contract": "maps",
+      "operation": "QueryQ10MapList",
+      "payload": {
+        "dps": {
+          "101": {
+            "61": {
+              "op": "list"
+            }
+          }
+        }
+      },
+      "valid": true,
+      "reply": false,
+      "pairedCase": 1,
+      "pairedStep": 0
+    },
+    {
+      "name": "q10-current",
+      "contract": "maps",
+      "operation": "RequestQ10CurrentMap",
+      "payload": {
+        "dps": {
+          "102": {}
+        }
+      },
+      "valid": true,
+      "reply": false,
+      "pairedCase": 1,
+      "pairedStep": 1
+    },
+    {
+      "name": "q10-trace",
+      "contract": "maps",
+      "operation": "RequestQ10Trace",
+      "payload": {
+        "dps": {
+          "102": {}
+        }
+      },
+      "valid": true,
+      "reply": false,
+      "pairedCase": 1,
+      "pairedStep": 2
+    },
+    {
+      "name": "q10-rooms",
+      "contract": "b01",
+      "operation": "CleanQ10Rooms",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 2,
+            "clean_paramters": [
+              9
+            ]
+          }
+        }
+      },
+      "valid": true,
+      "reply": false
+    },
+    {
+      "name": "q10-zones",
+      "contract": "b01",
+      "operation": "CleanQ10Zones",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 3,
+            "clean_paramters": "AQIBBAAAAAAAFAAAABQAKAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+          }
+        }
+      },
+      "valid": true,
+      "reply": false,
+      "pairedCase": 1,
+      "pairedStep": 3
+    },
+    {
+      "name": "q7-list-requires-msgid",
+      "contract": "maps",
+      "operation": "RequestQ7MapList",
+      "payload": {
+        "dps": {
+          "10000": {
+            "method": "service.get_map_list",
+            "params": {}
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q7-list-rejects-short-msgid",
+      "contract": "maps",
+      "operation": "RequestQ7MapList",
+      "payload": {
+        "dps": {
+          "10000": {
+            "method": "service.get_map_list",
+            "msgId": "1",
+            "params": {}
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q7-list-rejects-method",
+      "contract": "maps",
+      "operation": "RequestQ7MapList",
+      "payload": {
+        "dps": {
+          "10000": {
+            "method": "service.unknown",
+            "msgId": "100000000001",
+            "params": {}
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q7-list-rejects-array-params",
+      "contract": "maps",
+      "operation": "RequestQ7MapList",
+      "payload": {
+        "dps": {
+          "10000": {
+            "method": "service.get_map_list",
+            "msgId": "100000000001",
+            "params": []
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q7-upload-requires-map-id",
+      "contract": "maps",
+      "operation": "UploadQ7Map",
+      "payload": {
+        "dps": {
+          "10000": {
+            "method": "service.upload_by_mapid",
+            "msgId": "100000000003",
+            "params": {}
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q7-upload-rejects-string-map-id",
+      "contract": "maps",
+      "operation": "UploadQ7Map",
+      "payload": {
+        "dps": {
+          "10000": {
+            "method": "service.upload_by_mapid",
+            "msgId": "100000000003",
+            "params": {
+              "map_id": "7"
+            }
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q7-rooms-requires-room-ids",
+      "contract": "b01",
+      "operation": "CleanQ7Rooms",
+      "payload": {
+        "dps": {
+          "10000": {
+            "method": "service.set_room_clean",
+            "msgId": "100000000005",
+            "params": {
+              "clean_type": 1,
+              "ctrl_value": 1
+            }
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q7-rooms-rejects-string-id",
+      "contract": "b01",
+      "operation": "CleanQ7Rooms",
+      "payload": {
+        "dps": {
+          "10000": {
+            "method": "service.set_room_clean",
+            "msgId": "100000000005",
+            "params": {
+              "clean_type": 1,
+              "ctrl_value": 1,
+              "room_ids": [
+                "9"
+              ]
+            }
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q10-list-rejects-dangerous-op-get",
+      "contract": "maps",
+      "operation": "QueryQ10MapList",
+      "payload": {
+        "dps": {
+          "101": {
+            "61": {
+              "op": "get"
+            }
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q10-current-rejects-dangerous-op-get",
+      "contract": "maps",
+      "operation": "RequestQ10CurrentMap",
+      "payload": {
+        "dps": {
+          "102": {
+            "op": "get"
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q10-trace-rejects-non-object-read",
+      "contract": "maps",
+      "operation": "RequestQ10Trace",
+      "payload": {
+        "dps": {
+          "102": []
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q10-rooms-requires-misspelled-parameters-key",
+      "contract": "b01",
+      "operation": "CleanQ10Rooms",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 2
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q10-rooms-rejects-zone-command",
+      "contract": "b01",
+      "operation": "CleanQ10Rooms",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 3,
+            "clean_paramters": [
+              9
+            ]
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q10-rooms-rejects-string-parameters",
+      "contract": "b01",
+      "operation": "CleanQ10Rooms",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 2,
+            "clean_paramters": "zone"
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q10-zones-rejects-room-command",
+      "contract": "b01",
+      "operation": "CleanQ10Zones",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 2,
+            "clean_paramters": "AQIBBAAAAAAAFAAAABQAKAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q10-zones-rejects-array-parameters",
+      "contract": "b01",
+      "operation": "CleanQ10Zones",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 3,
+            "clean_paramters": [
+              9
+            ]
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q10-zones-rejects-non-base64-parameters",
+      "contract": "b01",
+      "operation": "CleanQ10Zones",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 3,
+            "clean_paramters": "not base64!"
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q7-list-reply",
+      "contract": "maps",
+      "operation": "RequestQ7MapList",
+      "payload": {
+        "msgId": "100000000001",
+        "code": 0,
+        "data": {
+          "map_list": [
+            {
+              "id": 7,
+              "cur": true
+            }
+          ]
+        }
+      },
+      "valid": true,
+      "reply": true
+    },
+    {
+      "name": "q7-list-reply-rejects-map-id-type",
+      "contract": "maps",
+      "operation": "RequestQ7MapList",
+      "payload": {
+        "msgId": "100000000001",
+        "code": 0,
+        "data": {
+          "map_list": [
+            {
+              "id": "7",
+              "cur": true
+            }
+          ]
+        }
+      },
+      "valid": false,
+      "reply": true
+    },
+    {
+      "name": "q7-room-ack",
+      "contract": "b01",
+      "operation": "CleanQ7Rooms",
+      "payload": {
+        "msgId": "100000000005",
+        "code": 0,
+        "data": {}
+      },
+      "valid": true,
+      "reply": true
+    },
+    {
+      "name": "q10-list-nested-reply",
+      "contract": "maps",
+      "operation": "ReceiveQ10MapList",
+      "payload": {
+        "dps": {
+          "101": {
+            "61": {
+              "op": "list",
+              "result": 1,
+              "data": [
+                {
+                  "id": "q10-map",
+                  "name": "Floor"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "valid": true,
+      "reply": false
+    },
+    {
+      "name": "q10-list-direct-reply",
+      "contract": "maps",
+      "operation": "ReceiveQ10MapList",
+      "payload": {
+        "dps": {
+          "61": {
+            "op": "list",
+            "result": 1,
+            "data": [
+              {
+                "id": "q10-map",
+                "name": "Floor"
+              }
+            ]
+          }
+        }
+      },
+      "valid": true,
+      "reply": false
+    },
+    {
+      "name": "q10-list-reply-rejects-map-id-type",
+      "contract": "maps",
+      "operation": "ReceiveQ10MapList",
+      "payload": {
+        "dps": {
+          "61": {
+            "op": "list",
+            "result": 1,
+            "data": [
+              {
+                "id": 7,
+                "name": "Floor"
+              }
+            ]
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q7-rooms-zero",
+      "contract": "b01",
+      "operation": "CleanQ7Rooms",
+      "payload": {
+        "dps": {
+          "10000": {
+            "method": "service.set_room_clean",
+            "msgId": "100000000005",
+            "params": {
+              "clean_type": 1,
+              "ctrl_value": 1,
+              "room_ids": [
+                0
+              ]
+            }
+          }
+        }
+      },
+      "valid": true,
+      "reply": false
+    },
+    {
+      "name": "q7-rooms-upper-bound",
+      "contract": "b01",
+      "operation": "CleanQ7Rooms",
+      "payload": {
+        "dps": {
+          "10000": {
+            "method": "service.set_room_clean",
+            "msgId": "100000000005",
+            "params": {
+              "clean_type": 1,
+              "ctrl_value": 1,
+              "room_ids": [
+                4294967295
+              ]
+            }
+          }
+        }
+      },
+      "valid": true,
+      "reply": false
+    },
+    {
+      "name": "q7-rooms-negative",
+      "contract": "b01",
+      "operation": "CleanQ7Rooms",
+      "payload": {
+        "dps": {
+          "10000": {
+            "method": "service.set_room_clean",
+            "msgId": "100000000005",
+            "params": {
+              "clean_type": 1,
+              "ctrl_value": 1,
+              "room_ids": [
+                -1
+              ]
+            }
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q7-rooms-overflow",
+      "contract": "b01",
+      "operation": "CleanQ7Rooms",
+      "payload": {
+        "dps": {
+          "10000": {
+            "method": "service.set_room_clean",
+            "msgId": "100000000005",
+            "params": {
+              "clean_type": 1,
+              "ctrl_value": 1,
+              "room_ids": [
+                4294967296
+              ]
+            }
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q7-rooms-empty",
+      "contract": "b01",
+      "operation": "CleanQ7Rooms",
+      "payload": {
+        "dps": {
+          "10000": {
+            "method": "service.set_room_clean",
+            "msgId": "100000000005",
+            "params": {
+              "clean_type": 1,
+              "ctrl_value": 1,
+              "room_ids": []
+            }
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q10-rooms-zero",
+      "contract": "b01",
+      "operation": "CleanQ10Rooms",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 2,
+            "clean_paramters": [
+              0
+            ]
+          }
+        }
+      },
+      "valid": true,
+      "reply": false
+    },
+    {
+      "name": "q10-rooms-upper-bound",
+      "contract": "b01",
+      "operation": "CleanQ10Rooms",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 2,
+            "clean_paramters": [
+              65535
+            ]
+          }
+        }
+      },
+      "valid": true,
+      "reply": false
+    },
+    {
+      "name": "q10-rooms-negative",
+      "contract": "b01",
+      "operation": "CleanQ10Rooms",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 2,
+            "clean_paramters": [
+              -1
+            ]
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q10-rooms-overflow",
+      "contract": "b01",
+      "operation": "CleanQ10Rooms",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 2,
+            "clean_paramters": [
+              65536
+            ]
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q10-rooms-empty",
+      "contract": "b01",
+      "operation": "CleanQ10Rooms",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 2,
+            "clean_paramters": []
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q10-zones-negative-origin",
+      "contract": "b01",
+      "operation": "CleanQ10Zones",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 3,
+            "clean_paramters": "AQEBBP////8AAP//AAAAAP//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+          }
+        }
+      },
+      "valid": true,
+      "reply": false
+    },
+    {
+      "name": "q10-zones-high-coordinate-bits",
+      "contract": "b01",
+      "operation": "CleanQ10Zones",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 3,
+            "clean_paramters": "AQEBBBAAAAAQAQAAEAEAARAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+          }
+        }
+      },
+      "valid": true,
+      "reply": false
+    },
+    {
+      "name": "q10-zones-vector-bounds",
+      "contract": "b01",
+      "operation": "CleanQ10Zones",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 3,
+            "clean_paramters": "AQMBBIAAgAB//4AAf/9//4AAf/8AAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+          }
+        }
+      },
+      "valid": true,
+      "reply": false
+    },
+    {
+      "name": "q10-zones-bad-version",
+      "contract": "b01",
+      "operation": "CleanQ10Zones",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 3,
+            "clean_paramters": "AgIBBAAAAAAAFAAAABQAKAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q10-zones-repeat-above-bound",
+      "contract": "b01",
+      "operation": "CleanQ10Zones",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 3,
+            "clean_paramters": "AQQBBAAAAAAAFAAAABQAKAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    },
+    {
+      "name": "q10-zones-nonzero-footer",
+      "contract": "b01",
+      "operation": "CleanQ10Zones",
+      "payload": {
+        "dps": {
+          "201": {
+            "cmd": 3,
+            "clean_paramters": "AQIBBAAAAAAAFAAAABQAKAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAQ=="
+          }
+        }
+      },
+      "valid": false,
+      "reply": false
+    }
+  ]
+}

@@ -26,7 +26,7 @@ type Config struct {
 	Key       string
 	DeviceID  string
 	LocalKey  string
-	// Protocol is "1.0" (vacuum/camera) or "A01" (wet cleaner/washer).
+	// Protocol is "1.0" (vacuum/camera), "A01" (wet cleaner/washer), or "B01" (Q7/Q10).
 	Protocol string
 }
 
@@ -50,6 +50,9 @@ type Session struct {
 	closeOnce        sync.Once
 	writeGate        chan struct{}
 	a01Gate          chan struct{}
+	mapGate          chan struct{}
+	mapQuery         *mapQuery
+	q10Query         *q10Query
 	sequence         atomic.Uint32
 	mu               sync.Mutex
 	pending          map[int64]chan response

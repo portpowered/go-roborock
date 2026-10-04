@@ -389,6 +389,9 @@ type CleaningSummary struct {
 type CommandAcknowledgement struct {
 	// Acknowledged The RPC accepted the command. It does not establish completion of physical action.
 	Acknowledged bool `json:"acknowledged"`
+
+	// Sent The command was successfully published. Q10 publication does not establish device acceptance.
+	Sent bool `json:"sent"`
 }
 
 // Consumables Presence-aware Consumables inventory from pinned Python V1 containers; absent fields stay absent. Cleaning area is square millimeters and durations are seconds.

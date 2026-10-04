@@ -3,13 +3,16 @@ package replay_test
 import (
 	"encoding/json"
 	"os"
+	"strings"
 	"testing"
 
 	"github.com/getkin/kin-openapi/openapi3"
+	"github.com/portpowered/go-roborock/internal/schemaadapter"
+	"gopkg.in/yaml.v3"
 )
 
 const (
-	vacuumSchemaPath         = "../../api/vacuum.openapi.yaml"
+	vacuumSchemaPath         = "../../api/vacuum.asyncapi.yaml"
 	responseShapeFixturePath = "fixtures/vacuum/synthetic/response-shapes.json"
 )
 
@@ -46,7 +49,17 @@ func loadVacuumContract(t *testing.T) *openapi3.T {
 	loader := openapi3.NewLoader()
 	loader.Context = t.Context()
 
-	contract, err := loader.LoadFromFile(vacuumSchemaPath)
+	data, err := os.ReadFile(vacuumSchemaPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	projected, err := schemaadapter.Project(data)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	contract, err := loader.LoadFromData(projected)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -84,19 +97,40 @@ func loadResponseShapeFixture(t *testing.T) responseShapeFixture {
 func validateResponseShape(t *testing.T, contract *openapi3.T, testCase responseShapeCase) {
 	t.Helper()
 
-	path := contract.Paths.Value("/" + testCase.Method)
-	if path == nil || path.Post == nil {
-		t.Fatal("fixture method absent from RPC contract")
+	data, err := os.ReadFile(vacuumSchemaPath)
+	if err != nil {
+		t.Fatal(err)
 	}
 
-	response := path.Post.Responses.Value("200")
-	if response == nil || response.Value == nil {
-		t.Fatal("RPC response contract missing")
+	var document map[string]any
+
+	err = yaml.Unmarshal(data, &document)
+	if err != nil {
+		t.Fatal(err)
 	}
 
-	media := response.Value.Content.Get("application/json")
-	if media == nil || media.Schema == nil {
-		t.Fatal("RPC response schema missing")
+	operations, _ := document["operations"].(map[string]any)
+	components, _ := document["components"].(map[string]any)
+	messages, _ := components["messages"].(map[string]any)
+
+	var result *openapi3.SchemaRef
+
+	for name, value := range operations {
+		operation, _ := value.(map[string]any)
+		if operation["x-rpc-method"] != testCase.Method {
+			continue
+		}
+
+		message, _ := messages[name+"Response"].(map[string]any)
+		body, _ := message["payload"].(map[string]any)
+		properties, _ := body["properties"].(map[string]any)
+		schema, _ := properties["result"].(map[string]any)
+		ref, _ := schema["$ref"].(string)
+		result = contract.Components.Schemas[strings.TrimPrefix(ref, "#/components/schemas/")]
+	}
+
+	if result == nil {
+		t.Fatal("fixture method absent from AsyncAPI reply contract")
 	}
 
 	var payload any
@@ -106,7 +140,7 @@ func validateResponseShape(t *testing.T, contract *openapi3.T, testCase response
 		t.Fatal(decodeErr)
 	}
 
-	validateErr := media.Schema.Value.VisitJSON(payload)
+	validateErr := result.Value.VisitJSON(payload)
 	if (validateErr == nil) != testCase.Valid {
 		t.Fatalf("response shape validation=%v expected valid=%v", validateErr, testCase.Valid)
 	}

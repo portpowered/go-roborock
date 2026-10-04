@@ -18,4 +18,3 @@ result, err := client.LoginWithCode(ctx, roborock.LoginWithCodeRequest{
 The result contains `Auth`, user ID, and nickname. Pass `Auth` in every account request. Store tokens and MQTT secrets privately; explicitly log in again after rejection or expiry. The client does not store account state or silently renew credentials. A rejected code or expired account returns a typed error; see [errors](/docs/guides/lifecycle).
 
 Continue with [device discovery](/docs/guides/discovery). Authentication endpoints appear in the [generated reference](/docs/openapi/authentication/ResolveRegion).
-

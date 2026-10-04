@@ -66,3 +66,28 @@ func TestDefaultClientDoesNotFollowRedirect(t *testing.T) {
 		t.Fatalf("followed an uncontracted redirect: %v", err)
 	}
 }
+
+func TestRoomRoutesMatchCompleteTemplate(t *testing.T) {
+	t.Parallel()
+
+	cases := []struct {
+		path  string
+		valid bool
+	}{
+		{"/user/homes/42/rooms", true},
+		{"/user/deviceshare/query/shared%20device/rooms", true},
+		{"/user/homes/42/rooms/extra", false},
+		{"/user/deviceshare/query//rooms", false},
+		{"/user/homes/42/unknown", false},
+	}
+	for _, testCase := range cases {
+		t.Run(testCase.path, func(t *testing.T) {
+			t.Parallel()
+
+			err := validateRoute("GET", testCase.path)
+			if (err == nil) != testCase.valid {
+				t.Fatalf("route validation=%v expected valid=%v", err, testCase.valid)
+			}
+		})
+	}
+}

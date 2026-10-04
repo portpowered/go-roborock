@@ -1,0 +1,132 @@
+openapi: 3.0.3
+info:
+  title: Roborock map geometry projections
+  version: 0.1.0
+  description: Decoded map geometry. Coordinates retain the source frame; no implicit conversion between firmware frames is performed.
+paths: {}
+components:
+  schemas:
+    MapFormat:
+      type: string
+      enum: [v1, b01-q7, b01-q10]
+      x-enum-varnames: [MapFormatV1, MapFormatQ7, MapFormatQ10]
+    MapUnit:
+      type: string
+      enum: [millimeters, meters, pixels]
+      x-enum-varnames: [MapUnitMillimeters, MapUnitMeters, MapUnitPixels]
+    MapFrame:
+      type: string
+      enum: [v1-world, q7-world, q10-world, q10-array, q10-trace]
+      x-enum-varnames: [MapFrameV1World, MapFrameQ7World, MapFrameQ10World, MapFrameQ10Array, MapFrameQ10Trace]
+      description: Q10 trace is dock-relative; Q10 array is absolute raster coordinates; these frames must not be combined without explicit calibration.
+    MapPoint:
+      type: object
+      required: [x, y]
+      properties:
+        x: {type: number, format: double, description: "Horizontal coordinate in the containing geometry unit and frame."}
+        y: {type: number, format: double, description: "Vertical coordinate in the containing geometry unit and frame."}
+    MapRectangle:
+      type: object
+      required: [min, max]
+      properties:
+        min: {$ref: '#/components/schemas/MapPoint'}
+        max: {$ref: '#/components/schemas/MapPoint'}
+    MapPose:
+      type: object
+      required: [point, unit, frame]
+      properties:
+        point: {$ref: '#/components/schemas/MapPoint'}
+        unit: {$ref: '#/components/schemas/MapUnit'}
+        frame: {$ref: '#/components/schemas/MapFrame'}
+        heading: {type: number, format: double, description: "Source heading; headingUnit identifies degrees or radians."}
+        headingUnit: {type: string, enum: [degrees, radians]}
+    MapGrid:
+      type: object
+      required: [width, height, cells, unit, frame, topDown, rowYDirection]
+      properties:
+        width: {type: integer, minimum: 1, maximum: 16000000, description: "Number of columns."}
+        height: {type: integer, minimum: 1, maximum: 16000000, description: "Number of rows."}
+        cells: {type: string, format: byte, description: "Row-major source occupancy bytes; cell semantics depend on format."}
+        resolution: {type: number, format: double, minimum: 0, description: "Source world units per cell; absent when calibration is unavailable."}
+        origin: {$ref: '#/components/schemas/MapPoint'}
+        unit: {$ref: '#/components/schemas/MapUnit'}
+        frame: {$ref: '#/components/schemas/MapFrame'}
+        rowYDirection: {type: integer, enum: [-1, 1], description: "Sign of source-world Y change as the stored raster row increases."}
+        topDown: {type: boolean, description: "True when row zero corresponds to the top of the displayed raster."}
+        roomCells: {type: string, format: byte, description: "Optional source room-assignment raster."}
+    MapPath:
+      type: object
+      required: [kind, points, unit, frame]
+      properties:
+        kind: {$ref: '#/components/schemas/MapPathKind'}
+        points: {type: array, items: {$ref: '#/components/schemas/MapPoint'}}
+        unit: {$ref: '#/components/schemas/MapUnit'}
+        frame: {$ref: '#/components/schemas/MapFrame'}
+    MapArea:
+      type: object
+      required: [kind, points, unit, frame]
+      properties:
+        kind: {$ref: '#/components/schemas/MapAreaKind'}
+        points: {type: array, items: {$ref: '#/components/schemas/MapPoint'}}
+        unit: {$ref: '#/components/schemas/MapUnit'}
+        frame: {$ref: '#/components/schemas/MapFrame'}
+        sourceType: {type: integer, format: int64, description: "Uninterpreted source area type when present."}
+        sourceStatus: {type: integer, format: int64}
+        sourceIndex: {type: integer, format: int64}
+    MapPathKind:
+      type: string
+      description: Open path kind. Known values are clean, goto, predicted, and trace; future source kinds remain representable.
+      x-known-values:
+        MapPathKindClean: clean
+        MapPathKindGoto: goto
+        MapPathKindPredicted: predicted
+        MapPathKindTrace: trace
+    MapAreaKind:
+      type: string
+      description: Open area kind. Known values describe current cleaning zones, walls, no-go, no-mop, no-carpet, erase areas, or unknown semantics; future kinds remain representable.
+      x-known-values:
+        MapAreaKindCurrent: current
+        MapAreaKindWall: wall
+        MapAreaKindNoGo: no-go
+        MapAreaKindNoMop: no-mop
+        MapAreaKindNoCarpet: no-carpet
+        MapAreaKindErase: erase
+        MapAreaKindUnknown: unknown
+    MapRoom:
+      type: object
+      required: [unit, frame]
+      properties:
+        id: {type: integer, format: int64, description: "Source room identifier; absent remains absent."}
+        name: {type: string}
+        roomType: {type: integer, format: int64}
+        material: {type: integer, format: int64}
+        cleanState: {type: integer, format: int64}
+        label: {$ref: '#/components/schemas/MapPoint'}
+        outline: {type: array, items: {$ref: '#/components/schemas/MapPoint'}}
+        bounds: {$ref: '#/components/schemas/MapRectangle'}
+        unit: {$ref: '#/components/schemas/MapUnit'}
+        frame: {$ref: '#/components/schemas/MapFrame'}
+    MapUnknownBlock:
+      type: object
+      required: [type, offset, headerLength, dataLength]
+      properties:
+        type: {type: integer, format: int64}
+        offset: {type: integer, minimum: 0}
+        headerLength: {type: integer, minimum: 0}
+        dataLength: {type: integer, minimum: 0}
+    MapSnapshot:
+      type: object
+      required: [format, paths, rooms, currentZones, restrictions, walls, unknownBlocks]
+      properties:
+        format: {$ref: '#/components/schemas/MapFormat'}
+        formatId: {type: integer, format: int64, description: "Source map-type or packet-kind identifier; never inferred when absent."}
+        mapId: {type: integer, format: int64}
+        grid: {$ref: '#/components/schemas/MapGrid'}
+        robot: {$ref: '#/components/schemas/MapPose'}
+        dock: {$ref: '#/components/schemas/MapPose'}
+        paths: {type: array, items: {$ref: '#/components/schemas/MapPath'}}
+        rooms: {type: array, items: {$ref: '#/components/schemas/MapRoom'}}
+        currentZones: {type: array, items: {$ref: '#/components/schemas/MapArea'}}
+        restrictions: {type: array, items: {$ref: '#/components/schemas/MapArea'}}
+        walls: {type: array, items: {$ref: '#/components/schemas/MapArea'}}
+        unknownBlocks: {type: array, items: {$ref: '#/components/schemas/MapUnknownBlock'}}

@@ -90,7 +90,7 @@ func TestPairedMQTTSessionRPC(t *testing.T) {
 		BrokerURL: fixture.Broker, User: fixture.User, Secret: fixture.Secret, Key: fixture.Key,
 		DeviceID: fixture.DeviceID, LocalKey: fixture.LocalKey, Protocol: "1.0",
 	}, func(_ context.Context, network, address string) (net.Conn, error) {
-		if network != "tcp" || address != "mqtt.example.test:8883" {
+		if network != mqttReplayNetwork || address != mqttReplayAddress {
 			return nil, mqttMismatch("unexpected dial: %s %s", network, address)
 		}
 
@@ -137,9 +137,9 @@ func loadMQTTFixture(t *testing.T) mqttFixture {
 		t.Fatal(err)
 	}
 
-	if fixture.Provenance != "synthetic" ||
+	if fixture.Provenance != accountFixtureProvenance ||
 		fixture.Source != "reference-derived python-roborock create_mqtt_encoder" ||
-		fixture.Revision != "a8260c5211e60647fc352d6b496b827865938b21" {
+		fixture.Revision != mqttReferenceRevision {
 		t.Fatal("missing independent fixture provenance")
 	}
 

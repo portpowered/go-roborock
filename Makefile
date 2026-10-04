@@ -31,7 +31,7 @@ generate:
 generated:
 	$(GO) run ./tools/generate -check
 	$(GO) run ./tools/publicdocs -check
-	git diff --exit-code -- "*.gen.go" "api/*.openapi.yaml"
+	git diff --exit-code -- "*.gen.go" "*.pb.go" "api/*.openapi.yaml" "api/*.asyncapi.yaml"
 	$(GO) run ./tools/generatedfiles
 
 contracts:

@@ -117,6 +117,29 @@
                 "$ref": "./operation-models.openapi.yaml#/components/schemas/OpenCameraRequest"
               }
             ]
+          },
+          "mapId": {
+            "type": "string",
+            "x-go-name": "MapID",
+            "x-go-type-skip-optional-pointer": true,
+            "description": "Map identifier from maps discovery. Required by select-map; optional saved Q7 identifier for map, otherwise reads the current map."
+          },
+          "cleanZones": {
+            "$ref": "#/components/schemas/CleanZonesInput"
+          },
+          "cleanRooms": {
+            "type": "object",
+            "x-go-type": "roborock.CleanSegmentsRequest",
+            "x-go-type-import": {
+              "name": "roborock",
+              "path": "github.com/portpowered/go-roborock/pkg/roborock"
+            },
+            "x-go-type-skip-optional-pointer": true,
+            "allOf": [
+              {
+                "$ref": "./operation-models.openapi.yaml#/components/schemas/CleanSegmentsRequest"
+              }
+            ]
           }
         }
       },
@@ -176,6 +199,64 @@
                 "$ref": "./client-models.openapi.yaml#/components/schemas/AuthContext"
               }
             ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "CleaningZoneInput": {
+        "type": "object",
+        "required": [
+          "x1",
+          "y1",
+          "x2",
+          "y2",
+          "repeats"
+        ],
+        "properties": {
+          "x1": {
+            "type": "integer",
+            "format": "int64",
+            "x-go-type": "*int64",
+            "description": "Explicit map coordinate in millimeters; omission and null are rejected before opening a device session."
+          },
+          "y1": {
+            "type": "integer",
+            "format": "int64",
+            "x-go-type": "*int64",
+            "description": "Explicit map coordinate in millimeters; omission and null are rejected before opening a device session."
+          },
+          "x2": {
+            "type": "integer",
+            "format": "int64",
+            "x-go-type": "*int64",
+            "description": "Explicit map coordinate in millimeters; omission and null are rejected before opening a device session."
+          },
+          "y2": {
+            "type": "integer",
+            "format": "int64",
+            "x-go-type": "*int64",
+            "description": "Explicit map coordinate in millimeters; omission and null are rejected before opening a device session."
+          },
+          "repeats": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 3
+          }
+        },
+        "additionalProperties": false
+      },
+      "CleanZonesInput": {
+        "type": "object",
+        "required": [
+          "zones"
+        ],
+        "properties": {
+          "zones": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CleaningZoneInput"
+            },
+            "minItems": 1
           }
         },
         "additionalProperties": false

@@ -21,5 +21,4 @@ Send a plain local candidate with `camera.SendICE(ctx, SendICERequest{Candidate:
 
 Only one camera preview may be open per device session; overlapping opens return `Backpressure`. Close it before opening another. Observe `camera.Done()` for lifetime cancellation and termination. Keep the camera context alive for preview. Cancellation and `Close` stop preview with bounded cleanup; setup failure after preview starts also attempts cleanup. Closing the parent device closes owned camera sessions. Close the caller-owned peer connection separately. SDP readiness polling and individual calls have bounded waits; a timeout does not justify retrying movement.
 
-Remote movement uses the device's [remote controls](/docs/guides/remote-control); this release does not expose a separate camera PTZ or playback interface. See [lifecycle](/docs/guides/lifecycle) and the [generated reference](/docs/openapi/camera/CameraStartPreviewRPC).
-
+Remote movement uses the device's [remote controls](/docs/guides/remote-control); this release does not expose a separate camera PTZ or playback interface. See [lifecycle](/docs/guides/lifecycle) and the [generated reference](/docs/asyncapi/camera/CameraStartPreviewRPC).

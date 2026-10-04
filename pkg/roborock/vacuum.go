@@ -137,6 +137,10 @@ func (s *DeviceSession) SetDND(ctx context.Context, req SetDNDRequest) (CommandA
 
 // CleanZones sends the device command once without automatic retries.
 func (s *DeviceSession) CleanZones(ctx context.Context, req CleanZonesRequest) (CommandAcknowledgement, error) {
+	if s.deviceFamily() != FamilyV1Vacuum {
+		return s.cleanFamilyZones(ctx, req)
+	}
+
 	params, err := zoneParameters(req)
 	if err != nil {
 		return CommandAcknowledgement{}, err
@@ -154,6 +158,10 @@ func (s *DeviceSession) CleanSegments(ctx context.Context, req CleanSegmentsRequ
 			"segments required and repeats must be 1 through 3",
 			nil,
 		)
+	}
+
+	if s.deviceFamily() != FamilyV1Vacuum {
+		return s.cleanFamilyRooms(ctx, req)
 	}
 
 	return s.command(

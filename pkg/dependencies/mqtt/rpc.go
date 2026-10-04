@@ -61,6 +61,10 @@ func (s *Session) beginRPC(requestID int64) (chan response, error) {
 		return nil, roborockerrors.New(roborockerrors.Backpressure, "mqtt call", "too many pending commands", nil)
 	}
 
+	if _, exists := s.pending[requestID]; exists {
+		return nil, roborockerrors.New(roborockerrors.Backpressure, "mqtt call", "request identifier already pending", nil)
+	}
+
 	reply := make(chan response, 1)
 	s.pending[requestID] = reply
 

@@ -1,0 +1,185 @@
+{
+  "provenance": "synthetic",
+  "source": "independent Python cryptography/struct/zlib implementing pinned python-roborock wire rules",
+  "revision": "a8260c5211e60647fc352d6b496b827865938b21",
+  "serial": "synthetic-serial",
+  "model": "roborock.vacuum.sc01",
+  "cases": [
+    {
+      "name": "q7",
+      "steps": [
+        {
+          "operation": "list",
+          "request": {
+            "dps": {
+              "10000": {
+                "method": "service.get_map_list",
+                "msgId": "100000000001",
+                "params": {}
+              }
+            }
+          },
+          "protocol": 102,
+          "result": {
+            "map_list": [
+              {
+                "id": 7,
+                "cur": true
+              }
+            ]
+          },
+          "responseFrameHex": "423031000000640000002a6553f100006600701ce41781f99b3375201b68149a5be9b77bbf109aab276bc7e0f1c6bbae68d6f6107784f4d1c14b6114dd3e7c8a038f21b0e5aa833da5106e5044a1309bacb20edbf190d4c52bb380de10c1ef120618037ca32cf6a45f142ce64b07c997eb7e9e660d969c43c1bfd2ad5e8fcddb0565ac3c66d941"
+        },
+        {
+          "operation": "map",
+          "request": {
+            "dps": {
+              "10000": {
+                "method": "service.upload_by_mapid",
+                "msgId": "100000000003",
+                "params": {
+                  "map_id": 7
+                }
+              }
+            }
+          },
+          "protocol": 301,
+          "resultBase64": "c3ludGhldGljLXE3LW1hcA==",
+          "responseFrameHex": "423031000000650000002a6553f100012d0060129afc5ce1df796aea2c62fbaa279bb354ad4855d6277925bc4992735a067fbf4d13f3160a095cc1c5c155f17934373b72902751a1f62e3fd098650ad8253bab2f3d58dfc67249c44c7a34b73876cfc13c5f79aa115966ec76436c321c325702c9f2e902"
+        },
+        {
+          "operation": "rooms",
+          "request": {
+            "dps": {
+              "10000": {
+                "method": "service.set_room_clean",
+                "msgId": "100000000005",
+                "params": {
+                  "clean_type": 1,
+                  "ctrl_value": 1,
+                  "room_ids": [
+                    9
+                  ]
+                }
+              }
+            }
+          },
+          "protocol": 102,
+          "result": {},
+          "responseFrameHex": "423031000000660000002a6553f100006600501ce41781f99b3375201b68149a5be9b77bbf109aab276bc7e0f1c6bbae68d6f66631d140d69637dfd312fd79680d1d7a1a8b2f95302f4e10f39e155e7e4bfa0bc72d36050fef57196be69c612475b809806a847f"
+        }
+      ]
+    },
+    {
+      "name": "q10",
+      "steps": [
+        {
+          "operation": "list",
+          "request": {
+            "dps": {
+              "101": {
+                "61": {
+                  "op": "list"
+                }
+              }
+            }
+          },
+          "protocol": 102,
+          "result": {
+            "op": "list",
+            "result": 1,
+            "data": [
+              {
+                "id": "q10-map",
+                "name": "Floor"
+              }
+            ]
+          },
+          "responseFrameHex": "423031000000640000002a6553f10000660060a3b93d98651609ebba3ff81adebd2f02b8059f9de2a0bdcae720cbaa3e5e5ab1c2b41165c85f84e5482ddb5389f5b22b66c0b6cff7b67e76bbc0fd41211112d0566546b947770e68d22600f76c0985a23e890a8e3a2389051397c994b587dfdc7d49e8e0"
+        },
+        {
+          "operation": "map",
+          "request": {
+            "dps": {
+              "102": {}
+            }
+          },
+          "protocol": 301,
+          "resultBase64": "AQFzeW50aGV0aWMtY3VycmVudC1tYXA=",
+          "responseFrameHex": "423031000000650000002a6553f100012d0020d196c3271910482dd43ac44a3c9381c332944868817c9e2007a44dc0c2b5bd7711547bd3"
+        },
+        {
+          "operation": "trace",
+          "request": {
+            "dps": {
+              "102": {}
+            }
+          },
+          "protocol": 301,
+          "resultBase64": "AgFzeW50aGV0aWMtdHJhY2U=",
+          "responseFrameHex": "423031000000660000002a6553f100012d0020e962882e619cb94b5435b34968c4ae76d645bbc410ae5be674252e24fa9099c40fcc5760"
+        },
+        {
+          "operation": "zone",
+          "request": {
+            "dps": {
+              "201": {
+                "cmd": 3,
+                "clean_paramters": "AQIBBAAAAAAAFAAAABQAKAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+              }
+            }
+          },
+          "protocol": 0
+        }
+      ]
+    },
+    {
+      "name": "q7",
+      "steps": [
+        {
+          "operation": "map",
+          "request": {
+            "dps": {
+              "10000": {
+                "method": "service.upload_by_mapid",
+                "msgId": "100000000001",
+                "params": {
+                  "map_id": 7
+                }
+              }
+            }
+          },
+          "protocol": 102,
+          "responseFrameHex": "423031000000c80000002a6553f100006600501ce41781f99b3375201b68149a5be9b77bbf109aab276bc7e0f1c6bbae68d6f6107784f4d1c14b6114dd3e7c8a038f21a929e6273f9a0d6f9a45d3cf2746fd387fd710ab472d13d93032a8bca79231fbf189ebe0",
+          "resultErrorKind": "protocol"
+        }
+      ]
+    },
+    {
+      "name": "q7",
+      "steps": [
+        {
+          "operation": "map",
+          "request": {
+            "dps": {
+              "10000": {
+                "method": "service.upload_by_mapid",
+                "msgId": "100000000001",
+                "params": {
+                  "map_id": 7
+                }
+              }
+            }
+          },
+          "protocol": 102,
+          "responseFrameHex": "423031000000c80000002a6553f100006600601ce41781f99b3375201b68149a5be9b77bbf109aab276bc7e0f1c6bbae68d6f6107784f4d1c14b6114dd3e7c8a038f21b0e5aa833da5106e5044a1309bacb20eb1c65fb33793bdd78eaddad487c226ca5fe769804d643d2a44967c8122aec050f24be8a3",
+          "resultErrorKind": "unsupported"
+        }
+      ]
+    }
+  ],
+  "q7MapKey": "b0ba0cccdc99036e",
+  "q7EncryptedMap": "lz637J0hjlMbHnkTRt8z1k1oRcE/GAmtS9gnc3OxUPdxjiJcCy1wXd1utVfgJcjHSF1DZFwucwzztEprlOehhA==",
+  "v1EncryptedMap": "0f7ecc12e3dd1449aa67f26c7f59248095024b5a0f26c957b3764195bd46ee7915796fe5708af5cdf4eed05da38f1554",
+  "zoneEncoded": "AQIBBAAAAAAAFAAAABQAKAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+}

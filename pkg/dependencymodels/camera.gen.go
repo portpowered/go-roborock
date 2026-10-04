@@ -29,6 +29,9 @@ const (
 // CameraAcknowledgement defines model for CameraAcknowledgement.
 type CameraAcknowledgement = []string
 
+// CameraCheckPasswordRPCJSONRequestBody defines model for CameraCheckPasswordRPCJSONRequestBody.
+type CameraCheckPasswordRPCJSONRequestBody = CameraPasswordParameters
+
 // CameraDeviceICE defines model for CameraDeviceICE.
 type CameraDeviceICE struct {
 	DevIce *string `json:"dev_ice,omitempty"`
@@ -44,6 +47,15 @@ type CameraDeviceSDP struct {
 
 // CameraEmptyParameters defines model for CameraEmptyParameters.
 type CameraEmptyParameters = struct{}
+
+// CameraGetICERPCJSONRequestBody defines model for CameraGetICERPCJSONRequestBody.
+type CameraGetICERPCJSONRequestBody = CameraEmptyParameters
+
+// CameraGetSDPRPCJSONRequestBody defines model for CameraGetSDPRPCJSONRequestBody.
+type CameraGetSDPRPCJSONRequestBody = CameraEmptyParameters
+
+// CameraGetTURNRPCJSONRequestBody defines model for CameraGetTURNRPCJSONRequestBody.
+type CameraGetTURNRPCJSONRequestBody = CameraEmptyParameters
 
 // CameraICEParameters defines model for CameraICEParameters.
 type CameraICEParameters struct {
@@ -83,6 +95,18 @@ type CameraSDPRetry string
 // CameraSDPType SDP negotiation direction.
 type CameraSDPType string
 
+// CameraSendICERPCJSONRequestBody defines model for CameraSendICERPCJSONRequestBody.
+type CameraSendICERPCJSONRequestBody = CameraICEParameters
+
+// CameraSendSDPRPCJSONRequestBody defines model for CameraSendSDPRPCJSONRequestBody.
+type CameraSendSDPRPCJSONRequestBody = CameraSDPParameters
+
+// CameraStartPreviewRPCJSONRequestBody defines model for CameraStartPreviewRPCJSONRequestBody.
+type CameraStartPreviewRPCJSONRequestBody = CameraPreviewParameters
+
+// CameraStopPreviewRPCJSONRequestBody defines model for CameraStopPreviewRPCJSONRequestBody.
+type CameraStopPreviewRPCJSONRequestBody = CameraEmptyParameters
+
 // CameraTURN defines model for CameraTURN.
 type CameraTURN struct {
 	Credential *string `json:"credential,omitempty"`
@@ -91,27 +115,3 @@ type CameraTURN struct {
 	User       *string `json:"user,omitempty"`
 	Username   *string `json:"username,omitempty"`
 }
-
-// CameraCheckPasswordRPCJSONRequestBody defines body for CameraCheckPasswordRPC for application/json ContentType.
-type CameraCheckPasswordRPCJSONRequestBody = CameraPasswordParameters
-
-// CameraGetICERPCJSONRequestBody defines body for CameraGetICERPC for application/json ContentType.
-type CameraGetICERPCJSONRequestBody = CameraEmptyParameters
-
-// CameraGetSDPRPCJSONRequestBody defines body for CameraGetSDPRPC for application/json ContentType.
-type CameraGetSDPRPCJSONRequestBody = CameraEmptyParameters
-
-// CameraGetTURNRPCJSONRequestBody defines body for CameraGetTURNRPC for application/json ContentType.
-type CameraGetTURNRPCJSONRequestBody = CameraEmptyParameters
-
-// CameraSendICERPCJSONRequestBody defines body for CameraSendICERPC for application/json ContentType.
-type CameraSendICERPCJSONRequestBody = CameraICEParameters
-
-// CameraSendSDPRPCJSONRequestBody defines body for CameraSendSDPRPC for application/json ContentType.
-type CameraSendSDPRPCJSONRequestBody = CameraSDPParameters
-
-// CameraStartPreviewRPCJSONRequestBody defines body for CameraStartPreviewRPC for application/json ContentType.
-type CameraStartPreviewRPCJSONRequestBody = CameraPreviewParameters
-
-// CameraStopPreviewRPCJSONRequestBody defines body for CameraStopPreviewRPC for application/json ContentType.
-type CameraStopPreviewRPCJSONRequestBody = CameraEmptyParameters

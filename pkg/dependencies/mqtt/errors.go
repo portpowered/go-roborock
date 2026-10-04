@@ -48,6 +48,10 @@ func transportError(operation string, cause error) error {
 	return roborockerrors.New(kind, "mqtt "+operation, "MQTT operation failed", cause)
 }
 
+func protocolError(operation string, cause error) error {
+	return roborockerrors.New(roborockerrors.Protocol, "mqtt "+operation, "malformed device response", cause)
+}
+
 func invalid(operation, message string) error {
 	return roborockerrors.New(roborockerrors.InvalidArgument, "mqtt "+operation, message, nil)
 }
@@ -64,6 +68,9 @@ type RPCError struct {
 func (e *RPCError) Error() string { return fmt.Sprintf("device RPC %d: %s", e.Code, e.Message) }
 
 var (
+	errInvalidB01ResponseShape                   = errors.New("B01 response known field is not nullable")
+	errInvalidB01MessageID                       = errors.New("B01 response message identifier exceeds its wire range")
+	errInvalidMapListShape                       = errors.New("map list response is missing a required field")
 	errInvalidTimestamp                          = errors.New("unix timestamp exceeds device wire range")
 	errUnexpectedMQTTPacket                      = errors.New("unexpected MQTT packet")
 	errA01DatapointKeyIsNotNumeric               = errors.New("A01 datapoint key is not numeric")

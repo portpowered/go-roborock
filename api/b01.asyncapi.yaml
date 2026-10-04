@@ -1,0 +1,646 @@
+{
+  "asyncapi": "3.0.0",
+  "info": {
+    "title": "Roborock B01 MQTT envelopes",
+    "version": "1.0.0",
+    "description": "Q7 RPC and Q10 datapoint envelopes inside encrypted B01 frames. Known operations bind decoded encrypted-frame payloads to method and datapoint variants; generic carriers preserve future firmware fields."
+  },
+  "defaultContentType": "application/json",
+  "channels": {
+    "b01": {
+      "address": "rr/m/o/{username}/{endpoint}/{deviceId}",
+      "messages": {
+        "B01Envelope": {
+          "$ref": "#/components/messages/B01Envelope"
+        }
+      },
+      "parameters": {
+        "username": {
+          "description": "Account MQTT topic username."
+        },
+        "deviceId": {
+          "description": "Device identifier."
+        },
+        "endpoint": {
+          "description": "Session endpoint identifier."
+        }
+      }
+    },
+    "requests": {
+      "address": "rr/m/i/{username}/{endpoint}/{deviceId}",
+      "parameters": {
+        "username": {
+          "description": "Account MQTT topic username."
+        },
+        "deviceId": {
+          "description": "Device identifier."
+        },
+        "endpoint": {
+          "description": "Session endpoint identifier."
+        }
+      },
+      "messages": {
+        "B01Envelope": {
+          "$ref": "#/components/messages/B01Envelope"
+        },
+        "B01Q7RoomCleanEnvelope": {
+          "$ref": "#/components/messages/B01Q7RoomCleanEnvelope"
+        },
+        "B01Q10RoomCleanEnvelope": {
+          "$ref": "#/components/messages/B01Q10RoomCleanEnvelope"
+        },
+        "B01Q10ZoneCleanEnvelope": {
+          "$ref": "#/components/messages/B01Q10ZoneCleanEnvelope"
+        }
+      }
+    },
+    "responses": {
+      "address": "rr/m/o/{username}/{endpoint}/{deviceId}",
+      "parameters": {
+        "username": {
+          "description": "Account MQTT topic username."
+        },
+        "endpoint": {
+          "description": "Session endpoint identifier."
+        },
+        "deviceId": {
+          "description": "Device identifier."
+        }
+      },
+      "messages": {
+        "B01Q7CommandReply": {
+          "$ref": "#/components/messages/B01Q7CommandReply"
+        }
+      }
+    }
+  },
+  "operations": {
+    "SendB01": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "tags": [
+        {
+          "name": "b01"
+        }
+      ],
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/B01Envelope"
+        }
+      ],
+      "description": "Carries future firmware payloads outside the verified operation variants."
+    },
+    "ReceiveB01": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/b01"
+      },
+      "tags": [
+        {
+          "name": "b01"
+        }
+      ],
+      "messages": [
+        {
+          "$ref": "#/channels/b01/messages/B01Envelope"
+        }
+      ],
+      "description": "Carries future firmware payloads outside the verified operation variants."
+    },
+    "CleanQ7Rooms": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/B01Q7RoomCleanEnvelope"
+        }
+      ],
+      "summary": "Starts cleaning selected Q7 rooms",
+      "description": "Starts cleaning selected Q7 rooms.",
+      "tags": [
+        {
+          "name": "b01"
+        }
+      ],
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/B01Q7CommandReply"
+          }
+        ]
+      }
+    },
+    "CleanQ10Rooms": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/B01Q10RoomCleanEnvelope"
+        }
+      ],
+      "summary": "Publishes Q10 room cleaning without a device acknowledgement",
+      "description": "Publishes Q10 room cleaning without a device acknowledgement.",
+      "tags": [
+        {
+          "name": "b01"
+        }
+      ]
+    },
+    "CleanQ10Zones": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/B01Q10ZoneCleanEnvelope"
+        }
+      ],
+      "summary": "Publishes Q10 zone cleaning without a device acknowledgement",
+      "description": "Publishes Q10 zone cleaning without a device acknowledgement.",
+      "tags": [
+        {
+          "name": "b01"
+        }
+      ]
+    }
+  },
+  "components": {
+    "messages": {
+      "B01Envelope": {
+        "payload": {
+          "$ref": "#/components/schemas/B01Envelope"
+        }
+      },
+      "B01Q7CommandReply": {
+        "name": "B01Q7CommandReply",
+        "summary": "Returns a decoded Q7 RPC response from JSON-string datapoint 10000",
+        "payload": {
+          "$ref": "#/components/schemas/B01Q7CommandReply"
+        },
+        "correlationId": {
+          "location": "$message.payload#/msgId"
+        },
+        "x-datapoint": "10000",
+        "description": "The MQTT datapoint contains a JSON string; this schema describes its decoded object.",
+        "examples": [
+          {
+            "name": "Synthetic-q7-room-ack",
+            "summary": "Synthetic protocol example.",
+            "payload": {
+              "msgId": "100000000005",
+              "code": 0,
+              "data": {}
+            }
+          }
+        ]
+      },
+      "B01Q7RoomCleanEnvelope": {
+        "name": "B01Q7RoomCleanEnvelope",
+        "summary": "Starts cleaning selected Q7 rooms",
+        "payload": {
+          "$ref": "#/components/schemas/B01Q7RoomCleanEnvelope"
+        },
+        "examples": [
+          {
+            "name": "Synthetic-q7-rooms",
+            "summary": "Synthetic protocol example.",
+            "payload": {
+              "dps": {
+                "10000": {
+                  "method": "service.set_room_clean",
+                  "msgId": "100000000005",
+                  "params": {
+                    "clean_type": 1,
+                    "ctrl_value": 1,
+                    "room_ids": [
+                      9
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "B01Q10RoomCleanEnvelope": {
+        "name": "B01Q10RoomCleanEnvelope",
+        "summary": "Publishes Q10 room cleaning without a device acknowledgement",
+        "payload": {
+          "$ref": "#/components/schemas/B01Q10RoomCleanEnvelope"
+        },
+        "examples": [
+          {
+            "name": "Synthetic-q10-rooms",
+            "summary": "Synthetic protocol example.",
+            "payload": {
+              "dps": {
+                "201": {
+                  "cmd": 2,
+                  "clean_paramters": [
+                    9
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      },
+      "B01Q10ZoneCleanEnvelope": {
+        "name": "B01Q10ZoneCleanEnvelope",
+        "summary": "Publishes Q10 zone cleaning without a device acknowledgement",
+        "payload": {
+          "$ref": "#/components/schemas/B01Q10ZoneCleanEnvelope"
+        },
+        "examples": [
+          {
+            "name": "Synthetic-q10-zones",
+            "summary": "Synthetic protocol example.",
+            "payload": {
+              "dps": {
+                "201": {
+                  "cmd": 3,
+                  "clean_paramters": "AQIBBAAAAAAAFAAAABQAKAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "schemas": {
+      "B01Envelope": {
+        "type": "object",
+        "required": [
+          "dps"
+        ],
+        "properties": {
+          "dps": {
+            "type": "object",
+            "additionalProperties": {
+              "x-go-type": "json.RawMessage"
+            }
+          }
+        },
+        "description": "Open carrier for future datapoints; use the named operations for verified payload variants."
+      },
+      "B01RPCRequest": {
+        "type": "object",
+        "required": [
+          "method",
+          "msgId",
+          "params"
+        ],
+        "properties": {
+          "method": {
+            "$ref": "#/components/schemas/B01Method"
+          },
+          "msgId": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{11}$",
+            "example": "100000000001"
+          },
+          "params": {
+            "x-go-type": "json.RawMessage"
+          }
+        },
+        "description": "Open parameter carrier used by the transport; known method messages constrain parameters."
+      },
+      "B01RPCResponse": {
+        "type": "object",
+        "required": [
+          "msgId"
+        ],
+        "properties": {
+          "msgId": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{11}$",
+            "example": "100000000001"
+          },
+          "code": {
+            "type": "integer",
+            "default": 0
+          },
+          "data": {
+            "x-go-type": "json.RawMessage"
+          }
+        }
+      },
+      "B01Method": {
+        "enum": [
+          "service.get_map_list",
+          "service.upload_by_mapid",
+          "service.set_room_clean"
+        ],
+        "type": "string"
+      },
+      "Q10CleanCommand": {
+        "required": [
+          "cmd",
+          "clean_paramters"
+        ],
+        "type": "object",
+        "properties": {
+          "clean_paramters": {
+            "x-go-type": "json.RawMessage"
+          },
+          "cmd": {
+            "enum": [
+              2,
+              3
+            ],
+            "type": "integer"
+          }
+        },
+        "description": "Transport carrier; room and zone messages constrain the command-specific parameter shape."
+      },
+      "Q7RoomCleanRequest": {
+        "required": [
+          "clean_type",
+          "ctrl_value",
+          "room_ids"
+        ],
+        "type": "object",
+        "properties": {
+          "ctrl_value": {
+            "type": "integer",
+            "enum": [
+              1
+            ],
+            "x-enum-varnames": [
+              "Q7RoomCleanRequestPropertiesCtrlValue0Value"
+            ]
+          },
+          "room_ids": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0,
+              "format": "int64",
+              "maximum": 4294967295
+            },
+            "minItems": 1,
+            "description": "Room IDs from the selected Q7 map, represented as unsigned 32-bit integers; individual firmware acceptance is not established."
+          },
+          "clean_type": {
+            "type": "integer",
+            "enum": [
+              1
+            ],
+            "x-enum-varnames": [
+              "Q7RoomCleanRequestPropertiesCleanType0Value"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "B01KnownEmptyObject": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      },
+      "B01Q7RoomCleanRPC": {
+        "type": "object",
+        "properties": {
+          "method": {
+            "type": "string",
+            "enum": [
+              "service.set_room_clean"
+            ],
+            "x-enum-varnames": [
+              "B01Q7RoomCleanRPCPropertiesMethod0Value"
+            ]
+          },
+          "msgId": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{11}$",
+            "example": "100000000001"
+          },
+          "params": {
+            "$ref": "#/components/schemas/Q7RoomCleanRequest"
+          }
+        },
+        "required": [
+          "method",
+          "msgId",
+          "params"
+        ],
+        "additionalProperties": false
+      },
+      "B01Q7RoomCleanEnvelopeDatapoints": {
+        "type": "object",
+        "properties": {
+          "10000": {
+            "$ref": "#/components/schemas/B01Q7RoomCleanRPC"
+          }
+        },
+        "required": [
+          "10000"
+        ],
+        "additionalProperties": false
+      },
+      "B01Q7RoomCleanEnvelope": {
+        "type": "object",
+        "properties": {
+          "dps": {
+            "$ref": "#/components/schemas/B01Q7RoomCleanEnvelopeDatapoints"
+          }
+        },
+        "required": [
+          "dps"
+        ],
+        "additionalProperties": false
+      },
+      "B01Q7CommandReply": {
+        "type": "object",
+        "properties": {
+          "msgId": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{11}$",
+            "example": "100000000001"
+          },
+          "code": {
+            "type": "integer",
+            "default": 0
+          },
+          "data": {
+            "description": "Device acknowledgement data has no verified stable shape.",
+            "x-go-type": "json.RawMessage"
+          }
+        },
+        "required": [
+          "msgId"
+        ]
+      },
+      "B01Q10RoomIDs": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535,
+          "format": "int64"
+        },
+        "description": "Room IDs from the selected Q10 map, represented as unsigned 16-bit integers; individual firmware acceptance is not established."
+      },
+      "B01Q10ZonePayload": {
+        "type": "string",
+        "format": "byte",
+        "minLength": 56,
+        "maxLength": 56,
+        "pattern": "^(AQEBB|AQIBB|AQMBB)[A-P][A-Za-z0-9+/]{20}[AEIMQUYcgkosw048]A{27}==$",
+        "description": "Base64 of the 40-byte zone vector: version 1, repeat 1 through 3, one four-vertex polygon, eight signed big-endian 16-bit coordinates in 5 mm units relative to (25500,25500), zero name length, and 19 zero bytes."
+      },
+      "B01Q10RoomCleanCommand": {
+        "type": "object",
+        "properties": {
+          "cmd": {
+            "type": "integer",
+            "enum": [
+              2
+            ],
+            "x-enum-varnames": [
+              "B01Q10RoomCleanCommandPropertiesCmd0Value"
+            ]
+          },
+          "clean_paramters": {
+            "$ref": "#/components/schemas/B01Q10RoomIDs"
+          }
+        },
+        "required": [
+          "cmd",
+          "clean_paramters"
+        ],
+        "additionalProperties": false
+      },
+      "B01Q10RoomCleanEnvelopeDatapoints": {
+        "type": "object",
+        "properties": {
+          "201": {
+            "$ref": "#/components/schemas/B01Q10RoomCleanCommand"
+          }
+        },
+        "required": [
+          "201"
+        ],
+        "additionalProperties": false
+      },
+      "B01Q10RoomCleanEnvelope": {
+        "type": "object",
+        "properties": {
+          "dps": {
+            "$ref": "#/components/schemas/B01Q10RoomCleanEnvelopeDatapoints"
+          }
+        },
+        "required": [
+          "dps"
+        ],
+        "additionalProperties": false
+      },
+      "B01Q10ZoneCleanCommand": {
+        "type": "object",
+        "properties": {
+          "cmd": {
+            "type": "integer",
+            "enum": [
+              3
+            ],
+            "x-enum-varnames": [
+              "B01Q10ZoneCleanCommandPropertiesCmd0Value"
+            ]
+          },
+          "clean_paramters": {
+            "$ref": "#/components/schemas/B01Q10ZonePayload"
+          }
+        },
+        "required": [
+          "cmd",
+          "clean_paramters"
+        ],
+        "additionalProperties": false
+      },
+      "B01Q10ZoneCleanEnvelopeDatapoints": {
+        "type": "object",
+        "properties": {
+          "201": {
+            "$ref": "#/components/schemas/B01Q10ZoneCleanCommand"
+          }
+        },
+        "required": [
+          "201"
+        ],
+        "additionalProperties": false
+      },
+      "B01Q10ZoneCleanEnvelope": {
+        "type": "object",
+        "properties": {
+          "dps": {
+            "$ref": "#/components/schemas/B01Q10ZoneCleanEnvelopeDatapoints"
+          }
+        },
+        "required": [
+          "dps"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "x-wire-constants": {
+    "B01Version": "B01",
+    "B01Hash": "5wwh9ikChRjASpMU8cxg7o1d2E",
+    "B01IVHexStart": 9,
+    "B01IVHexEnd": 25,
+    "B01Q7Datapoint": "10000",
+    "B01Q7MessageIDBase": 100000000000,
+    "B01Q7MessageIDRange": 900000000000,
+    "B01Q7MethodPattern": "^[a-zA-Z0-9_.]+$",
+    "B01Q10CommonDatapoint": "101",
+    "B01Q10MapListDatapoint": "61",
+    "B01Q10CurrentMapDatapoint": "102",
+    "B01Q10StartCleanDatapoint": "201",
+    "B01Q10MapListOperation": "list",
+    "B01Q10MapListRequestJSON": "{\"61\":{\"op\":\"list\"}}",
+    "B01EmptyObjectJSON": "{}",
+    "B01Q7ModelKeyBytes": 16,
+    "B01Q7ModelKeyPadding": "0",
+    "B01Q7MapKeyInputFormat": "%s+%s+%s",
+    "B01Q7MapKeyHexStart": 8,
+    "B01Q7MapKeyHexEnd": 24,
+    "B01Q10RoomCleanCommand": 2,
+    "B01Q10ZoneCleanCommand": 3,
+    "B01Q10MapListSuccess": 1,
+    "B01Q7RoomCleanType": 1,
+    "B01Q7CleanStart": 1,
+    "DeviceCategoryVacuum": "robot.vacuum.cleaner",
+    "DeviceCategoryWetDry": "roborock.wetdryvac",
+    "DeviceCategoryWasher": "roborock.wm",
+    "DeviceQ7ModelPrefix": "sc",
+    "DeviceQ10ModelPrefix": "ss",
+    "Q10ZoneHeaderSize": 4,
+    "Q10ZoneVersion": 1,
+    "Q10ZoneCount": 1,
+    "Q10ZoneVertices": 4,
+    "Q10ZoneCoordinateBytes": 2,
+    "Q10ZoneVertexBytes": 4,
+    "Q10ZoneNameLengthBytes": 1,
+    "Q10ZoneNameBytes": 19,
+    "Q10ZoneCoordinateOffsetMM": 25500,
+    "Q10ZoneVectorUnitMM": 5,
+    "Q10ZoneMinRepeat": 1,
+    "Q10ZoneMaxRepeat": 3,
+    "B01Q7RoomIDMinimum": 0,
+    "B01Q7RoomIDMaximum": 4294967295,
+    "B01Q10RoomIDMinimum": 0,
+    "B01Q10RoomIDMaximum": 65535
+  }
+}

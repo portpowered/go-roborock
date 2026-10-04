@@ -20,6 +20,11 @@ linters:
             - github.com/portpowered/go-roborock
             - github.com/getkin/kin-openapi
             - github.com/oapi-codegen/runtime
+            # SCHEMA-16: Portable protobuf generation and generated map decoding.
+            - github.com/bufbuild/protocompile
+            - google.golang.org/protobuf
+            # LIB-02: Parse required module versions for standalone CLI verification.
+            - golang.org/x/mod
             - golang.org/x/tools
             - gopkg.in/yaml.v3
   exclusions:

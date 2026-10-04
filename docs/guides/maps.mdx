@@ -1,0 +1,74 @@
+---
+title: Maps and rooms
+description: Read the active map and use its map IDs, room IDs, and coordinate frame.
+---
+
+Map retrieval reads device data. It does not start cleaning or select another floor. Read the map and verify its active-floor identity before using geometry or room identifiers for a command.
+
+| Family | Map format | Geometry |
+| --- | --- | --- |
+| V1 vacuum | Roborock RR binary map | Millimeter world coordinates with grid calibration. |
+| B01 Q10 | LZ4-compressed map packet | Millimeter world coordinates; grid and trace coordinates have their own transforms. |
+| B01 Q7 | Protobuf map | Meter-based world frame with device-supplied grid calibration. |
+| A01 | No vacuum map | Use appliance state and settings. |
+
+Read through an opened device session; `MapID` is empty for the current map.
+
+```go
+capabilities, err := session.GetCapabilities(ctx, roborock.EmptyRequest{})
+if err != nil { return err }
+if !capabilities.MapContent { return fmt.Errorf("map reads unavailable") }
+snapshot, err := session.GetMap(ctx, roborock.GetMapRequest{})
+if err != nil { return err }
+rooms, err := session.GetRooms(ctx, roborock.EmptyRequest{})
+if err != nil { return err }
+// snapshot contains geometry; rooms.Rooms contains CleanSegments IDs.
+```
+
+`ListMaps(ctx, roborock.EmptyRequest{})` returns opaque `ID` strings, optional names, and an optional `Current` flag. Q7 accepts a saved ID through `GetMapRequest{MapID: id}`. If current-map metadata is missing or ambiguous, choose an explicit saved ID instead of assuming the first list entry is active. V1 reads the active map; use `SelectMap(ctx, roborock.SelectMapRequest{MapID: id})` explicitly to change it. Q10 supports current-map content and a saved-map list, without an inferred saved-detail selector. Only Q10 supports `GetMapTrace(ctx, roborock.EmptyRequest{})`; a later trace and an earlier map are not one atomic snapshot. B01 map, list, and trace reads observe the next matching stream message while pending; a delayed push may belong to an earlier request, so arrival does not prove a causally fresh response. Cancellation retires an uncorrelated session; reopening is an explicit caller action.
+
+The active map, saved-map list, and room list have different purposes. Map content supplies geometry and observations. Saved-map IDs identify stored floors. Room or segment IDs identify areas within a map; an account room ID is not automatically a device segment ID. A saved list's first entry does not reliably identify the active floor; use explicit current-map metadata or the retrieved map's observed ID.
+
+Selecting a saved map is an explicit device change, separate from reading it. Where selection is supported, wait for the device to report the new active map and fetch it again before sending coordinates or room IDs. The SDK does not implicitly switch floors for cleaning.
+
+`MapSnapshot` exposes optional `Grid`, `Robot`, and `Dock`, plus `Paths`, `Rooms`, `CurrentZones`, `Restrictions`, `Walls`, and unknown-block metadata. Missing geometry stays absent. Grid cells are semantic bytes; the SDK does not render an image or invent room outlines.
+
+Use the coordinate frame and transform reported by the map. A screen pixel needs the image scale, origin, and axis direction before it becomes a world coordinate. Do not copy a V1 transform to Q7 or Q10, or multiply Q7 meter values by 1000 without checking the target frame.
+
+Convert a rectangle drawn on the unscaled source grid with the typed geometry helper:
+
+```go
+if snapshot.Grid == nil { return fmt.Errorf("map has no calibrated raster") }
+rectangle, err := roborock.PixelRectangleToMap(*snapshot.Grid, roborock.MapRectangle{
+    Min: roborock.MapPoint{X: leftPixel, Y: topPixel},
+    Max: roborock.MapPoint{X: rightPixel, Y: bottomPixel},
+})
+if err != nil { return err }
+// rectangle.Min and rectangle.Max use snapshot.Grid.Unit and Frame.
+```
+
+`PixelToMap` and `MapToPixel` convert individual points with the same calibration. Remove display scaling or crop offsets before supplying source-grid pixels. Rectangle conversion validates finite, nondegenerate corners within the raster; it does not establish a safe cleaning target or convert between unrelated world frames. Q7 remains meters and has no supported rectangle-cleaning command. Q10 needs the explicit command-frame offset described below.
+
+Room bounds inferred from a raster are bounding boxes, not exact room outlines. A map may contain cleaned regions, restriction polygons, or virtual walls. These are observations and constraints; they are separate from a new cleaning request. See [zone cleaning](/docs/guides/zone-cleaning) for rectangles and room selection.
+
+Q10 decoded map coordinates use the relative `q10-world` frame. The existing `CleanZones` request uses common Roborock millimeters, which add 25500 to each relative X and Y coordinate. Do not submit the decoder’s relative coordinates directly as zone corners.
+
+Q10 map reads use the read-only map-content datapoint. They do not issue a map-management `get` command that can trigger movement on firmware. Unsupported map formats and malformed data return typed errors. Closing the session cancels outstanding map reads.
+
+The family-specific MQTT references show the payloads used by these calls:
+
+| SDK flow | Wire reference |
+| --- | --- |
+| V1 active-map content | [RequestV1Map](/docs/asyncapi/maps/RequestV1Map) |
+| V1 saved-map list | [ListV1Maps](/docs/asyncapi/maps/ListV1Maps) |
+| V1 device room mapping | [GetV1Rooms](/docs/asyncapi/maps/GetV1Rooms) |
+| V1 active-map selection | [LoadV1Map](/docs/asyncapi/maps/LoadV1Map) |
+| Q7 saved-map list | [RequestQ7MapList](/docs/asyncapi/maps/RequestQ7MapList) |
+| Q7 current or selected map download | [UploadQ7Map](/docs/asyncapi/maps/UploadQ7Map) |
+| Q10 saved-map list | [QueryQ10MapList](/docs/asyncapi/maps/QueryQ10MapList) and [observed list result](/docs/asyncapi/maps/ReceiveQ10MapList) |
+| Q10 current-map observation | [RequestQ10CurrentMap](/docs/asyncapi/maps/RequestQ10CurrentMap) |
+| Q10 separate trace observation | [RequestQ10Trace](/docs/asyncapi/maps/RequestQ10Trace) |
+
+Use the typed SDK calls above; envelope IDs, encryption, and map-upload processing belong to the transport.
+
+Contracts and parsers follow the pinned Python reference and synthetic offline tests. Hardware compatibility requires matching sanitized captures; synthetic maps are not live-device evidence.

@@ -78,12 +78,14 @@ func deviceProjection(device dependencymodels.HomeDevice, product dependencymode
 	}
 
 	category := product.Category
+	family := productFamily(protocol, product.Model, category)
 	result := Device{ID: device.Duid,
 		Name:                device.Name,
 		LocalKey:            device.LocalKey,
 		Model:               product.Model,
 		ProductID:           device.ProductId,
 		Protocol:            protocol,
+		Family:              &family,
 		Online:              device.Online,
 		Shared:              shared,
 		Firmware:            device.Fv,

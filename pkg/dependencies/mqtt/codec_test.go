@@ -2,15 +2,19 @@ package mqtt
 
 import (
 	"bytes"
+	"encoding/base64"
 	"encoding/binary"
 	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"hash/crc32"
+	"io"
+	"math"
 	"os"
 	"testing"
 
 	"github.com/portpowered/go-roborock/internal/protocol"
+	"github.com/portpowered/go-roborock/pkg/roborockerrors"
 )
 
 func TestFrameEncryptionAndIntegrity(t *testing.T) {
@@ -43,6 +47,103 @@ func TestFrameEncryptionAndIntegrity(t *testing.T) {
 				t.Fatalf("corrupt CRC error=%v", err)
 			}
 		})
+	}
+}
+
+type mapCryptoFixture struct {
+	Serial         string `json:"serial"`
+	Model          string `json:"model"`
+	Q7MapKey       string `json:"q7MapKey"`
+	Q7EncryptedMap string `json:"q7EncryptedMap"`
+	V1EncryptedMap string `json:"v1EncryptedMap"`
+	ZoneEncoded    string `json:"zoneEncoded"`
+}
+
+func loadMapCryptoFixture(t *testing.T) mapCryptoFixture {
+	t.Helper()
+
+	data, err := os.ReadFile("../../../tests/replay/fixtures/mqtt/synthetic/maps.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	var fixture mapCryptoFixture
+
+	err = json.Unmarshal(data, &fixture)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return fixture
+}
+
+func TestMapIndependentCryptoVectors(t *testing.T) {
+	t.Parallel()
+	fixture := loadMapCryptoFixture(t)
+
+	key, err := q7MapKey(fixture.Serial, fixture.Model)
+	if err != nil || string(key) != fixture.Q7MapKey {
+		t.Fatalf("Q7 key=%q err=%v", key, err)
+	}
+
+	q7, err := decodeQ7Map([]byte(fixture.Q7EncryptedMap), key)
+	if err != nil || string(q7) != "synthetic-q7-map" {
+		t.Fatalf("Q7 map=%q err=%v", q7, err)
+	}
+
+	encrypted, err := hex.DecodeString(fixture.V1EncryptedMap)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	v1, err := decodeV1Map(encrypted, hex.EncodeToString([]byte(syntheticKey)))
+	if err != nil || string(v1) != syntheticV1Map {
+		t.Fatalf("V1 map=%q err=%v", v1, err)
+	}
+
+	zone, err := EncodeQ10Zone(Q10Zone{X1: 25500, Y1: 25500, X2: 25600, Y2: 25700, Repeats: 2})
+	if err != nil || zone != fixture.ZoneEncoded {
+		t.Fatalf("Q10 zone=%q err=%v", zone, err)
+	}
+}
+
+func TestMapRejectsInvalidCipherAndGeometry(t *testing.T) {
+	t.Parallel()
+
+	for _, payload := range [][]byte{nil, {1}, []byte("not-base64"), bytes.Repeat([]byte{0}, 16)} {
+		_, err := decodeV1Map(payload, hex.EncodeToString([]byte(syntheticKey)))
+		if err == nil {
+			t.Fatal("invalid V1 ciphertext accepted")
+		}
+
+		_, err = decodeQ7Map(payload, []byte(syntheticKey))
+		if err == nil {
+			t.Fatal("invalid Q7 ciphertext accepted")
+		}
+	}
+
+	for _, zone := range []Q10Zone{
+		{X1: 25500, Y1: 25500, X2: 25600, Y2: 25700, Repeats: 0},
+		{X1: 25500, Y1: 25500, X2: 25600, Y2: 25700, Repeats: 4},
+		{X1: 25500, Y1: 25500, X2: 25500, Y2: 25700, Repeats: 1},
+		{X1: 25501, Y1: 25500, X2: 25600, Y2: 25700, Repeats: 1},
+		{X1: math.MinInt64, Y1: 25500, X2: 25600, Y2: 25700, Repeats: 1},
+		{X1: 25500, Y1: 25500, X2: math.MaxInt64, Y2: 25700, Repeats: 1},
+	} {
+		_, err := EncodeQ10Zone(zone)
+		if err == nil {
+			t.Fatalf("invalid zone accepted: %+v", zone)
+		}
+	}
+
+	_, err := q7MapKey("", "sc01")
+	if err == nil {
+		t.Fatal("empty serial accepted")
+	}
+
+	_, err = q7MapKey("synthetic", "é")
+	if err == nil {
+		t.Fatal("non-ASCII model accepted")
 	}
 }
 
@@ -154,7 +255,7 @@ func TestPacketBounds(t *testing.T) {
 func TestFrameRejectsUnsupportedVersionAndKey(t *testing.T) {
 	t.Parallel()
 
-	frame := referenceFrame("B01")
+	frame := referenceFrame("L01")
 
 	_, err := encodeFrame(frame, syntheticKey)
 	if !errors.Is(err, errUnsupportedDeviceProtocol) {
@@ -288,5 +389,25 @@ func verifyFrameHeader(t *testing.T, decoded, frame deviceFrame) {
 	if decoded.Version != frame.Version || decoded.Sequence != frame.Sequence || decoded.Random != frame.Random ||
 		decoded.Timestamp != frame.Timestamp || decoded.Protocol != frame.Protocol {
 		t.Fatalf("decoded Python header=%v expected=%v", decoded, frame)
+	}
+}
+
+func TestEmptyCompressedMapIsProtocol(t *testing.T) {
+	t.Parallel()
+	// Independent Python cryptography AES-ECB encryption of a PKCS7 empty block.
+	// CBC with a zero IV has the same first block; both decrypted streams are empty.
+	encrypted, err := hex.DecodeString("377222e061a924c591cd9c27ea163ed4")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, err = decodeV1Map(encrypted, hex.EncodeToString([]byte(syntheticKey)))
+	if !errors.Is(err, roborockerrors.New(roborockerrors.Protocol, "", "", nil)) || !errors.Is(err, io.EOF) {
+		t.Fatalf("empty gzip: %v", err)
+	}
+
+	_, err = decodeQ7Map([]byte(base64.StdEncoding.EncodeToString(encrypted)), []byte(syntheticKey))
+	if !errors.Is(err, roborockerrors.New(roborockerrors.Protocol, "", "", nil)) || !errors.Is(err, io.ErrUnexpectedEOF) {
+		t.Fatalf("empty zlib: %v", err)
 	}
 }

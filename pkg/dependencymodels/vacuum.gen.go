@@ -47,7 +47,6 @@ const (
 	CleanFinishReasonManualInterrupt10    CleanFinishReason = 60
 	CleanFinishReasonManualInterrupt11    CleanFinishReason = 103
 	CleanFinishReasonManualInterrupt12    CleanFinishReason = 29
-	CleanFinishReasonManualInterrupt2     CleanFinishReason = 21
 	CleanFinishReasonManualInterrupt3     CleanFinishReason = 35
 	CleanFinishReasonManualInterrupt4     CleanFinishReason = 36
 	CleanFinishReasonManualInterrupt5     CleanFinishReason = 37
@@ -385,11 +384,17 @@ type CleanRecordRPCResult struct {
 	union json.RawMessage
 }
 
+// CleanSegmentsRPCJSONRequestBody defines model for CleanSegmentsRPCJSONRequestBody.
+type CleanSegmentsRPCJSONRequestBody = SegmentParameters
+
 // CleanStartType Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.
 type CleanStartType int64
 
 // CleanType Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.
 type CleanType int64
+
+// CleanZonesRPCJSONRequestBody defines model for CleanZonesRPCJSONRequestBody.
+type CleanZonesRPCJSONRequestBody = ZoneParameters
 
 // CleaningState Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.
 type CleaningState int64
@@ -474,6 +479,9 @@ type DeviceErrorCode int64
 // DeviceState Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.
 type DeviceState int64
 
+// DisableDNDRPCJSONRequestBody defines model for DisableDNDRPCJSONRequestBody.
+type DisableDNDRPCJSONRequestBody = NoParameters
+
 // DockErrorCode Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.
 type DockErrorCode int64
 
@@ -483,6 +491,21 @@ type DockType int64
 // FanSpeed Open device-dependent numeric enum; future values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.
 type FanSpeed int
 
+// GetCleanRecordRPCJSONRequestBody defines model for GetCleanRecordRPCJSONRequestBody.
+type GetCleanRecordRPCJSONRequestBody = IntegerParameters
+
+// GetCleaningSummaryRPCJSONRequestBody defines model for GetCleaningSummaryRPCJSONRequestBody.
+type GetCleaningSummaryRPCJSONRequestBody = NoParameters
+
+// GetConsumablesRPCJSONRequestBody defines model for GetConsumablesRPCJSONRequestBody.
+type GetConsumablesRPCJSONRequestBody = NoParameters
+
+// GetDNDRPCJSONRequestBody defines model for GetDNDRPCJSONRequestBody.
+type GetDNDRPCJSONRequestBody = NoParameters
+
+// GetStatusRPCJSONRequestBody defines model for GetStatusRPCJSONRequestBody.
+type GetStatusRPCJSONRequestBody = NoParameters
+
 // IntegerParameters defines model for IntegerParameters.
 type IntegerParameters = []int64
 
@@ -491,6 +514,9 @@ type MopMode int
 
 // NoParameters defines model for NoParameters.
 type NoParameters = []int64
+
+// PauseCleaningRPCJSONRequestBody defines model for PauseCleaningRPCJSONRequestBody.
+type PauseCleaningRPCJSONRequestBody = NoParameters
 
 // RCCommand defines model for RCCommand.
 type RCCommand struct {
@@ -505,11 +531,26 @@ type RCCommand struct {
 	Velocity float32 `json:"velocity"`
 }
 
+// RCEndRPCJSONRequestBody defines model for RCEndRPCJSONRequestBody.
+type RCEndRPCJSONRequestBody = NoParameters
+
+// RCMoveRPCJSONRequestBody defines model for RCMoveRPCJSONRequestBody.
+type RCMoveRPCJSONRequestBody = RCParameters
+
 // RCParameters defines model for RCParameters.
 type RCParameters = []RCCommand
 
+// RCStartRPCJSONRequestBody defines model for RCStartRPCJSONRequestBody.
+type RCStartRPCJSONRequestBody = NoParameters
+
+// RCStopRPCJSONRequestBody defines model for RCStopRPCJSONRequestBody.
+type RCStopRPCJSONRequestBody = NoParameters
+
 // RPCMethod defines model for RPCMethod.
 type RPCMethod string
+
+// ReturnToDockRPCJSONRequestBody defines model for ReturnToDockRPCJSONRequestBody.
+type ReturnToDockRPCJSONRequestBody = NoParameters
 
 // SegmentCommand defines model for SegmentCommand.
 type SegmentCommand struct {
@@ -519,6 +560,30 @@ type SegmentCommand struct {
 
 // SegmentParameters defines model for SegmentParameters.
 type SegmentParameters = []SegmentCommand
+
+// SetDNDRPCJSONRequestBody defines model for SetDNDRPCJSONRequestBody.
+type SetDNDRPCJSONRequestBody = IntegerParameters
+
+// SetFanSpeedRPCJSONRequestBody defines model for SetFanSpeedRPCJSONRequestBody.
+type SetFanSpeedRPCJSONRequestBody = IntegerParameters
+
+// SetMopModeRPCJSONRequestBody defines model for SetMopModeRPCJSONRequestBody.
+type SetMopModeRPCJSONRequestBody = IntegerParameters
+
+// SetWaterModeRPCJSONRequestBody defines model for SetWaterModeRPCJSONRequestBody.
+type SetWaterModeRPCJSONRequestBody = IntegerParameters
+
+// SpotCleanRPCJSONRequestBody defines model for SpotCleanRPCJSONRequestBody.
+type SpotCleanRPCJSONRequestBody = NoParameters
+
+// StartCleaningRPCJSONRequestBody defines model for StartCleaningRPCJSONRequestBody.
+type StartCleaningRPCJSONRequestBody = NoParameters
+
+// StartDustCollectionRPCJSONRequestBody defines model for StartDustCollectionRPCJSONRequestBody.
+type StartDustCollectionRPCJSONRequestBody = NoParameters
+
+// StartMopWashingRPCJSONRequestBody defines model for StartMopWashingRPCJSONRequestBody.
+type StartMopWashingRPCJSONRequestBody = NoParameters
 
 // Status Presence-aware Status inventory from pinned Python V1 containers; absent fields stay absent. Cleaning area is square millimeters and durations are seconds.
 type Status struct {
@@ -608,86 +673,20 @@ type StatusRPCResult struct {
 // StatusSingletonResult defines model for StatusSingletonResult.
 type StatusSingletonResult = []Status
 
+// StopCleaningRPCJSONRequestBody defines model for StopCleaningRPCJSONRequestBody.
+type StopCleaningRPCJSONRequestBody = NoParameters
+
+// StopDustCollectionRPCJSONRequestBody defines model for StopDustCollectionRPCJSONRequestBody.
+type StopDustCollectionRPCJSONRequestBody = NoParameters
+
+// StopMopWashingRPCJSONRequestBody defines model for StopMopWashingRPCJSONRequestBody.
+type StopMopWashingRPCJSONRequestBody = NoParameters
+
 // WaterMode Open device-dependent numeric enum; future values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.
 type WaterMode int
 
 // ZoneParameters defines model for ZoneParameters.
 type ZoneParameters = [][]int64
-
-// ReturnToDockRPCJSONRequestBody defines body for ReturnToDockRPC for application/json ContentType.
-type ReturnToDockRPCJSONRequestBody = NoParameters
-
-// PauseCleaningRPCJSONRequestBody defines body for PauseCleaningRPC for application/json ContentType.
-type PauseCleaningRPCJSONRequestBody = NoParameters
-
-// RCEndRPCJSONRequestBody defines body for RCEndRPC for application/json ContentType.
-type RCEndRPCJSONRequestBody = NoParameters
-
-// RCMoveRPCJSONRequestBody defines body for RCMoveRPC for application/json ContentType.
-type RCMoveRPCJSONRequestBody = RCParameters
-
-// RCStartRPCJSONRequestBody defines body for RCStartRPC for application/json ContentType.
-type RCStartRPCJSONRequestBody = NoParameters
-
-// RCStopRPCJSONRequestBody defines body for RCStopRPC for application/json ContentType.
-type RCStopRPCJSONRequestBody = NoParameters
-
-// CleanSegmentsRPCJSONRequestBody defines body for CleanSegmentsRPC for application/json ContentType.
-type CleanSegmentsRPCJSONRequestBody = SegmentParameters
-
-// SpotCleanRPCJSONRequestBody defines body for SpotCleanRPC for application/json ContentType.
-type SpotCleanRPCJSONRequestBody = NoParameters
-
-// StartCleaningRPCJSONRequestBody defines body for StartCleaningRPC for application/json ContentType.
-type StartCleaningRPCJSONRequestBody = NoParameters
-
-// StartDustCollectionRPCJSONRequestBody defines body for StartDustCollectionRPC for application/json ContentType.
-type StartDustCollectionRPCJSONRequestBody = NoParameters
-
-// StartMopWashingRPCJSONRequestBody defines body for StartMopWashingRPC for application/json ContentType.
-type StartMopWashingRPCJSONRequestBody = NoParameters
-
-// StopCleaningRPCJSONRequestBody defines body for StopCleaningRPC for application/json ContentType.
-type StopCleaningRPCJSONRequestBody = NoParameters
-
-// StopDustCollectionRPCJSONRequestBody defines body for StopDustCollectionRPC for application/json ContentType.
-type StopDustCollectionRPCJSONRequestBody = NoParameters
-
-// StopMopWashingRPCJSONRequestBody defines body for StopMopWashingRPC for application/json ContentType.
-type StopMopWashingRPCJSONRequestBody = NoParameters
-
-// CleanZonesRPCJSONRequestBody defines body for CleanZonesRPC for application/json ContentType.
-type CleanZonesRPCJSONRequestBody = ZoneParameters
-
-// DisableDNDRPCJSONRequestBody defines body for DisableDNDRPC for application/json ContentType.
-type DisableDNDRPCJSONRequestBody = NoParameters
-
-// GetCleanRecordRPCJSONRequestBody defines body for GetCleanRecordRPC for application/json ContentType.
-type GetCleanRecordRPCJSONRequestBody = IntegerParameters
-
-// GetCleaningSummaryRPCJSONRequestBody defines body for GetCleaningSummaryRPC for application/json ContentType.
-type GetCleaningSummaryRPCJSONRequestBody = NoParameters
-
-// GetConsumablesRPCJSONRequestBody defines body for GetConsumablesRPC for application/json ContentType.
-type GetConsumablesRPCJSONRequestBody = NoParameters
-
-// GetDNDRPCJSONRequestBody defines body for GetDNDRPC for application/json ContentType.
-type GetDNDRPCJSONRequestBody = NoParameters
-
-// GetStatusRPCJSONRequestBody defines body for GetStatusRPC for application/json ContentType.
-type GetStatusRPCJSONRequestBody = NoParameters
-
-// SetFanSpeedRPCJSONRequestBody defines body for SetFanSpeedRPC for application/json ContentType.
-type SetFanSpeedRPCJSONRequestBody = IntegerParameters
-
-// SetDNDRPCJSONRequestBody defines body for SetDNDRPC for application/json ContentType.
-type SetDNDRPCJSONRequestBody = IntegerParameters
-
-// SetMopModeRPCJSONRequestBody defines body for SetMopModeRPC for application/json ContentType.
-type SetMopModeRPCJSONRequestBody = IntegerParameters
-
-// SetWaterModeRPCJSONRequestBody defines body for SetWaterModeRPC for application/json ContentType.
-type SetWaterModeRPCJSONRequestBody = IntegerParameters
 
 // Getter for additional properties for CleanRecord. Returns the specified
 // element and whether it was found

@@ -127,6 +127,87 @@
           "devices"
         ]
       }
+    },
+    "/user/homes/{homeID}/rooms": {
+      "get": {
+        "operationId": "GetHomeRooms",
+        "summary": "Refresh rooms belonging to a home",
+        "description": "Read cloud room identifiers and available names using account Hawk authentication. Room names can be absent; callers must not invent names.",
+        "tags": [
+          "devices"
+        ],
+        "parameters": [
+          {
+            "name": "homeID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Room list envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HomeRoomsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/deviceshare/query/{deviceID}/rooms": {
+      "get": {
+        "operationId": "GetSharedDeviceRooms",
+        "summary": "Refresh room names for a shared device",
+        "description": "Read cloud room identifiers and available names using account Hawk authentication. Room names can be absent; callers must not invent names.",
+        "tags": [
+          "devices"
+        ],
+        "parameters": [
+          {
+            "name": "deviceID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Room list envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SharedDeviceRoomsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1019,6 +1100,101 @@
         "description": "Open device sharing policy identifier.",
         "x-known-values": {
           "HomeDeviceShareTypeUnlimitedTime": "UNLIMITED_TIME"
+        }
+      },
+      "RefreshedRoom": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        }
+      },
+      "SharedDeviceRoom": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "roomId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "anyOf": [
+          {
+            "required": [
+              "id"
+            ]
+          },
+          {
+            "required": [
+              "roomId"
+            ]
+          }
+        ],
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        }
+      },
+      "HomeRoomsResponse": {
+        "type": "object",
+        "required": [
+          "success"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "integer"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RefreshedRoom"
+            }
+          }
+        },
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
+        }
+      },
+      "SharedDeviceRoomsResponse": {
+        "type": "object",
+        "required": [
+          "success"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "integer"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SharedDeviceRoom"
+            }
+          }
+        },
+        "additionalProperties": {
+          "x-go-type": "json.RawMessage"
         }
       }
     }

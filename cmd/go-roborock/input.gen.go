@@ -12,20 +12,47 @@ type CameraIdentity struct {
 	Negotiated bool `json:"negotiated"`
 }
 
+// CleanZonesInput defines model for CleanZonesInput.
+type CleanZonesInput struct {
+	Zones []CleaningZoneInput `json:"zones"`
+}
+
+// CleaningZoneInput defines model for CleaningZoneInput.
+type CleaningZoneInput struct {
+	Repeats int `json:"repeats"`
+
+	// X1 Explicit map coordinate in millimeters; omission and null are rejected before opening a device session.
+	X1 *int64 `json:"x1"`
+
+	// X2 Explicit map coordinate in millimeters; omission and null are rejected before opening a device session.
+	X2 *int64 `json:"x2"`
+
+	// Y1 Explicit map coordinate in millimeters; omission and null are rejected before opening a device session.
+	Y1 *int64 `json:"y1"`
+
+	// Y2 Explicit map coordinate in millimeters; omission and null are rejected before opening a device session.
+	Y2 *int64 `json:"y2"`
+}
+
 // CommandInput defines model for CommandInput.
 type CommandInput struct {
-	Auth           externalRef0.AuthContext       `json:"auth,omitempty"`
-	Camera         externalRef0.OpenCameraRequest `json:"camera,omitempty"`
-	ClientID       string                         `json:"clientId,omitempty"`
-	Code           string                         `json:"code,omitempty"`
-	DeviceID       string                         `json:"deviceId,omitempty"`
-	DyadProperties []roborock.DyadProperty        `json:"dyadProperties,omitempty"`
-	Email          string                         `json:"email,omitempty"`
-	LocalKey       string                         `json:"localKey,omitempty"`
-	Login          externalRef0.LoginContext      `json:"login,omitempty"`
-	Password       string                         `json:"password,omitempty"`
-	Protocol       externalRef0.ProtocolVersion   `json:"protocol,omitempty"`
-	ZeoProperties  []roborock.ZeoProperty         `json:"zeoProperties,omitempty"`
+	Auth           externalRef0.AuthContext          `json:"auth,omitempty"`
+	Camera         externalRef0.OpenCameraRequest    `json:"camera,omitempty"`
+	CleanRooms     externalRef0.CleanSegmentsRequest `json:"cleanRooms,omitempty"`
+	CleanZones     *CleanZonesInput                  `json:"cleanZones,omitempty"`
+	ClientID       string                            `json:"clientId,omitempty"`
+	Code           string                            `json:"code,omitempty"`
+	DeviceID       string                            `json:"deviceId,omitempty"`
+	DyadProperties []roborock.DyadProperty           `json:"dyadProperties,omitempty"`
+	Email          string                            `json:"email,omitempty"`
+	LocalKey       string                            `json:"localKey,omitempty"`
+	Login          externalRef0.LoginContext         `json:"login,omitempty"`
+
+	// MapID Map identifier from maps discovery. Required by select-map; optional saved Q7 identifier for map, otherwise reads the current map.
+	MapID         string                       `json:"mapId,omitempty"`
+	Password      string                       `json:"password,omitempty"`
+	Protocol      externalRef0.ProtocolVersion `json:"protocol,omitempty"`
+	ZeoProperties []roborock.ZeoProperty       `json:"zeoProperties,omitempty"`
 }
 
 // CredentialExport defines model for CredentialExport.

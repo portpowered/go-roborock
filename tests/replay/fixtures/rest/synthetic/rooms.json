@@ -1,0 +1,132 @@
+{
+  "provenance": "synthetic",
+  "source": "Pinned python-roborock a8260c5211e60647fc352d6b496b827865938b21 web_api.py get_rooms/get_shared_device_rooms; not captured traffic; missing names exercise absence policy.",
+  "exchanges": [
+    {
+      "method": "GET",
+      "origin": "https://api.example.test",
+      "path": "/user/homes/42/rooms",
+      "query": {},
+      "form": null,
+      "headers": {
+        "Accept": "application/json"
+      },
+      "hawk": true,
+      "response": {
+        "success": true,
+        "result": [
+          {
+            "id": 1,
+            "name": "Kitchen",
+            "future": 7
+          },
+          {
+            "id": 2
+          }
+        ]
+      },
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ]
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://api.example.test",
+      "path": "/user/deviceshare/query/shared%20device/rooms",
+      "query": {},
+      "form": null,
+      "headers": {
+        "Accept": "application/json"
+      },
+      "hawk": true,
+      "response": {
+        "success": true,
+        "result": [
+          {
+            "roomId": 3,
+            "name": "Office"
+          },
+          {
+            "id": 4,
+            "roomId": 99
+          }
+        ]
+      },
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ]
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://api.example.test",
+      "path": "/user/homes/42/rooms",
+      "query": {},
+      "form": null,
+      "headers": {
+        "Accept": "application/json"
+      },
+      "hawk": true,
+      "response": {
+        "success": true
+      },
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ]
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://api.example.test",
+      "path": "/user/deviceshare/query/shared%20device/rooms",
+      "query": {},
+      "form": null,
+      "headers": {
+        "Accept": "application/json"
+      },
+      "hawk": true,
+      "response": {
+        "success": true,
+        "result": [
+          {
+            "name": "No identifier"
+          }
+        ]
+      },
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ]
+      }
+    },
+    {
+      "method": "GET",
+      "origin": "https://api.example.test",
+      "path": "/user/homes/42/rooms",
+      "query": {},
+      "form": null,
+      "headers": {
+        "Accept": "application/json"
+      },
+      "hawk": true,
+      "response": {
+        "success": false,
+        "code": 2010
+      },
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ]
+      }
+    }
+  ]
+}
