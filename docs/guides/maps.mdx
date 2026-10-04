@@ -35,6 +35,20 @@ Selecting a saved map is an explicit device change, separate from reading it. Wh
 
 Use the coordinate frame and transform reported by the map. A screen pixel needs the image scale, origin, and axis direction before it becomes a world coordinate. Do not copy a V1 transform to Q7 or Q10, or multiply Q7 meter values by 1000 without checking the target frame.
 
+Convert a rectangle drawn on the unscaled source grid with the typed geometry helper:
+
+```go
+if snapshot.Grid == nil { return fmt.Errorf("map has no calibrated raster") }
+rectangle, err := roborock.PixelRectangleToMap(*snapshot.Grid, roborock.MapRectangle{
+    Min: roborock.MapPoint{X: leftPixel, Y: topPixel},
+    Max: roborock.MapPoint{X: rightPixel, Y: bottomPixel},
+})
+if err != nil { return err }
+// rectangle.Min and rectangle.Max use snapshot.Grid.Unit and Frame.
+```
+
+`PixelToMap` and `MapToPixel` convert individual points with the same calibration. Remove display scaling or crop offsets before supplying source-grid pixels. Rectangle conversion validates finite, nondegenerate corners within the raster; it does not establish a safe cleaning target or convert between unrelated world frames. Q7 remains meters and has no supported rectangle-cleaning command. Q10 needs the explicit command-frame offset described below.
+
 Room bounds inferred from a raster are bounding boxes, not exact room outlines. A map may contain cleaned regions, restriction polygons, or virtual walls. These are observations and constraints; they are separate from a new cleaning request. See [zone cleaning](/docs/guides/zone-cleaning) for rectangles and room selection.
 
 Q10 decoded map coordinates use the relative `q10-world` frame. The existing `CleanZones` request uses common Roborock millimeters, which add 25500 to each relative X and Y coordinate. Do not submit the decoder’s relative coordinates directly as zone corners.

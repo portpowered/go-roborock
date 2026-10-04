@@ -82,6 +82,9 @@ V1 and Q7 acknowledgements establish RPC acceptance, not completed movement or c
 | Q7 saved-map content | `s.GetMap(ctx, r.GetMapRequest{MapID: mapID})` |
 | Device room IDs | `s.GetRooms(ctx, r.EmptyRequest{})` |
 | Q10 fresh trace | `s.GetMapTrace(ctx, r.EmptyRequest{})` |
+| World point to pixel | `r.MapToPixel(grid, point)` |
+| Pixel point to world | `r.PixelToMap(grid, point)` |
+| Pixel rectangle to world | `r.PixelRectangleToMap(grid, rectangle)` |
 | V1 active-map selection | `s.SelectMap(ctx, r.SelectMapRequest{MapID: mapID})` |
 
 V1, Q7, and Q10 support map reads and room cleaning. Rectangle cleaning supports V1 and Q10; Q10 accepts one rectangle aligned to 5 mm. B01 general status, dock, settings, remote-control, and camera operations remain unsupported. Map reads do not initiate cleaning or change the active floor. Map IDs are opaque strings; choose cleaning IDs and coordinates from the active map. The [map guide](https://portpowered.github.io/go-roborock/docs/guides/maps) explains coordinate frames and missing geometry.
