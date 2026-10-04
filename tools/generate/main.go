@@ -24,6 +24,7 @@ const (
 	privateFileMode     = 0o600
 	outputDirectoryMode = 0o750
 	cliPackage          = "main"
+	publicPackage       = "roborock"
 )
 
 var (
@@ -261,6 +262,11 @@ func model(ctx context.Context, schema, pkg, output string, check bool) error {
 	configTemplate := "package: %s\ngenerate:\n  models: true\noutput-options:\n  skip-prune: true\noutput: %s\n"
 
 	config := fmt.Sprintf(configTemplate, pkg, filepath.ToSlash(target))
+	if pkg == publicPackage {
+		config += "import-mapping:\n"
+		config += "  ./client-models.openapi.yaml: '-'\n"
+	}
+
 	if pkg == "main" {
 		config += "import-mapping:\n"
 		config += "  ./client-models.openapi.yaml: github.com/portpowered/go-roborock/pkg/roborock\n"
@@ -292,7 +298,7 @@ func model(ctx context.Context, schema, pkg, output string, check bool) error {
 }
 
 func normalizePackageComment(pkg string, data []byte) []byte {
-	if pkg != "roborock" && pkg != cliPackage {
+	if pkg != publicPackage && pkg != cliPackage {
 		return data
 	}
 
@@ -392,7 +398,7 @@ func modelTarget(name string) (string, string) {
 	pkg, output := "dependencymodels", "pkg/dependencymodels/"+name+".gen.go"
 
 	if strings.HasSuffix(name, "-models") {
-		pkg, output = "roborock", "pkg/roborock/"+strings.ReplaceAll(name, "-", "_")+".gen.go"
+		pkg, output = publicPackage, "pkg/roborock/"+strings.ReplaceAll(name, "-", "_")+".gen.go"
 	}
 
 	if name == "maps-models" {

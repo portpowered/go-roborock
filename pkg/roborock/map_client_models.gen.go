@@ -31,7 +31,7 @@ type GetMapRequest struct {
 
 // HomeRoomsRequest defines model for HomeRoomsRequest.
 type HomeRoomsRequest struct {
-	// Auth Caller-owned account credentials as defined in client-models AuthContext.
+	// Auth Caller-owned account credentials.
 	Auth   AuthContext `json:"auth"`
 	HomeID int64       `json:"homeId"`
 }
@@ -79,7 +79,7 @@ type SelectMapRequest struct {
 
 // SharedDeviceRoomsRequest defines model for SharedDeviceRoomsRequest.
 type SharedDeviceRoomsRequest struct {
-	// Auth Caller-owned account credentials as defined in client-models AuthContext.
+	// Auth Caller-owned account credentials.
 	Auth     AuthContext `json:"auth"`
 	DeviceID string      `json:"deviceId"`
 }

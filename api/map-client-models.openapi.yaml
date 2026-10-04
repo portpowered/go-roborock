@@ -54,13 +54,21 @@ components:
       type: object
       required: [auth, homeId]
       properties:
-        auth: {type: object, x-go-type: AuthContext, description: Caller-owned account credentials as defined in client-models AuthContext.}
+        auth:
+          x-go-type: AuthContext
+          description: Caller-owned account credentials.
+          allOf:
+            - $ref: './client-models.openapi.yaml#/components/schemas/AuthContext'
         homeId: {type: integer, format: int64, x-go-name: HomeID}
     SharedDeviceRoomsRequest:
       type: object
       required: [auth, deviceId]
       properties:
-        auth: {type: object, x-go-type: AuthContext, description: Caller-owned account credentials as defined in client-models AuthContext.}
+        auth:
+          x-go-type: AuthContext
+          description: Caller-owned account credentials.
+          allOf:
+            - $ref: './client-models.openapi.yaml#/components/schemas/AuthContext'
         deviceId: {type: string, x-go-name: DeviceID}
     RoomsResult:
       type: object
