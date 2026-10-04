@@ -1,0 +1,792 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Roborock A01 Wire Models",
+    "version": "0.1.0",
+    "description": "Documentation inventory for A01 MQTT datapoint exchanges. The paths below identify protocol operations for documentation; they are not HTTP endpoints. Contracts are reference-derived and not live-device verified."
+  },
+  "paths": {
+    "/query_values": {
+      "post": {
+        "tags": [
+          "a01"
+        ],
+        "operationId": "queryA01Values",
+        "summary": "Query selected appliance properties",
+        "description": "Documentation-only MQTT operation. GetDyadState or GetZeoState sends an A01 datapoint query and waits for every selected, appliance-supported property. Unselected public fields remain absent. Missing properties result in timeout when the caller deadline expires.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/A01QueryRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "One or more MQTT datapoint updates carrying the selected values.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/A01QueryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/set_values": {
+      "post": {
+        "tags": [
+          "a01"
+        ],
+        "operationId": "setA01Values",
+        "summary": "Publish appliance settings or start a washer cycle",
+        "description": "Documentation-only MQTT operation. SetDyadSettings and SetZeoSettings publish sparse independent settings. StartZeo bundles the start signal with mode, program, and optional cycle parameters. Publication does not confirm device acceptance or physical completion; commands are never retried automatically.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/A01SetRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "MQTT publication completed. There is no correlated device acknowledgement for this operation."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DyadStateWire": {
+        "type": "object",
+        "description": "Numeric-key A01 appliance datapoints.",
+        "properties": {
+          "201": {
+            "type": "integer",
+            "x-go-name": "Status",
+            "description": "Status appliance datapoint."
+          },
+          "202": {
+            "type": "integer",
+            "x-go-name": "SelfCleanMode",
+            "description": "SelfCleanMode appliance datapoint."
+          },
+          "203": {
+            "type": "integer",
+            "x-go-name": "SelfCleanLevel",
+            "description": "SelfCleanLevel appliance datapoint."
+          },
+          "204": {
+            "type": "integer",
+            "x-go-name": "WarmLevel",
+            "description": "WarmLevel appliance datapoint."
+          },
+          "205": {
+            "type": "integer",
+            "x-go-name": "CleanMode",
+            "description": "CleanMode appliance datapoint."
+          },
+          "206": {
+            "type": "integer",
+            "x-go-name": "Suction",
+            "description": "Suction appliance datapoint."
+          },
+          "207": {
+            "type": "integer",
+            "x-go-name": "WaterLevel",
+            "description": "WaterLevel appliance datapoint."
+          },
+          "208": {
+            "type": "integer",
+            "x-go-name": "BrushSpeed",
+            "description": "BrushSpeed appliance datapoint."
+          },
+          "209": {
+            "type": "integer",
+            "x-go-name": "Power",
+            "description": "Power appliance datapoint."
+          },
+          "210": {
+            "type": "integer",
+            "x-go-name": "CountdownTime",
+            "description": "CountdownTime appliance datapoint."
+          },
+          "212": {
+            "type": "integer",
+            "x-go-name": "AutoSelfCleanSet",
+            "description": "AutoSelfCleanSet appliance datapoint."
+          },
+          "213": {
+            "type": "integer",
+            "x-go-name": "AutoDry",
+            "description": "AutoDry appliance datapoint."
+          },
+          "214": {
+            "type": "integer",
+            "x-go-name": "MeshLeft",
+            "description": "MeshLeft appliance datapoint."
+          },
+          "215": {
+            "type": "integer",
+            "x-go-name": "BrushLeft",
+            "description": "BrushLeft appliance datapoint."
+          },
+          "216": {
+            "type": "integer",
+            "x-go-name": "Error",
+            "description": "Error appliance datapoint."
+          },
+          "221": {
+            "type": "integer",
+            "x-go-name": "Volume",
+            "description": "Speaker volume percent, from 0 through 100.",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "222": {
+            "type": "integer",
+            "x-go-name": "StandLockAutoRun",
+            "description": "StandLockAutoRun appliance datapoint."
+          },
+          "223": {
+            "type": "integer",
+            "x-go-name": "AutoSelfCleanSetMode",
+            "description": "AutoSelfCleanSetMode appliance datapoint."
+          },
+          "224": {
+            "type": "integer",
+            "x-go-name": "AutoDryMode",
+            "description": "AutoDryMode appliance datapoint."
+          },
+          "225": {
+            "type": "integer",
+            "x-go-name": "SilentDryDuration",
+            "description": "SilentDryDuration appliance datapoint."
+          },
+          "226": {
+            "type": "integer",
+            "x-go-name": "SilentMode",
+            "description": "SilentMode appliance datapoint."
+          },
+          "227": {
+            "type": "integer",
+            "x-go-name": "SilentModeStartTime",
+            "description": "Minute of day, from 0 through 1439.",
+            "minimum": 0,
+            "maximum": 1439
+          },
+          "228": {
+            "type": "integer",
+            "x-go-name": "SilentModeEndTime",
+            "description": "Minute of day, from 0 through 1439.",
+            "minimum": 0,
+            "maximum": 1439
+          },
+          "229": {
+            "type": "string",
+            "description": "Comma-delimited daily cleaning durations, in minutes.",
+            "x-go-name": "RecentRunTime"
+          },
+          "230": {
+            "type": "integer",
+            "x-go-name": "TotalRunTime",
+            "description": "TotalRunTime appliance datapoint."
+          },
+          "237": {
+            "type": "integer",
+            "x-go-name": "DryCountdown",
+            "description": "DryCountdown appliance datapoint."
+          }
+        }
+      },
+      "SetDyadSettingsWire": {
+        "type": "object",
+        "description": "Sparse numeric-key A01 settings command.",
+        "properties": {
+          "202": {
+            "type": "integer",
+            "x-go-name": "SelfCleanMode",
+            "description": "SelfCleanMode appliance datapoint."
+          },
+          "203": {
+            "type": "integer",
+            "x-go-name": "SelfCleanLevel",
+            "description": "SelfCleanLevel appliance datapoint."
+          },
+          "204": {
+            "type": "integer",
+            "x-go-name": "WarmLevel",
+            "description": "WarmLevel appliance datapoint."
+          },
+          "205": {
+            "type": "integer",
+            "x-go-name": "CleanMode",
+            "description": "CleanMode appliance datapoint."
+          },
+          "206": {
+            "type": "integer",
+            "x-go-name": "Suction",
+            "description": "Suction appliance datapoint."
+          },
+          "207": {
+            "type": "integer",
+            "x-go-name": "WaterLevel",
+            "description": "WaterLevel appliance datapoint."
+          },
+          "208": {
+            "type": "integer",
+            "x-go-name": "BrushSpeed",
+            "description": "BrushSpeed appliance datapoint."
+          },
+          "212": {
+            "type": "integer",
+            "x-go-name": "AutoSelfCleanSet",
+            "description": "AutoSelfCleanSet appliance datapoint."
+          },
+          "213": {
+            "type": "integer",
+            "x-go-name": "AutoDry",
+            "description": "AutoDry appliance datapoint."
+          },
+          "221": {
+            "type": "integer",
+            "x-go-name": "Volume",
+            "description": "Speaker volume percent, from 0 through 100.",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "222": {
+            "type": "integer",
+            "x-go-name": "StandLockAutoRun",
+            "description": "StandLockAutoRun appliance datapoint."
+          },
+          "223": {
+            "type": "integer",
+            "x-go-name": "AutoSelfCleanSetMode",
+            "description": "AutoSelfCleanSetMode appliance datapoint."
+          },
+          "224": {
+            "type": "integer",
+            "x-go-name": "AutoDryMode",
+            "description": "AutoDryMode appliance datapoint."
+          },
+          "225": {
+            "type": "integer",
+            "x-go-name": "SilentDryDuration",
+            "description": "SilentDryDuration appliance datapoint."
+          },
+          "226": {
+            "type": "integer",
+            "x-go-name": "SilentMode",
+            "description": "SilentMode appliance datapoint."
+          },
+          "227": {
+            "type": "integer",
+            "x-go-name": "SilentModeStartTime",
+            "description": "Minute of day, from 0 through 1439.",
+            "minimum": 0,
+            "maximum": 1439
+          },
+          "228": {
+            "type": "integer",
+            "x-go-name": "SilentModeEndTime",
+            "description": "Minute of day, from 0 through 1439.",
+            "minimum": 0,
+            "maximum": 1439
+          }
+        },
+        "minProperties": 1
+      },
+      "ZeoStateWire": {
+        "type": "object",
+        "description": "Numeric-key A01 appliance datapoints.",
+        "properties": {
+          "200": {
+            "type": "boolean",
+            "x-go-name": "Start",
+            "description": "Appliance boolean datapoint."
+          },
+          "201": {
+            "type": "boolean",
+            "x-go-name": "Pause",
+            "description": "Appliance boolean datapoint."
+          },
+          "202": {
+            "type": "boolean",
+            "x-go-name": "Shutdown",
+            "description": "Appliance boolean datapoint."
+          },
+          "203": {
+            "type": "integer",
+            "x-go-name": "Status",
+            "description": "Status appliance datapoint."
+          },
+          "204": {
+            "type": "integer",
+            "x-go-name": "Mode",
+            "description": "Mode appliance datapoint."
+          },
+          "205": {
+            "type": "integer",
+            "x-go-name": "Program",
+            "description": "Program appliance datapoint."
+          },
+          "206": {
+            "type": "boolean",
+            "x-go-name": "ChildLock",
+            "description": "Appliance boolean datapoint."
+          },
+          "207": {
+            "type": "integer",
+            "x-go-name": "Temperature",
+            "description": "Temperature appliance datapoint."
+          },
+          "208": {
+            "type": "integer",
+            "x-go-name": "Rinse",
+            "description": "Rinse appliance datapoint."
+          },
+          "209": {
+            "type": "integer",
+            "x-go-name": "Spin",
+            "description": "Spin appliance datapoint."
+          },
+          "210": {
+            "type": "integer",
+            "x-go-name": "DryingMode",
+            "description": "DryingMode appliance datapoint."
+          },
+          "211": {
+            "type": "boolean",
+            "x-go-name": "DetergentSet",
+            "description": "Appliance boolean datapoint."
+          },
+          "212": {
+            "type": "boolean",
+            "x-go-name": "SoftenerSet",
+            "description": "Appliance boolean datapoint."
+          },
+          "213": {
+            "type": "integer",
+            "x-go-name": "DetergentType",
+            "description": "DetergentType appliance datapoint."
+          },
+          "214": {
+            "type": "integer",
+            "x-go-name": "SoftenerType",
+            "description": "SoftenerType appliance datapoint."
+          },
+          "216": {
+            "type": "integer",
+            "x-go-name": "DirtDetectionStatus",
+            "description": "DirtDetectionStatus appliance datapoint."
+          },
+          "217": {
+            "type": "integer",
+            "x-go-name": "Countdown",
+            "description": "Countdown appliance datapoint."
+          },
+          "218": {
+            "type": "integer",
+            "x-go-name": "WashingLeft",
+            "description": "WashingLeft appliance datapoint."
+          },
+          "219": {
+            "type": "boolean",
+            "x-go-name": "DoorLockState",
+            "description": "Appliance boolean datapoint."
+          },
+          "220": {
+            "type": "integer",
+            "x-go-name": "Error",
+            "description": "Error appliance datapoint."
+          },
+          "221": {
+            "type": "integer",
+            "x-go-name": "CustomParamSave",
+            "description": "CustomParamSave appliance datapoint."
+          },
+          "222": {
+            "type": "integer",
+            "x-go-name": "CustomParamGet",
+            "description": "CustomParamGet appliance datapoint."
+          },
+          "223": {
+            "type": "boolean",
+            "x-go-name": "Sound",
+            "description": "Appliance boolean datapoint."
+          },
+          "224": {
+            "type": "integer",
+            "x-go-name": "TimesAfterClean",
+            "description": "TimesAfterClean appliance datapoint."
+          },
+          "225": {
+            "type": "boolean",
+            "x-go-name": "DefaultSetting",
+            "description": "Appliance boolean datapoint."
+          },
+          "226": {
+            "type": "boolean",
+            "x-go-name": "DetergentEmpty",
+            "description": "Appliance boolean datapoint."
+          },
+          "227": {
+            "type": "boolean",
+            "x-go-name": "SoftenerEmpty",
+            "description": "Appliance boolean datapoint."
+          },
+          "229": {
+            "type": "boolean",
+            "x-go-name": "LightSetting",
+            "description": "Appliance boolean datapoint."
+          },
+          "230": {
+            "type": "integer",
+            "x-go-name": "DetergentVolume",
+            "description": "DetergentVolume appliance datapoint."
+          },
+          "231": {
+            "type": "integer",
+            "x-go-name": "SoftenerVolume",
+            "description": "SoftenerVolume appliance datapoint."
+          },
+          "232": {
+            "type": "integer",
+            "x-go-name": "AppAuthorization",
+            "description": "AppAuthorization appliance datapoint."
+          },
+          "233": {
+            "type": "integer",
+            "x-go-name": "Soak",
+            "description": "Soak appliance datapoint."
+          },
+          "234": {
+            "type": "integer",
+            "x-go-name": "TotalTime",
+            "description": "TotalTime appliance datapoint."
+          },
+          "237": {
+            "type": "integer",
+            "x-go-name": "FeatureBits",
+            "description": "FeatureBits appliance datapoint."
+          },
+          "239": {
+            "type": "integer",
+            "x-go-name": "CustomProgramCleaningTime",
+            "description": "CustomProgramCleaningTime appliance datapoint."
+          },
+          "241": {
+            "type": "integer",
+            "x-go-name": "SilentModeStartTime",
+            "description": "Minute of day, from 0 through 1439.",
+            "minimum": 0,
+            "maximum": 1439
+          },
+          "242": {
+            "type": "integer",
+            "x-go-name": "SilentModeEndTime",
+            "description": "Minute of day, from 0 through 1439.",
+            "minimum": 0,
+            "maximum": 1439
+          },
+          "244": {
+            "type": "integer",
+            "x-go-name": "DryCareMode",
+            "description": "DryCareMode appliance datapoint."
+          },
+          "245": {
+            "type": "integer",
+            "x-go-name": "SoftenerExpansionType",
+            "description": "SoftenerExpansionType appliance datapoint."
+          },
+          "248": {
+            "type": "integer",
+            "x-go-name": "DetergentExpansionType",
+            "description": "DetergentExpansionType appliance datapoint."
+          },
+          "256": {
+            "type": "integer",
+            "x-go-name": "DryingMethod",
+            "description": "DryingMethod appliance datapoint."
+          },
+          "257": {
+            "type": "integer",
+            "x-go-name": "SteamVolume",
+            "description": "SteamVolume appliance datapoint."
+          },
+          "261": {
+            "type": "integer",
+            "x-go-name": "SteamCareTime",
+            "description": "SteamCareTime appliance datapoint."
+          },
+          "265": {
+            "type": "integer",
+            "x-go-name": "StartDryerError",
+            "description": "StartDryerError appliance datapoint."
+          }
+        }
+      },
+      "SetZeoSettingsWire": {
+        "type": "object",
+        "description": "Sparse numeric-key A01 settings command.",
+        "properties": {
+          "206": {
+            "type": "boolean",
+            "x-go-name": "ChildLock",
+            "description": "Appliance boolean datapoint."
+          },
+          "211": {
+            "type": "boolean",
+            "x-go-name": "DetergentSet",
+            "description": "Appliance boolean datapoint."
+          },
+          "212": {
+            "type": "boolean",
+            "x-go-name": "SoftenerSet",
+            "description": "Appliance boolean datapoint."
+          },
+          "213": {
+            "type": "integer",
+            "x-go-name": "DetergentType",
+            "description": "DetergentType appliance datapoint."
+          },
+          "214": {
+            "type": "integer",
+            "x-go-name": "SoftenerType",
+            "description": "SoftenerType appliance datapoint."
+          },
+          "217": {
+            "type": "integer",
+            "x-go-name": "Countdown",
+            "description": "Countdown appliance datapoint."
+          },
+          "223": {
+            "type": "boolean",
+            "x-go-name": "Sound",
+            "description": "Appliance boolean datapoint."
+          },
+          "229": {
+            "type": "boolean",
+            "x-go-name": "LightSetting",
+            "description": "Appliance boolean datapoint."
+          },
+          "230": {
+            "type": "integer",
+            "x-go-name": "DetergentVolume",
+            "description": "DetergentVolume appliance datapoint."
+          },
+          "231": {
+            "type": "integer",
+            "x-go-name": "SoftenerVolume",
+            "description": "SoftenerVolume appliance datapoint."
+          },
+          "241": {
+            "type": "integer",
+            "x-go-name": "SilentModeStartTime",
+            "description": "Minute of day, from 0 through 1439.",
+            "minimum": 0,
+            "maximum": 1439
+          },
+          "242": {
+            "type": "integer",
+            "x-go-name": "SilentModeEndTime",
+            "description": "Minute of day, from 0 through 1439.",
+            "minimum": 0,
+            "maximum": 1439
+          },
+          "245": {
+            "type": "integer",
+            "x-go-name": "SoftenerExpansionType",
+            "description": "SoftenerExpansionType appliance datapoint."
+          },
+          "248": {
+            "type": "integer",
+            "x-go-name": "DetergentExpansionType",
+            "description": "DetergentExpansionType appliance datapoint."
+          }
+        },
+        "minProperties": 1
+      },
+      "StartZeoWire": {
+        "type": "object",
+        "description": "Bundled Zeo START command.",
+        "required": [
+          "200",
+          "204",
+          "205"
+        ],
+        "properties": {
+          "200": {
+            "type": "boolean",
+            "x-go-name": "Start",
+            "description": "Appliance boolean datapoint."
+          },
+          "204": {
+            "type": "integer",
+            "x-go-name": "Mode",
+            "description": "Mode appliance datapoint.",
+            "not": {
+              "enum": [
+                0
+              ]
+            }
+          },
+          "205": {
+            "type": "integer",
+            "x-go-name": "Program",
+            "description": "Program appliance datapoint.",
+            "not": {
+              "enum": [
+                0
+              ]
+            }
+          },
+          "207": {
+            "type": "integer",
+            "x-go-name": "Temperature",
+            "description": "Temperature appliance datapoint."
+          },
+          "208": {
+            "type": "integer",
+            "x-go-name": "Rinse",
+            "description": "Rinse appliance datapoint."
+          },
+          "209": {
+            "type": "integer",
+            "x-go-name": "Spin",
+            "description": "Spin appliance datapoint."
+          },
+          "210": {
+            "type": "integer",
+            "x-go-name": "DryingMode",
+            "description": "DryingMode appliance datapoint."
+          },
+          "233": {
+            "type": "integer",
+            "x-go-name": "Soak",
+            "description": "Soak appliance datapoint."
+          },
+          "244": {
+            "type": "integer",
+            "x-go-name": "DryCareMode",
+            "description": "DryCareMode appliance datapoint."
+          },
+          "256": {
+            "type": "integer",
+            "x-go-name": "DryingMethod",
+            "description": "DryingMethod appliance datapoint."
+          },
+          "257": {
+            "type": "integer",
+            "x-go-name": "SteamVolume",
+            "description": "SteamVolume appliance datapoint."
+          }
+        }
+      },
+      "A01QueryDatapoints": {
+        "type": "object",
+        "description": "A01 ID_QUERY payload. The numeric-key value is a JSON string containing the ordered property ID array, matching pinned Python behavior.",
+        "required": [
+          "10000"
+        ],
+        "properties": {
+          "10000": {
+            "type": "string",
+            "x-go-name": "PropertyIDs",
+            "description": "JSON-encoded property ID array, for example \"[201,209]\". The value is a string, not an array.",
+            "example": "[201,209]"
+          }
+        },
+        "additionalProperties": false
+      },
+      "A01QueryRequest": {
+        "type": "object",
+        "description": "Encrypted MQTT request payload before frame padding.",
+        "required": [
+          "dps",
+          "t"
+        ],
+        "properties": {
+          "dps": {
+            "$ref": "#/components/schemas/A01QueryDatapoints"
+          },
+          "t": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unix timestamp, in seconds."
+          }
+        }
+      },
+      "A01QueryResponse": {
+        "type": "object",
+        "description": "Appliance MQTT datapoint update. Replies may be split across multiple frames; the session merges selected datapoints until every requested ID arrives.",
+        "required": [
+          "dps"
+        ],
+        "properties": {
+          "dps": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DyadStateWire"
+              },
+              {
+                "$ref": "#/components/schemas/ZeoStateWire"
+              }
+            ],
+            "description": "Known typed appliance datapoints. Additional future properties are tolerated; the public query projects only selected supported properties."
+          },
+          "t": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Optional appliance timestamp, in Unix seconds."
+          }
+        }
+      },
+      "A01SetRequest": {
+        "type": "object",
+        "description": "Sparse MQTT setting publication or bundled washer start payload before encryption.",
+        "required": [
+          "dps",
+          "t"
+        ],
+        "properties": {
+          "dps": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SetDyadSettingsWire"
+              },
+              {
+                "$ref": "#/components/schemas/SetZeoSettingsWire"
+              },
+              {
+                "$ref": "#/components/schemas/StartZeoWire"
+              }
+            ],
+            "description": "Only supplied settings are published; a Zeo cycle start includes the start signal, mode, and program together."
+          },
+          "t": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unix timestamp, in seconds."
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "a01",
+      "description": "Typed wet-cleaner and washer operations over an account-bound MQTT device session."
+    }
+  ]
+}
