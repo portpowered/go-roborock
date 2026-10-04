@@ -6,6 +6,7 @@ require (
 	github.com/bufbuild/protocompile v0.14.1
 	github.com/getkin/kin-openapi v0.135.0
 	github.com/oapi-codegen/runtime v1.1.2
+	golang.org/x/mod v0.25.0
 	golang.org/x/tools v0.34.0
 	google.golang.org/protobuf v1.36.11
 	gopkg.in/yaml.v3 v3.0.1
@@ -23,6 +24,5 @@ require (
 	github.com/oasdiff/yaml3 v0.0.9 // indirect
 	github.com/perimeterx/marshmallow v1.1.5 // indirect
 	github.com/woodsbury/decimal128 v1.3.0 // indirect
-	golang.org/x/mod v0.25.0 // indirect
 	golang.org/x/sync v0.15.0 // indirect
 )
