@@ -41,6 +41,11 @@
       "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
       "productionUses": [
         {
+          "file": "cmd/go-roborock/customer_flags.go",
+          "line": 322,
+          "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CleanZonesInput"
+        },
+        {
           "file": "cmd/go-roborock/maps.go",
           "line": 63,
           "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CleanZonesInput"
@@ -62,6 +67,16 @@
       "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
       "productionUses": [
         {
+          "file": "cmd/go-roborock/customer_flags.go",
+          "line": 338,
+          "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CleaningZoneInput"
+        },
+        {
+          "file": "cmd/go-roborock/customer_flags.go",
+          "line": 339,
+          "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CleaningZoneInput"
+        },
+        {
           "file": "cmd/go-roborock/maps.go",
           "line": 86,
           "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CleaningZoneInput"
@@ -82,6 +97,51 @@
       },
       "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
       "productionUses": [
+        {
+          "file": "cmd/go-roborock/customer.go",
+          "line": 319,
+          "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CommandInput"
+        },
+        {
+          "file": "cmd/go-roborock/customer_flags.go",
+          "line": 258,
+          "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CommandInput"
+        },
+        {
+          "file": "cmd/go-roborock/customer_flags.go",
+          "line": 260,
+          "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CommandInput"
+        },
+        {
+          "file": "cmd/go-roborock/customer_flags.go",
+          "line": 281,
+          "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CommandInput"
+        },
+        {
+          "file": "cmd/go-roborock/customer_flags.go",
+          "line": 281,
+          "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CommandInput"
+        },
+        {
+          "file": "cmd/go-roborock/customer_flags.go",
+          "line": 297,
+          "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CommandInput"
+        },
+        {
+          "file": "cmd/go-roborock/customer_flags.go",
+          "line": 297,
+          "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CommandInput"
+        },
+        {
+          "file": "cmd/go-roborock/customer_flags.go",
+          "line": 317,
+          "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CommandInput"
+        },
+        {
+          "file": "cmd/go-roborock/customer_flags.go",
+          "line": 317,
+          "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CommandInput"
+        },
         {
           "file": "cmd/go-roborock/device.go",
           "line": 16,
@@ -119,22 +179,22 @@
         },
         {
           "file": "cmd/go-roborock/run.go",
-          "line": 121,
+          "line": 170,
           "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CommandInput"
         },
         {
           "file": "cmd/go-roborock/run.go",
-          "line": 143,
+          "line": 197,
           "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CommandInput"
         },
         {
           "file": "cmd/go-roborock/run.go",
-          "line": 157,
+          "line": 212,
           "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CommandInput"
         },
         {
           "file": "cmd/go-roborock/run.go",
-          "line": 176,
+          "line": 232,
           "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CommandInput"
         }
       ]
@@ -154,13 +214,23 @@
       "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
       "productionUses": [
         {
-          "file": "cmd/go-roborock/run.go",
-          "line": 148,
+          "file": "cmd/go-roborock/profile.go",
+          "line": 41,
+          "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CredentialExport"
+        },
+        {
+          "file": "cmd/go-roborock/profile.go",
+          "line": 107,
           "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CredentialExport"
         },
         {
           "file": "cmd/go-roborock/run.go",
-          "line": 192,
+          "line": 203,
+          "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CredentialExport"
+        },
+        {
+          "file": "cmd/go-roborock/run.go",
+          "line": 249,
           "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CredentialExport"
         }
       ]
@@ -181,12 +251,12 @@
       "productionUses": [
         {
           "file": "cmd/go-roborock/run.go",
-          "line": 178,
+          "line": 234,
           "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.LoginIdentity"
         },
         {
           "file": "cmd/go-roborock/run.go",
-          "line": 195,
+          "line": 252,
           "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.LoginIdentity"
         }
       ]
@@ -19692,6 +19762,51 @@
       "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
       "productionUses": [
         {
+          "file": "cmd/go-roborock/profile.go",
+          "line": 40,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.AuthContext"
+        },
+        {
+          "file": "cmd/go-roborock/profile.go",
+          "line": 45,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.AuthContext"
+        },
+        {
+          "file": "cmd/go-roborock/profile.go",
+          "line": 50,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.AuthContext"
+        },
+        {
+          "file": "cmd/go-roborock/profile.go",
+          "line": 57,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.AuthContext"
+        },
+        {
+          "file": "cmd/go-roborock/profile.go",
+          "line": 61,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.AuthContext"
+        },
+        {
+          "file": "cmd/go-roborock/profile.go",
+          "line": 71,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.AuthContext"
+        },
+        {
+          "file": "cmd/go-roborock/profile.go",
+          "line": 77,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.AuthContext"
+        },
+        {
+          "file": "cmd/go-roborock/profile.go",
+          "line": 83,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.AuthContext"
+        },
+        {
+          "file": "cmd/go-roborock/profile.go",
+          "line": 125,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.AuthContext"
+        },
+        {
           "file": "examples/basic/main.go",
           "line": 25,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.AuthContext"
@@ -21951,6 +22066,21 @@
       },
       "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
       "productionUses": [
+        {
+          "file": "cmd/go-roborock/customer.go",
+          "line": 359,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.Device"
+        },
+        {
+          "file": "cmd/go-roborock/customer.go",
+          "line": 359,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.Device"
+        },
+        {
+          "file": "cmd/go-roborock/customer.go",
+          "line": 360,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.Device"
+        },
         {
           "file": "pkg/roborock/discovery.go",
           "line": 49,
@@ -27418,6 +27548,16 @@
       "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
       "productionUses": [
         {
+          "file": "cmd/go-roborock/customer_output.go",
+          "line": 42,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ListMapsResult"
+        },
+        {
+          "file": "cmd/go-roborock/customer_output.go",
+          "line": 84,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ListMapsResult"
+        },
+        {
           "file": "pkg/roborock/interface.go",
           "line": 69,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ListMapsResult"
@@ -27484,8 +27624,13 @@
       "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
       "productionUses": [
         {
+          "file": "cmd/go-roborock/customer.go",
+          "line": 194,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginContext"
+        },
+        {
           "file": "cmd/go-roborock/run.go",
-          "line": 145,
+          "line": 199,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginContext"
         },
         {
@@ -27561,7 +27706,7 @@
       "productionUses": [
         {
           "file": "cmd/go-roborock/run.go",
-          "line": 180,
+          "line": 236,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginResult"
         },
         {
@@ -28350,6 +28495,16 @@
       },
       "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
       "productionUses": [
+        {
+          "file": "cmd/go-roborock/customer_output.go",
+          "line": 49,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomsResult"
+        },
+        {
+          "file": "cmd/go-roborock/customer_output.go",
+          "line": 112,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomsResult"
+        },
         {
           "file": "pkg/roborock/interface.go",
           "line": 70,
@@ -34053,9 +34208,24 @@
   ],
   "untaggedBehaviorDeclarations": [
     {
+      "file": "cmd/go-roborock/customer_flags.go",
+      "line": 15,
+      "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.customerOptions"
+    },
+    {
       "file": "cmd/go-roborock/flags.go",
       "line": 10,
       "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.commandOptions"
+    },
+    {
+      "file": "cmd/go-roborock/prompt_windows.go",
+      "line": 17,
+      "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.promptThread"
+    },
+    {
+      "file": "cmd/go-roborock/prompt_windows.go",
+      "line": 22,
+      "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.promptReadResult"
     },
     {
       "file": "pkg/dependencies/mapdata/protobuf.go",
@@ -35515,6 +35685,26 @@
   "serializationAndNetworkCalls": [
     {
       "site": {
+        "file": "cmd/go-roborock/customer.go",
+        "line": 429,
+        "symbol": "encoding/json.Encode"
+      },
+      "argumentTypes": [
+        "any"
+      ]
+    },
+    {
+      "site": {
+        "file": "cmd/go-roborock/customer.go",
+        "line": 429,
+        "symbol": "encoding/json.NewEncoder"
+      },
+      "argumentTypes": [
+        "io.Writer"
+      ]
+    },
+    {
+      "site": {
         "file": "cmd/go-roborock/input.go",
         "line": 46,
         "symbol": "encoding/json.NewDecoder"
@@ -35573,8 +35763,66 @@
     },
     {
       "site": {
+        "file": "cmd/go-roborock/profile.go",
+        "line": 64,
+        "symbol": "encoding/json.NewDecoder"
+      },
+      "argumentTypes": [
+        "io.Reader"
+      ]
+    },
+    {
+      "site": {
+        "file": "cmd/go-roborock/profile.go",
+        "line": 66,
+        "symbol": "encoding/json.DisallowUnknownFields"
+      },
+      "argumentTypes": []
+    },
+    {
+      "site": {
+        "file": "cmd/go-roborock/profile.go",
+        "line": 68,
+        "symbol": "encoding/json.Decode"
+      },
+      "argumentTypes": [
+        "*github.com/portpowered/go-roborock/cmd/go-roborock.CredentialExport"
+      ]
+    },
+    {
+      "site": {
+        "file": "cmd/go-roborock/profile.go",
+        "line": 76,
+        "symbol": "encoding/json.Decode"
+      },
+      "argumentTypes": [
+        "*encoding/json.RawMessage"
+      ]
+    },
+    {
+      "site": {
+        "file": "cmd/go-roborock/profile.go",
+        "line": 107,
+        "symbol": "encoding/json.Encode"
+      },
+      "argumentTypes": [
+        "github.com/portpowered/go-roborock/cmd/go-roborock.CredentialExport"
+      ]
+    },
+    {
+      "site": {
+        "file": "cmd/go-roborock/profile.go",
+        "line": 107,
+        "symbol": "encoding/json.NewEncoder"
+      },
+      "argumentTypes": [
+        "*os.File"
+      ]
+    },
+    {
+      "site": {
         "file": "cmd/go-roborock/run.go",
-        "line": 94,
+        "line": 126,
         "symbol": "encoding/json.Encode"
       },
       "argumentTypes": [
@@ -35584,7 +35832,7 @@
     {
       "site": {
         "file": "cmd/go-roborock/run.go",
-        "line": 94,
+        "line": 126,
         "symbol": "encoding/json.NewEncoder"
       },
       "argumentTypes": [
