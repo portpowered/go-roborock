@@ -25,7 +25,7 @@ Enter your Roborock account email when prompted, then enter the code sent to tha
 go-roborock devices list
 ```
 
-Copy your vacuum's device ID from the result. Replace `DEVICE_ID` in the following commands with that ID.
+Copy your vacuum's ID from the `DEVICE_ID` column. Replace `DEVICE_ID` in the following commands with that ID.
 
 ## 4. Check the vacuum and its map
 
@@ -51,7 +51,7 @@ go-roborock devices vacuum DEVICE_ID dock
 
 These commands move the vacuum. A successful command does not mean cleaning or docking has finished.
 
-To clean a particular room, choose its ID from `rooms list`:
+To clean a particular room, choose its ID from the `ROOM_ID` column of `rooms list`:
 
 ```sh
 go-roborock rooms clean ROOM_ID --device DEVICE_ID

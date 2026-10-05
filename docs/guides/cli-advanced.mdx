@@ -5,6 +5,8 @@ description: Supply explicit SDK inputs for A01 property reads and camera signal
 
 Start with the [CLI walkthrough](/docs/guides/cli) for login, discovery, maps, and cleaning. The commands below accept SDK request objects for appliance properties and camera negotiation.
 
+Use `go-roborock help advanced` for these commands. For scripts, add `--json` to `devices list`, `maps list`, or `rooms list` to get JSON instead of a table.
+
 ## Prepare private input files
 
 Use `resolve-login` with an input containing `email` and `clientId`, adding `--export login.json` to save the resolved login. Run `request-code` with that `login` object, then `login-code` with `login` and the emailed `code`, adding `--export account.json` to save the account. `login-password` accepts `login` and `password` for the legacy password exchange.
