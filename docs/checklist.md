@@ -1,6 +1,6 @@
 # Release checklist
 
-This is the completed v0.2.0 release checklist, based on the reusable library template's
+This is the completed v0.2.1 release checklist, based on the reusable library template's
 sixteen requirements and [repository standards](standards/library.md).
 Evidence and independent verdicts belong in [the review record](review.md).
 An unchecked item remains open until its final commit and checks are verified.
@@ -20,22 +20,25 @@ An unchecked item remains open until its final commit and checks are verified.
 - [x] 13. Every documentation file has a clear audience; published copy and release links are reviewed.
 - [x] 14. Two independent reviewers approve every item and verify every resolved finding at the final commit.
 - [x] 15. Every supported transport has strict ordered request/response replay with explicit volatile-field matching.
-- [x] 16. Separate CLI module passes offline checks and installs from its published version.
+- [x] 16. Standalone customer CLI completes login, private profile reuse, device discovery, selected-device reads and controls, and logout; offline checks and public installation pass.
 
 Live tests are opt-in and require private credentials. An offline release does not
 establish compatibility with every physical Roborock model or firmware.
 
-These verdicts apply to SDK `v0.2.0` at
-`2e7679c40936052bda861d0d1b2597c3d84cbbe2` and CLI
-`cmd/go-roborock/v0.2.0` at `2bea3b5791dab83af10813fe0225f7451bf45e0e`.
-Both independent v0.2.0 reviews cover typed maps, protobuf generation, device
-families, cleaning geometry and AsyncAPI documentation. The review record also
-preserves the separate historical v0.1.0 verdicts.
+These verdicts apply to SDK `v0.2.1` at
+`0ce896ef3add16f9e620b487acfe28f8ed98bb08` and CLI
+`cmd/go-roborock/v0.2.1` at `99ee9a4c9d9664989b95a507ed2ae702e000be05`.
+Both independent v0.2.1 reviews cover the customer authorization workflow,
+private local profiles, readable discovery, named maps/rooms/vacuum controls,
+native input cancellation, the short CLI guide, and deterministic platform
+inventories. SDK public interfaces are unchanged. The review record preserves
+historical v0.1.0 and v0.2.0 verdicts.
 
-[Main CI](https://github.com/portpowered/go-roborock/actions/runs/37243797263),
-[Pages deployment](https://github.com/portpowered/go-roborock/actions/runs/37243797282),
-[SDK release checks](https://github.com/portpowered/go-roborock/actions/runs/37243574627)
-and [CLI release checks](https://github.com/portpowered/go-roborock/actions/runs/37243799051)
-passed. Both reviewers verified public installation, Go Reference and the
-[published release](https://github.com/portpowered/go-roborock/releases/tag/v0.2.0).
+[Main CI](https://github.com/portpowered/go-roborock/actions/runs/37253579275),
+[Pages deployment](https://github.com/portpowered/go-roborock/actions/runs/37253579233),
+[SDK release checks](https://github.com/portpowered/go-roborock/actions/runs/37254603102)
+and [CLI release checks](https://github.com/portpowered/go-roborock/actions/runs/37255215143)
+passed at their exact commits. Both reviewers independently verified clean
+public SDK and CLI installations, Go Reference, live guides, the release badge,
+and the [published release](https://github.com/portpowered/go-roborock/releases/tag/v0.2.1).
 This documentation-only record does not change the immutable released tags.
