@@ -144,6 +144,7 @@ func TestWindowsProfileRejectsSymlink(t *testing.T) {
 	if errors.Is(err, windows.ERROR_PRIVILEGE_NOT_HELD) {
 		t.Skip("Windows account cannot create symlinks")
 	}
+
 	if err != nil {
 		t.Fatal(err)
 	}
