@@ -37,11 +37,11 @@ go-roborock rooms list --device DEVICE_ID
 
 `maps show` reads the current map. To list saved maps, run `go-roborock maps list --device DEVICE_ID`. Q7 devices also support reading a saved map with `go-roborock maps show MAP_ID --device DEVICE_ID`; replace `MAP_ID` with an ID from that list.
 
-Status and available controls depend on the [device family](/docs/guides/device-families). Use `go-roborock devices vacuum DEVICE_ID capabilities` to check supported operations.
+Status is supported on V1 vacuums. Use `go-roborock devices vacuum DEVICE_ID capabilities` to check other operations for your [device family](/docs/guides/device-families).
 
 ## 5. Start, pause, or return to the dock
 
-Run the command for the action you want:
+For V1 vacuums, run the command for the action you want:
 
 ```sh
 go-roborock devices vacuum DEVICE_ID start
@@ -57,7 +57,7 @@ To clean a particular room, choose its ID from `rooms list`:
 go-roborock rooms clean ROOM_ID --device DEVICE_ID
 ```
 
-For rectangle cleaning, see [zone cleaning](/docs/guides/zone-cleaning) before choosing coordinates. Use `go-roborock help` to see all commands.
+For rectangle cleaning, see [zone cleaning](/docs/guides/zone-cleaning) before choosing coordinates. Use `go-roborock help` to see all commands. A01 property reads and camera signaling are covered in [advanced CLI inputs](/docs/guides/cli-advanced).
 
 ## 6. Log out when finished
 
