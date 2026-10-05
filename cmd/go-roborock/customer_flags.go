@@ -176,6 +176,7 @@ func vacuumRoute(args []string) (string, []string, error) {
 	if len(args) < minimumVacuumArguments {
 		return "", nil, errCustomerUsage
 	}
+
 	if invalidDeviceArgument(args[2]) {
 		return "", nil, errCustomerUsage
 	}
