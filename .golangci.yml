@@ -26,6 +26,8 @@ linters:
             # LIB-02: Parse required module versions for standalone CLI verification.
             - golang.org/x/mod
             - golang.org/x/tools
+            # LIB-19: Protect caller-owned CLI credentials with native Windows ACLs.
+            - golang.org/x/sys/windows
             - gopkg.in/yaml.v3
   exclusions:
     generated: strict
