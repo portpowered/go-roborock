@@ -28,6 +28,8 @@ linters:
             - golang.org/x/tools
             # LIB-19: Protect caller-owned CLI credentials with native Windows ACLs.
             - golang.org/x/sys/windows
+            # LIB-19/GO-08: Wait for terminal input without blocking cancellation.
+            - golang.org/x/sys/unix
             # LIB-19: Read an emailed login code without terminal echo.
             - golang.org/x/term
             - gopkg.in/yaml.v3
