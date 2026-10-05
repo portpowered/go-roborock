@@ -68,7 +68,7 @@ func (fixture *customerFixture) LoginWithCode(ctx context.Context, request robor
 
 	fixture.steps = append(fixture.steps, "exchange")
 
-	fixture.auth = roborock.AuthContext{ClientID: fixture.login.ClientID, Token: fixtureToken, BaseURL: "https://example.invalid", Mqtt: roborock.MQTTAuth{BrokerURL: "ssl://example.invalid:8883", User: fixtureCustomerMQTTUser, Secret: fixtureSecret, Key: "synthetic-key", SigningKey: "synthetic-signing"}}
+	fixture.auth = roborock.AuthContext{ClientID: fixture.login.ClientID, Token: fixtureToken, BaseURL: fixtureBaseURL, Mqtt: roborock.MQTTAuth{BrokerURL: "ssl://example.invalid:8883", User: fixtureCustomerMQTTUser, Secret: fixtureSecret, Key: "synthetic-key", SigningKey: fixtureSigningKey}}
 
 	return roborock.LoginResult{Auth: fixture.auth, UserID: 42, Nickname: "Customer"}, nil
 }
@@ -92,13 +92,13 @@ func TestCustomerLoginInventoryAndStatus(t *testing.T) {
 		return replyRPC(connection, "get_status", `[]`, `{"battery":85}`, nil)
 	})
 
-	fixture := &customerFixture{t: t, ClientAPI: client, devices: []roborock.Device{{ID: "synthetic-device", Name: "Vacuum", Model: "roborock.vacuum.synthetic", LocalKey: fixtureLocalKey, Protocol: roborock.ProtocolV1}}}
+	fixture := &customerFixture{t: t, ClientAPI: client, devices: []roborock.Device{{ID: fixtureDeviceID, Name: "Vacuum", Model: "roborock.vacuum.synthetic", LocalKey: fixtureLocalKey, Protocol: roborock.ProtocolV1}}}
 
 	profile := filepath.Join(t.TempDir(), "private", "profile.json")
 
 	var stdout, stderr bytes.Buffer
 
-	commands := [][]string{{commandLogin, profileFlag, profile}, {commandDevices, fixtureList, profileFlag, profile}, {commandDevices, fixtureVacuum, "synthetic-device", "status", profileFlag, profile}}
+	commands := [][]string{{commandLogin, profileFlag, profile}, {commandDevices, fixtureList, profileFlag, profile}, {commandDevices, fixtureVacuum, fixtureDeviceID, "status", profileFlag, profile}}
 
 	for _, args := range commands {
 		err := run(context.Background(), args, strings.NewReader(fixtureAccountEmail+"\nsynthetic-code\n"), &stdout, &stderr, noEnvironment, fixture)
@@ -111,11 +111,11 @@ func TestCustomerLoginInventoryAndStatus(t *testing.T) {
 		t.Fatal("missing, reordered, or repeated account exchange")
 	}
 
-	if !strings.Contains(stdout.String(), "synthetic-device") || !strings.Contains(stdout.String(), `"battery":85`) {
+	if !strings.Contains(stdout.String(), fixtureDeviceID) || !strings.Contains(stdout.String(), `"battery":85`) {
 		t.Fatal("missing discovery or status result")
 	}
 
-	for _, secret := range []string{fixtureCode, fixtureToken, fixtureSecret, fixtureLocalKey, "synthetic-signing"} {
+	for _, secret := range []string{fixtureCode, fixtureToken, fixtureSecret, fixtureLocalKey, fixtureSigningKey} {
 		if strings.Contains(stdout.String()+stderr.String(), secret) {
 			t.Fatal("customer output disclosed a credential")
 		}
@@ -158,7 +158,7 @@ func TestCustomerRejectsAmbiguousSelectionAndBadArguments(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	for _, args := range [][]string{{commandMaps, "show"}, {commandRooms, fixtureList}, {"zones", fixtureClean, zoneFlag, "0,0,10,10"}, {commandDevices, fixtureVacuum, "missing", commandStart}} {
+	for _, args := range [][]string{{commandMaps, "show"}, {commandRooms, fixtureList}, {fixtureZones, fixtureClean, zoneFlag, "0,0,10,10"}, {commandDevices, fixtureVacuum, "missing", commandStart}} {
 		err = run(context.Background(), append(args, profileFlag, profile), strings.NewReader(""), &stdout, &stderr, noEnvironment, fixture)
 
 		if !errors.Is(err, errAmbiguousDevice) && !errors.Is(err, errMissingDevice) {
@@ -166,7 +166,7 @@ func TestCustomerRejectsAmbiguousSelectionAndBadArguments(t *testing.T) {
 		}
 	}
 
-	for _, args := range [][]string{{commandLogin, zoneFlag, "0,0,1,1"}, {commandDevices, fixtureList, "--device", fixtureDeviceOne}, {commandDevices, fixtureVacuum, fixtureDeviceOne, commandStart, "--device", "two"}, {commandRooms, fixtureClean, "1", "--map", "2"}, {"zones", fixtureClean, zoneFlag, "1,0,0,1"}, {commandMaps, fixtureSelect}, {commandMaps, fixtureSelect, "1", "--device="}, {commandMaps, fixtureSelect, ""}, {commandDevices, fixtureVacuum, "", commandStart}, {commandRooms, fixtureClean, "-1"}} {
+	for _, args := range [][]string{{commandLogin, zoneFlag, "0,0,1,1"}, {commandDevices, fixtureList, deviceFlag, fixtureDeviceOne}, {commandDevices, fixtureVacuum, fixtureDeviceOne, commandStart, deviceFlag, "two"}, {commandRooms, fixtureClean, "1", "--map", "2"}, {fixtureZones, fixtureClean, zoneFlag, "1,0,0,1"}, {commandMaps, fixtureSelect}, {commandMaps, fixtureSelect, "1", "--device="}, {commandMaps, fixtureSelect, ""}, {commandDevices, fixtureVacuum, "", commandStart}, {commandRooms, fixtureClean, "-1"}} {
 		count := len(fixture.steps)
 
 		err = run(context.Background(), append(args, profileFlag, profile), strings.NewReader(""), &stdout, &stderr, noEnvironment, fixture)
@@ -262,6 +262,11 @@ func TestCustomerCodePromptDoesNotUseNetworkDeadline(t *testing.T) {
 }
 
 const (
+	fixtureSigningKey   = "synthetic-signing"
+	fixtureDeviceID     = "synthetic-device"
+	deviceFlag          = "--device"
+	fixtureZones        = "zones"
+	fixtureBaseURL      = "https://example.invalid"
 	fixtureSelect       = "select"
 	fixtureInputFlag    = "--input"
 	fixtureVacuum       = "vacuum"
@@ -333,7 +338,7 @@ func (transport *pairedHTTP) Do(request *http.Request) (*http.Response, error) {
 func newTestClient(t *testing.T, transport *pairedHTTP) *roborock.Client {
 	t.Helper()
 
-	client, err := roborock.NewClient(roborock.WithBaseURL("https://example.invalid"), roborock.WithHTTPClient(transport))
+	client, err := roborock.NewClient(roborock.WithBaseURL(fixtureBaseURL), roborock.WithHTTPClient(transport))
 	if err != nil {
 		t.Fatal(err)
 	}

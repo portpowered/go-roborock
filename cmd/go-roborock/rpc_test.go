@@ -17,6 +17,8 @@ import (
 	"hash/crc32"
 	"io"
 	"net"
+	"net/http"
+	"path/filepath"
 	"strings"
 	"testing"
 	"time"
@@ -138,7 +140,9 @@ func TestCameraLifecycleAndOutput(t *testing.T) {
 	}
 }
 
-func rpcTestClient(t *testing.T, exchange func(net.Conn) error) (*roborock.Client, <-chan error) {
+func rpcTestClient(
+	t *testing.T, exchange func(net.Conn) error, options ...roborock.Option,
+) (*roborock.Client, <-chan error) {
 	t.Helper()
 
 	conn, server := net.Pipe()
@@ -152,18 +156,140 @@ func rpcTestClient(t *testing.T, exchange func(net.Conn) error) (*roborock.Clien
 		done <- replayEstablishment(server, exchange)
 	}()
 
-	client, err := roborock.NewClient(roborock.WithMQTTDial(func(_ context.Context, network, address string) (net.Conn, error) {
+	options = append(options, roborock.WithMQTTDial(func(_ context.Context, network, address string) (net.Conn, error) {
 		if network != "tcp" || address != "example.invalid:8883" {
 			return nil, errors.New("dial mismatch")
 		}
 
 		return conn, nil
 	}))
+
+	client, err := roborock.NewClient(options...)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	return client, done
+}
+
+// customerInventoryHTTP replays two strict synthetic inventory exchanges for each customer command.
+// Room discovery repeats those exchanges once to resolve the cloud room name.
+type customerInventoryHTTP struct {
+	inventory inventoryHTTP
+	calls     int
+	expected  int
+}
+
+func (fixture *customerInventoryHTTP) Do(request *http.Request) (*http.Response, error) {
+	fixture.calls++
+	if fixture.calls > fixture.expected {
+		return nil, errors.New("unexpected customer inventory exchange")
+	}
+
+	if fixture.inventory.calls == 2 {
+		fixture.inventory.calls = 0
+	}
+
+	response, err := fixture.inventory.Do(request)
+	if err != nil {
+		return nil, err
+	}
+
+	data, err := io.ReadAll(response.Body)
+
+	_ = response.Body.Close()
+
+	if err != nil {
+		return nil, err
+	}
+
+	body := strings.ReplaceAll(string(data), "synthetic-local-secret", fixtureLocalKey)
+	body = strings.Replace(body, `"devices":[`, `"rooms":[{"id":1001,"name":"Kitchen"}],"devices":[`, 1)
+	response.Body = io.NopCloser(strings.NewReader(body))
+
+	return response, nil
+}
+
+type customerCommandReplay struct {
+	name      string
+	args      []string
+	method    string
+	params    string
+	response  string
+	result    string
+	httpCalls int
+}
+
+func TestCustomerGuideCommandsPairedInventoryAndMQTT(t *testing.T) {
+	t.Parallel()
+
+	cases := []customerCommandReplay{
+		{name: commandStart, args: []string{commandDevices, fixtureVacuum, fixtureDeviceID, commandStart}, method: "app_start", params: `[]`, response: fixtureRPCResult, result: fixtureAcknowledged, httpCalls: 2},
+		{name: commandPause, args: []string{commandDevices, fixtureVacuum, fixtureDeviceID, commandPause}, method: "app_pause", params: `[]`, response: fixtureRPCResult, result: fixtureAcknowledged, httpCalls: 2},
+		{name: commandDock, args: []string{commandDevices, fixtureVacuum, fixtureDeviceID, commandDock}, method: "app_charge", params: `[]`, response: fixtureRPCResult, result: fixtureAcknowledged, httpCalls: 2},
+		{name: commandStop, args: []string{commandDevices, fixtureVacuum, fixtureDeviceID, commandStop}, method: "app_stop", params: `[]`, response: fixtureRPCResult, result: fixtureAcknowledged, httpCalls: 2},
+		{name: commandStatus, args: []string{commandDevices, fixtureVacuum, fixtureDeviceID, commandStatus}, method: "get_status", params: `[]`, response: `{"battery":85}`, result: `"battery":85`, httpCalls: 2},
+		{name: commandRooms, args: []string{commandRooms, fixtureList, deviceFlag, fixtureDeviceID}, method: "get_room_mapping", params: `[]`, response: `[[16,"1001"]]`, result: "16       Kitchen", httpCalls: 4},
+		{name: commandCleanRooms, args: []string{commandRooms, fixtureClean, "16", deviceFlag, fixtureDeviceID}, method: "app_segment_clean", params: `[{"segments":[16],"repeat":1}]`, response: fixtureRPCResult, result: fixtureAcknowledged, httpCalls: 2},
+		{name: commandMaps, args: []string{commandMaps, fixtureList, deviceFlag, fixtureDeviceID}, method: "get_multi_maps_list", params: `[]`, response: `[{"map_info":[{"map_flag":3,"name":"Upstairs"}]}]`, result: "Upstairs", httpCalls: 2},
+		{name: commandSelectMap, args: []string{commandMaps, fixtureSelect, "3", deviceFlag, fixtureDeviceID}, method: "load_multi_map", params: `[3]`, response: fixtureRPCResult, result: fixtureAcknowledged, httpCalls: 2},
+		{name: commandCleanZones, args: []string{fixtureZones, fixtureClean, deviceFlag, fixtureDeviceID, zoneFlag, "100,200,300,400", zoneFlag, "500,600,700,800", "--repeats", "2"}, method: "app_zoned_clean", params: `[[100,200,300,400,2],[500,600,700,800,2]]`, response: fixtureRPCResult, result: fixtureAcknowledged, httpCalls: 2},
+		{name: commandMap, args: []string{commandMaps, "show", deviceFlag, fixtureDeviceID}, method: "", params: "", response: "", result: `"point":{"x":1000,"y":2000}`, httpCalls: 2},
+	}
+
+	for _, testCase := range cases {
+		t.Run(testCase.name, func(t *testing.T) {
+			t.Parallel()
+
+			httpFixture := &customerInventoryHTTP{inventory: inventoryHTTP{calls: 0}, calls: 0, expected: testCase.httpCalls}
+
+			exchange := func(connection net.Conn) error {
+				return replyRPC(connection, testCase.method, testCase.params, testCase.response, nil)
+			}
+
+			if testCase.name == commandMap {
+				exchange = replySyntheticMap
+			}
+
+			client, completed := rpcTestClient(t, exchange, roborock.WithHTTPClient(httpFixture))
+			profile := customerCommandProfile(t)
+
+			var stdout, stderr bytes.Buffer
+
+			err := run(t.Context(), append(testCase.args, profileFlag, profile), strings.NewReader(""), &stdout, &stderr, noEnvironment, client)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if !strings.Contains(stdout.String(), testCase.result) || httpFixture.calls != testCase.httpCalls {
+				t.Fatal("customer result or inventory exchange count mismatch")
+			}
+
+			for _, secret := range []string{fixtureLocalKey, fixtureToken, fixtureSecret, fixtureSigningKey} {
+				if strings.Contains(stdout.String()+stderr.String(), secret) {
+					t.Fatal("customer command disclosed account or device secrets")
+				}
+			}
+
+			err = <-completed
+			if err != nil {
+				t.Fatal(err)
+			}
+		})
+	}
+}
+
+func customerCommandProfile(t *testing.T) string {
+	t.Helper()
+
+	profile := filepath.Join(t.TempDir(), "private", "profile.json")
+
+	err := saveProfile(profile, roborock.AuthContext{BaseURL: fixtureBaseURL, ClientID: fixtureClientID, Token: fixtureToken, Mqtt: roborock.MQTTAuth{APIURL: fixtureBaseURL, BrokerURL: "ssl://example.invalid:8883", User: fixtureCustomerMQTTUser, Secret: fixtureSecret, SigningKey: fixtureSigningKey, Key: "synthetic-key"}})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return profile
 }
 
 func replyRPC(conn net.Conn, method, params, result string, cancel context.CancelFunc) error {
