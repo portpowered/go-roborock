@@ -52,15 +52,27 @@ func readProfile(path string) (roborock.AuthContext, error) {
 
 	defer func() { _ = file.Close() }()
 
+	info, err := file.Stat()
+	if err != nil {
+		return roborock.AuthContext{}, fmt.Errorf("inspect login profile: %w", err)
+	}
+
+	if info.Size() > maxInputBytes {
+		return roborock.AuthContext{}, errProfile
+	}
+
 	decoder := json.NewDecoder(io.LimitReader(file, maxInputBytes+1))
+
 	decoder.DisallowUnknownFields()
 
 	err = decoder.Decode(&value)
-	if err != nil || value.Auth == nil || value.Auth.Token == "" || value.Auth.ClientID == "" || value.Auth.BaseURL == "" {
+
+	if err != nil || value.Auth == nil || !validProfileAuth(*value.Auth) {
 		return roborock.AuthContext{}, errProfile
 	}
 
 	var extra json.RawMessage
+
 	if !errors.Is(decoder.Decode(&extra), io.EOF) {
 		return roborock.AuthContext{}, errProfile
 	}
@@ -69,19 +81,13 @@ func readProfile(path string) (roborock.AuthContext, error) {
 }
 
 func saveProfile(path string, auth roborock.AuthContext) error {
-	err := ensurePrivateProfileDir(filepath.Dir(path))
-	if err != nil {
-		return fmt.Errorf("prepare login profile: %w", err)
+	if !validProfileAuth(auth) {
+		return errProfile
 	}
 
-	_, statErr := os.Lstat(path)
-	if statErr == nil {
-		err = checkPrivateProfileFile(path)
-		if err != nil {
-			return fmt.Errorf("check existing profile: %w", err)
-		}
-	} else if !errors.Is(statErr, os.ErrNotExist) {
-		return fmt.Errorf("check login profile: %w", statErr)
+	err := prepareProfilePath(path)
+	if err != nil {
+		return fmt.Errorf("prepare login profile: %w", err)
 	}
 
 	identity, err := randomIdentity()
@@ -114,4 +120,26 @@ func saveProfile(path string, auth roborock.AuthContext) error {
 	}
 
 	return nil
+}
+
+func validProfileAuth(auth roborock.AuthContext) bool {
+	return auth.Token != "" && auth.ClientID != "" && auth.BaseURL != ""
+}
+
+func prepareProfilePath(path string) error {
+	err := ensurePrivateProfileDir(filepath.Dir(path))
+	if err != nil {
+		return err
+	}
+
+	_, err = os.Lstat(path)
+	if errors.Is(err, os.ErrNotExist) {
+		return nil
+	}
+
+	if err != nil {
+		return fmt.Errorf("inspect existing login profile: %w", err)
+	}
+
+	return checkPrivateProfileFile(path)
 }

@@ -31,13 +31,13 @@ func TestVacuumReadAndControlCommandsPairedMQTT(t *testing.T) {
 	t.Parallel()
 
 	cases := [][4]string{
-		{"start", "app_start", fixtureRPCResult, fixtureAcknowledged},
-		{"stop", "app_stop", fixtureRPCResult, fixtureAcknowledged},
-		{"pause", "app_pause", fixtureRPCResult, fixtureAcknowledged},
-		{"dock", "app_charge", fixtureRPCResult, fixtureAcknowledged},
+		{commandStart, "app_start", fixtureRPCResult, fixtureAcknowledged},
+		{commandStop, "app_stop", fixtureRPCResult, fixtureAcknowledged},
+		{commandPause, "app_pause", fixtureRPCResult, fixtureAcknowledged},
+		{commandDock, "app_charge", fixtureRPCResult, fixtureAcknowledged},
 		{commandStatus, "get_status", `{"battery":85}`, `"battery":85`},
-		{"consumables", "get_consumable", `{"main_brush_work_time":3600}`, `"main_brush_work_time":3600`},
-		{"summary", "get_clean_summary", `{"clean_time":120}`, `"clean_time":120`},
+		{commandConsumables, "get_consumable", `{"main_brush_work_time":3600}`, `"main_brush_work_time":3600`},
+		{commandSummary, "get_clean_summary", `{"clean_time":120}`, `"clean_time":120`},
 	}
 	for _, testCase := range cases {
 		t.Run(testCase[0], func(t *testing.T) {
@@ -48,7 +48,7 @@ func TestVacuumReadAndControlCommandsPairedMQTT(t *testing.T) {
 
 			var out, errOut bytes.Buffer
 
-			err := run(context.Background(), []string{testCase[0]}, strings.NewReader(deviceJSON), &out, &errOut, noEnvironment, client)
+			err := run(context.Background(), []string{testCase[0], fixtureInputFlag, "-"}, strings.NewReader(deviceJSON), &out, &errOut, noEnvironment, client)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -242,7 +242,7 @@ func testFrame(frame, payload []byte) ([]byte, error) {
 
 	stamp := fmt.Sprintf("%08x", binary.BigEndian.Uint32(frame[11:15]))
 	reordered := string([]byte{stamp[5], stamp[6], stamp[3], stamp[7], stamp[1], stamp[2], stamp[0], stamp[4]})
-	key := md5.Sum([]byte(reordered + "0123456789abcdef" + "TXdfu$jyZ#TZHsg4"))
+	key := md5.Sum([]byte(reordered + fixtureLocalKey + "TXdfu$jyZ#TZHsg4"))
 
 	block, err := aes.NewCipher(key[:])
 	if err != nil {
@@ -443,7 +443,7 @@ func TestZoneAndRoomCleaningPairedMQTT(t *testing.T) {
 
 			var out, errOut bytes.Buffer
 
-			err := run(context.Background(), []string{testCase[0]}, strings.NewReader(input), &out, &errOut, noEnvironment, client)
+			err := run(context.Background(), []string{testCase[0], fixtureInputFlag, "-"}, strings.NewReader(input), &out, &errOut, noEnvironment, client)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -477,7 +477,7 @@ func TestMapCommandsWithoutWireSideEffects(t *testing.T) {
 
 			var out, errOut bytes.Buffer
 
-			err := run(context.Background(), []string{testCase[0]}, strings.NewReader(input), &out, &errOut, noEnvironment, client)
+			err := run(context.Background(), []string{testCase[0], fixtureInputFlag, "-"}, strings.NewReader(input), &out, &errOut, noEnvironment, client)
 			if testCase[2] != "" {
 				if err != nil {
 					t.Fatal(err)
@@ -514,7 +514,7 @@ func TestMapListAndSelectionPairedMQTT(t *testing.T) {
 
 			var out, errOut bytes.Buffer
 
-			err := run(context.Background(), []string{testCase[0]}, strings.NewReader(input), &out, &errOut, noEnvironment, client)
+			err := run(context.Background(), []string{testCase[0], fixtureInputFlag, "-"}, strings.NewReader(input), &out, &errOut, noEnvironment, client)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -578,7 +578,7 @@ func TestCurrentMapPairedMQTT(t *testing.T) {
 		t.Fatal("map geometry missing")
 	}
 
-	for _, secret := range []string{"synthetic-secret", "0123456789abcdef", "nonce", "goOmJ7S+"} {
+	for _, secret := range []string{fixtureSecret, fixtureLocalKey, "nonce", "goOmJ7S+"} {
 		if strings.Contains(out.String(), secret) {
 			t.Fatal("map output contains credentials")
 		}

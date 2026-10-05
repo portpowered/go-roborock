@@ -27,7 +27,12 @@ var (
 func runCustomer(
 	ctx context.Context, args []string, stdin io.Reader, stdout, stderr io.Writer, client roborock.ClientAPI,
 ) error {
+	if wantsCustomerHelp(args) {
+		return writeCustomerMessage(stdout, helpText)
+	}
+
 	options, err := parseCustomer(args, stderr)
+
 	if errors.Is(err, flag.ErrHelp) {
 		return nil
 	}
@@ -44,40 +49,73 @@ func runCustomer(
 	switch options.command {
 	case commandLogin:
 		return customerLogin(ctx, options, stdin, stdout, stderr, client)
+
 	case commandLogout:
-		err = checkPrivateProfileFile(options.profile)
-		if errors.Is(err, os.ErrNotExist) {
-			return writeCustomerMessage(stdout, "Logged out.\n")
-		}
+		return customerLogout(options.profile, stdout)
 
-		if err != nil {
-			return fmt.Errorf("check login profile: %w", err)
-		}
-
-		err = os.Remove(options.profile)
-
-		if err != nil {
-			return fmt.Errorf("remove login profile: %w", err)
-		}
-
-		return writeCustomerMessage(stdout, "Logged out.\n")
 	default:
 		return customerOperation(ctx, options, input, stdout, client)
 	}
 }
 
+func wantsCustomerHelp(args []string) bool {
+	if len(args) == 1 && optionsRequireSubcommand(args[0]) {
+		return true
+	}
+
+	for _, argument := range args {
+		if argument == helpFlag || argument == "-h" {
+			return true
+		}
+	}
+
+	return false
+}
+
+func optionsRequireSubcommand(command string) bool {
+	switch command {
+	case commandDevices, commandMaps, commandRooms, "zones":
+		return true
+
+	default:
+		return false
+	}
+}
+
+func customerLogout(path string, stdout io.Writer) error {
+	err := checkPrivateProfileFile(path)
+
+	if errors.Is(err, os.ErrNotExist) {
+		return writeCustomerMessage(stdout, "Logged out.\n")
+	}
+
+	if err != nil {
+		return fmt.Errorf("check login profile: %w", err)
+	}
+
+	err = os.Remove(path)
+	if err != nil {
+		return fmt.Errorf("remove login profile: %w", err)
+	}
+
+	return writeCustomerMessage(stdout, "Logged out.\n")
+}
+
 func customerLogin(
 	ctx context.Context, options customerOptions, stdin io.Reader, stdout, stderr io.Writer, client roborock.ClientAPI,
 ) error {
-	if closer, ok := stdin.(io.Closer); ok {
-		stop := context.AfterFunc(ctx, func() { _ = closer.Close() })
-		defer stop()
-	}
-	reader := bufio.NewReader(stdin)
-
-	email, err := promptCustomer(reader, stderr, "Email: ")
+	stdin, cleanup, err := customerPromptInput(ctx, stdin)
 	if err != nil {
 		return err
+	}
+
+	defer cleanup()
+
+	reader := bufio.NewReader(stdin)
+
+	email, err := promptEmail(ctx, stdin, reader, stderr)
+	if err != nil {
+		return customerPromptError(ctx, err)
 	}
 
 	identity, err := randomIdentity()
@@ -85,30 +123,18 @@ func customerLogin(
 		return err
 	}
 
-	operation, cancel := context.WithTimeout(ctx, options.timeout)
-	loginContext, err := client.ResolveLogin(operation, roborock.ResolveLoginRequest{Email: email, ClientID: identity})
-
-	cancel()
-
-	if err != nil {
-		return safeCustomerError("resolve login", err)
-	}
-
-	operation, cancel = context.WithTimeout(ctx, options.timeout)
-	_, err = client.RequestLoginCode(operation, roborock.LoginCodeRequest{Login: loginContext})
-
-	cancel()
-
-	if err != nil {
-		return safeCustomerError("request email code", err)
-	}
-
-	code, err := promptCode(stdin, reader, stderr)
+	loginContext, err := customerRequestCode(ctx, options, email, identity, client)
 	if err != nil {
 		return err
 	}
 
-	operation, cancel = context.WithTimeout(ctx, options.timeout)
+	code, err := promptCode(ctx, stdin, reader, stderr)
+	if err != nil {
+		return customerPromptError(ctx, err)
+	}
+
+	operation, cancel := context.WithTimeout(ctx, options.timeout)
+
 	result, err := client.LoginWithCode(operation, roborock.LoginWithCodeRequest{Login: loginContext, Code: code})
 
 	cancel()
@@ -118,12 +144,80 @@ func customerLogin(
 	}
 
 	err = saveProfile(options.profile, result.Auth)
-
 	if err != nil {
 		return err
 	}
 
 	return writeCustomerMessage(stdout, "Logged in. Run go-roborock devices list.\n")
+}
+
+func customerPromptInput(ctx context.Context, stdin io.Reader) (io.Reader, func(), error) {
+	var restore func()
+
+	file, ok := stdin.(*os.File)
+
+	if ok && term.IsTerminal(int(file.Fd())) {
+		state, err := term.GetState(int(file.Fd()))
+		if err != nil {
+			return nil, nil, fmt.Errorf("read terminal settings: %w", err)
+		}
+
+		duplicate, err := duplicatePromptFile(file)
+		if err != nil {
+			return nil, nil, err
+		}
+
+		stdin = duplicate
+
+		restore = func() { _ = term.Restore(int(file.Fd()), state); _ = duplicate.Close() }
+	}
+
+	stop := func() bool { return true }
+
+	if closer, ok := stdin.(io.Closer); ok && restore == nil {
+		stop = context.AfterFunc(ctx, func() { _ = closer.Close() })
+	}
+
+	cleanup := func() {
+		stop()
+
+		if restore != nil {
+			restore()
+		}
+	}
+
+	return stdin, cleanup, nil
+}
+
+func customerRequestCode(
+	ctx context.Context, options customerOptions, email, identity string, client roborock.ClientAPI,
+) (roborock.LoginContext, error) {
+	operation, cancel := context.WithTimeout(ctx, options.timeout)
+
+	loginContext, err := client.ResolveLogin(operation, roborock.ResolveLoginRequest{Email: email, ClientID: identity})
+
+	cancel()
+
+	if err != nil {
+		return loginContext, safeCustomerError("resolve login", err)
+	}
+
+	operation, cancel = context.WithTimeout(ctx, options.timeout)
+
+	request, err := client.RequestLoginCode(operation, roborock.LoginCodeRequest{Login: loginContext})
+
+	cancel()
+
+	if err != nil {
+		return loginContext, safeCustomerError("request email code", err)
+	}
+
+	if !request.Accepted {
+		return loginContext, roborockerrors.New(roborockerrors.Protocol,
+			"request email code", "email code request was not accepted", nil)
+	}
+
+	return loginContext, nil
 }
 
 func promptCustomer(reader *bufio.Reader, stderr io.Writer, label string) (string, error) {
@@ -133,8 +227,10 @@ func promptCustomer(reader *bufio.Reader, stderr io.Writer, label string) (strin
 	}
 
 	var value strings.Builder
+
 	for value.Len() <= maximumPromptBytes {
 		character, err := reader.ReadByte()
+
 		if errors.Is(err, io.EOF) && value.Len() > 0 {
 			break
 		}
@@ -151,6 +247,7 @@ func promptCustomer(reader *bufio.Reader, stderr io.Writer, label string) (strin
 	}
 
 	result := strings.TrimSpace(value.String())
+
 	if result == "" || value.Len() > maximumPromptBytes {
 		return "", errPrompt
 	}
@@ -158,8 +255,37 @@ func promptCustomer(reader *bufio.Reader, stderr io.Writer, label string) (strin
 	return result, nil
 }
 
-func promptCode(stdin io.Reader, reader *bufio.Reader, stderr io.Writer) (string, error) {
+func customerPromptError(ctx context.Context, err error) error {
+	if ctx.Err() != nil {
+		return safeCustomerError("login", ctx.Err())
+	}
+
+	return err
+}
+
+func promptEmail(ctx context.Context, stdin io.Reader, reader *bufio.Reader, stderr io.Writer) (string, error) {
 	file, ok := stdin.(*os.File)
+
+	if !ok || !term.IsTerminal(int(file.Fd())) {
+		return promptCustomer(reader, stderr, "Email: ")
+	}
+
+	_, err := io.WriteString(stderr, "Email: ")
+	if err != nil {
+		return "", fmt.Errorf("write prompt: %w", err)
+	}
+
+	value, err := readPromptLine(ctx, file, false)
+	if err != nil {
+		return "", safeCustomerError("read email", err)
+	}
+
+	return value, nil
+}
+
+func promptCode(ctx context.Context, stdin io.Reader, reader *bufio.Reader, stderr io.Writer) (string, error) {
+	file, ok := stdin.(*os.File)
+
 	if !ok || !term.IsTerminal(int(file.Fd())) {
 		return promptCustomer(reader, stderr, "Email code: ")
 	}
@@ -169,7 +295,7 @@ func promptCode(stdin io.Reader, reader *bufio.Reader, stderr io.Writer) (string
 		return "", fmt.Errorf("write prompt: %w", err)
 	}
 
-	value, err := term.ReadPassword(int(file.Fd()))
+	value, err := readPromptLine(ctx, file, true)
 
 	_, writeErr := io.WriteString(stderr, "\n")
 	if writeErr != nil {
@@ -180,7 +306,8 @@ func promptCode(stdin io.Reader, reader *bufio.Reader, stderr io.Writer) (string
 		return "", fmt.Errorf("read email code: %w", err)
 	}
 
-	result := strings.TrimSpace(string(value))
+	result := strings.TrimSpace(value)
+
 	if result == "" || len(value) > maximumPromptBytes {
 		return "", errPrompt
 	}
@@ -197,6 +324,7 @@ func customerOperation(
 	}
 
 	operation, cancel := context.WithTimeout(ctx, options.timeout)
+
 	inventory, err := client.ListDevices(operation, roborock.AccountRequest{Auth: auth})
 
 	cancel()
@@ -206,11 +334,7 @@ func customerOperation(
 	}
 
 	if options.command == commandDevices {
-		for index := range inventory.Devices {
-			inventory.Devices[index].LocalKey = ""
-		}
-
-		return writeCustomerJSON(stdout, inventory)
+		return writeCustomerResult(stdout, options.command, inventory, options.asJSON)
 	}
 
 	device, err := chooseDevice(inventory.Devices, options.device)
@@ -221,6 +345,7 @@ func customerOperation(
 	input.Auth, input.DeviceID, input.LocalKey, input.Protocol = auth, device.ID, device.LocalKey, device.Protocol
 
 	operation, cancel = context.WithTimeout(ctx, options.timeout)
+
 	defer cancel()
 
 	result, err := executeDevice(operation, client, options.command, input, "")
@@ -228,7 +353,7 @@ func customerOperation(
 		return safeCustomerError(options.command, err)
 	}
 
-	return writeCustomerJSON(stdout, result)
+	return writeCustomerResult(stdout, options.command, result, options.asJSON)
 }
 
 func chooseDevice(devices []roborock.Device, deviceID string) (roborock.Device, error) {
@@ -247,6 +372,7 @@ func chooseDevice(devices []roborock.Device, deviceID string) (roborock.Device, 
 	for _, device := range devices {
 		if device.ID == deviceID {
 			selected = device
+
 			count++
 		}
 	}
@@ -264,19 +390,29 @@ func chooseDevice(devices []roborock.Device, deviceID string) (roborock.Device, 
 
 func safeCustomerError(operation string, cause error) error {
 	wrapped := roborockerrors.Wrap(roborockerrors.Unavailable, operation, "check device availability", cause)
-	switch wrapped.Kind {
-	case roborockerrors.Unauthorized:
-		wrapped.Message = "run go-roborock login again"
-	case roborockerrors.Unsupported:
-		wrapped.Message = "check device capabilities and supported device families"
-	case roborockerrors.NotFound:
-		wrapped.Message = "run go-roborock devices list and check the device ID"
-	case roborockerrors.Timeout:
-		wrapped.Message = "operation timed out; increase --timeout for reads"
-	case roborockerrors.Canceled:
-		wrapped.Message = "operation canceled"
-	default:
+
+	if errors.Is(cause, context.Canceled) {
+		wrapped.Kind = roborockerrors.Canceled
 	}
+
+	if errors.Is(cause, context.DeadlineExceeded) {
+		wrapped.Kind = roborockerrors.Timeout
+	}
+
+	messages := map[roborockerrors.Kind]string{
+		roborockerrors.Unauthorized:    "run go-roborock login again",
+		roborockerrors.Unsupported:     "check device capabilities and supported device families",
+		roborockerrors.NotFound:        "run go-roborock devices list and check the device ID",
+		roborockerrors.Timeout:         "operation timed out; increase --timeout for reads",
+		roborockerrors.Canceled:        "operation canceled",
+		roborockerrors.InvalidArgument: "check command arguments and the device's supported bounds",
+		roborockerrors.RateLimited:     "the service is busy; wait before sending another command",
+	}
+
+	if message, ok := messages[wrapped.Kind]; ok {
+		wrapped.Message = message
+	}
+
 	return wrapped
 }
 

@@ -15,6 +15,7 @@ type commandOptions struct {
 }
 
 const (
+	helpFlag               = "--help"
 	commandLogin           = "login"
 	commandLogout          = "logout"
 	commandStart           = "start"
@@ -49,7 +50,7 @@ func wantsHelp(args []string) bool {
 	}
 
 	switch args[0] {
-	case "help", "--help", "-h":
+	case "help", helpFlag, "-h":
 		return true
 	default:
 		return false
@@ -63,7 +64,7 @@ func parseCommand(args []string, stderr io.Writer) (commandOptions, error) {
 	flags.StringVar(&options.inputPath, "input", "-", "JSON input file; - selects stdin or ROBOROCK_INPUT")
 	flags.StringVar(&options.exportPath, "export", "", "create a credential export (login, devices, or camera)")
 	flags.DurationVar(&options.timeout, "timeout", defaultOperationTimeout, "total operation timeout")
-	flags.Usage = func() { _, _ = io.WriteString(stderr, helpText) }
+	flags.Usage = func() { _, _ = io.WriteString(stderr, advancedHelpText) }
 
 	err := flags.Parse(args[1:])
 	if err != nil {

@@ -42,7 +42,10 @@ network exchange. Login prompts have no deadline. With several devices, select
 one explicitly. Cleaning commands send once and do not wait for completion.
 Coordinates use map millimeters; see the zone-cleaning guide before cleaning.
 
-Advanced JSON commands:
+Use --json for machine-readable lists. Run go-roborock help advanced for JSON commands.
+`
+
+const advancedHelpText = `Usage: go-roborock COMMAND [--input PATH|-] [--export PATH] [--timeout 30s]
 
 Commands:
   resolve-login  Discover login region (email, clientId)
@@ -89,12 +92,7 @@ func run(
 	client roborock.ClientAPI,
 ) error {
 	if wantsHelp(args) {
-		_, err := io.WriteString(stdout, helpText)
-		if err != nil {
-			return fmt.Errorf("write help: %w", err)
-		}
-
-		return nil
+		return writeCommandHelp(args, stdout)
 	}
 
 	if customerCommand(args) {
@@ -102,6 +100,7 @@ func run(
 	}
 
 	options, err := parseCommand(args, stderr)
+
 	if errors.Is(err, flag.ErrHelp) {
 		return nil
 	}
@@ -116,6 +115,7 @@ func run(
 	}
 
 	operationContext, cancel := context.WithTimeout(ctx, options.timeout)
+
 	defer cancel()
 
 	result, err := execute(operationContext, client, options.command, input, options.exportPath)
@@ -131,6 +131,21 @@ func run(
 	return nil
 }
 
+func writeCommandHelp(args []string, stdout io.Writer) error {
+	text := helpText
+
+	if len(args) > 1 && args[0] == "help" && args[1] == "advanced" {
+		text = advancedHelpText
+	}
+
+	_, err := io.WriteString(stdout, text)
+	if err != nil {
+		return fmt.Errorf("write help: %w", err)
+	}
+
+	return nil
+}
+
 func knownCommand(command string) bool {
 	if isMapCommand(command) {
 		return true
@@ -138,8 +153,10 @@ func knownCommand(command string) bool {
 
 	switch command {
 	case commandResolveLogin, "request-code", commandLoginCode, commandLoginPassword, commandHome, commandDevices,
-		commandStatus, commandConsumables, commandSummary, commandStart, commandStop, commandPause, commandDock, "dyad", "zeo", commandCamera:
+		commandStatus, commandConsumables, commandSummary, commandStart, commandStop, commandPause,
+		commandDock, "dyad", "zeo", commandCamera:
 		return true
+
 	default:
 		return false
 	}
@@ -156,14 +173,19 @@ func execute(
 	switch command {
 	case commandResolveLogin:
 		return resolveLogin(ctx, client, input, exportPath)
+
 	case "request-code":
 		return client.RequestLoginCode(ctx, roborock.LoginCodeRequest{Login: input.Login})
+
 	case commandLoginCode, commandLoginPassword:
 		return login(ctx, client, command, input, exportPath)
+
 	case commandHome:
 		return client.GetHome(ctx, roborock.AccountRequest{Auth: input.Auth})
+
 	case commandDevices:
 		return discoverDevices(ctx, client, input, exportPath)
+
 	default:
 		return executeDevice(ctx, client, command, input, exportPath)
 	}
@@ -176,6 +198,7 @@ func resolveLogin(
 	path string,
 ) (roborock.LoginContext, error) {
 	result, err := client.ResolveLogin(ctx, roborock.ResolveLoginRequest{Email: input.Email, ClientID: input.ClientID})
+
 	if err == nil && path != "" {
 		err = exportCredentials(path, CredentialExport{Login: &result, Auth: nil})
 	}
@@ -190,6 +213,7 @@ func discoverDevices(
 	path string,
 ) (roborock.ListDevicesResult, error) {
 	result, err := client.ListDevices(ctx, roborock.AccountRequest{Auth: input.Auth})
+
 	if err == nil && path != "" {
 		err = exportCredentials(path, result)
 	}
@@ -217,6 +241,7 @@ func login(
 		result, err = client.LoginWithCode(ctx, roborock.LoginWithCodeRequest{Login: input.Login, Code: input.Code})
 	} else {
 		request := roborock.LoginWithPasswordRequest{Login: input.Login, Password: input.Password}
+
 		result, err = client.LoginWithPassword(ctx, request)
 	}
 

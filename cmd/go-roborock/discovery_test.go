@@ -33,7 +33,7 @@ func (transport *inventoryHTTP) Do(request *http.Request) (*http.Response, error
 
 	switch transport.calls {
 	case 1:
-		if request.URL.EscapedPath() != "/api/v1/getHomeDetail" || request.Header.Get("Authorization") != "synthetic-token" || request.Header.Get("Header_clientid") != fixtureClientID {
+		if request.URL.EscapedPath() != "/api/v1/getHomeDetail" || request.Header.Get("Authorization") != fixtureToken || request.Header.Get("Header_clientid") != fixtureClientID {
 			return nil, errors.New("home request mismatch")
 		}
 
@@ -75,7 +75,7 @@ func verifyHawk(header string) error {
 	}
 
 	digest := md5.Sum([]byte("/user/homes/42"))
-	input := strings.Join([]string{"synthetic-user", "synthetic-secret", parts[2], parts[1], hex.EncodeToString(digest[:]), "", ""}, ":")
+	input := strings.Join([]string{fixtureCustomerMQTTUser, fixtureSecret, parts[2], parts[1], hex.EncodeToString(digest[:]), "", ""}, ":")
 	mac := hmac.New(sha256.New, []byte("synthetic-signing"))
 
 	_, _ = mac.Write([]byte(input))
@@ -100,7 +100,7 @@ func TestDeviceDiscoveryExportIsExplicit(t *testing.T) {
 
 		path := filepath.Join(t.TempDir(), "devices.json")
 
-		arguments := []string{"devices"}
+		arguments := []string{commandDevices, fixtureInputFlag, "-"}
 
 		if export {
 			arguments = append(arguments, "--export", path)
