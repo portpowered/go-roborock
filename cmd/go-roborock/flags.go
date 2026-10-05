@@ -15,21 +15,32 @@ type commandOptions struct {
 }
 
 const (
-	commandStatus        = "status"
-	commandHome          = "home"
-	commandCamera        = "camera"
-	commandDevices       = "devices"
-	commandLoginCode     = "login-code"
-	commandLoginPassword = "login-password"
-	commandResolveLogin  = "resolve-login"
-	commandMaps          = "maps"
-	commandMap           = "map"
-	commandRooms         = "rooms"
-	commandTrace         = "trace"
-	commandCapabilities  = "capabilities"
-	commandSelectMap     = "select-map"
-	commandCleanZones    = "clean-zones"
-	commandCleanRooms    = "clean-rooms"
+	commandLogin           = "login"
+	commandLogout          = "logout"
+	commandStart           = "start"
+	commandPause           = "pause"
+	commandStop            = "stop"
+	commandDock            = "dock"
+	commandConsumables     = "consumables"
+	commandSummary         = "summary"
+	minimumRouteArguments  = 2
+	minimumVacuumArguments = 3
+	zoneCoordinateCount    = 4
+	commandStatus          = "status"
+	commandHome            = "home"
+	commandCamera          = "camera"
+	commandDevices         = "devices"
+	commandLoginCode       = "login-code"
+	commandLoginPassword   = "login-password"
+	commandResolveLogin    = "resolve-login"
+	commandMaps            = "maps"
+	commandMap             = "map"
+	commandRooms           = "rooms"
+	commandTrace           = "trace"
+	commandCapabilities    = "capabilities"
+	commandSelectMap       = "select-map"
+	commandCleanZones      = "clean-zones"
+	commandCleanRooms      = "clean-rooms"
 )
 
 func wantsHelp(args []string) bool {

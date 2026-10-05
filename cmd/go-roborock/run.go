@@ -14,7 +14,35 @@ import (
 
 const defaultOperationTimeout = 30 * time.Second
 
-const helpText = `Usage: go-roborock COMMAND [--input PATH|-] [--export PATH] [--timeout 30s]
+const helpText = `Usage: go-roborock COMMAND [OPTIONS]
+
+Get started:
+  go-roborock login
+  go-roborock devices list
+  go-roborock devices vacuum DEVICE_ID status
+  go-roborock maps show --device DEVICE_ID
+  go-roborock devices vacuum DEVICE_ID start
+
+Customer commands:
+  login                                  Prompt for email and email code; save private login
+  logout                                 Remove the saved login
+  devices list                           List device IDs and names
+  devices vacuum DEVICE_ID [ACTION]       status (default), start, pause, stop, dock,
+                                         consumables, summary, capabilities
+  maps list [--device DEVICE_ID]          List saved map IDs and names
+  maps show [MAP_ID] [--device DEVICE_ID]  Read the current map or a saved Q7 map
+  maps select MAP_ID --device DEVICE_ID   Select a saved map explicitly
+  maps trace [--device DEVICE_ID]         Read the current cleaning trace
+  rooms list [--device DEVICE_ID]         List room IDs and names
+  rooms clean ROOM_ID... --device DEVICE_ID [--repeats 1]
+  zones clean --device DEVICE_ID --zone x1,y1,x2,y2 [--zone ...] [--repeats 1]
+
+Use --profile PATH to choose another saved login; --timeout 30s bounds each
+network exchange. Login prompts have no deadline. With several devices, select
+one explicitly. Cleaning commands send once and do not wait for completion.
+Coordinates use map millimeters; see the zone-cleaning guide before cleaning.
+
+Advanced JSON commands:
 
 Commands:
   resolve-login  Discover login region (email, clientId)
@@ -42,9 +70,9 @@ Commands:
   zeo            Read selected zeoProperties for an A01 washing machine
   camera         Negotiate camera signaling and close preview (camera)
 
-Device commands require auth, deviceId, localKey, and protocol in JSON input.
+Advanced device commands require auth, deviceId, localKey, and protocol in JSON input.
 Input defaults to stdin; ROBOROCK_INPUT supplies JSON when --input is "-".
-Secrets (code, password, token, local keys) are accepted only through JSON input.
+Advanced secrets are accepted through JSON input, never command-line flags.
 --export explicitly writes login credentials, discovery local keys, or camera TURN
 credentials to a new file (0600 on Unix; inherited directory access on Windows).
 Ordinary login output contains account identity only. Results are JSON on stdout.
@@ -67,6 +95,10 @@ func run(
 		}
 
 		return nil
+	}
+
+	if customerCommand(args) {
+		return runCustomer(ctx, args, stdin, stdout, stderr, client)
 	}
 
 	options, err := parseCommand(args, stderr)
@@ -106,7 +138,7 @@ func knownCommand(command string) bool {
 
 	switch command {
 	case commandResolveLogin, "request-code", commandLoginCode, commandLoginPassword, commandHome, commandDevices,
-		commandStatus, "consumables", "summary", "start", "stop", "pause", "dock", "dyad", "zeo", commandCamera:
+		commandStatus, commandConsumables, commandSummary, commandStart, commandStop, commandPause, commandDock, "dyad", "zeo", commandCamera:
 		return true
 	default:
 		return false
