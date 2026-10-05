@@ -14,7 +14,7 @@
     "api/map-format.asyncapi.yaml": "ddd89bf711ea97d2e4e54f66ca6d9265453d417bd605ea3473f2d0e7e1cbd8a5",
     "api/maps-models.openapi.yaml": "7427ed32336dcfac6242ff6f5f7ed909eb5edd4e3a5fc46402e68e5b639b3b3b",
     "api/maps.asyncapi.yaml": "4f9be9fc904730eaf15d7b4c9b3169adac6582f5e17713bb9d763d355ce713cd",
-    "api/model-inventory.json": "3eda27609ebd0e5826d551610e2aa2c51ce6375d232036724f299da3a22eb4d7",
+    "api/model-inventory.json": "ec624a0b5f416b0f6857c4576bffb3fd9edd9601b31536333667a41f81116bfb",
     "api/mqtt.asyncapi.yaml": "1702d6ed8c7d1c5221416edda7de95d7587d174c8cd777e2b0b8264be4e65298",
     "api/operation-models.openapi.yaml": "4f670472301ba3738d37b1e9967763274f5c343d07e1a4864f765408e8fd624e",
     "api/vacuum.asyncapi.yaml": "ce36c3807649188a3784f99e9fb308323eed6fdd338d36b6a3042e75b25bfb58",

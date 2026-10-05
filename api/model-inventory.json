@@ -119,22 +119,7 @@
         },
         {
           "file": "cmd/go-roborock/customer_flags.go",
-          "line": 281,
-          "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CommandInput"
-        },
-        {
-          "file": "cmd/go-roborock/customer_flags.go",
           "line": 297,
-          "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CommandInput"
-        },
-        {
-          "file": "cmd/go-roborock/customer_flags.go",
-          "line": 297,
-          "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CommandInput"
-        },
-        {
-          "file": "cmd/go-roborock/customer_flags.go",
-          "line": 317,
           "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CommandInput"
         },
         {
@@ -1067,11 +1052,6 @@
         },
         {
           "file": "pkg/dependencies/mapdata/geometry.go",
-          "line": 24,
-          "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPoint"
-        },
-        {
-          "file": "pkg/dependencies/mapdata/geometry.go",
           "line": 27,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPoint"
         },
@@ -1088,11 +1068,6 @@
         {
           "file": "pkg/dependencies/mapdata/geometry.go",
           "line": 43,
-          "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPoint"
-        },
-        {
-          "file": "pkg/dependencies/mapdata/geometry.go",
-          "line": 50,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPoint"
         },
         {
@@ -1347,11 +1322,6 @@
       },
       "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
       "productionUses": [
-        {
-          "file": "pkg/dependencies/mapdata/geometry.go",
-          "line": 77,
-          "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapRectangle"
-        },
         {
           "file": "pkg/dependencies/mapdata/geometry.go",
           "line": 77,
@@ -4335,11 +4305,6 @@
         },
         {
           "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 23,
-          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
-        },
-        {
-          "file": "pkg/dependencies/mqtt/receive.go",
           "line": 25,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
         },
@@ -5916,11 +5881,6 @@
         {
           "file": "pkg/dependencies/mapdata/q10.go",
           "line": 133,
-          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapQ10RoomNameOffset"
-        },
-        {
-          "file": "pkg/dependencies/mapdata/q10.go",
-          "line": 140,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapQ10RoomNameOffset"
         },
         {
@@ -22073,11 +22033,6 @@
         },
         {
           "file": "cmd/go-roborock/customer.go",
-          "line": 359,
-          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.Device"
-        },
-        {
-          "file": "cmd/go-roborock/customer.go",
           "line": 360,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.Device"
         },
@@ -28309,17 +28264,7 @@
         },
         {
           "file": "pkg/roborock/map_geometry.go",
-          "line": 9,
-          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapPoint"
-        },
-        {
-          "file": "pkg/roborock/map_geometry.go",
           "line": 12,
-          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapPoint"
-        },
-        {
-          "file": "pkg/roborock/map_geometry.go",
-          "line": 19,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapPoint"
         },
         {
@@ -28378,11 +28323,6 @@
       },
       "generator": "go run ./tools/generate (public aliases of schema-owned mapmodel)",
       "productionUses": [
-        {
-          "file": "pkg/roborock/map_geometry.go",
-          "line": 30,
-          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRectangle"
-        },
         {
           "file": "pkg/roborock/map_geometry.go",
           "line": 30,
