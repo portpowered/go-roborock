@@ -1,35 +1,68 @@
 ---
-title: Standalone CLI
-description: Authenticate and run explicit account and vacuum commands.
+title: Use the CLI
+description: Log in, find your vacuum, read its map, and start cleaning.
 ---
+
+## 1. Install
 
 ```sh
 go install github.com/portpowered/go-roborock/cmd/go-roborock@latest
-go-roborock help
 ```
 
-Input is one JSON object through stdin, `--input PATH`, or `ROBOROCK_INPUT` when input is `-`. Secrets are JSON inputs; do not put them in command arguments. Output is JSON and failures exit nonzero. Ctrl+C cancels network work; device commands close their session after the call. `--timeout 30s` sets the total operation deadline and must be positive.
+Make sure Go's binary directory is on your `PATH` so you can run `go-roborock`.
 
-Resolve the region with `resolve-login` and an input containing `email` and `clientId`. `--export login.json` explicitly writes the resolved context to a new file. Request a code with `request-code` and the resulting `login` object. Exchange it with `login-code`, supplying `login` and `code`; `login-password` accepts `login` and `password` instead. Add `--export account.json` to explicitly create a credential file. Ordinary login output omits credentials. Exports create a new file exclusively, with mode 0600 on Unix. Windows inherits the destination directory ACL; use a private directory. Protect these files using your operating system's access controls.
+## 2. Log in
 
 ```sh
-go-roborock home --input account.json
-go-roborock devices --input account.json
-go-roborock status --input device.json
+go-roborock login
 ```
 
-Account inputs contain `auth`. Device inputs additionally contain `deviceId`, `localKey`, and `protocol` from discovery. The `devices` command redacts local keys in ordinary output; use `devices --input account.json --export devices.json` to explicitly write discovery results including local keys to a private file. Copy the selected device fields into private device input. Never commit credential files.
+Enter your Roborock account email when prompted, then enter the code sent to that email. The CLI handles the login exchange and saves your account locally for subsequent commands.
 
-V1 vacuum reads are `status`, `consumables`, and `summary`. Explicit controls are `start`, `stop`, `pause`, and `dock`; acknowledgements do not prove physical completion. Use `dyad` or `zeo` with selected numeric `dyadProperties` or `zeoProperties` arrays in device input for A01 state. The `camera` command accepts a `camera` object with `pattern_password`, `sdp_offer`, and optional `quality`, negotiates signaling, then closes preview. Add `--export camera.json` to explicitly write SDP and TURN credentials; ordinary camera output reports only `negotiated: true`. Media rendering and interactive ICE exchange belong to the SDK and your WebRTC stack.
-
-Map reads are `maps`, `map`, `rooms`, `trace`, and `capabilities`; `trace` is Q10-only. An omitted `mapId` reads the current map. Q7 may use a saved ID; `select-map` explicitly changes the active map on V1. The SDK obtains B01 family, model, and serial metadata from authenticated inventory; device input needs no family selector.
+## 3. Find your vacuum
 
 ```sh
-go-roborock capabilities --input device.json
-go-roborock map --input device.json
-go-roborock rooms --input device.json
+go-roborock devices list
 ```
 
-For explicit cleaning, add `cleanZones: {"zones":[{"x1":...,"y1":...,"x2":...,"y2":...,"repeats":1}]}` or `cleanRooms: {"segments":[...],"repeats":1}` to device input, replacing placeholders with values from the active map. Run `clean-zones` or `clean-rooms`. `select-map` takes `mapId`. These commands can cause movement; read [zone cleaning](/docs/guides/zone-cleaning) for family limits and coordinates.
+Copy your vacuum's ID from the `DEVICE_ID` column. Replace `DEVICE_ID` in the following commands with that ID.
 
-See [authentication](/docs/guides/authentication), [discovery](/docs/guides/discovery), and [errors](/docs/guides/lifecycle).
+## 4. Check the vacuum and its map
+
+```sh
+go-roborock devices vacuum DEVICE_ID status
+go-roborock maps show --device DEVICE_ID
+go-roborock rooms list --device DEVICE_ID
+```
+
+`maps show` reads the current map. To list saved maps, run `go-roborock maps list --device DEVICE_ID`. Q7 devices also support reading a saved map with `go-roborock maps show MAP_ID --device DEVICE_ID`; replace `MAP_ID` with an ID from that list.
+
+Status is supported on V1 vacuums. Use `go-roborock devices vacuum DEVICE_ID capabilities` to check other operations for your [device family](/docs/guides/device-families).
+
+## 5. Start, pause, or return to the dock
+
+For V1 vacuums, run the command for the action you want:
+
+```sh
+go-roborock devices vacuum DEVICE_ID start
+go-roborock devices vacuum DEVICE_ID pause
+go-roborock devices vacuum DEVICE_ID dock
+```
+
+These commands move the vacuum. A successful command does not mean cleaning or docking has finished.
+
+To clean a particular room, choose its ID from the `ROOM_ID` column of `rooms list`:
+
+```sh
+go-roborock rooms clean ROOM_ID --device DEVICE_ID
+```
+
+For rectangle cleaning, see [zone cleaning](/docs/guides/zone-cleaning) before choosing coordinates. Use `go-roborock help` to see all commands. A01 property reads and camera signaling are covered in [advanced CLI inputs](/docs/guides/cli-advanced).
+
+## 6. Log out when finished
+
+```sh
+go-roborock logout
+```
+
+Logout removes the saved account from this computer. The default profile is `go-roborock/profile.json` under your operating system's user configuration directory; it contains credentials, so keep that directory private. Use `--profile PATH` on each command to choose a different profile.

@@ -1,0 +1,43 @@
+---
+title: Advanced CLI inputs
+description: Supply explicit SDK inputs for A01 property reads and camera signaling.
+---
+
+Start with the [CLI walkthrough](/docs/guides/cli) for login, discovery, maps, and cleaning. The commands below accept SDK request objects for appliance properties and camera negotiation.
+
+Use `go-roborock help advanced` for these commands. For scripts, add `--json` to `devices list`, `maps list`, or `rooms list` to get JSON instead of a table.
+
+## Prepare private input files
+
+Use `resolve-login` with an input containing `email` and `clientId`, adding `--export login.json` to save the resolved login. Run `request-code` with that `login` object, then `login-code` with `login` and the emailed `code`, adding `--export account.json` to save the account. `login-password` accepts `login` and `password` for the legacy password exchange.
+
+```sh
+go-roborock devices --input account.json --export devices.json
+```
+
+Create a private `device.json` with the account's `auth` and the selected discovery result's `deviceId`, `localKey`, and `protocol`. Ordinary discovery output hides local keys; the explicit export contains them. Exports create a new file and refuse to overwrite an existing one. Keep credential files in a private directory; Unix exports use mode 0600 and Windows inherits the directory ACL.
+
+## Read A01 appliance properties
+
+Add `dyadProperties` or `zeoProperties` to the device input, choosing numeric IDs advertised by your appliance and supported by the SDK.
+
+```sh
+go-roborock dyad --input device.json
+go-roborock zeo --input device.json
+```
+
+See [A01 properties](/docs/guides/a01) for choosing supported properties and interpreting absent values.
+
+## Check camera signaling
+
+On a camera-capable V1 vacuum, add a `camera` object with `pattern_password`, `sdp_offer`, and optional `quality` to the device input. Supply an SDP offer from your WebRTC stack.
+
+```sh
+go-roborock camera --input device.json
+```
+
+The command negotiates signaling and then closes preview; it reports `negotiated: true`. Add `--export camera.json` to explicitly save the SDP answer and TURN credentials. Live media and interactive ICE exchange require the [SDK camera session](/docs/guides/camera) and your WebRTC stack.
+
+## Input and cancellation
+
+These commands read one JSON object from stdin or `--input PATH`; `ROBOROCK_INPUT` supplies JSON when input is `-`. Keep secrets out of arguments. Results are JSON, failures exit nonzero, and Ctrl+C cancels network work and closes the session. `--timeout 30s` sets a positive operation deadline.

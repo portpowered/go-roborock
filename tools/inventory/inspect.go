@@ -7,6 +7,7 @@ import (
 	"go/types"
 	"os"
 	"path/filepath"
+	"slices"
 	"sort"
 	"strings"
 
@@ -61,6 +62,21 @@ func inspect() (report, error) {
 		return report{}, err
 	}
 
+	var platforms []report
+
+	for _, target := range []string{"windows", inventoryLinuxTarget, "darwin"} {
+		result, platformErr := inspectPlatform(index, target)
+		if platformErr != nil {
+			return report{}, platformErr
+		}
+
+		platforms = append(platforms, result)
+	}
+
+	return mergeReports(platforms), nil
+}
+
+func inspectPlatform(index schemaIndex, target string) (report, error) {
 	var config packages.Config
 
 	config.Mode = packages.NeedName | packages.NeedFiles | packages.NeedCompiledGoFiles |
@@ -71,7 +87,7 @@ func inspect() (report, error) {
 		return report{}, fmt.Errorf("resolve workspace: %w", workspaceErr)
 	}
 
-	config.Env = append(os.Environ(), "GOWORK="+workspace)
+	config.Env = inventoryEnvironment(os.Environ(), workspace, target)
 
 	patterns := []string{"./pkg/...", "./internal/...", "./examples/...", "./api/...", "./cmd/go-roborock/..."}
 
@@ -98,6 +114,11 @@ func inspect() (report, error) {
 	}
 
 	collectUses(loaded, index, &result, objects)
+
+	return result, nil
+}
+
+func normalizeReport(result *report) {
 	sortDeclarations(result.Declarations)
 
 	for row := range result.Declarations {
@@ -112,8 +133,6 @@ func inspect() (report, error) {
 	sort.Slice(result.Boundaries, func(left, right int) bool {
 		return siteLess(result.Boundaries[left].Site, result.Boundaries[right].Site)
 	})
-
-	return result, nil
 }
 
 func handwritten(file *ast.File, pkg *packages.Package, result *report) error {
@@ -154,7 +173,14 @@ func sortDeclarations(declarations []declaration) {
 			return declarations[left].Symbol < declarations[right].Symbol
 		}
 
-		return siteLess(declarations[left].Definition, declarations[right].Definition)
+		if declarations[left].Definition != declarations[right].Definition {
+			return siteLess(declarations[left].Definition, declarations[right].Definition)
+		}
+
+		return slices.Compare([]string{declarations[left].Kind, declarations[left].Schema.File,
+			declarations[left].Schema.Pointer, declarations[left].Generator, declarations[left].Value},
+			[]string{declarations[right].Kind, declarations[right].Schema.File,
+				declarations[right].Schema.Pointer, declarations[right].Generator, declarations[right].Value}) < 0
 	})
 }
 func siteLess(left, right site) bool {

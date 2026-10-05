@@ -13,6 +13,7 @@
     "a01-models",
     "camera",
     "cli",
+    "cli-advanced",
     "lifecycle"
   ]
 }

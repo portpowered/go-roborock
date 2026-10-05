@@ -15,21 +15,33 @@ type commandOptions struct {
 }
 
 const (
-	commandStatus        = "status"
-	commandHome          = "home"
-	commandCamera        = "camera"
-	commandDevices       = "devices"
-	commandLoginCode     = "login-code"
-	commandLoginPassword = "login-password"
-	commandResolveLogin  = "resolve-login"
-	commandMaps          = "maps"
-	commandMap           = "map"
-	commandRooms         = "rooms"
-	commandTrace         = "trace"
-	commandCapabilities  = "capabilities"
-	commandSelectMap     = "select-map"
-	commandCleanZones    = "clean-zones"
-	commandCleanRooms    = "clean-rooms"
+	helpFlag               = "--help"
+	commandLogin           = "login"
+	commandLogout          = "logout"
+	commandStart           = "start"
+	commandPause           = "pause"
+	commandStop            = "stop"
+	commandDock            = "dock"
+	commandConsumables     = "consumables"
+	commandSummary         = "summary"
+	minimumRouteArguments  = 2
+	minimumVacuumArguments = 3
+	zoneCoordinateCount    = 4
+	commandStatus          = "status"
+	commandHome            = "home"
+	commandCamera          = "camera"
+	commandDevices         = "devices"
+	commandLoginCode       = "login-code"
+	commandLoginPassword   = "login-password"
+	commandResolveLogin    = "resolve-login"
+	commandMaps            = "maps"
+	commandMap             = "map"
+	commandRooms           = "rooms"
+	commandTrace           = "trace"
+	commandCapabilities    = "capabilities"
+	commandSelectMap       = "select-map"
+	commandCleanZones      = "clean-zones"
+	commandCleanRooms      = "clean-rooms"
 )
 
 func wantsHelp(args []string) bool {
@@ -38,7 +50,7 @@ func wantsHelp(args []string) bool {
 	}
 
 	switch args[0] {
-	case "help", "--help", "-h":
+	case "help", helpFlag, "-h":
 		return true
 	default:
 		return false
@@ -52,7 +64,7 @@ func parseCommand(args []string, stderr io.Writer) (commandOptions, error) {
 	flags.StringVar(&options.inputPath, "input", "-", "JSON input file; - selects stdin or ROBOROCK_INPUT")
 	flags.StringVar(&options.exportPath, "export", "", "create a credential export (login, devices, or camera)")
 	flags.DurationVar(&options.timeout, "timeout", defaultOperationTimeout, "total operation timeout")
-	flags.Usage = func() { _, _ = io.WriteString(stderr, helpText) }
+	flags.Usage = func() { _, _ = io.WriteString(stderr, advancedHelpText) }
 
 	err := flags.Parse(args[1:])
 	if err != nil {

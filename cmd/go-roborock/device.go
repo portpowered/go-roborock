@@ -77,17 +77,17 @@ func deviceOperation(ctx context.Context, session *roborock.DeviceSession, comma
 	switch command {
 	case commandStatus:
 		return session.GetStatus(ctx, request)
-	case "consumables":
+	case commandConsumables:
 		return session.GetConsumables(ctx, request)
-	case "summary":
+	case commandSummary:
 		return session.GetCleaningSummary(ctx, request)
-	case "start":
+	case commandStart:
 		return session.StartCleaning(ctx, request)
-	case "stop":
+	case commandStop:
 		return session.StopCleaning(ctx, request)
-	case "pause":
+	case commandPause:
 		return session.PauseCleaning(ctx, request)
-	case "dock":
+	case commandDock:
 		return session.ReturnToDock(ctx, request)
 	default:
 		return nil, fmt.Errorf("%w: %q", errUnknownCommand, command)

@@ -35,6 +35,17 @@ Keep `result.Auth` and discovered local keys private. The caller stores credenti
 
 The [runnable discovery example](examples/basic/main.go) reads a private `AuthContext` object directly from stdin: `go run ./examples/basic < auth.json`. This file contains the credential object itself, without the CLI export's outer `auth` field.
 
+## Try the CLI
+
+```sh
+go install github.com/portpowered/go-roborock/cmd/go-roborock@latest
+go-roborock login
+go-roborock devices list
+go-roborock devices vacuum DEVICE_ID status
+```
+
+Login prompts for your email and emailed code, then saves your account locally. Replace `DEVICE_ID` with your vacuum's ID from the list. Follow the [CLI guide](https://portpowered.github.io/go-roborock/docs/guides/cli) to read maps, clean rooms, and control your vacuum.
+
 ## Supported operations
 
 Account operations use the same cloud API across families. Device operations use the selected V1, B01 Q7, B01 Q10, or A01 adapter. See [device families](https://portpowered.github.io/go-roborock/docs/guides/device-families), [maps](https://portpowered.github.io/go-roborock/docs/guides/maps), and [zone cleaning](https://portpowered.github.io/go-roborock/docs/guides/zone-cleaning).
