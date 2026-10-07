@@ -50,7 +50,7 @@ func decodeInventory[T any](encoded, schemaName string) (*T, error) {
 		return nil, roborockerrors.New(roborockerrors.Protocol, "inventory", "invalid embedded JSON", err)
 	}
 
-	err = schema.VisitJSON(value)
+	err = schema.VisitJSON(withoutNulls(value))
 	if err != nil {
 		return nil, roborockerrors.New(roborockerrors.Protocol, "inventory", "embedded JSON violates contract", err)
 	}

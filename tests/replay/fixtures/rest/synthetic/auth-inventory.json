@@ -50,7 +50,9 @@
         ]
       },
       "response": {
-        "code": 200
+        "code": 200,
+        "msg": "success",
+        "data": null
       },
       "responseStatus": 200,
       "responseHeaders": {

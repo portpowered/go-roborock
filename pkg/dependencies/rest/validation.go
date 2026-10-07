@@ -81,12 +81,41 @@ func validateResponse(method, path string, data []byte) error {
 		return roborockerrors.New(roborockerrors.Protocol, path, "invalid JSON response", err)
 	}
 
-	err = schema.VisitJSON(value)
+	err = schema.VisitJSON(withoutNulls(value))
 	if err != nil {
 		return roborockerrors.New(roborockerrors.Protocol, path, "response violates contract", err)
 	}
 
 	return nil
+}
+
+// withoutNulls treats a null object member as absent before contract validation,
+// so the service may null any field without failing a call. Required fields still fail when
+// missing or null, and unknown fields remain accepted (SCHEMA-07).
+func withoutNulls(value any) any {
+	switch typed := value.(type) {
+	case map[string]any:
+		out := make(map[string]any, len(typed))
+
+		for key, member := range typed {
+			if member != nil {
+				out[key] = withoutNulls(member)
+			}
+		}
+
+		return out
+	case []any:
+		// Array positions are kept: a null element would decode as an empty item.
+		out := make([]any, len(typed))
+
+		for index, element := range typed {
+			out[index] = withoutNulls(element)
+		}
+
+		return out
+	default:
+		return value
+	}
 }
 
 func validateRoute(method, path string) error {
