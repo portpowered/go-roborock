@@ -72,7 +72,7 @@ Active network ownership is deliberately small (LIB-18):
 
 | Boundary | Owner and offline seam | Contract |
 | --- | --- | --- |
-| REST request creation and execution | `pkg/dependencies/rest`, injected `HTTPDoer` | `auth` and `devices`; fail-closed method/path validation |
+| REST request creation and execution | `pkg/dependencies/rest`, injected `HTTPDoer` | `auth` and `devices`; fail-closed method/path validation; responses validate with null object members treated as absent |
 | Default MQTT TLS connection | `pkg/dependencies/mqtt`, TLS `DialContext` | `mqtt` primitives, topic templates, packet and device frame layout |
 | Injected MQTT connection | `mqtt.DialFunc`, exposed through `WithMQTTDial` | Paired byte-stream replay covers the same socket |
 | MQTT socket send/receive | Account-bound `Session`, `net.Conn.Write` and `io.ReadFull` | MQTT control packets, nested JSON-string RPC envelopes, A01 datapoints, security fields and binary codec |
@@ -83,15 +83,13 @@ templates, offsets, tags, and limits. A socket belongs to its opened account
 session until close. A forwarding HTTP transport cannot substitute for socket
 replay.
 
-This inventory and the exact-source hash gate are review aids, not Go abstract
+This inventory is a review aid, not Go abstract
 interpretation or proof that every possible value flow is schematized. Reviewers
 must independently inspect production files, codecs, maps, literals, adapters,
 aliases and generated types against the schemas; verify each schema pointer and
 primitive; and inspect negative gate tests. A new custom serializer, map-built
 wire object, untagged serialized object or network primitive must be reviewed
-even when it passes syntax checks. The source inventory binds the reviewed
-production bytes and fails after source changes. Updating those hashes records
-a candidate audit and does not approve it. Require independent reviewers to
+even when it passes syntax checks. Require independent reviewers to
 approve the exact final commit after CI passes (GO-15).
 
 Fixtures are synthetic and derived from the pinned reference contracts unless

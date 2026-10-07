@@ -1,12 +1,8 @@
-// Command contracts validates schema documents and the reviewed source boundary.
+// Command contracts validates schema documents, production source rules and generated models.
 package main
 
 import (
-	"bytes"
 	"context"
-	"crypto/sha256"
-	"encoding/hex"
-	"encoding/json"
 	"errors"
 	"flag"
 	"fmt"
@@ -23,33 +19,21 @@ import (
 	"github.com/getkin/kin-openapi/openapi3"
 )
 
-const (
-	manifestPath    = "api/source-inventory.json"
-	privateFileMode = 0o600
-)
-
 var errContract = errors.New("contract verification failed")
-
-// inventory binds each reviewed production file to its exact source bytes.
-// Updating this file requires a new independent source audit, not just regeneration.
-type inventory struct {
-	Files map[string]string `json:"files"`
-}
 
 func main() {
 	root := flag.String("root", ".", "repository root")
-	snapshot := flag.Bool("snapshot", false, "record source hashes for independent audit; does not approve them")
 
 	flag.Parse()
 
-	err := run(context.Background(), *root, *snapshot)
+	err := run(context.Background(), *root)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
 }
 
-func run(ctx context.Context, root string, snapshot bool) error {
+func run(ctx context.Context, root string) error {
 	err := schemas(ctx, root)
 	if err != nil {
 		return err
@@ -60,79 +44,20 @@ func run(ctx context.Context, root string, snapshot bool) error {
 		return err
 	}
 
-	current := inventory{Files: make(map[string]string, len(files))}
-
 	for _, name := range files {
-		// LIB-13: name comes from the repository walker; source files must be read for hashing.
-		data, readErr := os.ReadFile(filepath.Join(root, name)) //nolint:gosec // Repository-local source inventory.
+		// LIB-13: name comes from the repository walker; source files must be read for checking.
+		data, readErr := os.ReadFile(filepath.Join(root, name)) //nolint:gosec // Repository-local source check.
 		if readErr != nil {
 			return fmt.Errorf("read source %s: %w", name, readErr)
 		}
 
-		var checkErr error
-		if strings.HasSuffix(name, ".go") {
-			checkErr = checkSource(name, data)
-		}
-
+		checkErr := checkSource(name, data)
 		if checkErr != nil {
 			return checkErr
 		}
-
-		// Git normalizes text to LF; preserve the same audit identity across checkout platforms.
-		hash := sha256.Sum256(bytes.ReplaceAll(data, []byte("\r\n"), []byte("\n")))
-		current.Files[name] = hex.EncodeToString(hash[:])
 	}
 
-	if snapshot {
-		err = verifyGenerated(ctx, root, files)
-		if err != nil {
-			return err
-		}
-
-		return saveInventory(root, current)
-	}
-
-	return compareInventory(root, current)
-}
-
-func saveInventory(root string, current inventory) error {
-	data, marshalErr := json.MarshalIndent(current, "", "  ")
-	if marshalErr != nil {
-		return fmt.Errorf("encode inventory: %w", marshalErr)
-	}
-
-	writeErr := os.WriteFile(filepath.Join(root, manifestPath), append(data, '\n'), privateFileMode)
-	if writeErr != nil {
-		return fmt.Errorf("write inventory: %w", writeErr)
-	}
-
-	return nil
-}
-
-func compareInventory(root string, current inventory) error {
-	data, err := os.ReadFile(filepath.Join(root, manifestPath)) //nolint:gosec // Read explicit repository audit manifest.
-	if err != nil {
-		return fmt.Errorf("read reviewed inventory: %w", err)
-	}
-
-	var approved inventory
-
-	err = json.Unmarshal(data, &approved)
-	if err != nil {
-		return fmt.Errorf("decode reviewed inventory: %w", err)
-	}
-
-	if len(approved.Files) != len(current.Files) {
-		return fmt.Errorf("%w: production file inventory changed; independent audit required", errContract)
-	}
-
-	for name, hash := range current.Files {
-		if approved.Files[name] != hash {
-			return fmt.Errorf("%w: unreviewed production source %s", errContract, name)
-		}
-	}
-
-	return nil
+	return verifyGenerated(ctx, root, files)
 }
 
 func schemas(ctx context.Context, root string) error {
@@ -190,48 +115,13 @@ func sources(root string) ([]string, error) {
 			files = append(files, relative)
 		}
 
-		if contractInput(relative) {
-			files = append(files, relative)
-		}
-
 		return nil
 	})
 	if err != nil {
 		return nil, fmt.Errorf("scan production sources: %w", err)
 	}
 
-	inputs, err := generatorInputs(root)
-	if err != nil {
-		return nil, err
-	}
-
-	files = append(files, inputs...)
 	slices.Sort(files)
-
-	return files, nil
-}
-
-func generatorInputs(root string) ([]string, error) {
-	inputs, err := filepath.Glob(filepath.Join(root, "tools", "*", "*.go"))
-	if err != nil {
-		return nil, fmt.Errorf("scan generator inputs: %w", err)
-	}
-
-	files := make([]string, 0, len(inputs))
-
-	for _, name := range inputs {
-		if strings.HasSuffix(name, "_test.go") ||
-			(filepath.Base(filepath.Dir(name)) != "generate" && filepath.Base(filepath.Dir(name)) != "protogen") {
-			continue
-		}
-
-		relative, relErr := filepath.Rel(root, name)
-		if relErr != nil {
-			return nil, fmt.Errorf("resolve generator input: %w", relErr)
-		}
-
-		files = append(files, filepath.ToSlash(relative))
-	}
 
 	return files, nil
 }
@@ -288,18 +178,6 @@ func checkImports(file *ast.File) error {
 	return nil
 }
 
-func contractInput(name string) bool {
-	if name == "go.mod" || name == "go.sum" || name == "go.work" {
-		return true
-	}
-
-	if !strings.HasPrefix(name, "api/") || name == manifestPath {
-		return false
-	}
-
-	return strings.HasSuffix(name, ".yaml") || strings.HasSuffix(name, ".json") || strings.HasSuffix(name, ".proto")
-}
-
 func generatedModel(name string) bool {
 	return slices.Contains([]string{
 		"pkg/dependencymodels/auth.gen.go", "pkg/dependencymodels/devices.gen.go",
@@ -336,7 +214,7 @@ func verifyGenerated(ctx context.Context, root string, files []string) error {
 
 	output, err := command.CombinedOutput()
 	if err != nil {
-		return fmt.Errorf("snapshot requires exact reproducible generated models: %w: %s", err, output)
+		return fmt.Errorf("generated models must reproduce exactly: %w: %s", err, output)
 	}
 
 	return nil

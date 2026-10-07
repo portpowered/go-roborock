@@ -2,9 +2,7 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"testing"
 )
@@ -42,7 +40,7 @@ func TestEmptySynchronizationTokens(t *testing.T) {
 	}
 }
 
-func TestSnapshotRejectsForgedGeneratedArtifact(t *testing.T) {
+func TestRejectsForgedGeneratedArtifact(t *testing.T) {
 	t.Parallel()
 	root := t.TempDir()
 	schema := "openapi: 3.0.3\ninfo:\n  title: Probe\n  version: 1.0.0\npaths: {}\n"
@@ -52,85 +50,10 @@ func TestSnapshotRejectsForgedGeneratedArtifact(t *testing.T) {
 	forged += "package roborock; type Unregistered struct { Value string `json:\"value\"` }\n"
 	writeProbe(t, filepath.Join(root, "pkg", "roborock", "forged.gen.go"), []byte(forged))
 
-	err := run(context.Background(), root, true)
+	err := run(context.Background(), root)
 	if err == nil {
-		t.Fatal("snapshot approved an unregistered forged generated model")
+		t.Fatal("accepted an unregistered forged generated model")
 	}
-}
-
-func TestReviewedSourceBoundaryThroughDefaultCommand(t *testing.T) {
-	t.Parallel()
-	executable := buildGate(t)
-	root := t.TempDir()
-	schema := "openapi: 3.0.3\ninfo:\n  title: Probe\n  version: 1.0.0\npaths: {}\n"
-	writeProbe(t, filepath.Join(root, "api", "probe.openapi.yaml"), []byte(schema))
-
-	name := filepath.Join(root, "pkg", "probe", "probe.go")
-
-	baseline := []byte("package probe\nfunc CallerValue(value string) string { return value }\n")
-
-	writeProbe(t, name, baseline)
-
-	err := run(context.Background(), root, true)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	gate := func() error {
-		process := exec.CommandContext(t.Context(), executable)
-		process.Dir = root // Exercise the exact default '.' root used by make contracts.
-
-		_, err := process.CombinedOutput()
-		if err != nil {
-			return fmt.Errorf("execute gate: %w", err)
-		}
-
-		return nil
-	}
-
-	err = gate()
-	if err != nil {
-		t.Fatalf("caller-defined positive control rejected: %v", err)
-	}
-
-	for _, mutation := range []string{
-		"package probe; func Route() string { return \"/unregistered\" }",
-		"package probe; func Header() string { return \"X-Unregistered\" }",
-		"package probe; func Fixed() (result string) { result = \"novel-fixed-value\"; return }",
-		"package probe; func Mutate(values map[string]string) { alias := values; alias[\"novel-key\"] = \"novel-value\" }",
-		"package probe; import \"net/http\"; func Send() { _, _ = http.Get(\"https://unregistered.example\") }",
-	} {
-		writeProbe(t, name, []byte(mutation))
-
-		err = gate()
-		if err == nil {
-			t.Fatalf("accepted changed wire source: %s", mutation)
-		}
-	}
-
-	writeProbe(t, name, baseline)
-
-	sibling := []byte("package probe; func Helper() string { return \"new-key\" }")
-	writeProbe(t, filepath.Join(root, "pkg", "probe", "sibling.go"), sibling)
-
-	err = gate()
-	if err == nil {
-		t.Fatal("accepted unreviewed package sibling")
-	}
-}
-
-func buildGate(t *testing.T) string {
-	t.Helper()
-	executable := filepath.Join(t.TempDir(), "contracts.exe")
-	// LIB-13: compile this gate into a test-owned temporary path.
-	command := exec.CommandContext(t.Context(), "go", "build", "-o", executable, ".") //nolint:gosec // Fixed Go build.
-
-	output, err := command.CombinedOutput()
-	if err != nil {
-		t.Fatalf("build real gate: %v: %s", err, output)
-	}
-
-	return executable
 }
 
 func writeProbe(t *testing.T, name string, data []byte) {

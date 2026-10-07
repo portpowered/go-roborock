@@ -31,7 +31,7 @@ func TestAsyncAPIRejectsMissingOperationChannel(t *testing.T) {
 
 	path := filepath.Join(t.TempDir(), "invalid.asyncapi.yaml")
 
-	err := os.WriteFile(path, []byte(source), privateFileMode)
+	err := os.WriteFile(path, []byte(source), 0o600)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -52,7 +52,7 @@ func TestAsyncAPIAcceptsCompleteDocument(t *testing.T) {
 
 	path := filepath.Join(t.TempDir(), "valid.asyncapi.yaml")
 
-	err := os.WriteFile(path, []byte(source), privateFileMode)
+	err := os.WriteFile(path, []byte(source), 0o600)
 	if err != nil {
 		t.Fatal(err)
 	}
