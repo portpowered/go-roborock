@@ -21,9 +21,9 @@ func TestListMapsRejectsMalformedKnownResponses(t *testing.T) {
 	}{
 		{"v1 null", FamilyV1Vacuum, string(protocol.RPCGetMultiMapsList), "[]", fixtureNullResponse},
 		{"v1 missing fields", FamilyV1Vacuum, string(protocol.RPCGetMultiMapsList), "[]", `[{"map_info":[{}]}]`},
-		{"v1 missing name", FamilyV1Vacuum, string(protocol.RPCGetMultiMapsList), "[]", `[{"map_info":[{"map_flag":0}]}]`},
+		{"v1 missing name", FamilyV1Vacuum, string(protocol.RPCGetMultiMapsList), "[]", `[{"map_info":[{"mapFlag":0}]}]`},
 		{"v1 null name", FamilyV1Vacuum, string(protocol.RPCGetMultiMapsList), "[]",
-			`[{"map_info":[{"map_flag":0,"name":null}]}]`},
+			`[{"map_info":[{"mapFlag":0,"name":null}]}]`},
 		{"q7 null", FamilyB01Q7, string(dependencymodels.ServiceGetMapList), "{}", fixtureNullResponse},
 	}
 	for _, test := range cases {
@@ -50,7 +50,7 @@ func TestListMapsPreservesZeroIDAndFutureFields(t *testing.T) {
 	session := familySession(t, FamilyV1Vacuum, rpcExchange{
 		method:   string(protocol.RPCGetMultiMapsList),
 		params:   "[]",
-		response: `[{"future":true,"map_info":[{"map_flag":0,"name":"Synthetic","future":123}]}]`,
+		response: `[{"future":true,"map_info":[{"mapFlag":0,"name":"Synthetic","future":123}]}]`,
 		failure:  nil})
 
 	result, err := session.ListMaps(t.Context(), EmptyRequest{})
