@@ -101,7 +101,7 @@ func (s *DeviceSession) v1Rooms(ctx context.Context) (MapRoomsResult, error) {
 
 func parseRoomMapping(raw json.RawMessage) (MapRoomsResult, error) {
 	if bytes.Equal(bytes.TrimSpace(raw), []byte("null")) {
-		return MapRoomsResult{}, roborockerrors.New(roborockerrors.Protocol, "GetRooms", "null room mapping", nil)
+		return MapRoomsResult{Rooms: []MapRoomMapping{}}, nil
 	}
 
 	var wire dependencymodels.MapsV1RoomsResult
@@ -138,9 +138,10 @@ func parseRoomMapping(raw json.RawMessage) (MapRoomsResult, error) {
 }
 
 func parseRoomPair(pair dependencymodels.MapsV1RoomMappingPair) (MapRoomMapping, error) {
-	if len(pair) != roomMappingPairFields {
+	// Newer firmware appends a room type; only the segment and cloud IDs are used.
+	if len(pair) < roomMappingPairFields {
 		return MapRoomMapping{}, roborockerrors.New(roborockerrors.Protocol,
-			"GetRooms", "room mapping must contain exactly segment and cloud IDs", nil)
+			"GetRooms", "room mapping must contain segment and cloud IDs", nil)
 	}
 
 	if bytes.Equal(bytes.TrimSpace(pair[0]), []byte("null")) || bytes.Equal(bytes.TrimSpace(pair[1]), []byte("null")) {

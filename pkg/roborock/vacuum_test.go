@@ -138,7 +138,7 @@ func TestV1MapMetadataAndRoomMappings(t *testing.T) {
 	t.Parallel()
 	session := operationSession(t,
 		rpcExchange{method: "get_multi_maps_list", params: `[]`,
-			response: `[{"map_info":[{"map_flag":0,"name":"Ground"}]}]`, failure: nil},
+			response: `[{"map_info":[{"mapFlag":0,"name":"Ground"}]}]`, failure: nil},
 		rpcExchange{method: fixtureRoomMappingMethod, params: `[]`, response: `[[16,1001],[17,"1002"]]`, failure: nil},
 		rpcExchange{method: "load_multi_map", params: `[0]`, response: `["ok"]`, failure: nil},
 	)
@@ -707,12 +707,36 @@ func TestCleanRecordMultipartDepth(t *testing.T) {
 	}
 }
 
+func TestGetRoomsAcceptsRoomTypeAndNullMapping(t *testing.T) {
+	t.Parallel()
+
+	// Reference sample (python-roborock tests/devices/traits/v1/test_rooms.py): a third room-type column.
+	session := operationSession(t,
+		rpcExchange{method: fixtureRoomMappingMethod, params: `[]`,
+			response: `[[16,"2362048",6],[17,"2362044"]]`, failure: nil},
+		rpcExchange{method: fixtureRoomMappingMethod, params: `[]`, response: fixtureNullResponse, failure: nil},
+	)
+
+	rooms, err := session.GetRooms(t.Context(), EmptyRequest{})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(rooms.Rooms) != 2 || rooms.Rooms[0].SegmentID != 16 || rooms.Rooms[1].IoTID == nil ||
+		*rooms.Rooms[1].IoTID != "2362044" {
+		t.Fatalf("room-type tuples: %+v", rooms)
+	}
+
+	rooms, err = session.GetRooms(t.Context(), EmptyRequest{})
+	if err != nil || len(rooms.Rooms) != 0 {
+		t.Fatalf("null mapping: %+v %v", rooms, err)
+	}
+}
+
 func TestGetRoomsRejectsMalformedPairsWithoutPartialResult(t *testing.T) {
 	t.Parallel()
 
-	// Synthetic negatives enforce the schema's exact pair arity. The pinned Python
-	// converter tolerates unknown tail columns, but has no sample establishing their meaning.
-	responses := []string{`[[9,"iot",123]]`, `[[8,"valid"],[9,"iot",123]]`, `[9,"iot",123]`, `[[9]]`}
+	responses := []string{`[[9]]`, `[[8,"valid"],[9]]`, `[[null,"iot"]]`, `[["nine","iot"]]`}
 	for _, response := range responses {
 		t.Run(response, func(t *testing.T) {
 			t.Parallel()

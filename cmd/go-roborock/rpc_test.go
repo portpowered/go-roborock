@@ -231,7 +231,7 @@ func TestCustomerGuideCommandsPairedInventoryAndMQTT(t *testing.T) {
 		{name: commandStatus, args: []string{commandDevices, fixtureVacuum, fixtureDeviceID, commandStatus}, method: "get_status", params: `[]`, response: `{"battery":85}`, result: `"battery":85`, httpCalls: 2},
 		{name: commandRooms, args: []string{commandRooms, fixtureList, deviceFlag, fixtureDeviceID}, method: "get_room_mapping", params: `[]`, response: `[[16,"1001"]]`, result: "16       Kitchen", httpCalls: 4},
 		{name: commandCleanRooms, args: []string{commandRooms, fixtureClean, "16", deviceFlag, fixtureDeviceID}, method: "app_segment_clean", params: `[{"segments":[16],"repeat":1}]`, response: fixtureRPCResult, result: fixtureAcknowledged, httpCalls: 2},
-		{name: commandMaps, args: []string{commandMaps, fixtureList, deviceFlag, fixtureDeviceID}, method: "get_multi_maps_list", params: `[]`, response: `[{"map_info":[{"map_flag":3,"name":"Upstairs"}]}]`, result: "Upstairs", httpCalls: 2},
+		{name: commandMaps, args: []string{commandMaps, fixtureList, deviceFlag, fixtureDeviceID}, method: "get_multi_maps_list", params: `[]`, response: `[{"map_info":[{"mapFlag":3,"name":"Upstairs"}]}]`, result: "Upstairs", httpCalls: 2},
 		{name: commandSelectMap, args: []string{commandMaps, fixtureSelect, "3", deviceFlag, fixtureDeviceID}, method: "load_multi_map", params: `[3]`, response: fixtureRPCResult, result: fixtureAcknowledged, httpCalls: 2},
 		{name: commandCleanZones, args: []string{fixtureZones, fixtureClean, deviceFlag, fixtureDeviceID, zoneFlag, "100,200,300,400", zoneFlag, "500,600,700,800", "--repeats", "2"}, method: "app_zoned_clean", params: `[[100,200,300,400,2],[500,600,700,800,2]]`, response: fixtureRPCResult, result: fixtureAcknowledged, httpCalls: 2},
 		{name: commandMap, args: []string{commandMaps, "show", deviceFlag, fixtureDeviceID}, method: "", params: "", response: "", result: `"point":{"x":1000,"y":2000}`, httpCalls: 2},
@@ -629,7 +629,7 @@ func TestMapListAndSelectionPairedMQTT(t *testing.T) {
 
 	cases := [][5]string{
 		{commandRooms, "get_room_mapping", `[]`, `[[16,"1001"]]`, `"segmentId":16`},
-		{commandMaps, "get_multi_maps_list", `[]`, `[{"map_info":[{"map_flag":3,"name":"Upstairs"}]}]`, `"id":"3"`},
+		{commandMaps, "get_multi_maps_list", `[]`, `[{"map_info":[{"mapFlag":3,"name":"Upstairs"}]}]`, `"id":"3"`},
 		{commandSelectMap, "load_multi_map", `[3]`, fixtureRPCResult, fixtureAcknowledged},
 	}
 	for _, testCase := range cases {

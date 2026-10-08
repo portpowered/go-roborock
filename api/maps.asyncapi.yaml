@@ -778,7 +778,7 @@
                 {
                   "map_info": [
                     {
-                      "map_flag": 1,
+                      "mapFlag": 1,
                       "name": "Synthetic floor"
                     }
                   ]
@@ -1094,7 +1094,7 @@
       "MapsV1Backup": {
         "type": "object",
         "properties": {
-          "mapflag": {
+          "mapFlag": {
             "x-go-type": "json.RawMessage"
           },
           "add_time": {
@@ -1104,7 +1104,7 @@
       },
       "MapsV1Entry": {
         "required": [
-          "map_flag",
+          "mapFlag",
           "name"
         ],
         "type": "object",
@@ -1130,7 +1130,7 @@
           "length": {
             "x-go-type": "json.RawMessage"
           },
-          "map_flag": {
+          "mapFlag": {
             "type": "integer",
             "format": "int64"
           }
@@ -1175,7 +1175,7 @@
         "x-go-type": "json.RawMessage"
       },
       "MapsV1RoomMappingPair": {
-        "maxItems": 2,
+        "description": "Segment ID, then cloud room ID. Newer firmware appends a room type; extra values are ignored.",
         "items": {
           "$ref": "#/components/schemas/MapsV1RoomMappingValue"
         },
@@ -1189,6 +1189,7 @@
         }
       },
       "MapsV1RoomsResult": {
+        "description": "A list of pairs or a single pair. A null result means the map has no rooms.",
         "oneOf": [
           {
             "$ref": "#/components/schemas/MapsV1RoomMappingPair"

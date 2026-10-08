@@ -197,7 +197,7 @@ type MapsQ7UploadRequest struct {
 // MapsV1Backup defines model for MapsV1Backup.
 type MapsV1Backup struct {
 	AddTime *json.RawMessage `json:"add_time,omitempty"`
-	Mapflag *json.RawMessage `json:"mapflag,omitempty"`
+	MapFlag *json.RawMessage `json:"mapFlag,omitempty"`
 }
 
 // MapsV1Entry defines model for MapsV1Entry.
@@ -205,7 +205,7 @@ type MapsV1Entry struct {
 	AddTime *json.RawMessage `json:"add_time,omitempty"`
 	BakMaps *[]MapsV1Backup  `json:"bak_maps,omitempty"`
 	Length  *json.RawMessage `json:"length,omitempty"`
-	MapFlag int64            `json:"map_flag"`
+	MapFlag int64            `json:"mapFlag"`
 	Name    string           `json:"name"`
 	Rooms   *[]MapsV1Room    `json:"rooms,omitempty"`
 }
@@ -232,7 +232,7 @@ type MapsV1Room struct {
 	Tag       *int    `json:"tag,omitempty"`
 }
 
-// MapsV1RoomMappingPair defines model for MapsV1RoomMappingPair.
+// MapsV1RoomMappingPair Segment ID, then cloud room ID. Newer firmware appends a room type; extra values are ignored.
 type MapsV1RoomMappingPair = []MapsV1RoomMappingValue
 
 // MapsV1RoomMappingValue defines model for MapsV1RoomMappingValue.
@@ -241,7 +241,7 @@ type MapsV1RoomMappingValue = json.RawMessage
 // MapsV1RoomMappings defines model for MapsV1RoomMappings.
 type MapsV1RoomMappings = []MapsV1RoomMappingPair
 
-// MapsV1RoomsResult defines model for MapsV1RoomsResult.
+// MapsV1RoomsResult A list of pairs or a single pair. A null result means the map has no rooms.
 type MapsV1RoomsResult struct {
 	union json.RawMessage
 }
