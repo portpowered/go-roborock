@@ -758,3 +758,43 @@ func TestGetRoomsRejectsMalformedPairsWithoutPartialResult(t *testing.T) {
 		})
 	}
 }
+
+func TestSetCleanMotorModeSendsAllMotorSettings(t *testing.T) {
+	t.Parallel()
+
+	// Reference payload: python-roborock get_cleaning_mode_parameters(CleaningMode.VACUUM).
+	session := operationSession(t,
+		rpcExchange{method: string(dependencymodels.RPCSetCleanMotorMode),
+			params: `[{"fan_power":102,"mop_mode":300,"water_box_mode":200}]`, response: fixtureAcknowledgement, failure: nil},
+		rpcExchange{method: string(dependencymodels.RPCSetCleanMotorMode),
+			params: `[{"fan_power":102,"water_box_mode":200}]`, response: fixtureAcknowledgement, failure: nil},
+	)
+
+	route := MopModeStandard
+
+	ack, err := session.SetCleanMotorMode(t.Context(),
+		SetCleanMotorModeRequest{FanSpeed: FanSpeedBalanced, WaterMode: WaterModeOff, MopMode: &route})
+	if err != nil || !ack.Acknowledged {
+		t.Fatalf("vacuum only with route: %+v %v", ack, err)
+	}
+
+	ack, err = session.SetCleanMotorMode(t.Context(),
+		SetCleanMotorModeRequest{FanSpeed: FanSpeedBalanced, WaterMode: WaterModeOff, MopMode: nil})
+	if err != nil || !ack.Acknowledged {
+		t.Fatalf("vacuum only without route: %+v %v", ack, err)
+	}
+}
+
+func TestSetCleanMotorModeReportsARejectedMode(t *testing.T) {
+	t.Parallel()
+
+	rejected := roborockerrors.New(roborockerrors.Protocol, "mqtt call", "device rejected command", nil)
+	session := operationSession(t, rpcExchange{method: string(dependencymodels.RPCSetCleanMotorMode),
+		params: `[{"fan_power":102,"water_box_mode":200}]`, response: "", failure: rejected})
+
+	ack, err := session.SetCleanMotorMode(t.Context(),
+		SetCleanMotorModeRequest{FanSpeed: FanSpeedBalanced, WaterMode: WaterModeOff, MopMode: nil})
+	if !errors.Is(err, roborockerrors.New(roborockerrors.Protocol, "", "", nil)) || ack.Acknowledged {
+		t.Fatalf("rejected mode: %+v %v", ack, err)
+	}
+}

@@ -314,6 +314,7 @@ const (
 	RPCRCStart             RPCMethod = "app_rc_start"
 	RPCRCStop              RPCMethod = "app_rc_stop"
 	RPCReturnToDock        RPCMethod = "app_charge"
+	RPCSetCleanMotorMode   RPCMethod = "set_clean_motor_mode"
 	RPCSetDND              RPCMethod = "set_dnd_timer"
 	RPCSetFanSpeed         RPCMethod = "set_custom_mode"
 	RPCSetMopMode          RPCMethod = "set_mop_mode"
@@ -343,6 +344,16 @@ type ChargeStatus int64
 
 // CleanFinishReason Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.
 type CleanFinishReason int64
+
+// CleanMotorMode defines model for CleanMotorMode.
+type CleanMotorMode struct {
+	FanPower     int64  `json:"fan_power"`
+	MopMode      *int64 `json:"mop_mode,omitempty"`
+	WaterBoxMode int64  `json:"water_box_mode"`
+}
+
+// CleanMotorModeParameters defines model for CleanMotorModeParameters.
+type CleanMotorModeParameters = []CleanMotorMode
 
 // CleanRecord Presence-aware CleanRecord inventory from pinned Python V1 containers; absent fields stay absent. Cleaning area is square millimeters and durations are seconds.
 type CleanRecord struct {
@@ -560,6 +571,9 @@ type SegmentCommand struct {
 
 // SegmentParameters defines model for SegmentParameters.
 type SegmentParameters = []SegmentCommand
+
+// SetCleanMotorModeRPCJSONRequestBody defines model for SetCleanMotorModeRPCJSONRequestBody.
+type SetCleanMotorModeRPCJSONRequestBody = CleanMotorModeParameters
 
 // SetDNDRPCJSONRequestBody defines model for SetDNDRPCJSONRequestBody.
 type SetDNDRPCJSONRequestBody = IntegerParameters
