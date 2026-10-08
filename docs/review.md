@@ -434,3 +434,11 @@ Actual draft release title `v0.2.1: Guided customer CLI`, target SDK SHA and bod
 
 
 Post-publication final verification: Independently queried the actual public GitHub release and latest-release API. Both identify `v0.2.1: Guided customer CLI`, tag v0.2.1, target `0ce896ef3add16f9e620b487acfe28f8ed98bb08`, draft=false and publication timestamp `2026-10-05T02:32:24Z`. Public release page https://github.com/portpowered/go-roborock/releases/tag/v0.2.1 returns HTTP200. The README Shields latest-release badge SVG contains v0.2.1. Public CLI and advanced guide destinations and exact Go Reference v0.2.1 remain HTTP200. All sixteen requirements have final PASS verdicts; no release or review finding remains open. Physical Roborock devices were not tested.
+
+## Patch review: v0.2.3 V1 map wire shapes
+
+Two independent read-only reviewers approved [PR #5](https://github.com/portpowered/go-roborock/pull/5) at `e5c2cc3`; neither found a blocking defect. The SDK public Go API is unchanged. Synthetic tests use reference-library shapes; physical Roborock devices were not tested.
+
+- Reviewer one confirmed `mapFlag` against every reference V1 map-list sample, including `bak_maps`, and the room-type tuple and null-mapping handling. Finding: optional map-list members sent as null failed the whole list. Disposition: fixed in `3e0047c`, which treats them as absent and adds a test.
+- Reviewer two confirmed that callers, replay fixtures and the single-pair or pair-list choice are unaffected. Finding: the schema did not describe the null room-mapping result. Disposition: documented in `3e0047c`.
+- Release notes must state the behaviour changes: real V1 map lists decode, null room mappings return no rooms, and room pairs may carry a room type.
