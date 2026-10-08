@@ -713,7 +713,7 @@ func TestGetRoomsAcceptsRoomTypeAndNullMapping(t *testing.T) {
 	// Reference sample (python-roborock tests/devices/traits/v1/test_rooms.py): a third room-type column.
 	session := operationSession(t,
 		rpcExchange{method: fixtureRoomMappingMethod, params: `[]`,
-			response: `[[16,"2362048",6],[17,"2362044",14]]`, failure: nil},
+			response: `[[16,"2362048",6],[17,"2362044"]]`, failure: nil},
 		rpcExchange{method: fixtureRoomMappingMethod, params: `[]`, response: fixtureNullResponse, failure: nil},
 	)
 
@@ -722,7 +722,8 @@ func TestGetRoomsAcceptsRoomTypeAndNullMapping(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if len(rooms.Rooms) != 2 || rooms.Rooms[0].SegmentID != 16 || *rooms.Rooms[1].IoTID != "2362044" {
+	if len(rooms.Rooms) != 2 || rooms.Rooms[0].SegmentID != 16 || rooms.Rooms[1].IoTID == nil ||
+		*rooms.Rooms[1].IoTID != "2362044" {
 		t.Fatalf("room-type tuples: %+v", rooms)
 	}
 

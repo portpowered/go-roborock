@@ -200,6 +200,11 @@ func validateMapListObject(raw json.RawMessage, model reflect.Type) error {
 			continue
 		}
 
+		// An optional member sent as null is treated as absent.
+		if strings.Contains(tag, ",omitempty") && bytes.Equal(bytes.TrimSpace(value), []byte("null")) {
+			continue
+		}
+
 		err = validateMapListShape(value, field.Type)
 		if err != nil {
 			return err

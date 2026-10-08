@@ -241,7 +241,7 @@ type MapsV1RoomMappingValue = json.RawMessage
 // MapsV1RoomMappings defines model for MapsV1RoomMappings.
 type MapsV1RoomMappings = []MapsV1RoomMappingPair
 
-// MapsV1RoomsResult defines model for MapsV1RoomsResult.
+// MapsV1RoomsResult A list of pairs or a single pair. A null result means the map has no rooms.
 type MapsV1RoomsResult struct {
 	union json.RawMessage
 }

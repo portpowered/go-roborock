@@ -1189,6 +1189,7 @@
         }
       },
       "MapsV1RoomsResult": {
+        "description": "A list of pairs or a single pair. A null result means the map has no rooms.",
         "oneOf": [
           {
             "$ref": "#/components/schemas/MapsV1RoomMappingPair"
