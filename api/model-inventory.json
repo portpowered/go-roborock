@@ -9025,7 +9025,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 226,
+          "line": 231,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.RPCLoadMultiMap"
         }
       ]
@@ -16308,7 +16308,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 227,
+          "line": 232,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1LoadRequest"
         }
       ]
@@ -17692,7 +17692,7 @@
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 226,
+          "line": 231,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCMethod"
         },
         {
@@ -21679,17 +21679,17 @@
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 213,
-          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
-        },
-        {
-          "file": "pkg/roborock/maps_list.go",
           "line": 218,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/maps_list.go",
           "line": 223,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
+        },
+        {
+          "file": "pkg/roborock/maps_list.go",
+          "line": 228,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
@@ -22058,7 +22058,7 @@
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 222,
+          "line": 223,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.Device"
         }
       ]
@@ -27024,7 +27024,7 @@
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 217,
+          "line": 222,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.FamilyV1Vacuum"
         },
         {
@@ -27399,7 +27399,7 @@
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 180,
+          "line": 181,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.HomeDataV1"
         }
       ]
@@ -27478,7 +27478,7 @@
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 237,
+          "line": 238,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.HomeRoomsRequest"
         },
         {
@@ -28376,6 +28376,11 @@
         },
         {
           "file": "pkg/roborock/map_rooms.go",
+          "line": 104,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomMapping"
+        },
+        {
+          "file": "pkg/roborock/map_rooms.go",
           "line": 126,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomMapping"
         },
@@ -28386,37 +28391,37 @@
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 142,
+          "line": 143,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomMapping"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 147,
+          "line": 148,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomMapping"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 154,
+          "line": 155,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomMapping"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 165,
+          "line": 166,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomMapping"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 171,
+          "line": 172,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomMapping"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 174,
+          "line": 175,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomMapping"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 212,
+          "line": 213,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomMapping"
         }
       ]
@@ -29155,7 +29160,7 @@
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 222,
+          "line": 223,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.RoomsResult"
         },
         {
@@ -29216,7 +29221,7 @@
         },
         {
           "file": "pkg/roborock/maps_list.go",
-          "line": 213,
+          "line": 218,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SelectMapRequest"
         }
       ]
@@ -29434,7 +29439,7 @@
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 234,
+          "line": 235,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SharedDeviceRoomsRequest"
         },
         {
@@ -45923,7 +45928,7 @@
     {
       "site": {
         "file": "pkg/roborock/map_rooms.go",
-        "line": 152,
+        "line": 153,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -45934,7 +45939,7 @@
     {
       "site": {
         "file": "pkg/roborock/map_rooms.go",
-        "line": 159,
+        "line": 160,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -45945,7 +45950,7 @@
     {
       "site": {
         "file": "pkg/roborock/map_rooms.go",
-        "line": 163,
+        "line": 164,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
