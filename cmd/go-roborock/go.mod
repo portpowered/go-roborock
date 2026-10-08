@@ -3,7 +3,7 @@ module github.com/portpowered/go-roborock/cmd/go-roborock
 go 1.24.0
 
 require (
-	github.com/portpowered/go-roborock v0.2.3
+	github.com/portpowered/go-roborock v0.3.0
 	golang.org/x/sys v0.38.0
 	golang.org/x/term v0.37.0
 )
