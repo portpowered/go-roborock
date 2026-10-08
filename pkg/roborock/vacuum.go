@@ -31,6 +31,7 @@ type DeviceOperations interface {
 	SetFanSpeed(ctx context.Context, req SetFanSpeedRequest) (CommandAcknowledgement, error)
 	SetWaterMode(ctx context.Context, req SetWaterModeRequest) (CommandAcknowledgement, error)
 	SetMopMode(ctx context.Context, req SetMopModeRequest) (CommandAcknowledgement, error)
+	SetCleanMotorMode(ctx context.Context, req SetCleanMotorModeRequest) (CommandAcknowledgement, error)
 	SetDND(ctx context.Context, req SetDNDRequest) (CommandAcknowledgement, error)
 	CleanZones(ctx context.Context, req CleanZonesRequest) (CommandAcknowledgement, error)
 	CleanSegments(ctx context.Context, req CleanSegmentsRequest) (CommandAcknowledgement, error)
@@ -115,6 +116,26 @@ func (s *DeviceSession) SetWaterMode(ctx context.Context, req SetWaterModeReques
 // SetMopMode sends the device command once without automatic retries.
 func (s *DeviceSession) SetMopMode(ctx context.Context, req SetMopModeRequest) (CommandAcknowledgement, error) {
 	return s.command(ctx, dependencymodels.RPCSetMopMode, dependencymodels.IntegerParameters{int64(req.Mode)})
+}
+
+// SetCleanMotorMode sets fan speed, water mode and optional mop route together, as the Roborock
+// app's cleaning-mode selector does; WaterModeOff selects vacuum only. It takes raw mode codes,
+// unlike python-roborock's high-level set_cleaning_mode. An S8 MaxV Ultra in the app's Custom mode
+// rejected SetWaterMode (-10005) but accepted this command. It is sent once without retries.
+func (s *DeviceSession) SetCleanMotorMode(
+	ctx context.Context,
+	req SetCleanMotorModeRequest,
+) (CommandAcknowledgement, error) {
+	mode := dependencymodels.CleanMotorMode{
+		FanPower: int64(req.FanSpeed), WaterBoxMode: int64(req.WaterMode), MopMode: nil,
+	}
+
+	if req.MopMode != nil {
+		route := int64(*req.MopMode)
+		mode.MopMode = &route
+	}
+
+	return s.command(ctx, dependencymodels.RPCSetCleanMotorMode, dependencymodels.CleanMotorModeParameters{mode})
 }
 
 // SetDND sends the device command once without automatic retries.

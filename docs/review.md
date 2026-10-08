@@ -442,3 +442,11 @@ Two independent read-only reviewers approved [PR #5](https://github.com/portpowe
 - Reviewer one confirmed `mapFlag` against every reference V1 map-list sample, including `bak_maps`, and the room-type tuple and null-mapping handling. Finding: optional map-list members sent as null failed the whole list. Disposition: fixed in `3e0047c`, which treats them as absent and adds a test.
 - Reviewer two confirmed that callers, replay fixtures and the single-pair or pair-list choice are unaffected. Finding: the schema did not describe the null room-mapping result. Disposition: documented in `3e0047c`.
 - Release notes must state the behaviour changes: real V1 map lists decode, null room mappings return no rooms, and room pairs may carry a room type.
+
+## Patch review: v0.3.0 clean motor mode
+
+Two independent read-only reviewers approved [PR #7](https://github.com/portpowered/go-roborock/pull/7); neither found a blocking defect. The method was verified on a real S8 MaxV Ultra, with the owner's go-ahead, before the review renames: Custom mode 106/204/302 changed to vacuum only 102/200/300, and a segment clean then ran.
+
+- Reviewer one confirmed the payload against python-roborock `get_cleaning_mode_parameters`, and that `callV1` already limits the command to V1 robots. Findings: document where the custom-mode rejection was observed, and which robots take a mop route. Disposition: both documented; `CleanMotorMode` now rejects unknown members like its sibling schemas.
+- Reviewer two found that `DeviceOperations` lacked the method, request fields were camelCase, the name clashed with python-roborock's high-level `set_cleaning_mode`, and there was no rejected-command test. Disposition: the method is added to the interface; the fields are snake_case; the method is renamed `SetCleanMotorMode` after its RPC; a rejected-mode test is added. The wire payload is unchanged by these renames.
+- The new public method and interface member make this a minor release, v0.3.0.

@@ -669,6 +669,52 @@
           "mode"
         ]
       },
+      "SetCleanMotorModeRequest": {
+        "type": "object",
+        "properties": {
+          "fan_speed": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FanSpeed"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "FanSpeed",
+            "description": "Open FanSpeed value; future firmware values are accepted."
+          },
+          "water_mode": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WaterMode"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "WaterMode",
+            "description": "Open WaterMode value; WaterModeOff selects vacuum only."
+          },
+          "mop_mode": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MopMode"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "MopMode",
+            "description": "Optional mop route. Send it only to robots with route settings: python-roborock sends mop_mode when the robot reports a shake or spin mop module."
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "fan_speed",
+          "water_mode"
+        ]
+      },
       "CleanRecordRequest": {
         "type": "object",
         "properties": {
