@@ -758,3 +758,29 @@ func TestGetRoomsRejectsMalformedPairsWithoutPartialResult(t *testing.T) {
 		})
 	}
 }
+
+func TestSetCleaningModeSendsAllMotorSettings(t *testing.T) {
+	t.Parallel()
+
+	// Reference payload: python-roborock get_cleaning_mode_parameters(CleaningMode.VACUUM).
+	session := operationSession(t,
+		rpcExchange{method: "set_clean_motor_mode",
+			params: `[{"fan_power":102,"mop_mode":300,"water_box_mode":200}]`, response: fixtureAcknowledgement, failure: nil},
+		rpcExchange{method: "set_clean_motor_mode",
+			params: `[{"fan_power":102,"water_box_mode":200}]`, response: fixtureAcknowledgement, failure: nil},
+	)
+
+	route := MopModeStandard
+
+	ack, err := session.SetCleaningMode(t.Context(),
+		SetCleaningModeRequest{FanSpeed: FanSpeedBalanced, WaterMode: WaterModeOff, MopMode: &route})
+	if err != nil || !ack.Acknowledged {
+		t.Fatalf("vacuum only with route: %+v %v", ack, err)
+	}
+
+	ack, err = session.SetCleaningMode(t.Context(),
+		SetCleaningModeRequest{FanSpeed: FanSpeedBalanced, WaterMode: WaterModeOff, MopMode: nil})
+	if err != nil || !ack.Acknowledged {
+		t.Fatalf("vacuum only without route: %+v %v", ack, err)
+	}
+}

@@ -9147,7 +9147,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 339,
+        "line": 340,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.Acknowledgement"
       },
       "schema": {
@@ -10125,7 +10125,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 342,
+        "line": 343,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.ChargeStatus"
       },
       "schema": {
@@ -10188,7 +10188,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 345,
+        "line": 346,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleanFinishReason"
       },
       "schema": {
@@ -10855,11 +10855,53 @@
       "productionUses": []
     },
     {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleanMotorMode",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/vacuum.gen.go",
+        "line": 349,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleanMotorMode"
+      },
+      "schema": {
+        "file": "api/vacuum.asyncapi.yaml",
+        "pointer": "#/components/schemas/CleanMotorMode"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": [
+        {
+          "file": "pkg/roborock/vacuum.go",
+          "line": 125,
+          "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleanMotorMode"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleanMotorModeParameters",
+      "kind": "alias",
+      "definition": {
+        "file": "pkg/dependencymodels/vacuum.gen.go",
+        "line": 356,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleanMotorModeParameters"
+      },
+      "schema": {
+        "file": "api/vacuum.asyncapi.yaml",
+        "pointer": "#/components/schemas/CleanMotorModeParameters"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": [
+        {
+          "file": "pkg/roborock/vacuum.go",
+          "line": 131,
+          "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleanMotorModeParameters"
+        }
+      ]
+    },
+    {
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleanRecord",
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 348,
+        "line": 359,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleanRecord"
       },
       "schema": {
@@ -10885,7 +10927,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 372,
+        "line": 383,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleanRecordLegacy"
       },
       "schema": {
@@ -10900,7 +10942,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 375,
+        "line": 386,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleanRecordParts"
       },
       "schema": {
@@ -10915,7 +10957,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 378,
+        "line": 389,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleanRecordParts_Item"
       },
       "schema": {
@@ -10930,7 +10972,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 383,
+        "line": 394,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleanRecordRPCResult"
       },
       "schema": {
@@ -10945,7 +10987,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 388,
+        "line": 399,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleanSegmentsRPCJSONRequestBody"
       },
       "schema": {
@@ -10960,7 +11002,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 391,
+        "line": 402,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleanStartType"
       },
       "schema": {
@@ -11375,7 +11417,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 394,
+        "line": 405,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleanType"
       },
       "schema": {
@@ -11486,7 +11528,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 397,
+        "line": 408,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleanZonesRPCJSONRequestBody"
       },
       "schema": {
@@ -11501,7 +11543,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 400,
+        "line": 411,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleaningState"
       },
       "schema": {
@@ -11580,7 +11622,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 403,
+        "line": 414,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleaningSummary"
       },
       "schema": {
@@ -11601,7 +11643,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 414,
+        "line": 425,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleaningSummaryCounter"
       },
       "schema": {
@@ -11616,7 +11658,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 417,
+        "line": 428,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleaningSummaryDuration"
       },
       "schema": {
@@ -11631,7 +11673,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 420,
+        "line": 431,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleaningSummaryLegacy"
       },
       "schema": {
@@ -11652,7 +11694,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 423,
+        "line": 434,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleaningSummaryRPCResult"
       },
       "schema": {
@@ -11667,7 +11709,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 428,
+        "line": 439,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleaningSummaryRecordIDs"
       },
       "schema": {
@@ -11682,7 +11724,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 431,
+        "line": 442,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleaningSummarySingletonResult"
       },
       "schema": {
@@ -11800,7 +11842,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 434,
+        "line": 445,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CommandAcceptance"
       },
       "schema": {
@@ -11837,7 +11879,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 437,
+        "line": 448,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.Consumables"
       },
       "schema": {
@@ -11858,7 +11900,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 451,
+        "line": 462,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.ConsumablesRPCResult"
       },
       "schema": {
@@ -11873,7 +11915,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 456,
+        "line": 467,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.ConsumablesSingletonResult"
       },
       "schema": {
@@ -11888,7 +11930,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 459,
+        "line": 470,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.DND"
       },
       "schema": {
@@ -11909,7 +11951,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 469,
+        "line": 480,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.DNDRPCResult"
       },
       "schema": {
@@ -11924,7 +11966,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 474,
+        "line": 485,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.DNDSingletonResult"
       },
       "schema": {
@@ -11939,7 +11981,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 477,
+        "line": 488,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.DeviceErrorCode"
       },
       "schema": {
@@ -12802,7 +12844,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 480,
+        "line": 491,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.DeviceState"
       },
       "schema": {
@@ -13505,7 +13547,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 483,
+        "line": 494,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.DisableDNDRPCJSONRequestBody"
       },
       "schema": {
@@ -13520,7 +13562,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 486,
+        "line": 497,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.DockErrorCode"
       },
       "schema": {
@@ -13711,7 +13753,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 489,
+        "line": 500,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.DockType"
       },
       "schema": {
@@ -14451,7 +14493,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 492,
+        "line": 503,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.FanSpeed"
       },
       "schema": {
@@ -14577,7 +14619,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 495,
+        "line": 506,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.GetCleanRecordRPCJSONRequestBody"
       },
       "schema": {
@@ -14592,7 +14634,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 498,
+        "line": 509,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.GetCleaningSummaryRPCJSONRequestBody"
       },
       "schema": {
@@ -14607,7 +14649,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 501,
+        "line": 512,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.GetConsumablesRPCJSONRequestBody"
       },
       "schema": {
@@ -14622,7 +14664,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 504,
+        "line": 515,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.GetDNDRPCJSONRequestBody"
       },
       "schema": {
@@ -14727,7 +14769,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 507,
+        "line": 518,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.GetStatusRPCJSONRequestBody"
       },
       "schema": {
@@ -15066,7 +15108,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 510,
+        "line": 521,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.IntegerParameters"
       },
       "schema": {
@@ -15092,7 +15134,7 @@
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 134,
+          "line": 148,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.IntegerParameters"
         },
         {
@@ -16416,7 +16458,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 513,
+        "line": 524,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MopMode"
       },
       "schema": {
@@ -16539,7 +16581,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 516,
+        "line": 527,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.NoParameters"
       },
       "schema": {
@@ -16640,7 +16682,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 519,
+        "line": 530,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.PauseCleaningRPCJSONRequestBody"
       },
       "schema": {
@@ -17207,7 +17249,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 522,
+        "line": 533,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RCCommand"
       },
       "schema": {
@@ -17218,7 +17260,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 191,
+          "line": 205,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RCCommand"
         }
       ]
@@ -17228,7 +17270,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 535,
+        "line": 546,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RCEndRPCJSONRequestBody"
       },
       "schema": {
@@ -17243,7 +17285,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 538,
+        "line": 549,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RCMoveRPCJSONRequestBody"
       },
       "schema": {
@@ -17258,7 +17300,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 541,
+        "line": 552,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RCParameters"
       },
       "schema": {
@@ -17269,7 +17311,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 190,
+          "line": 204,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RCParameters"
         }
       ]
@@ -17279,7 +17321,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 544,
+        "line": 555,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RCStartRPCJSONRequestBody"
       },
       "schema": {
@@ -17294,7 +17336,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 547,
+        "line": 558,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RCStopRPCJSONRequestBody"
       },
       "schema": {
@@ -17497,7 +17539,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 169,
+          "line": 183,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCleanSegments"
         }
       ]
@@ -17519,7 +17561,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 149,
+          "line": 163,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCleanZones"
         }
       ]
@@ -17661,7 +17703,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 550,
+        "line": 561,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCMethod"
       },
       "schema": {
@@ -17773,7 +17815,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 189,
+          "line": 203,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCRCMove"
         }
       ]
@@ -17845,11 +17887,33 @@
       ]
     },
     {
-      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCSetDND",
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCSetCleanMotorMode",
       "kind": "constant",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
         "line": 317,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCSetCleanMotorMode"
+      },
+      "schema": {
+        "file": "api/vacuum.asyncapi.yaml",
+        "pointer": "#/components/schemas/RPCMethod"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"set_clean_motor_mode\"",
+      "productionUses": [
+        {
+          "file": "pkg/roborock/vacuum.go",
+          "line": 131,
+          "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCSetCleanMotorMode"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCSetDND",
+      "kind": "constant",
+      "definition": {
+        "file": "pkg/dependencymodels/vacuum.gen.go",
+        "line": 318,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCSetDND"
       },
       "schema": {
@@ -17861,7 +17925,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 133,
+          "line": 147,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCSetDND"
         }
       ]
@@ -17871,7 +17935,7 @@
       "kind": "constant",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 318,
+        "line": 319,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCSetFanSpeed"
       },
       "schema": {
@@ -17893,7 +17957,7 @@
       "kind": "constant",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 319,
+        "line": 320,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCSetMopMode"
       },
       "schema": {
@@ -17915,7 +17979,7 @@
       "kind": "constant",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 320,
+        "line": 321,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCSetWaterMode"
       },
       "schema": {
@@ -17937,7 +18001,7 @@
       "kind": "constant",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 321,
+        "line": 322,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCSpotClean"
       },
       "schema": {
@@ -17959,7 +18023,7 @@
       "kind": "constant",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 322,
+        "line": 323,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCStartCleaning"
       },
       "schema": {
@@ -17981,7 +18045,7 @@
       "kind": "constant",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 323,
+        "line": 324,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCStartDustCollection"
       },
       "schema": {
@@ -18003,7 +18067,7 @@
       "kind": "constant",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 324,
+        "line": 325,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCStartMopWashing"
       },
       "schema": {
@@ -18025,7 +18089,7 @@
       "kind": "constant",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 325,
+        "line": 326,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCStopCleaning"
       },
       "schema": {
@@ -18047,7 +18111,7 @@
       "kind": "constant",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 326,
+        "line": 327,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCStopDustCollection"
       },
       "schema": {
@@ -18069,7 +18133,7 @@
       "kind": "constant",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 327,
+        "line": 328,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCStopMopWashing"
       },
       "schema": {
@@ -18343,7 +18407,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 553,
+        "line": 564,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.ReturnToDockRPCJSONRequestBody"
       },
       "schema": {
@@ -18358,7 +18422,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 556,
+        "line": 567,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.SegmentCommand"
       },
       "schema": {
@@ -18369,7 +18433,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 171,
+          "line": 185,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.SegmentCommand"
         }
       ]
@@ -18379,7 +18443,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 562,
+        "line": 573,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.SegmentParameters"
       },
       "schema": {
@@ -18390,7 +18454,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 170,
+          "line": 184,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.SegmentParameters"
         }
       ]
@@ -18477,11 +18541,26 @@
       "productionUses": []
     },
     {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.SetCleanMotorModeRPCJSONRequestBody",
+      "kind": "alias",
+      "definition": {
+        "file": "pkg/dependencymodels/vacuum.gen.go",
+        "line": 576,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.SetCleanMotorModeRPCJSONRequestBody"
+      },
+      "schema": {
+        "file": "api/vacuum.asyncapi.yaml",
+        "pointer": "#/operations/SetCleanMotorModeRPC/x-go-request-schema"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.SetDNDRPCJSONRequestBody",
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 565,
+        "line": 579,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.SetDNDRPCJSONRequestBody"
       },
       "schema": {
@@ -18517,7 +18596,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 568,
+        "line": 582,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.SetFanSpeedRPCJSONRequestBody"
       },
       "schema": {
@@ -18532,7 +18611,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 571,
+        "line": 585,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.SetMopModeRPCJSONRequestBody"
       },
       "schema": {
@@ -18547,7 +18626,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 574,
+        "line": 588,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.SetWaterModeRPCJSONRequestBody"
       },
       "schema": {
@@ -18700,7 +18779,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 577,
+        "line": 591,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.SpotCleanRPCJSONRequestBody"
       },
       "schema": {
@@ -18715,7 +18794,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 580,
+        "line": 594,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.StartCleaningRPCJSONRequestBody"
       },
       "schema": {
@@ -18730,7 +18809,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 583,
+        "line": 597,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.StartDustCollectionRPCJSONRequestBody"
       },
       "schema": {
@@ -18745,7 +18824,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 586,
+        "line": 600,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.StartMopWashingRPCJSONRequestBody"
       },
       "schema": {
@@ -18801,7 +18880,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 589,
+        "line": 603,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.Status"
       },
       "schema": {
@@ -18822,7 +18901,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 669,
+        "line": 683,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.StatusRPCResult"
       },
       "schema": {
@@ -18837,7 +18916,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 674,
+        "line": 688,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.StatusSingletonResult"
       },
       "schema": {
@@ -18852,7 +18931,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 677,
+        "line": 691,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.StopCleaningRPCJSONRequestBody"
       },
       "schema": {
@@ -18867,7 +18946,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 680,
+        "line": 694,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.StopDustCollectionRPCJSONRequestBody"
       },
       "schema": {
@@ -18882,7 +18961,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 683,
+        "line": 697,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.StopMopWashingRPCJSONRequestBody"
       },
       "schema": {
@@ -19196,7 +19275,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 686,
+        "line": 700,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.WaterMode"
       },
       "schema": {
@@ -19211,7 +19290,7 @@
       "kind": "constant",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 332,
+        "line": 333,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.WaterModeHigh"
       },
       "schema": {
@@ -19227,7 +19306,7 @@
       "kind": "constant",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 333,
+        "line": 334,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.WaterModeLow"
       },
       "schema": {
@@ -19243,7 +19322,7 @@
       "kind": "constant",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 334,
+        "line": 335,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.WaterModeMedium"
       },
       "schema": {
@@ -19259,7 +19338,7 @@
       "kind": "constant",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 335,
+        "line": 336,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.WaterModeOff"
       },
       "schema": {
@@ -19296,7 +19375,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 689,
+        "line": 703,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.ZoneParameters"
       },
       "schema": {
@@ -20790,7 +20869,7 @@
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 153,
+          "line": 167,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CleanSegmentsRequest"
         }
       ]
@@ -21357,7 +21436,7 @@
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 139,
+          "line": 153,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CleanZonesRequest"
         },
         {
@@ -21874,22 +21953,17 @@
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 121,
+          "line": 124,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 123,
+          "line": 135,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 139,
-          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
-        },
-        {
-          "file": "pkg/roborock/vacuum.go",
-          "line": 146,
+          "line": 137,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
@@ -21899,17 +21973,27 @@
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 155,
+          "line": 160,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 177,
+          "line": 167,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 179,
+          "line": 169,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
+        },
+        {
+          "file": "pkg/roborock/vacuum.go",
+          "line": 191,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
+        },
+        {
+          "file": "pkg/roborock/vacuum.go",
+          "line": 193,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
@@ -27029,12 +27113,12 @@
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 140,
+          "line": 154,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.FamilyV1Vacuum"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 163,
+          "line": 177,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.FamilyV1Vacuum"
         }
       ]
@@ -29003,7 +29087,7 @@
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 177,
+          "line": 191,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.RCMoveRequest"
         },
         {
@@ -29248,11 +29332,32 @@
       ]
     },
     {
-      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SetDNDRequest",
+      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SetCleaningModeRequest",
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/operation_models.gen.go",
         "line": 480,
+        "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SetCleaningModeRequest"
+      },
+      "schema": {
+        "file": "api/operation-models.openapi.yaml",
+        "pointer": "#/components/schemas/SetCleaningModeRequest"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": [
+        {
+          "file": "pkg/roborock/vacuum.go",
+          "line": 124,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SetCleaningModeRequest"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SetDNDRequest",
+      "kind": "public-projection-model",
+      "definition": {
+        "file": "pkg/roborock/operation_models.gen.go",
+        "line": 492,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SetDNDRequest"
       },
       "schema": {
@@ -29268,7 +29373,7 @@
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 121,
+          "line": 135,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SetDNDRequest"
         },
         {
@@ -29314,7 +29419,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 488,
+        "line": 500,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SetFanSpeedRequest"
       },
       "schema": {
@@ -29340,7 +29445,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 494,
+        "line": 506,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SetMopModeRequest"
       },
       "schema": {
@@ -29366,7 +29471,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 500,
+        "line": 512,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SetWaterModeRequest"
       },
       "schema": {
@@ -29485,7 +29590,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 506,
+        "line": 518,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.Status"
       },
       "schema": {
@@ -29516,7 +29621,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 586,
+        "line": 598,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.TURNServer"
       },
       "schema": {
@@ -29557,7 +29662,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 593,
+        "line": 605,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.WaterMode"
       },
       "schema": {
@@ -34134,7 +34239,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 596,
+        "line": 608,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.Zone"
       },
       "schema": {
@@ -35277,7 +35382,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 709,
+        "line": 723,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.CleanRecord.UnmarshalJSON"
       },
       "schema": {
@@ -35288,7 +35393,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 835,
+        "line": 849,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleanRecord.MarshalJSON"
       },
       "schema": {
@@ -35299,7 +35404,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 957,
+        "line": 971,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.CleaningSummary.UnmarshalJSON"
       },
       "schema": {
@@ -35310,7 +35415,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1027,
+        "line": 1041,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleaningSummary.MarshalJSON"
       },
       "schema": {
@@ -35321,7 +35426,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1100,
+        "line": 1114,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.Consumables.UnmarshalJSON"
       },
       "schema": {
@@ -35332,7 +35437,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1194,
+        "line": 1208,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.Consumables.MarshalJSON"
       },
       "schema": {
@@ -35343,7 +35448,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1288,
+        "line": 1302,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.DND.UnmarshalJSON"
       },
       "schema": {
@@ -35354,7 +35459,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1350,
+        "line": 1364,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.DND.MarshalJSON"
       },
       "schema": {
@@ -35365,7 +35470,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1416,
+        "line": 1430,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.Status.UnmarshalJSON"
       },
       "schema": {
@@ -35376,7 +35481,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1894,
+        "line": 1908,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.Status.MarshalJSON"
       },
       "schema": {
@@ -35387,7 +35492,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2358,
+        "line": 2372,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleanRecordParts_Item.MarshalJSON"
       },
       "schema": {
@@ -35398,7 +35503,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2363,
+        "line": 2377,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.CleanRecordParts_Item.UnmarshalJSON"
       },
       "schema": {
@@ -35409,7 +35514,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2446,
+        "line": 2460,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleanRecordRPCResult.MarshalJSON"
       },
       "schema": {
@@ -35420,7 +35525,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2451,
+        "line": 2465,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.CleanRecordRPCResult.UnmarshalJSON"
       },
       "schema": {
@@ -35431,7 +35536,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2560,
+        "line": 2574,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleaningSummaryRPCResult.MarshalJSON"
       },
       "schema": {
@@ -35442,7 +35547,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2565,
+        "line": 2579,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.CleaningSummaryRPCResult.UnmarshalJSON"
       },
       "schema": {
@@ -35453,7 +35558,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2622,
+        "line": 2636,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.ConsumablesRPCResult.MarshalJSON"
       },
       "schema": {
@@ -35464,7 +35569,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2627,
+        "line": 2641,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.ConsumablesRPCResult.UnmarshalJSON"
       },
       "schema": {
@@ -35475,7 +35580,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2684,
+        "line": 2698,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.DNDRPCResult.MarshalJSON"
       },
       "schema": {
@@ -35486,7 +35591,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2689,
+        "line": 2703,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.DNDRPCResult.UnmarshalJSON"
       },
       "schema": {
@@ -35497,7 +35602,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2746,
+        "line": 2760,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.StatusRPCResult.MarshalJSON"
       },
       "schema": {
@@ -35508,7 +35613,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2751,
+        "line": 2765,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.StatusRPCResult.UnmarshalJSON"
       },
       "schema": {
@@ -35519,7 +35624,7 @@
     {
       "definition": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 630,
+        "line": 642,
         "symbol": "*github.com/portpowered/go-roborock/pkg/roborock.CleanRecord.UnmarshalJSON"
       },
       "schema": {
@@ -35530,7 +35635,7 @@
     {
       "definition": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 756,
+        "line": 768,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CleanRecord.MarshalJSON"
       },
       "schema": {
@@ -35541,7 +35646,7 @@
     {
       "definition": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 878,
+        "line": 890,
         "symbol": "*github.com/portpowered/go-roborock/pkg/roborock.CleaningSummary.UnmarshalJSON"
       },
       "schema": {
@@ -35552,7 +35657,7 @@
     {
       "definition": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 948,
+        "line": 960,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CleaningSummary.MarshalJSON"
       },
       "schema": {
@@ -35563,7 +35668,7 @@
     {
       "definition": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1021,
+        "line": 1033,
         "symbol": "*github.com/portpowered/go-roborock/pkg/roborock.Consumables.UnmarshalJSON"
       },
       "schema": {
@@ -35574,7 +35679,7 @@
     {
       "definition": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1115,
+        "line": 1127,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.Consumables.MarshalJSON"
       },
       "schema": {
@@ -35585,7 +35690,7 @@
     {
       "definition": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1209,
+        "line": 1221,
         "symbol": "*github.com/portpowered/go-roborock/pkg/roborock.DND.UnmarshalJSON"
       },
       "schema": {
@@ -35596,7 +35701,7 @@
     {
       "definition": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1271,
+        "line": 1283,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.DND.MarshalJSON"
       },
       "schema": {
@@ -35607,7 +35712,7 @@
     {
       "definition": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1337,
+        "line": 1349,
         "symbol": "*github.com/portpowered/go-roborock/pkg/roborock.Status.UnmarshalJSON"
       },
       "schema": {
@@ -35618,7 +35723,7 @@
     {
       "definition": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1815,
+        "line": 1827,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.Status.MarshalJSON"
       },
       "schema": {
@@ -43066,7 +43171,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 711,
+        "line": 725,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43077,7 +43182,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 717,
+        "line": 731,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43088,7 +43193,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 725,
+        "line": 739,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43099,7 +43204,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 733,
+        "line": 747,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43110,7 +43215,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 741,
+        "line": 755,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43121,7 +43226,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 749,
+        "line": 763,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43132,7 +43237,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 757,
+        "line": 771,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43143,7 +43248,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 765,
+        "line": 779,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43154,7 +43259,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 773,
+        "line": 787,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43165,7 +43270,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 781,
+        "line": 795,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43176,7 +43281,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 789,
+        "line": 803,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43187,7 +43292,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 797,
+        "line": 811,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43198,7 +43303,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 805,
+        "line": 819,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43209,7 +43314,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 813,
+        "line": 827,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43220,32 +43325,12 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 824,
+        "line": 838,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
         "encoding/json.RawMessage",
         "*encoding/json.RawMessage"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 840,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 847,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*int64"
       ]
     },
     {
@@ -43265,7 +43350,7 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.CleanType"
+        "*int64"
       ]
     },
     {
@@ -43285,7 +43370,7 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*int64"
+        "*github.com/portpowered/go-roborock/pkg/dependencymodels.CleanType"
       ]
     },
     {
@@ -43325,7 +43410,7 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.CleanFinishReason"
+        "*int64"
       ]
     },
     {
@@ -43345,7 +43430,7 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.CleanStartType"
+        "*github.com/portpowered/go-roborock/pkg/dependencymodels.CleanFinishReason"
       ]
     },
     {
@@ -43365,13 +43450,33 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
+        "*github.com/portpowered/go-roborock/pkg/dependencymodels.CleanStartType"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/vacuum.gen.go",
+        "line": 938,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*int64"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/vacuum.gen.go",
+        "line": 945,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
         "encoding/json.RawMessage"
       ]
     },
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 936,
+        "line": 950,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43381,7 +43486,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 959,
+        "line": 973,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43392,7 +43497,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 965,
+        "line": 979,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43403,7 +43508,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 973,
+        "line": 987,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43414,7 +43519,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 981,
+        "line": 995,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43425,7 +43530,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 989,
+        "line": 1003,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43436,7 +43541,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 997,
+        "line": 1011,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43447,7 +43552,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1005,
+        "line": 1019,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43458,32 +43563,12 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1016,
+        "line": 1030,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
         "encoding/json.RawMessage",
         "*encoding/json.RawMessage"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1032,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1039,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*int64"
       ]
     },
     {
@@ -43523,7 +43608,7 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*[]int64"
+        "*int64"
       ]
     },
     {
@@ -43533,13 +43618,33 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
+        "*int64"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/vacuum.gen.go",
+        "line": 1081,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*[]int64"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/vacuum.gen.go",
+        "line": 1088,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
         "encoding/json.RawMessage"
       ]
     },
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1079,
+        "line": 1093,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43549,7 +43654,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1102,
+        "line": 1116,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43560,7 +43665,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1108,
+        "line": 1122,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43571,7 +43676,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1116,
+        "line": 1130,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43582,7 +43687,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1124,
+        "line": 1138,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43593,7 +43698,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1132,
+        "line": 1146,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43604,7 +43709,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1140,
+        "line": 1154,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43615,7 +43720,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1148,
+        "line": 1162,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43626,7 +43731,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1156,
+        "line": 1170,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43637,7 +43742,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1164,
+        "line": 1178,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43648,7 +43753,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1172,
+        "line": 1186,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43659,32 +43764,12 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1183,
+        "line": 1197,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
         "encoding/json.RawMessage",
         "*encoding/json.RawMessage"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1199,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1206,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*int64"
       ]
     },
     {
@@ -43764,13 +43849,33 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
+        "*int64"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/vacuum.gen.go",
+        "line": 1269,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*int64"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/vacuum.gen.go",
+        "line": 1276,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
         "encoding/json.RawMessage"
       ]
     },
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1267,
+        "line": 1281,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43780,7 +43885,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1290,
+        "line": 1304,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43791,7 +43896,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1296,
+        "line": 1310,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43802,7 +43907,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1304,
+        "line": 1318,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43813,7 +43918,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1312,
+        "line": 1326,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43824,7 +43929,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1320,
+        "line": 1334,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43835,7 +43940,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1328,
+        "line": 1342,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43846,32 +43951,12 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1339,
+        "line": 1353,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
         "encoding/json.RawMessage",
         "*encoding/json.RawMessage"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1355,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1362,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*int64"
       ]
     },
     {
@@ -43911,13 +43996,33 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
+        "*int64"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/vacuum.gen.go",
+        "line": 1397,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*int64"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/vacuum.gen.go",
+        "line": 1404,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
         "encoding/json.RawMessage"
       ]
     },
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1395,
+        "line": 1409,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43927,7 +44032,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1418,
+        "line": 1432,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43938,7 +44043,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1424,
+        "line": 1438,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43949,7 +44054,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1432,
+        "line": 1446,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43960,7 +44065,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1440,
+        "line": 1454,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43971,7 +44076,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1448,
+        "line": 1462,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43982,7 +44087,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1456,
+        "line": 1470,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43993,7 +44098,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1464,
+        "line": 1478,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44004,7 +44109,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1472,
+        "line": 1486,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44015,7 +44120,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1480,
+        "line": 1494,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44026,7 +44131,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1488,
+        "line": 1502,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44037,7 +44142,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1496,
+        "line": 1510,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44048,7 +44153,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1504,
+        "line": 1518,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44059,7 +44164,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1512,
+        "line": 1526,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44070,7 +44175,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1520,
+        "line": 1534,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44081,7 +44186,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1528,
+        "line": 1542,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44092,7 +44197,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1536,
+        "line": 1550,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44103,7 +44208,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1544,
+        "line": 1558,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44114,7 +44219,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1552,
+        "line": 1566,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44125,7 +44230,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1560,
+        "line": 1574,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44136,7 +44241,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1568,
+        "line": 1582,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44147,7 +44252,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1576,
+        "line": 1590,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44158,7 +44263,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1584,
+        "line": 1598,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44169,7 +44274,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1592,
+        "line": 1606,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44180,7 +44285,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1600,
+        "line": 1614,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44191,7 +44296,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1608,
+        "line": 1622,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44202,7 +44307,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1616,
+        "line": 1630,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44213,7 +44318,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1624,
+        "line": 1638,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44224,7 +44329,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1632,
+        "line": 1646,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44235,7 +44340,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1640,
+        "line": 1654,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44246,7 +44351,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1648,
+        "line": 1662,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44257,7 +44362,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1656,
+        "line": 1670,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44268,7 +44373,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1664,
+        "line": 1678,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44279,7 +44384,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1672,
+        "line": 1686,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44290,7 +44395,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1680,
+        "line": 1694,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44301,7 +44406,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1688,
+        "line": 1702,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44312,7 +44417,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1696,
+        "line": 1710,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44323,7 +44428,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1704,
+        "line": 1718,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44334,7 +44439,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1712,
+        "line": 1726,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44345,7 +44450,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1720,
+        "line": 1734,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44356,7 +44461,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1728,
+        "line": 1742,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44367,7 +44472,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1736,
+        "line": 1750,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44378,7 +44483,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1744,
+        "line": 1758,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44389,7 +44494,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1752,
+        "line": 1766,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44400,7 +44505,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1760,
+        "line": 1774,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44411,7 +44516,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1768,
+        "line": 1782,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44422,7 +44527,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1776,
+        "line": 1790,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44433,7 +44538,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1784,
+        "line": 1798,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44444,7 +44549,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1792,
+        "line": 1806,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44455,7 +44560,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1800,
+        "line": 1814,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44466,7 +44571,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1808,
+        "line": 1822,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44477,7 +44582,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1816,
+        "line": 1830,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44488,7 +44593,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1824,
+        "line": 1838,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44499,7 +44604,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1832,
+        "line": 1846,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44510,7 +44615,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1840,
+        "line": 1854,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44521,7 +44626,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1848,
+        "line": 1862,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44532,7 +44637,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1856,
+        "line": 1870,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44543,7 +44648,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1864,
+        "line": 1878,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44554,7 +44659,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1872,
+        "line": 1886,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44565,7 +44670,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1883,
+        "line": 1897,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -44576,31 +44681,11 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1899,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*[]int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 1906,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/vacuum.gen.go",
         "line": 1913,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*int64"
+        "*[]int64"
       ]
     },
     {
@@ -44640,7 +44725,7 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.ChargeStatus"
+        "*int64"
       ]
     },
     {
@@ -44660,7 +44745,7 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*int64"
+        "*github.com/portpowered/go-roborock/pkg/dependencymodels.ChargeStatus"
       ]
     },
     {
@@ -44740,7 +44825,7 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.DockErrorCode"
+        "*int64"
       ]
     },
     {
@@ -44750,7 +44835,7 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.DockType"
+        "*int64"
       ]
     },
     {
@@ -44760,7 +44845,7 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*int64"
+        "*github.com/portpowered/go-roborock/pkg/dependencymodels.DockErrorCode"
       ]
     },
     {
@@ -44770,7 +44855,7 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*int64"
+        "*github.com/portpowered/go-roborock/pkg/dependencymodels.DockType"
       ]
     },
     {
@@ -44790,7 +44875,7 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.DeviceErrorCode"
+        "*int64"
       ]
     },
     {
@@ -44800,7 +44885,7 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.FanSpeed"
+        "*int64"
       ]
     },
     {
@@ -44810,7 +44895,7 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*int64"
+        "*github.com/portpowered/go-roborock/pkg/dependencymodels.DeviceErrorCode"
       ]
     },
     {
@@ -44820,7 +44905,7 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*int64"
+        "*github.com/portpowered/go-roborock/pkg/dependencymodels.FanSpeed"
       ]
     },
     {
@@ -44830,7 +44915,7 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.CleaningState"
+        "*int64"
       ]
     },
     {
@@ -44850,7 +44935,7 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*int64"
+        "*github.com/portpowered/go-roborock/pkg/dependencymodels.CleaningState"
       ]
     },
     {
@@ -44960,7 +45045,7 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.MopMode"
+        "*int64"
       ]
     },
     {
@@ -44980,7 +45065,7 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*int64"
+        "*github.com/portpowered/go-roborock/pkg/dependencymodels.MopMode"
       ]
     },
     {
@@ -45030,7 +45115,7 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.DeviceState"
+        "*int64"
       ]
     },
     {
@@ -45050,7 +45135,7 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*int64"
+        "*github.com/portpowered/go-roborock/pkg/dependencymodels.DeviceState"
       ]
     },
     {
@@ -45120,7 +45205,7 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.WaterMode"
+        "*int64"
       ]
     },
     {
@@ -45140,7 +45225,7 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*int64"
+        "*github.com/portpowered/go-roborock/pkg/dependencymodels.WaterMode"
       ]
     },
     {
@@ -45150,13 +45235,33 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
+        "*int64"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/vacuum.gen.go",
+        "line": 2305,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*int64"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/vacuum.gen.go",
+        "line": 2312,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
         "encoding/json.RawMessage"
       ]
     },
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2303,
+        "line": 2317,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45166,7 +45271,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2309,
+        "line": 2323,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -45177,7 +45282,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2315,
+        "line": 2329,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45187,7 +45292,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2322,
+        "line": 2336,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45197,7 +45302,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2335,
+        "line": 2349,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -45208,7 +45313,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2341,
+        "line": 2355,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45218,7 +45323,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2348,
+        "line": 2362,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45228,7 +45333,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2359,
+        "line": 2373,
         "symbol": "encoding/json.MarshalJSON"
       },
       "argumentTypes": []
@@ -45236,7 +45341,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2364,
+        "line": 2378,
         "symbol": "encoding/json.UnmarshalJSON"
       },
       "argumentTypes": [
@@ -45246,7 +45351,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2371,
+        "line": 2385,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -45257,7 +45362,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2377,
+        "line": 2391,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45267,7 +45372,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2384,
+        "line": 2398,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45277,7 +45382,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2397,
+        "line": 2411,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -45288,7 +45393,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2403,
+        "line": 2417,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45298,7 +45403,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2410,
+        "line": 2424,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45308,7 +45413,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2423,
+        "line": 2437,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -45319,7 +45424,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2429,
+        "line": 2443,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45329,7 +45434,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2436,
+        "line": 2450,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45339,7 +45444,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2447,
+        "line": 2461,
         "symbol": "encoding/json.MarshalJSON"
       },
       "argumentTypes": []
@@ -45347,7 +45452,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2452,
+        "line": 2466,
         "symbol": "encoding/json.UnmarshalJSON"
       },
       "argumentTypes": [
@@ -45357,7 +45462,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2459,
+        "line": 2473,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -45368,7 +45473,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2465,
+        "line": 2479,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45378,7 +45483,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2472,
+        "line": 2486,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45388,7 +45493,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2485,
+        "line": 2499,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -45399,7 +45504,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2491,
+        "line": 2505,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45409,7 +45514,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2498,
+        "line": 2512,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45419,7 +45524,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2511,
+        "line": 2525,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -45430,7 +45535,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2517,
+        "line": 2531,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45440,7 +45545,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2524,
+        "line": 2538,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45450,7 +45555,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2537,
+        "line": 2551,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -45461,7 +45566,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2543,
+        "line": 2557,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45471,7 +45576,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2550,
+        "line": 2564,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45481,7 +45586,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2561,
+        "line": 2575,
         "symbol": "encoding/json.MarshalJSON"
       },
       "argumentTypes": []
@@ -45489,7 +45594,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2566,
+        "line": 2580,
         "symbol": "encoding/json.UnmarshalJSON"
       },
       "argumentTypes": [
@@ -45499,7 +45604,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2573,
+        "line": 2587,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -45510,7 +45615,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2579,
+        "line": 2593,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45520,7 +45625,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2586,
+        "line": 2600,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45530,7 +45635,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2599,
+        "line": 2613,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -45541,7 +45646,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2605,
+        "line": 2619,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45551,7 +45656,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2612,
+        "line": 2626,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45561,7 +45666,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2623,
+        "line": 2637,
         "symbol": "encoding/json.MarshalJSON"
       },
       "argumentTypes": []
@@ -45569,7 +45674,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2628,
+        "line": 2642,
         "symbol": "encoding/json.UnmarshalJSON"
       },
       "argumentTypes": [
@@ -45579,7 +45684,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2635,
+        "line": 2649,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -45590,7 +45695,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2641,
+        "line": 2655,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45600,7 +45705,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2648,
+        "line": 2662,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45610,7 +45715,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2661,
+        "line": 2675,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -45621,7 +45726,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2667,
+        "line": 2681,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45631,7 +45736,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2674,
+        "line": 2688,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45641,7 +45746,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2685,
+        "line": 2699,
         "symbol": "encoding/json.MarshalJSON"
       },
       "argumentTypes": []
@@ -45649,7 +45754,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2690,
+        "line": 2704,
         "symbol": "encoding/json.UnmarshalJSON"
       },
       "argumentTypes": [
@@ -45659,7 +45764,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2697,
+        "line": 2711,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -45670,7 +45775,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2703,
+        "line": 2717,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45680,7 +45785,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2710,
+        "line": 2724,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45690,7 +45795,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2723,
+        "line": 2737,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -45701,7 +45806,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2729,
+        "line": 2743,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45711,7 +45816,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2736,
+        "line": 2750,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -45721,7 +45826,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2747,
+        "line": 2761,
         "symbol": "encoding/json.MarshalJSON"
       },
       "argumentTypes": []
@@ -45729,7 +45834,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/vacuum.gen.go",
-        "line": 2752,
+        "line": 2766,
         "symbol": "encoding/json.UnmarshalJSON"
       },
       "argumentTypes": [
@@ -46004,7 +46109,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 632,
+        "line": 644,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46015,7 +46120,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 638,
+        "line": 650,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46026,7 +46131,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 646,
+        "line": 658,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46037,7 +46142,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 654,
+        "line": 666,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46048,7 +46153,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 662,
+        "line": 674,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46059,7 +46164,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 670,
+        "line": 682,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46070,7 +46175,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 678,
+        "line": 690,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46081,7 +46186,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 686,
+        "line": 698,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46092,7 +46197,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 694,
+        "line": 706,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46103,7 +46208,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 702,
+        "line": 714,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46114,7 +46219,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 710,
+        "line": 722,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46125,7 +46230,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 718,
+        "line": 730,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46136,7 +46241,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 726,
+        "line": 738,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46147,7 +46252,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 734,
+        "line": 746,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46158,7 +46263,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 745,
+        "line": 757,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46169,7 +46274,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 761,
+        "line": 773,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46179,7 +46284,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 768,
+        "line": 780,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46189,7 +46294,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 775,
+        "line": 787,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46199,7 +46304,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 782,
+        "line": 794,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46209,7 +46314,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 789,
+        "line": 801,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46219,7 +46324,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 796,
+        "line": 808,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46229,7 +46334,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 803,
+        "line": 815,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46239,7 +46344,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 810,
+        "line": 822,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46249,7 +46354,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 817,
+        "line": 829,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46259,7 +46364,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 824,
+        "line": 836,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46269,7 +46374,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 831,
+        "line": 843,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46279,7 +46384,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 838,
+        "line": 850,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46289,7 +46394,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 845,
+        "line": 857,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46299,7 +46404,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 852,
+        "line": 864,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46309,7 +46414,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 857,
+        "line": 869,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46319,7 +46424,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 880,
+        "line": 892,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46330,7 +46435,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 886,
+        "line": 898,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46341,7 +46446,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 894,
+        "line": 906,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46352,7 +46457,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 902,
+        "line": 914,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46363,7 +46468,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 910,
+        "line": 922,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46374,7 +46479,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 918,
+        "line": 930,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46385,7 +46490,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 926,
+        "line": 938,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46396,7 +46501,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 937,
+        "line": 949,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46407,7 +46512,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 953,
+        "line": 965,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46417,7 +46522,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 960,
+        "line": 972,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46427,7 +46532,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 967,
+        "line": 979,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46437,7 +46542,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 974,
+        "line": 986,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46447,31 +46552,11 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 981,
+        "line": 993,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
         "*int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/roborock/operation_models.gen.go",
-        "line": 988,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*[]int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/roborock/operation_models.gen.go",
-        "line": 995,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "encoding/json.RawMessage"
       ]
     },
     {
@@ -46481,13 +46566,33 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
+        "*[]int64"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/roborock/operation_models.gen.go",
+        "line": 1007,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/roborock/operation_models.gen.go",
+        "line": 1012,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
         "map[string]encoding/json.RawMessage"
       ]
     },
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1023,
+        "line": 1035,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46498,7 +46603,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1029,
+        "line": 1041,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46509,7 +46614,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1037,
+        "line": 1049,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46520,7 +46625,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1045,
+        "line": 1057,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46531,7 +46636,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1053,
+        "line": 1065,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46542,7 +46647,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1061,
+        "line": 1073,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46553,7 +46658,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1069,
+        "line": 1081,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46564,7 +46669,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1077,
+        "line": 1089,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46575,7 +46680,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1085,
+        "line": 1097,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46586,7 +46691,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1093,
+        "line": 1105,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46597,7 +46702,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1104,
+        "line": 1116,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46608,7 +46713,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1120,
+        "line": 1132,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46618,7 +46723,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1127,
+        "line": 1139,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46628,7 +46733,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1134,
+        "line": 1146,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46638,7 +46743,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1141,
+        "line": 1153,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46648,7 +46753,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1148,
+        "line": 1160,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46658,7 +46763,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1155,
+        "line": 1167,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46668,7 +46773,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1162,
+        "line": 1174,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46678,31 +46783,11 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1169,
+        "line": 1181,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
         "*int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1176,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1183,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "encoding/json.RawMessage"
       ]
     },
     {
@@ -46712,13 +46797,33 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
+        "*int64"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/roborock/operation_models.gen.go",
+        "line": 1195,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/roborock/operation_models.gen.go",
+        "line": 1200,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
         "map[string]encoding/json.RawMessage"
       ]
     },
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1211,
+        "line": 1223,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46729,7 +46834,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1217,
+        "line": 1229,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46740,7 +46845,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1225,
+        "line": 1237,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46751,7 +46856,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1233,
+        "line": 1245,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46762,7 +46867,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1241,
+        "line": 1253,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46773,7 +46878,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1249,
+        "line": 1261,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46784,7 +46889,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1260,
+        "line": 1272,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46795,7 +46900,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1276,
+        "line": 1288,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46805,7 +46910,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1283,
+        "line": 1295,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46815,7 +46920,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1290,
+        "line": 1302,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -46825,31 +46930,11 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1297,
+        "line": 1309,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
         "*int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1304,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1311,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "encoding/json.RawMessage"
       ]
     },
     {
@@ -46859,13 +46944,33 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
+        "*int64"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/roborock/operation_models.gen.go",
+        "line": 1323,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/roborock/operation_models.gen.go",
+        "line": 1328,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
         "map[string]encoding/json.RawMessage"
       ]
     },
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1339,
+        "line": 1351,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46876,7 +46981,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1345,
+        "line": 1357,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46887,7 +46992,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1353,
+        "line": 1365,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46898,7 +47003,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1361,
+        "line": 1373,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46909,7 +47014,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1369,
+        "line": 1381,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46920,7 +47025,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1377,
+        "line": 1389,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46931,7 +47036,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1385,
+        "line": 1397,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46942,7 +47047,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1393,
+        "line": 1405,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46953,7 +47058,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1401,
+        "line": 1413,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46964,7 +47069,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1409,
+        "line": 1421,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46975,7 +47080,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1417,
+        "line": 1429,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46986,7 +47091,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1425,
+        "line": 1437,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46997,7 +47102,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1433,
+        "line": 1445,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47008,7 +47113,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1441,
+        "line": 1453,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47019,7 +47124,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1449,
+        "line": 1461,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47030,7 +47135,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1457,
+        "line": 1469,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47041,7 +47146,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1465,
+        "line": 1477,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47052,7 +47157,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1473,
+        "line": 1485,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47063,7 +47168,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1481,
+        "line": 1493,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47074,7 +47179,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1489,
+        "line": 1501,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47085,7 +47190,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1497,
+        "line": 1509,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47096,7 +47201,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1505,
+        "line": 1517,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47107,7 +47212,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1513,
+        "line": 1525,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47118,7 +47223,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1521,
+        "line": 1533,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47129,7 +47234,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1529,
+        "line": 1541,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47140,7 +47245,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1537,
+        "line": 1549,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47151,7 +47256,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1545,
+        "line": 1557,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47162,7 +47267,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1553,
+        "line": 1565,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47173,7 +47278,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1561,
+        "line": 1573,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47184,7 +47289,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1569,
+        "line": 1581,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47195,7 +47300,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1577,
+        "line": 1589,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47206,7 +47311,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1585,
+        "line": 1597,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47217,7 +47322,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1593,
+        "line": 1605,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47228,7 +47333,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1601,
+        "line": 1613,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47239,7 +47344,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1609,
+        "line": 1621,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47250,7 +47355,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1617,
+        "line": 1629,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47261,7 +47366,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1625,
+        "line": 1637,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47272,7 +47377,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1633,
+        "line": 1645,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47283,7 +47388,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1641,
+        "line": 1653,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47294,7 +47399,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1649,
+        "line": 1661,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47305,7 +47410,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1657,
+        "line": 1669,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47316,7 +47421,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1665,
+        "line": 1677,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47327,7 +47432,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1673,
+        "line": 1685,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47338,7 +47443,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1681,
+        "line": 1693,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47349,7 +47454,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1689,
+        "line": 1701,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47360,7 +47465,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1697,
+        "line": 1709,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47371,7 +47476,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1705,
+        "line": 1717,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47382,7 +47487,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1713,
+        "line": 1725,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47393,7 +47498,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1721,
+        "line": 1733,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47404,7 +47509,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1729,
+        "line": 1741,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47415,7 +47520,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1737,
+        "line": 1749,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47426,7 +47531,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1745,
+        "line": 1757,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47437,7 +47542,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1753,
+        "line": 1765,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47448,7 +47553,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1761,
+        "line": 1773,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47459,7 +47564,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1769,
+        "line": 1781,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47470,7 +47575,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1777,
+        "line": 1789,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47481,7 +47586,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1785,
+        "line": 1797,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47492,7 +47597,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1793,
+        "line": 1805,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47503,7 +47608,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1804,
+        "line": 1816,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47514,7 +47619,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1820,
+        "line": 1832,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47524,7 +47629,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1827,
+        "line": 1839,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47534,7 +47639,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1834,
+        "line": 1846,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47544,7 +47649,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1841,
+        "line": 1853,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47554,7 +47659,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1848,
+        "line": 1860,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47564,7 +47669,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1855,
+        "line": 1867,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47574,7 +47679,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1862,
+        "line": 1874,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47584,7 +47689,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1869,
+        "line": 1881,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47594,7 +47699,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1876,
+        "line": 1888,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47604,7 +47709,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1883,
+        "line": 1895,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47614,7 +47719,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1890,
+        "line": 1902,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47624,7 +47729,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1897,
+        "line": 1909,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47634,7 +47739,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1904,
+        "line": 1916,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47644,7 +47749,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1911,
+        "line": 1923,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47654,7 +47759,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1918,
+        "line": 1930,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47664,7 +47769,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1925,
+        "line": 1937,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47674,7 +47779,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1932,
+        "line": 1944,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47684,7 +47789,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1939,
+        "line": 1951,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47694,7 +47799,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1946,
+        "line": 1958,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47704,7 +47809,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1953,
+        "line": 1965,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47714,7 +47819,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1960,
+        "line": 1972,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47724,7 +47829,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1967,
+        "line": 1979,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47734,7 +47839,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1974,
+        "line": 1986,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47744,7 +47849,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1981,
+        "line": 1993,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47754,7 +47859,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1988,
+        "line": 2000,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47764,7 +47869,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 1995,
+        "line": 2007,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47774,7 +47879,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2002,
+        "line": 2014,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47784,7 +47889,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2009,
+        "line": 2021,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47794,7 +47899,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2016,
+        "line": 2028,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47804,7 +47909,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2023,
+        "line": 2035,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47814,7 +47919,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2030,
+        "line": 2042,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47824,7 +47929,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2037,
+        "line": 2049,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47834,7 +47939,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2044,
+        "line": 2056,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47844,7 +47949,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2051,
+        "line": 2063,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47854,7 +47959,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2058,
+        "line": 2070,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47864,7 +47969,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2065,
+        "line": 2077,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47874,7 +47979,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2072,
+        "line": 2084,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47884,7 +47989,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2079,
+        "line": 2091,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47894,7 +47999,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2086,
+        "line": 2098,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47904,7 +48009,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2093,
+        "line": 2105,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47914,7 +48019,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2100,
+        "line": 2112,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47924,7 +48029,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2107,
+        "line": 2119,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47934,7 +48039,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2114,
+        "line": 2126,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47944,7 +48049,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2121,
+        "line": 2133,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47954,7 +48059,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2128,
+        "line": 2140,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47964,7 +48069,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2135,
+        "line": 2147,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47974,7 +48079,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2142,
+        "line": 2154,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47984,7 +48089,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2149,
+        "line": 2161,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47994,7 +48099,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2156,
+        "line": 2168,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -48004,7 +48109,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2163,
+        "line": 2175,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -48014,7 +48119,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2170,
+        "line": 2182,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -48024,7 +48129,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2177,
+        "line": 2189,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -48034,7 +48139,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2184,
+        "line": 2196,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -48044,7 +48149,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2191,
+        "line": 2203,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -48054,7 +48159,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2198,
+        "line": 2210,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -48064,7 +48169,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2205,
+        "line": 2217,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -48074,7 +48179,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2212,
+        "line": 2224,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -48084,7 +48189,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2219,
+        "line": 2231,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -48094,7 +48199,7 @@
     {
       "site": {
         "file": "pkg/roborock/operation_models.gen.go",
-        "line": 2224,
+        "line": 2236,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [

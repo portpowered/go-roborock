@@ -476,6 +476,18 @@ type SendICERequest struct {
 	Candidate string `json:"candidate"`
 }
 
+// SetCleaningModeRequest defines model for SetCleaningModeRequest.
+type SetCleaningModeRequest struct {
+	// FanSpeed Open FanSpeed value; future firmware values are accepted.
+	FanSpeed FanSpeed `json:"fanSpeed"`
+
+	// MopMode Optional mop route; omit it for robots without route settings.
+	MopMode *MopMode `json:"mopMode,omitempty"`
+
+	// WaterMode Open WaterMode value; WaterModeOff selects vacuum only.
+	WaterMode WaterMode `json:"waterMode"`
+}
+
 // SetDNDRequest defines model for SetDNDRequest.
 type SetDNDRequest struct {
 	EndHour     int64 `json:"end_hour"`

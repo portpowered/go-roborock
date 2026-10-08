@@ -117,6 +117,26 @@ func (s *DeviceSession) SetMopMode(ctx context.Context, req SetMopModeRequest) (
 	return s.command(ctx, dependencymodels.RPCSetMopMode, dependencymodels.IntegerParameters{int64(req.Mode)})
 }
 
+// SetCleaningMode sets fan speed, water mode and optional mop route together, as the app's
+// cleaning-mode selector does. A robot in a customized or smart mode rejects SetWaterMode and the
+// other single-setting commands; use this to leave that mode, for example with WaterModeOff for
+// vacuum only. The command is sent once without automatic retries.
+func (s *DeviceSession) SetCleaningMode(
+	ctx context.Context,
+	req SetCleaningModeRequest,
+) (CommandAcknowledgement, error) {
+	mode := dependencymodels.CleanMotorMode{
+		FanPower: int64(req.FanSpeed), WaterBoxMode: int64(req.WaterMode), MopMode: nil,
+	}
+
+	if req.MopMode != nil {
+		route := int64(*req.MopMode)
+		mode.MopMode = &route
+	}
+
+	return s.command(ctx, dependencymodels.RPCSetCleanMotorMode, dependencymodels.CleanMotorModeParameters{mode})
+}
+
 // SetDND sends the device command once without automatic retries.
 func (s *DeviceSession) SetDND(ctx context.Context, req SetDNDRequest) (CommandAcknowledgement, error) {
 	if !validDND(req) {

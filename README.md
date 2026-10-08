@@ -76,7 +76,7 @@ The following expressions are short call examples; `r` denotes `roborock`, `c` a
 | Return to dock, spot clean | `s.ReturnToDock(ctx, r.EmptyRequest{})`; `s.SpotClean(ctx, r.EmptyRequest{})` |
 | Dust collection | `s.StartDustCollection(ctx, r.EmptyRequest{})`; `s.StopDustCollection(ctx, r.EmptyRequest{})` |
 | Mop washing | `s.StartMopWashing(ctx, r.EmptyRequest{})`; `s.StopMopWashing(ctx, r.EmptyRequest{})` |
-| Fan, water, mop mode | `s.SetFanSpeed(ctx, r.SetFanSpeedRequest{Speed: speed})`; `s.SetWaterMode(ctx, r.SetWaterModeRequest{Mode: water})`; `s.SetMopMode(ctx, r.SetMopModeRequest{Mode: mop})` |
+| Fan, water, mop mode | `s.SetFanSpeed(ctx, r.SetFanSpeedRequest{Speed: speed})`; `s.SetWaterMode(ctx, r.SetWaterModeRequest{Mode: water})`; `s.SetMopMode(ctx, r.SetMopModeRequest{Mode: mop})`; switch the whole mode with `s.SetCleaningMode(ctx, r.SetCleaningModeRequest{FanSpeed: speed, WaterMode: water, MopMode: &mop})` |
 | Configure, disable DND | `s.SetDND(ctx, r.SetDNDRequest{StartHour: 22, EndHour: 8})`; `s.DisableDND(ctx, r.EmptyRequest{})` |
 | Zones, segments (family-dependent) | `s.CleanZones(ctx, r.CleanZonesRequest{Zones: zones})`; `s.CleanSegments(ctx, r.CleanSegmentsRequest{Segments: segments, Repeats: 1})` |
 | Remote control lifecycle | `s.RCStart(ctx, r.EmptyRequest{})`; `s.RCStop(ctx, r.EmptyRequest{})`; `s.RCEnd(ctx, r.EmptyRequest{})` |

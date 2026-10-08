@@ -669,6 +669,52 @@
           "mode"
         ]
       },
+      "SetCleaningModeRequest": {
+        "type": "object",
+        "properties": {
+          "fanSpeed": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FanSpeed"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "FanSpeed",
+            "description": "Open FanSpeed value; future firmware values are accepted."
+          },
+          "waterMode": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WaterMode"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "WaterMode",
+            "description": "Open WaterMode value; WaterModeOff selects vacuum only."
+          },
+          "mopMode": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MopMode"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "x-go-type": "MopMode",
+            "description": "Optional mop route; omit it for robots without route settings."
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "fanSpeed",
+          "waterMode"
+        ]
+      },
       "CleanRecordRequest": {
         "type": "object",
         "properties": {
