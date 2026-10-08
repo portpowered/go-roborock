@@ -880,7 +880,7 @@
         }
       ],
       "summary": "SetCleanMotorMode on a vacuum",
-      "description": "Sets fan power, water flow and mop route together. Robots in a customized or smart cleaning mode reject the single-setting commands; this switches the whole cleaning mode (python-roborock set_cleaning_mode).",
+      "description": "Sets fan power, water flow and mop route together, as the Roborock app's cleaning-mode selector does. An S8 MaxV Ultra in Custom mode rejected set_water_box_custom_mode (-10005) but accepted this command.",
       "x-rpc-method": "set_clean_motor_mode",
       "x-go-request-schema": {
         "$ref": "#/components/schemas/CleanMotorModeParameters"
@@ -1669,7 +1669,8 @@
             "type": "integer",
             "format": "int64"
           }
-        }
+        },
+        "additionalProperties": false
       },
       "SegmentCommand": {
         "type": "object",

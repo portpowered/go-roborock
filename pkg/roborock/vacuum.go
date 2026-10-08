@@ -31,6 +31,7 @@ type DeviceOperations interface {
 	SetFanSpeed(ctx context.Context, req SetFanSpeedRequest) (CommandAcknowledgement, error)
 	SetWaterMode(ctx context.Context, req SetWaterModeRequest) (CommandAcknowledgement, error)
 	SetMopMode(ctx context.Context, req SetMopModeRequest) (CommandAcknowledgement, error)
+	SetCleanMotorMode(ctx context.Context, req SetCleanMotorModeRequest) (CommandAcknowledgement, error)
 	SetDND(ctx context.Context, req SetDNDRequest) (CommandAcknowledgement, error)
 	CleanZones(ctx context.Context, req CleanZonesRequest) (CommandAcknowledgement, error)
 	CleanSegments(ctx context.Context, req CleanSegmentsRequest) (CommandAcknowledgement, error)
@@ -117,13 +118,13 @@ func (s *DeviceSession) SetMopMode(ctx context.Context, req SetMopModeRequest) (
 	return s.command(ctx, dependencymodels.RPCSetMopMode, dependencymodels.IntegerParameters{int64(req.Mode)})
 }
 
-// SetCleaningMode sets fan speed, water mode and optional mop route together, as the app's
-// cleaning-mode selector does. A robot in a customized or smart mode rejects SetWaterMode and the
-// other single-setting commands; use this to leave that mode, for example with WaterModeOff for
-// vacuum only. The command is sent once without automatic retries.
-func (s *DeviceSession) SetCleaningMode(
+// SetCleanMotorMode sets fan speed, water mode and optional mop route together, as the Roborock
+// app's cleaning-mode selector does; WaterModeOff selects vacuum only. It takes raw mode codes,
+// unlike python-roborock's high-level set_cleaning_mode. An S8 MaxV Ultra in the app's Custom mode
+// rejected SetWaterMode (-10005) but accepted this command. It is sent once without retries.
+func (s *DeviceSession) SetCleanMotorMode(
 	ctx context.Context,
-	req SetCleaningModeRequest,
+	req SetCleanMotorModeRequest,
 ) (CommandAcknowledgement, error) {
 	mode := dependencymodels.CleanMotorMode{
 		FanPower: int64(req.FanSpeed), WaterBoxMode: int64(req.WaterMode), MopMode: nil,

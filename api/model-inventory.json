@@ -10870,7 +10870,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 125,
+          "line": 129,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleanMotorMode"
         }
       ]
@@ -10891,7 +10891,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 131,
+          "line": 138,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CleanMotorModeParameters"
         }
       ]
@@ -15119,22 +15119,22 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 107,
+          "line": 108,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.IntegerParameters"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 112,
+          "line": 113,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.IntegerParameters"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 117,
+          "line": 118,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.IntegerParameters"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 148,
+          "line": 155,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.IntegerParameters"
         },
         {
@@ -16602,67 +16602,67 @@
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 42,
+          "line": 43,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.NoParameters"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 47,
+          "line": 48,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.NoParameters"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 52,
+          "line": 53,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.NoParameters"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 57,
+          "line": 58,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.NoParameters"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 62,
+          "line": 63,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.NoParameters"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 67,
+          "line": 68,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.NoParameters"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 72,
+          "line": 73,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.NoParameters"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 77,
+          "line": 78,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.NoParameters"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 82,
+          "line": 83,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.NoParameters"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 87,
+          "line": 88,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.NoParameters"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 92,
+          "line": 93,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.NoParameters"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 97,
+          "line": 98,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.NoParameters"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 102,
+          "line": 103,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.NoParameters"
         },
         {
@@ -17260,7 +17260,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 205,
+          "line": 212,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RCCommand"
         }
       ]
@@ -17311,7 +17311,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 204,
+          "line": 211,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RCParameters"
         }
       ]
@@ -17539,7 +17539,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 183,
+          "line": 190,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCleanSegments"
         }
       ]
@@ -17561,7 +17561,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 163,
+          "line": 170,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCleanZones"
         }
       ]
@@ -17583,7 +17583,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 102,
+          "line": 103,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCDisableDND"
         }
       ]
@@ -17771,7 +17771,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 52,
+          "line": 53,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCPauseCleaning"
         }
       ]
@@ -17793,7 +17793,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 97,
+          "line": 98,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCRCEnd"
         }
       ]
@@ -17815,7 +17815,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 203,
+          "line": 210,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCRCMove"
         }
       ]
@@ -17837,7 +17837,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 87,
+          "line": 88,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCRCStart"
         }
       ]
@@ -17859,7 +17859,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 92,
+          "line": 93,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCRCStop"
         }
       ]
@@ -17881,7 +17881,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 57,
+          "line": 58,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCReturnToDock"
         }
       ]
@@ -17903,7 +17903,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 131,
+          "line": 138,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCSetCleanMotorMode"
         }
       ]
@@ -17925,7 +17925,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 147,
+          "line": 154,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCSetDND"
         }
       ]
@@ -17947,7 +17947,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 107,
+          "line": 108,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCSetFanSpeed"
         }
       ]
@@ -17969,7 +17969,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 117,
+          "line": 118,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCSetMopMode"
         }
       ]
@@ -17991,7 +17991,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 112,
+          "line": 113,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCSetWaterMode"
         }
       ]
@@ -18013,7 +18013,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 62,
+          "line": 63,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCSpotClean"
         }
       ]
@@ -18035,7 +18035,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 42,
+          "line": 43,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCStartCleaning"
         }
       ]
@@ -18057,7 +18057,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 67,
+          "line": 68,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCStartDustCollection"
         }
       ]
@@ -18079,7 +18079,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 77,
+          "line": 78,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCStartMopWashing"
         }
       ]
@@ -18101,7 +18101,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 47,
+          "line": 48,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCStopCleaning"
         }
       ]
@@ -18123,7 +18123,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 72,
+          "line": 73,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCStopDustCollection"
         }
       ]
@@ -18145,7 +18145,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 82,
+          "line": 83,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCStopMopWashing"
         }
       ]
@@ -18433,7 +18433,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 185,
+          "line": 192,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.SegmentCommand"
         }
       ]
@@ -18454,7 +18454,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 184,
+          "line": 191,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.SegmentParameters"
         }
       ]
@@ -20864,12 +20864,12 @@
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 36,
+          "line": 37,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CleanSegmentsRequest"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 167,
+          "line": 174,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CleanSegmentsRequest"
         }
       ]
@@ -21431,12 +21431,12 @@
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 35,
+          "line": 36,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CleanZonesRequest"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 153,
+          "line": 160,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CleanZonesRequest"
         },
         {
@@ -21873,102 +21873,102 @@
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 41,
+          "line": 38,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 46,
+          "line": 42,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 51,
+          "line": 47,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 56,
+          "line": 52,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 61,
+          "line": 57,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 66,
+          "line": 62,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 71,
+          "line": 67,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 76,
+          "line": 72,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 81,
+          "line": 77,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 86,
+          "line": 82,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 91,
+          "line": 87,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 96,
+          "line": 92,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 101,
+          "line": 97,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 106,
+          "line": 102,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 111,
+          "line": 107,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 116,
+          "line": 112,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 124,
+          "line": 117,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 135,
+          "line": 128,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 137,
+          "line": 142,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 153,
+          "line": 144,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
@@ -21983,17 +21983,22 @@
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 169,
+          "line": 174,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 191,
+          "line": 176,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 193,
+          "line": 198,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
+        },
+        {
+          "file": "pkg/roborock/vacuum.go",
+          "line": 200,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
@@ -26753,67 +26758,67 @@
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 41,
+          "line": 42,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 46,
+          "line": 47,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 51,
+          "line": 52,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 56,
+          "line": 57,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 61,
+          "line": 62,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 66,
+          "line": 67,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 71,
+          "line": 72,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 76,
+          "line": 77,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 81,
+          "line": 82,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 86,
+          "line": 87,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 91,
+          "line": 92,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 96,
+          "line": 97,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 101,
+          "line": 102,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
@@ -27113,12 +27118,12 @@
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 154,
+          "line": 161,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.FamilyV1Vacuum"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 177,
+          "line": 184,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.FamilyV1Vacuum"
         }
       ]
@@ -29082,12 +29087,12 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 37,
+          "line": 38,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.RCMoveRequest"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 191,
+          "line": 198,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.RCMoveRequest"
         },
         {
@@ -29332,23 +29337,28 @@
       ]
     },
     {
-      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SetCleaningModeRequest",
+      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SetCleanMotorModeRequest",
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/operation_models.gen.go",
         "line": 480,
-        "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SetCleaningModeRequest"
+        "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SetCleanMotorModeRequest"
       },
       "schema": {
         "file": "api/operation-models.openapi.yaml",
-        "pointer": "#/components/schemas/SetCleaningModeRequest"
+        "pointer": "#/components/schemas/SetCleanMotorModeRequest"
       },
       "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 124,
-          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SetCleaningModeRequest"
+          "line": 34,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SetCleanMotorModeRequest"
+        },
+        {
+          "file": "pkg/roborock/vacuum.go",
+          "line": 127,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SetCleanMotorModeRequest"
         }
       ]
     },
@@ -29368,12 +29378,12 @@
       "productionUses": [
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 34,
+          "line": 35,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SetDNDRequest"
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 135,
+          "line": 142,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SetDNDRequest"
         },
         {
@@ -29435,7 +29445,7 @@
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 106,
+          "line": 107,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SetFanSpeedRequest"
         }
       ]
@@ -29461,7 +29471,7 @@
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 116,
+          "line": 117,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SetMopModeRequest"
         }
       ]
@@ -29487,7 +29497,7 @@
         },
         {
           "file": "pkg/roborock/vacuum.go",
-          "line": 111,
+          "line": 112,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SetWaterModeRequest"
         }
       ]

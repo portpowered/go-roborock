@@ -476,16 +476,16 @@ type SendICERequest struct {
 	Candidate string `json:"candidate"`
 }
 
-// SetCleaningModeRequest defines model for SetCleaningModeRequest.
-type SetCleaningModeRequest struct {
+// SetCleanMotorModeRequest defines model for SetCleanMotorModeRequest.
+type SetCleanMotorModeRequest struct {
 	// FanSpeed Open FanSpeed value; future firmware values are accepted.
-	FanSpeed FanSpeed `json:"fanSpeed"`
+	FanSpeed FanSpeed `json:"fan_speed"`
 
-	// MopMode Optional mop route; omit it for robots without route settings.
-	MopMode *MopMode `json:"mopMode,omitempty"`
+	// MopMode Optional mop route. Send it only to robots with route settings: python-roborock sends mop_mode when the robot reports a shake or spin mop module.
+	MopMode *MopMode `json:"mop_mode,omitempty"`
 
 	// WaterMode Open WaterMode value; WaterModeOff selects vacuum only.
-	WaterMode WaterMode `json:"waterMode"`
+	WaterMode WaterMode `json:"water_mode"`
 }
 
 // SetDNDRequest defines model for SetDNDRequest.
