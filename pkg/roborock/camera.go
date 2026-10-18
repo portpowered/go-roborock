@@ -180,7 +180,7 @@ func (c *CameraSession) GetICE(ctx context.Context, _ EmptyRequest) (DeviceICERe
 
 	defer cancel()
 
-	raw, err := c.call(callCtx, dependencymodels.RPCCameraGetICE, dependencymodels.CameraEmptyParameters{})
+	raw, err := c.call(callCtx, dependencymodels.RPCCameraGetICE)
 	if err != nil {
 		return DeviceICEResult{}, err
 	}
@@ -271,15 +271,22 @@ func (c *CameraSession) context(ctx context.Context) (context.Context, context.C
 func (c *CameraSession) call(
 	ctx context.Context,
 	method dependencymodels.CameraRPCMethod,
-	params any,
 ) (json.RawMessage, error) {
-	return c.device.callV1(ctx, dependencymodels.RPCMethod(method), params)
+	raw, err := c.device.callV1(ctx, dependencymodels.RPCMethod(method), dependencymodels.CameraEmptyParameters{})
+	if err != nil {
+		return nil, roborockerrors.Wrap(roborockerrors.Unavailable, string(method), "camera signaling failed", err)
+	}
+
+	return raw, nil
 }
 
 func (c *CameraSession) ack(ctx context.Context, method dependencymodels.CameraRPCMethod, params any) error {
 	_, err := c.device.command(ctx, dependencymodels.RPCMethod(method), params)
+	if err != nil {
+		return roborockerrors.Wrap(roborockerrors.Unavailable, string(method), "camera signaling failed", err)
+	}
 
-	return err
+	return nil
 }
 
 func cameraProtocol(operation string, cause error) error {
@@ -287,7 +294,7 @@ func cameraProtocol(operation string, cause error) error {
 }
 
 func (c *CameraSession) turn(ctx context.Context) (TURNServer, error) {
-	raw, err := c.call(ctx, dependencymodels.RPCCameraGetTURN, dependencymodels.CameraEmptyParameters{})
+	raw, err := c.call(ctx, dependencymodels.RPCCameraGetTURN)
 	if err != nil {
 		return TURNServer{}, err
 	}
@@ -313,7 +320,7 @@ func (c *CameraSession) turn(ctx context.Context) (TURNServer, error) {
 
 func (c *CameraSession) waitSDP(ctx context.Context) (string, error) {
 	for attempt := range cameraSDPPollAttempts {
-		raw, err := c.call(ctx, dependencymodels.RPCCameraGetSDP, dependencymodels.CameraEmptyParameters{})
+		raw, err := c.call(ctx, dependencymodels.RPCCameraGetSDP)
 		if err != nil {
 			return "", err
 		}

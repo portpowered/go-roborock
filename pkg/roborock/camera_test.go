@@ -9,6 +9,7 @@ import (
 	"sync"
 	"testing"
 
+	"github.com/portpowered/go-roborock/pkg/dependencymodels"
 	"github.com/portpowered/go-roborock/pkg/roborockerrors"
 )
 
@@ -289,4 +290,35 @@ func closeCameraConcurrently(t *testing.T, camera *CameraSession) {
 	}
 
 	group.Wait()
+}
+
+func TestCameraFailurePreservesRPCStageAndTypedCause(t *testing.T) {
+	t.Parallel()
+
+	for _, method := range []dependencymodels.CameraRPCMethod{
+		dependencymodels.RPCCameraCheckPassword,
+		dependencymodels.RPCCameraGetTURN,
+	} {
+		t.Run(string(method), func(t *testing.T) {
+			t.Parallel()
+
+			cause := roborockerrors.New(roborockerrors.Timeout, "Call", "request timed out", context.DeadlineExceeded)
+			session := operationSession(t, rpcExchange{method: string(method), params: `{}`, response: "", failure: cause})
+			camera := new(CameraSession)
+			camera.device = session
+
+			var err error
+			if method == dependencymodels.RPCCameraCheckPassword {
+				err = camera.ack(context.Background(), method, dependencymodels.CameraEmptyParameters{})
+			} else {
+				_, err = camera.call(context.Background(), method)
+			}
+
+			var typed *roborockerrors.Error
+			if !errors.As(err, &typed) || typed.Operation != string(method) ||
+				typed.Kind != roborockerrors.Timeout || !errors.Is(err, cause) {
+				t.Fatalf("camera RPC diagnostics lost: %v", err)
+			}
+		})
+	}
 }
