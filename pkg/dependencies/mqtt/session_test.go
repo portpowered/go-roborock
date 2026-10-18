@@ -21,6 +21,238 @@ import (
 	"github.com/portpowered/go-roborock/pkg/roborockerrors"
 )
 
+// Synthetic paired exchanges: all sessions intentionally share account, device,
+// topics and key, matching how concurrent camera and control sessions coexist.
+type observedRPC struct {
+	broker  broker
+	frame   deviceFrame
+	command dependencymodels.MQTTRPCRequest
+}
+
+func openObservedV1Session(t *testing.T, method string) (*Session, <-chan error, <-chan observedRPC) {
+	t.Helper()
+
+	observed := make(chan observedRPC, 1)
+	session, completed := openTestSession(t, protocol.MQTTVersionV1, func(active broker) error {
+		frame, err := active.command()
+		if err != nil {
+			return err
+		}
+
+		command, err := request(frame)
+		if err != nil {
+			return err
+		}
+
+		if command.Method != method || string(command.Params) != "[]" || !validRPCSecurity(command.Security) {
+			return fmt.Errorf("%w: expected %s", errSyntheticBroker, method)
+		}
+
+		observed <- observedRPC{broker: active, frame: frame, command: command}
+
+		return waitForBrokerClose(active)
+	})
+
+	return session, completed, observed
+}
+
+func replyObservedRPC(t *testing.T, target observedRPC, id int64, value string) {
+	t.Helper()
+
+	err := target.broker.replyRPC(target.frame, id, json.RawMessage(fmt.Sprintf("%q", value)), target.broker.topic)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func closeObservedSession(t *testing.T, session *Session, completed <-chan error) {
+	t.Helper()
+
+	err := session.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = <-completed
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func assertObservedRPC(t *testing.T, results <-chan response, expected string) {
+	t.Helper()
+
+	result := <-results
+	if result.err != nil || string(result.value) != fmt.Sprintf("%q", expected) {
+		t.Fatalf("result=%s error=%v expected=%s", result.value, result.err, expected)
+	}
+}
+
+func TestSessionV1ConcurrentAndReopenedConnectionsIgnoreOtherReplies(t *testing.T) {
+	t.Parallel()
+	first, firstDone, firstRequest := openObservedV1Session(t, "get_status")
+	second, secondDone, secondRequest := openObservedV1Session(t, "get_room_mapping")
+	firstResult := make(chan response, 1)
+	secondResult := make(chan response, 1)
+
+	go func() {
+		value, err := first.Call(t.Context(), "get_status", nil)
+		firstResult <- response{value: value, err: err}
+	}()
+	go func() {
+		value, err := second.Call(t.Context(), "get_room_mapping", nil)
+		secondResult <- response{value: value, err: err}
+	}()
+
+	requestA, requestB := <-firstRequest, <-secondRequest
+	if requestA.command.Id == requestB.command.Id {
+		t.Fatal("concurrent connections reused RPC ID")
+	}
+
+	for _, target := range []observedRPC{requestA, requestB} {
+		replyObservedRPC(t, target, requestA.command.Id, "first")
+	}
+
+	replyObservedRPC(t, requestB, requestB.command.Id, "second")
+	assertObservedRPC(t, firstResult, "first")
+	assertObservedRPC(t, secondResult, "second")
+	closeObservedSession(t, first, firstDone)
+	third, thirdDone, thirdRequest := openObservedV1Session(t, "get_status")
+	thirdResult := make(chan response, 1)
+
+	go func() {
+		value, err := third.Call(t.Context(), "get_status", nil)
+		thirdResult <- response{value: value, err: err}
+	}()
+
+	requestC := <-thirdRequest
+	if requestC.command.Id == requestA.command.Id {
+		t.Fatal("reopened connection reused retired ID")
+	}
+
+	replyObservedRPC(t, requestC, requestA.command.Id, "late")
+	replyObservedRPC(t, requestC, requestC.command.Id, "third")
+	assertObservedRPC(t, thirdResult, "third")
+	closeObservedSession(t, second, secondDone)
+	closeObservedSession(t, third, thirdDone)
+}
+
+func TestV1RequestIDLeaseExhaustionAndReleaseQuarantine(t *testing.T) {
+	t.Parallel()
+	func() {
+		var pool requestIDPool
+
+		releases := make([]func(), 0, v1RequestIDCount)
+
+		for index := range v1RequestIDCount {
+			id, release, err := pool.acquire()
+			if err != nil || id != int64(index+v1RequestIDMinimum) {
+				t.Fatalf("id=%d error=%v", id, err)
+			}
+
+			releases = append(releases, release)
+		}
+
+		_, _, err := pool.acquire()
+		_ = assertErrorKind(t, err, roborockerrors.Backpressure)
+		// Active leases cannot expire even after the stale-response horizon.
+		_, _, err = pool.acquireAt(time.Now().Add(responseTimeout))
+		_ = assertErrorKind(t, err, roborockerrors.Backpressure)
+
+		releases[0]()
+
+		deadline := pool.leases[0].after
+		if time.Until(deadline) < responseTimeout-time.Second {
+			t.Fatal("ID not quarantined from release")
+		}
+
+		_, _, err = pool.acquireAt(deadline.Add(-time.Nanosecond))
+		_ = assertErrorKind(t, err, roborockerrors.Backpressure)
+
+		id, release, err := pool.acquireAt(deadline)
+		if err != nil || id != v1RequestIDMinimum {
+			t.Fatalf("reused id=%d error=%v", id, err)
+		}
+		// Releasing an old lease twice must not retire its new owner.
+		releases[0]()
+
+		_, _, err = pool.acquire()
+		_ = assertErrorKind(t, err, roborockerrors.Backpressure)
+
+		release()
+
+		for _, release := range releases {
+			release()
+		}
+	}()
+}
+
+func TestSessionV1MapErrorCannotCompleteAnotherConnectionsRPC(t *testing.T) {
+	t.Parallel()
+	mapSession, mapDone, mapRequest := openObservedV1Session(t, "get_map_v1")
+	rpcSession, rpcDone, rpcRequest := openObservedV1Session(t, "get_status")
+	mapResult := make(chan error, 1)
+	rpcResult := make(chan response, 1)
+
+	go func() { _, err := mapSession.FetchMapV1(t.Context()); mapResult <- err }()
+	go func() {
+		value, err := rpcSession.Call(t.Context(), "get_status", nil)
+		rpcResult <- response{value: value, err: err}
+	}()
+
+	mapCall, rpcCall := <-mapRequest, <-rpcRequest
+	if mapCall.command.Id == rpcCall.command.Id {
+		t.Fatal("map and RPC connections reused ID")
+	}
+
+	for _, target := range []observedRPC{mapCall, rpcCall} {
+		err := target.broker.mapRPCReply(target.frame, mapCall.command.Id, mapRPCOutcomeRejected)
+		if err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	replyObservedRPC(t, rpcCall, rpcCall.command.Id, "status")
+
+	err := <-mapResult
+	if err == nil {
+		t.Fatal("map rejection was lost")
+	}
+
+	assertObservedRPC(t, rpcResult, "status")
+	closeObservedSession(t, mapSession, mapDone)
+	closeObservedSession(t, rpcSession, rpcDone)
+}
+
+func TestSessionV1CancellationReleasesAndQuarantinesID(t *testing.T) {
+	t.Parallel()
+	session, completed, observed := openObservedV1Session(t, "get_status")
+	ctx, cancel := context.WithCancel(t.Context())
+	result := make(chan error, 1)
+
+	go func() { _, err := session.Call(ctx, "get_status", nil); result <- err }()
+
+	call := <-observed
+
+	cancel()
+
+	err := <-result
+
+	if !errors.Is(err, context.Canceled) {
+		t.Fatalf("cancellation=%v", err)
+	}
+
+	v1RequestIDs.mu.Lock()
+	lease := v1RequestIDs.leases[call.command.Id-v1RequestIDMinimum]
+	v1RequestIDs.mu.Unlock()
+
+	if lease.active || time.Until(lease.after) < responseTimeout-time.Second {
+		t.Fatal("canceled request did not quarantine ID")
+	}
+
+	closeObservedSession(t, session, completed)
+}
+
 const syntheticKey = "0123456789abcdef"
 const syntheticV1Map = "synthetic-v1-map"
 const mapRPCOutcomeACK = "ack"
@@ -1375,7 +1607,7 @@ func TestIncomingMapFailuresAreProtocol(t *testing.T) {
 	session := new(Session)
 	session.config = testConfig(protocol.MQTTVersionV1)
 
-	_, err := session.matchesMap([]byte{1}, &mapQuery{id: 1, prefix: 0, reply: nil})
+	_, err := session.matchesMap([]byte{1}, &mapQuery{id: 1, prefix: 0, reply: nil, release: nil})
 	if !errors.Is(err, roborockerrors.New(roborockerrors.Protocol, "", "", nil)) ||
 		!errors.Is(err, errTruncatedDevicePayload) {
 		t.Fatalf("truncated header: %v", err)
@@ -1507,7 +1739,7 @@ func TestB01ResponseRequiresCanonicalIdentifier(t *testing.T) {
 	t.Parallel()
 
 	session := new(Session)
-	session.mapQuery = &mapQuery{id: 100000000005, prefix: 0, reply: make(chan response, 1)}
+	session.mapQuery = &mapQuery{id: 100000000005, prefix: 0, reply: make(chan response, 1), release: nil}
 
 	for _, identifier := range []string{
 		"+100000000005", "0100000000005", "100000000005 ", " 100000000005",

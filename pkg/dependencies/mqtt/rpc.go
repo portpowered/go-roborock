@@ -31,7 +31,11 @@ func (s *Session) Call(ctx context.Context, method string, params json.RawMessag
 	ctx, cancel := context.WithTimeout(ctx, commandTimeout)
 	defer cancel()
 
-	requestID := int64(s.sequence.Add(1))
+	requestID, release, err := v1RequestIDs.acquire()
+	if err != nil {
+		return nil, err
+	}
+	defer release()
 
 	reply, err := s.beginRPC(requestID)
 	if err != nil {

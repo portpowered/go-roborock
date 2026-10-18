@@ -6,7 +6,6 @@ import (
 	"crypto/aes"
 	"crypto/md5" //nolint:gosec // Independent oracle verifies the vendor-mandated MD5 key derivation.
 	"encoding/binary"
-	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -166,12 +165,12 @@ func replayMQTT(conn net.Conn, fixture mqttFixture) error {
 		return mqttMismatch("PUBLISH topic mismatch: %s", topic)
 	}
 
-	err = matchMQTTRPC(frame, fixture)
+	requestID, err := matchMQTTRPC(frame, fixture)
 	if err != nil {
 		return fmt.Errorf("mqtt replay I/O: %w", err)
 	}
 
-	response, err := hex.DecodeString(fixture.ResponseFrameHex)
+	response, err := mqttResponseWithID(fixture, requestID)
 	if err != nil {
 		return fmt.Errorf("mqtt replay I/O: %w", err)
 	}
@@ -269,43 +268,44 @@ func matchMQTTCredentials(rest []byte, fixture mqttFixture) error {
 	return nil
 }
 
-func matchMQTTRPC(frame []byte, fixture mqttFixture) error {
+func matchMQTTRPC(frame []byte, fixture mqttFixture) (int64, error) {
 	payload, timestamp, err := decryptMQTTRequest(frame, fixture.LocalKey)
 	if err != nil {
-		return fmt.Errorf("mqtt replay I/O: %w", err)
+		return 0, fmt.Errorf("mqtt replay I/O: %w", err)
 	}
 
 	var envelope mqttRPCEnvelope
 
 	envelopeErr := strictMQTTJSON(payload, &envelope)
 	if envelopeErr != nil {
-		return fmt.Errorf("mqtt replay I/O: %w", envelopeErr)
+		return 0, fmt.Errorf("mqtt replay I/O: %w", envelopeErr)
 	}
 
 	now := time.Now().Unix()
 	if envelope.Timestamp < now-5 || envelope.Timestamp > now+5 ||
 		int64(timestamp) < envelope.Timestamp ||
 		int64(timestamp) > envelope.Timestamp+1 {
-		return mqttMismatch("RPC timestamp mismatch: %d %d", envelope.Timestamp, timestamp)
+		return 0, mqttMismatch("RPC timestamp mismatch: %d %d", envelope.Timestamp, timestamp)
 	}
 
 	inner, found := envelope.Dps["101"]
 	if !found || len(envelope.Dps) != 1 {
-		return mqttMismatch("RPC datapoint mismatch")
+		return 0, mqttMismatch("RPC datapoint mismatch")
 	}
 
 	var request mqttRPCRequest
 
 	requestErr := strictMQTTJSON([]byte(inner), &request)
 	if requestErr != nil {
-		return fmt.Errorf("mqtt replay I/O: %w", requestErr)
+		return 0, fmt.Errorf("mqtt replay I/O: %w", requestErr)
 	}
 
-	return matchMQTTRPCRequest(request, fixture)
+	return request.ID, matchMQTTRPCRequest(request, fixture)
 }
 
 func matchMQTTRPCRequest(request mqttRPCRequest, fixture mqttFixture) error {
-	if request.ID != 1 || request.Method != fixture.Method || !equalMQTTJSON(request.Params, fixture.Params) {
+	if request.ID < 10000 || request.ID > 32767 || request.Method != fixture.Method ||
+		!equalMQTTJSON(request.Params, fixture.Params) {
 		return mqttMismatch("RPC id, method, or params mismatch: %v", request)
 	}
 
@@ -317,11 +317,16 @@ func matchMQTTRPCRequest(request mqttRPCRequest, fixture mqttFixture) error {
 	return nil
 }
 
-// Decode requests independently of the implementation; responses are static Python vectors.
+// Decode requests independently of the implementation; responses use Python vectors
+// with only the volatile correlation ID rebound by the independent oracle.
 func decryptMQTTRequest(frame []byte, localKey string) ([]byte, uint32, error) {
+	return decryptMQTTV1(frame, localKey, 1, 101)
+}
+
+func decryptMQTTV1(frame []byte, localKey string, sequence uint32, messageProtocol uint16) ([]byte, uint32, error) {
 	const headerSize = 19
 
-	validationErr := validateMQTTDeviceFrame(frame, "1.0", 2)
+	validationErr := validateMQTTFrame(frame, "1.0", sequence, messageProtocol)
 	if validationErr != nil {
 		return nil, 0, validationErr
 	}
@@ -348,6 +353,10 @@ func decryptMQTTRequest(frame []byte, localKey string) ([]byte, uint32, error) {
 }
 
 func validateMQTTDeviceFrame(frame []byte, version string, sequence uint32) error {
+	return validateMQTTFrame(frame, version, sequence, 101)
+}
+
+func validateMQTTFrame(frame []byte, version string, sequence uint32, messageProtocol uint16) error {
 	const (
 		headerSize   = 19
 		checksumSize = 4
@@ -358,7 +367,7 @@ func validateMQTTDeviceFrame(frame []byte, version string, sequence uint32) erro
 	}
 
 	if string(frame[:3]) != version || binary.BigEndian.Uint32(frame[3:7]) != sequence ||
-		binary.BigEndian.Uint16(frame[15:17]) != 101 {
+		binary.BigEndian.Uint16(frame[15:17]) != messageProtocol {
 		return mqttMismatch("device frame metadata mismatch")
 	}
 
