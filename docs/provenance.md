@@ -10,6 +10,8 @@ Map decoding uses the pinned Python map implementations and its B01/Q7 proto2 sc
 
 Source contracts and generated declarations are audited independently of test coverage. Live integration results require real endpoints and opt-in credentials and must be reported separately from unit and replay measurements (LIB-07, LIB-09, LIB-12).
 
+Camera preview ownership, uppercase quality and ICE envelope/batch corrections follow [go2rtc's Roborock implementation at af7509e](https://github.com/AlexxIT/go2rtc/blob/af7509ebaf9841fe94860850ee1369633a5f5cb3/pkg/roborock/client.go). These are reference-derived contracts, not a vendor specification or a live-device capture. Synthetic tests match the corrected request and response shapes and preserve media-section identifiers; they do not establish successful live playback.
+
 Focused MQTT liveness tests live beside the transport so they can control its
 private ticker seam without exposing timing controls to customers. They replay
 the ordered synthetic ping/pong and unanswered-ping fixture in

@@ -893,10 +893,10 @@
       "CameraQuality": {
         "type": "string",
         "pattern": "^[A-Za-z0-9_-]+$",
-        "description": "Open camera quality selector. Known values hd and sd. This named inventory lists known constants; field contracts explicitly accept future values.",
+        "description": "Open camera quality selector. Known values HD and SD. This named inventory lists known constants; field contracts explicitly accept future values.",
         "enum": [
-          "hd",
-          "sd"
+          "HD",
+          "SD"
         ],
         "x-enum-varnames": [
           "CameraQualityHD",
@@ -925,6 +925,13 @@
             ],
             "x-go-type": "CameraQuality",
             "description": "Open CameraQuality value; future firmware values are accepted."
+          },
+          "ice_candidates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ICECandidate"
+            },
+            "description": "Already gathered local candidates to send after the offer and before waiting for the device answer."
           }
         },
         "additionalProperties": false,
@@ -978,7 +985,19 @@
         "properties": {
           "candidate": {
             "type": "string",
-            "description": "Plain ICE candidate from caller-owned WebRTC stack."
+            "minLength": 1,
+            "description": "Plain WebRTC candidate attribute."
+          },
+          "sdp_mid": {
+            "type": "string",
+            "description": "Media section identifier."
+          },
+          "sdp_m_line_index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535,
+            "x-go-type": "uint16",
+            "description": "Zero-based media section index."
           }
         },
         "additionalProperties": false,
@@ -991,12 +1010,25 @@
         "properties": {
           "candidate": {
             "type": "string",
-            "description": "Decoded device ICE candidate; caller adds it to its WebRTC stack."
+            "description": "First candidate for compatibility; use candidates to consume the complete batch."
+          },
+          "candidates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ICECandidate"
+            },
+            "description": "Complete batch of device candidates, preserving media section identifiers."
+          },
+          "retry": {
+            "type": "boolean",
+            "description": "Device has not produced a candidate batch yet."
           }
         },
         "additionalProperties": false,
         "required": [
-          "candidate"
+          "candidate",
+          "candidates",
+          "retry"
         ]
       },
       "DeviceState": {
@@ -1539,6 +1571,31 @@
           "CleanFinishReasonPetPatrolSuccess",
           "CleanFinishReasonPetPatrolFail"
         ]
+      },
+      "ICECandidate": {
+        "type": "object",
+        "properties": {
+          "candidate": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Plain WebRTC candidate attribute."
+          },
+          "sdp_mid": {
+            "type": "string",
+            "description": "Media section identifier."
+          },
+          "sdp_m_line_index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535,
+            "x-go-type": "uint16",
+            "description": "Zero-based media section index."
+          }
+        },
+        "required": [
+          "candidate"
+        ],
+        "additionalProperties": false
       }
     }
   }
