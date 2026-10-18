@@ -17,6 +17,20 @@ description := camera.Description()
 
 `OpenCamera` checks the password and camera readiness before starting preview, then retrieves TURN credentials, sends the offer and any supplied `IceCandidates`, and polls for the device answer. Supply already gathered candidates with the offer so the device can receive them before answer readiness. The offer and answer are plain SDP strings at the public boundary; encoding belongs to the SDK. Quality defaults to HD and may be supplied explicitly. Keep the pattern and TURN credentials private.
 
+When your peer needs TURN settings before creating its offer, use the staged lifecycle:
+
+```go
+camera, err := session.PrepareCamera(cameraCtx, roborock.PrepareCameraRequest{PatternPassword: pattern})
+if err != nil { return err }
+defer camera.Close()
+// Configure your peer with camera.Description().TurnServer, then create offer.
+description, err := camera.Negotiate(ctx, roborock.CameraOfferRequest{SdpOffer: offer})
+if err != nil { return err }
+// Apply description.SdpAnswer to that same peer.
+```
+
+Preparation owns a real preview and must be closed even if offer creation fails. `Negotiate` accepts one offer per prepared preview; a failure after submission closes that preview rather than retrying an uncertain offer. The caller's request bounds negotiation, while the original camera context bounds the full preview lifetime. `OpenCamera` remains available for callers that already have a complete offer.
+
 Send a plain local candidate with `camera.SendICE(ctx, SendICERequest{Candidate: candidate})`; set `SdpMid` and `SdpMLineIndex` when the candidate belongs to a different media section than the default zero section. Read a device candidate batch with `camera.GetICE(ctx, EmptyRequest{})` and apply every entry in `Candidates`, preserving its media section. `Retry` means the device has not supplied its batch yet. The legacy `Candidate` field contains the batch's first candidate. The caller owns WebRTC negotiation, rendering, and media decoding.
 
 Each preview generates its own owner identity and reuses it only for that preview's start and stop, keeping cleanup separate from other device sessions using the same account. Quality is sent as `HD` or `SD`; the older lowercase inputs remain accepted. The SDK encodes ICE as the provider's JSON candidate envelope rather than a raw candidate string.

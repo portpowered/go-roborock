@@ -24,20 +24,43 @@ const (
 // CameraSession owns preview signaling and its lifetime. The caller owns the
 // WebRTC peer connection, rendering, and adding the returned SDP and ICE.
 type CameraSession struct {
-	device      *DeviceSession
-	description CameraDescription
-	life        context.Context
-	cancel      context.CancelFunc
-	closeOnce   sync.Once
-	closeErr    error
-	preview     atomic.Bool
-	setupDone   chan struct{}
-	clientID    string
+	device        *DeviceSession
+	description   CameraDescription
+	descriptionMu sync.Mutex
+	negotiating   atomic.Bool
+	life          context.Context
+	cancel        context.CancelFunc
+	closeOnce     sync.Once
+	closeErr      error
+	preview       atomic.Bool
+	setupDone     chan struct{}
+	clientID      string
 }
 
 // OpenCamera authenticates the pattern, starts preview, retrieves TURN, and
 // exchanges SDP. Cancellation or any failure after preview starts stops preview.
 func (s *DeviceSession) OpenCamera(ctx context.Context, req OpenCameraRequest) (*CameraSession, error) {
+	if req.SdpOffer == "" {
+		return nil, roborockerrors.New(roborockerrors.InvalidArgument, "OpenCamera", "SDP offer required", nil)
+	}
+
+	camera, err := s.PrepareCamera(ctx, PrepareCameraRequest{PatternPassword: req.PatternPassword, Quality: req.Quality})
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = camera.Negotiate(ctx, CameraOfferRequest{SdpOffer: req.SdpOffer, IceCandidates: req.IceCandidates})
+	if err != nil {
+		return nil, err
+	}
+
+	return camera, nil
+}
+
+// PrepareCamera authenticates and owns a preview before SDP creation. Its
+// Description contains private TURN settings; the caller must Close even when
+// it cannot create an offer. Negotiate sends at most one offer on this session.
+func (s *DeviceSession) PrepareCamera(ctx context.Context, req PrepareCameraRequest) (*CameraSession, error) {
 	if s.protocol != string(ProtocolV1) {
 		return nil, unsupportedMap("OpenCamera")
 	}
@@ -59,7 +82,7 @@ func (s *DeviceSession) OpenCamera(ctx context.Context, req OpenCameraRequest) (
 		}
 	}()
 
-	err = camera.establish(req)
+	err = camera.prepare(req)
 	if err != nil {
 		return nil, err
 	}
@@ -71,8 +94,10 @@ func (s *DeviceSession) OpenCamera(ctx context.Context, req OpenCameraRequest) (
 	return camera, nil
 }
 
-func (s *DeviceSession) reserveCamera(ctx context.Context, req OpenCameraRequest) (*CameraSession, func() bool, error) {
-	if req.PatternPassword == "" || req.SdpOffer == "" {
+func (s *DeviceSession) reserveCamera(
+	ctx context.Context, req PrepareCameraRequest,
+) (*CameraSession, func() bool, error) {
+	if req.PatternPassword == "" {
 		return nil, nil, roborockerrors.New(
 			roborockerrors.InvalidArgument, "OpenCamera", "pattern password and SDP offer required", nil,
 		)
@@ -135,7 +160,12 @@ func newCameraOwner() (string, error) {
 
 // Description returns the negotiated SDP answer and TURN credentials.
 // Keep the TURN credential private and pass it only to the caller's WebRTC stack.
-func (c *CameraSession) Description() CameraDescription { return c.description }
+func (c *CameraSession) Description() CameraDescription {
+	c.descriptionMu.Lock()
+	defer c.descriptionMu.Unlock()
+
+	return c.description
+}
 
 // Done is closed when camera signaling terminates or its owning device closes.
 func (c *CameraSession) Done() <-chan struct{} { return c.life.Done() }
@@ -217,7 +247,62 @@ func (c *CameraSession) GetICE(ctx context.Context, _ EmptyRequest) (DeviceICERe
 	return decodeCameraICE(raw)
 }
 
-func (c *CameraSession) establish(req OpenCameraRequest) error {
+// Negotiate exchanges exactly one SDP offer on a prepared preview. Any failure
+// after negotiation starts closes the owned preview; callers must not retry an
+// uncertain offer. TURN credentials remain private to the caller's media stack.
+func (c *CameraSession) Negotiate(ctx context.Context, req CameraOfferRequest) (CameraDescription, error) {
+	if req.SdpOffer == "" {
+		return CameraDescription{}, roborockerrors.New(
+			roborockerrors.InvalidArgument, "NegotiateCamera", "SDP offer required", nil,
+		)
+	}
+
+	callCtx, cancel, err := c.context(ctx)
+	if err != nil {
+		return CameraDescription{}, err
+	}
+
+	defer cancel()
+
+	if !c.negotiating.CompareAndSwap(false, true) {
+		return CameraDescription{}, roborockerrors.New(
+			roborockerrors.Backpressure, "NegotiateCamera", "camera offer already submitted", nil,
+		)
+	}
+
+	success := false
+
+	defer func() {
+		if !success {
+			_ = c.Close()
+		}
+	}()
+
+	err = c.sendOffer(callCtx, req.SdpOffer)
+	if err != nil {
+		return CameraDescription{}, err
+	}
+
+	err = c.sendGatheredICE(callCtx, req.IceCandidates)
+	if err != nil {
+		return CameraDescription{}, err
+	}
+
+	answer, err := c.waitSDP(callCtx)
+	if err != nil {
+		return CameraDescription{}, err
+	}
+
+	c.descriptionMu.Lock()
+	c.description.SdpAnswer = answer
+	c.descriptionMu.Unlock()
+
+	success = true
+
+	return c.Description(), nil
+}
+
+func (c *CameraSession) prepare(req PrepareCameraRequest) error {
 	password := normalizePatternPassword(req.PatternPassword)
 
 	passwordParams := dependencymodels.CameraPasswordParameters{Password: password}
@@ -246,33 +331,20 @@ func (c *CameraSession) establish(req OpenCameraRequest) error {
 		return err
 	}
 
-	err = c.sendOffer(req.SdpOffer)
-	if err != nil {
-		return err
-	}
-
-	err = c.sendGatheredICE(req.IceCandidates)
-	if err != nil {
-		return err
-	}
-
-	answer, err := c.waitSDP(c.life)
-	if err != nil {
-		return err
-	}
-
-	c.description = CameraDescription{SdpAnswer: answer, TurnServer: turn}
+	c.descriptionMu.Lock()
+	c.description.TurnServer = turn
+	c.descriptionMu.Unlock()
 
 	return nil
 }
 
-func (c *CameraSession) sendGatheredICE(candidates *[]ICECandidate) error {
+func (c *CameraSession) sendGatheredICE(ctx context.Context, candidates *[]ICECandidate) error {
 	if candidates == nil {
 		return nil
 	}
 
 	for _, candidate := range *candidates {
-		_, err := c.SendICE(c.life, SendICERequest(candidate))
+		_, err := c.SendICE(ctx, SendICERequest(candidate))
 		if err != nil {
 			return err
 		}
@@ -308,7 +380,7 @@ func (c *CameraSession) checkReady(ctx context.Context) error {
 	return nil
 }
 
-func (c *CameraSession) sendOffer(sdp string) error {
+func (c *CameraSession) sendOffer(ctx context.Context, sdp string) error {
 	offer, err := json.Marshal(dependencymodels.CameraSDPEnvelope{Type: dependencymodels.CameraSDPTypeOffer, Sdp: sdp})
 	if err != nil {
 		return roborockerrors.New(roborockerrors.InvalidArgument, "OpenCamera", "cannot encode SDP", err)
@@ -316,7 +388,7 @@ func (c *CameraSession) sendOffer(sdp string) error {
 
 	params := dependencymodels.CameraSDPParameters{AppSdp: base64.StdEncoding.EncodeToString(offer)}
 
-	return c.ack(c.life, dependencymodels.RPCCameraSendSDP, params)
+	return c.ack(ctx, dependencymodels.RPCCameraSendSDP, params)
 }
 
 func (c *CameraSession) context(ctx context.Context) (context.Context, context.CancelFunc, error) {

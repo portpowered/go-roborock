@@ -108,6 +108,8 @@ V1, Q7, and Q10 support map reads and room cleaning. Rectangle cleaning supports
 | Zeo settings | `s.SetZeoSettings(ctx, zeoSettings)` where `zeoSettings` is `r.SetZeoSettingsRequest` |
 | Start Zeo cycle | `s.StartZeo(ctx, r.StartZeoRequest{Mode: mode, Program: program})` |
 | Open camera | `s.OpenCamera(ctx, r.OpenCameraRequest{PatternPassword: pattern, SdpOffer: offer})` |
+| Prepare before creating SDP | `camera, err := s.PrepareCamera(ctx, r.PrepareCameraRequest{PatternPassword: pattern})`; configure your peer from `camera.Description().TurnServer` |
+| Negotiate a prepared preview | `camera.Negotiate(ctx, r.CameraOfferRequest{SdpOffer: offer})`; one offer per preview, with cleanup on negotiation failure |
 | Camera description | `camera.Description()` |
 | Send, get ICE | `camera.SendICE(ctx, r.SendICERequest{Candidate: candidate})`; `camera.GetICE(ctx, r.EmptyRequest{})` |
 | Camera lifetime and close | `<-camera.Done()`; `camera.Close()` |
