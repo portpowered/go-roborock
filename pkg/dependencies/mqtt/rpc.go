@@ -138,7 +138,7 @@ func (s *Session) send(ctx context.Context, payload []byte) error {
 	}
 
 	frame := deviceFrame{
-		Version: s.config.Protocol, Sequence: s.sequence.Add(1), Random: binary.BigEndian.Uint32(random[:]),
+		Version: s.config.Protocol, Sequence: s.nextFrameSequence(), Random: binary.BigEndian.Uint32(random[:]),
 		Timestamp: uint32(timestamp), Protocol: protocol.MQTTProtocolRequest, Payload: payload,
 	}
 

@@ -29,6 +29,44 @@ type observedRPC struct {
 	command dependencymodels.MQTTRPCRequest
 }
 
+func TestV1FrameSequenceConcurrentWrapPreservesNamespace(t *testing.T) {
+	t.Parallel()
+
+	sequence := newFrameSequence()
+	sequence.cursor.Store(v1FrameSequenceMaximum - 32)
+
+	results := make(chan uint32, 128)
+
+	var workers sync.WaitGroup
+
+	for range cap(results) {
+		workers.Add(1)
+
+		go func() { defer workers.Done(); results <- sequence.next() }()
+	}
+
+	workers.Wait()
+	close(results)
+
+	seen := make(map[uint32]struct{})
+
+	for value := range results {
+		if value < v1FrameSequenceMinimum || value > v1FrameSequenceMaximum {
+			t.Fatalf("frame sequence=%d", value)
+		}
+
+		if _, duplicate := seen[value]; duplicate {
+			t.Fatalf("duplicate frame sequence=%d", value)
+		}
+
+		seen[value] = struct{}{}
+	}
+
+	if _, wrapped := seen[v1FrameSequenceMinimum]; !wrapped {
+		t.Fatal("frame counter never wrapped at its protocol bound")
+	}
+}
+
 func openObservedV1Session(t *testing.T, method string) (*Session, <-chan error, <-chan observedRPC) {
 	t.Helper()
 
@@ -105,6 +143,10 @@ func TestSessionV1ConcurrentAndReopenedConnectionsIgnoreOtherReplies(t *testing.
 	}()
 
 	requestA, requestB := <-firstRequest, <-secondRequest
+	if requestA.frame.Sequence == requestB.frame.Sequence {
+		t.Fatal("concurrent connections reused frame sequence")
+	}
+
 	if requestA.command.Id == requestB.command.Id {
 		t.Fatal("concurrent connections reused RPC ID")
 	}
@@ -126,6 +168,10 @@ func TestSessionV1ConcurrentAndReopenedConnectionsIgnoreOtherReplies(t *testing.
 	}()
 
 	requestC := <-thirdRequest
+	if requestC.frame.Sequence == requestA.frame.Sequence || requestC.frame.Sequence == requestB.frame.Sequence {
+		t.Fatal("reopened connection reused frame sequence")
+	}
+
 	if requestC.command.Id == requestA.command.Id {
 		t.Fatal("reopened connection reused retired ID")
 	}
