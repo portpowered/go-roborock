@@ -320,7 +320,16 @@ func matchMQTTRPCRequest(request mqttRPCRequest, fixture mqttFixture) error {
 // Decode requests independently of the implementation; responses use Python vectors
 // with only the volatile correlation ID rebound by the independent oracle.
 func decryptMQTTRequest(frame []byte, localKey string) ([]byte, uint32, error) {
-	return decryptMQTTV1(frame, localKey, 1, 101)
+	if len(frame) < 7 {
+		return nil, 0, mqttMismatch("truncated V1 frame sequence")
+	}
+
+	sequence := binary.BigEndian.Uint32(frame[3:7])
+	if sequence < 100000 || sequence > 999999 {
+		return nil, 0, mqttMismatch("V1 frame sequence outside reference range")
+	}
+
+	return decryptMQTTV1(frame, localKey, sequence, 101)
 }
 
 func decryptMQTTV1(frame []byte, localKey string, sequence uint32, messageProtocol uint16) ([]byte, uint32, error) {

@@ -4555,6 +4555,11 @@
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTVersionV1"
         },
         {
+          "file": "pkg/dependencies/mqtt/frame_sequence.go",
+          "line": 49,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTVersionV1"
+        },
+        {
           "file": "pkg/dependencies/mqtt/maps.go",
           "line": 23,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTVersionV1"
@@ -34698,6 +34703,11 @@
       "file": "pkg/dependencies/mqtt/errors.go",
       "line": 63,
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/mqtt.RPCError"
+    },
+    {
+      "file": "pkg/dependencies/mqtt/frame_sequence.go",
+      "line": 19,
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/mqtt.frameSequence"
     },
     {
       "file": "pkg/dependencies/mqtt/maps.go",
