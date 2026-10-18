@@ -6,7 +6,6 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"encoding/json"
-	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -228,19 +227,12 @@ func (c *CameraSession) establish(req OpenCameraRequest) error {
 		return err
 	}
 
-	quality := CameraQualityHD
-	if req.Quality != nil {
-		quality = *req.Quality
+	err = c.checkReady(c.life)
+	if err != nil {
+		return err
 	}
 
-	if strings.EqualFold(string(quality), string(CameraQualityHD)) ||
-		strings.EqualFold(string(quality), string(CameraQualitySD)) {
-		quality = CameraQuality(strings.ToUpper(string(quality)))
-	}
-
-	previewParams := dependencymodels.CameraPreviewParameters{
-		ClientId: c.clientID, Password: password, Quality: string(quality),
-	}
+	previewParams := cameraPreviewParameters(c.clientID, password, req.Quality)
 	// Mark ownership before dispatch: uncertain acknowledgement still needs cleanup.
 	c.preview.Store(true)
 
@@ -284,6 +276,33 @@ func (c *CameraSession) sendGatheredICE(candidates *[]ICECandidate) error {
 		if err != nil {
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (c *CameraSession) checkReady(ctx context.Context) error {
+	raw, err := c.call(ctx, dependencymodels.RPCCameraGetStatus)
+	if err != nil {
+		return err
+	}
+
+	var status dependencymodels.CameraConnectionStatus
+
+	err = json.Unmarshal(raw, &status)
+	if err != nil {
+		return cameraProtocol(string(dependencymodels.RPCCameraGetStatus), err)
+	}
+
+	if status.ClientId == "" {
+		return cameraProtocol(string(dependencymodels.RPCCameraGetStatus), errResultShape)
+	}
+
+	if status.ClientId != string(dependencymodels.CameraIdleClientNone) {
+		return roborockerrors.New(
+			roborockerrors.Busy, string(dependencymodels.RPCCameraGetStatus),
+			"camera preview is in use; close the other viewer before trying again", nil,
+		)
 	}
 
 	return nil
@@ -362,7 +381,16 @@ func (c *CameraSession) turn(ctx context.Context) (TURNServer, error) {
 }
 
 func (c *CameraSession) waitSDP(ctx context.Context) (string, error) {
-	for attempt := range cameraSDPPollAttempts {
+	for range cameraSDPPollAttempts {
+		timer := time.NewTimer(cameraSDPPollInterval)
+		select {
+		case <-ctx.Done():
+			timer.Stop()
+
+			return "", operationError(string(dependencymodels.RPCCameraGetSDP), ctx.Err())
+		case <-timer.C:
+		}
+
 		raw, err := c.call(ctx, dependencymodels.RPCCameraGetSDP)
 		if err != nil {
 			return "", err
@@ -375,19 +403,6 @@ func (c *CameraSession) waitSDP(ctx context.Context) (string, error) {
 
 		if !retry {
 			return answer, nil
-		}
-
-		if attempt == cameraSDPPollAttempts-1 {
-			break
-		}
-
-		timer := time.NewTimer(cameraSDPPollInterval)
-		select {
-		case <-ctx.Done():
-			timer.Stop()
-
-			return "", operationError(string(dependencymodels.RPCCameraGetSDP), ctx.Err())
-		case <-timer.C:
 		}
 	}
 

@@ -25,6 +25,22 @@ func normalizePatternPassword(password string) string {
 	return hex.EncodeToString(digest[:])
 }
 
+func cameraPreviewParameters(
+	owner, password string, requested *CameraQuality,
+) dependencymodels.CameraPreviewParameters {
+	quality := CameraQualityHD
+	if requested != nil {
+		quality = *requested
+	}
+
+	if strings.EqualFold(string(quality), string(CameraQualityHD)) ||
+		strings.EqualFold(string(quality), string(CameraQualitySD)) {
+		quality = CameraQuality(strings.ToUpper(string(quality)))
+	}
+
+	return dependencymodels.CameraPreviewParameters{ClientId: owner, Password: password, Quality: string(quality)}
+}
+
 func firstString(values ...*string) string {
 	for _, value := range values {
 		if value != nil && *value != "" {
