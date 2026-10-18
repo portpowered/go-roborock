@@ -1,17 +1,91 @@
 package roborock
 
 import (
+	"bytes"
 	"context"
 	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"regexp"
+	"strconv"
 	"sync"
 	"testing"
 
 	"github.com/portpowered/go-roborock/pkg/dependencymodels"
 	"github.com/portpowered/go-roborock/pkg/roborockerrors"
 )
+
+const fixtureCameraOwnerParams = `{"client_id":"synthetic-camera-client"}`
+const fixtureCameraSDPMethod = "get_device_sdp"
+const fixtureCameraStartMethod = "start_camera_preview"
+
+var cameraOwnerPattern = regexp.MustCompile(`^[a-f0-9]{32}$`)
+
+type cameraOwnerRPC struct {
+	deviceRPC
+
+	t      *testing.T
+	owner  string
+	owners map[string]bool
+}
+
+func (r *cameraOwnerRPC) Call(ctx context.Context, method string, params json.RawMessage) (json.RawMessage, error) {
+	if method != fixtureCameraStartMethod && method != fixtureStopPreview {
+		return r.forward(ctx, method, params)
+	}
+
+	var owner dependencymodels.CameraPreviewOwnerParameters
+
+	err := json.Unmarshal(params, &owner)
+	if err != nil || !cameraOwnerPattern.MatchString(owner.ClientId) {
+		r.t.Error("preview request must carry a generated owner identity")
+
+		return nil, errResultShape
+	}
+
+	if method == fixtureCameraStartMethod {
+		if r.owners[owner.ClientId] {
+			r.t.Error("a preview reused a previous preview owner")
+		}
+
+		r.owner = owner.ClientId
+		r.owners[owner.ClientId] = true
+	} else if owner.ClientId != r.owner {
+		r.t.Error("preview cleanup used a different owner's identity")
+
+		return nil, errResultShape
+	}
+
+	// Match only this explicitly volatile identity; all other wire bytes remain exact.
+	normalized := bytes.Replace(params, []byte(strconv.Quote(owner.ClientId)), []byte(`"synthetic-camera-client"`), 1)
+
+	return r.forward(ctx, method, normalized)
+}
+
+func (r *cameraOwnerRPC) forward(ctx context.Context, method string, params json.RawMessage) (json.RawMessage, error) {
+	raw, err := r.deviceRPC.Call(ctx, method, params)
+	if err != nil {
+		return nil, fmt.Errorf("camera fixture RPC failed: %w", err)
+	}
+
+	return raw, nil
+}
+
+func cameraOperationSession(t *testing.T, exchanges ...rpcExchange) *DeviceSession {
+	t.Helper()
+	session := operationSession(t, exchanges...)
+	session.rpc = &cameraOwnerRPC{deviceRPC: session.rpc, t: t, owner: "", owners: make(map[string]bool)}
+
+	return session
+}
+
+func cameraStopExchange() rpcExchange {
+	return rpcExchange{
+		method: fixtureStopPreview, params: fixtureCameraOwnerParams,
+		response: fixtureAcknowledgement, failure: nil,
+	}
+}
 
 func cameraOpeningExchanges() []rpcExchange {
 	offer := base64.StdEncoding.EncodeToString([]byte(`{"sdp":"v=0 offer","type":"offer"}`))
@@ -25,8 +99,8 @@ func cameraOpeningExchanges() []rpcExchange {
 			failure:  nil,
 		},
 		{
-			method:   "start_camera_preview",
-			params:   `{"password":"202cb962ac59075b964b07152d234b70","quality":"hd"}`,
+			method:   fixtureCameraStartMethod,
+			params:   `{"client_id":"synthetic-camera-client","password":"202cb962ac59075b964b07152d234b70","quality":"HD"}`,
 			response: fixtureAcknowledgement,
 			failure:  nil,
 		},
@@ -42,7 +116,7 @@ func cameraOpeningExchanges() []rpcExchange {
 			response: fixtureAcknowledgement,
 			failure:  nil,
 		},
-		{method: "get_device_sdp", params: `{}`, response: `{"dev_sdp":"` + answer + `"}`, failure: nil},
+		{method: fixtureCameraSDPMethod, params: `{}`, response: `{"dev_sdp":"` + answer + `"}`, failure: nil},
 	}
 }
 
@@ -50,23 +124,23 @@ func TestCameraSignalingAndConcurrentClose(t *testing.T) {
 	t.Parallel()
 
 	exchanges := cameraOpeningExchanges()
-	candidate := base64.StdEncoding.EncodeToString([]byte(fixtureICECandidate))
+	candidate := base64.StdEncoding.EncodeToString([]byte(`{"candidate":"candidate:1","sdpMLineIndex":0,"sdpMid":"0"}`))
 	exchanges = append(
 		exchanges,
 		rpcExchange{
 			method:   "send_ice_to_robot",
-			params:   `{"ice":"` + candidate + `"}`,
+			params:   `{"app_ice":"` + candidate + `"}`,
 			response: fixtureAcknowledgement,
 			failure:  nil,
 		},
-		rpcExchange{method: "get_device_ice", params: `{}`, response: `{"ice":"` + candidate + `"}`, failure: nil},
-		rpcExchange{method: fixtureStopPreview, params: `{}`, response: fixtureAcknowledgement, failure: nil},
+		rpcExchange{method: "get_device_ice", params: `{}`, response: `{"dev_ice":["` + candidate + `"]}`, failure: nil},
+		cameraStopExchange(),
 	)
-	session := operationSession(t, exchanges...)
+	session := cameraOperationSession(t, exchanges...)
 
 	camera, err := session.OpenCamera(
 		context.Background(),
-		OpenCameraRequest{PatternPassword: "1-2-3", SdpOffer: fixtureSDPOffer, Quality: nil},
+		OpenCameraRequest{PatternPassword: "1-2-3", SdpOffer: fixtureSDPOffer, Quality: nil, IceCandidates: nil},
 	)
 	if err != nil {
 		t.Fatal(err)
@@ -76,7 +150,9 @@ func TestCameraSignalingAndConcurrentClose(t *testing.T) {
 		t.Fatalf("description %+v", camera.Description())
 	}
 
-	_, err = camera.SendICE(context.Background(), SendICERequest{Candidate: fixtureICECandidate})
+	localICE := SendICERequest{Candidate: fixtureICECandidate, SdpMid: nil, SdpMLineIndex: nil}
+
+	_, err = camera.SendICE(context.Background(), localICE)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -88,7 +164,7 @@ func TestCameraSignalingAndConcurrentClose(t *testing.T) {
 
 	closeCameraConcurrently(t, camera)
 
-	_, err = camera.SendICE(context.Background(), SendICERequest{Candidate: fixtureICECandidate})
+	_, err = camera.SendICE(context.Background(), localICE)
 
 	if !errors.Is(
 		err,
@@ -105,13 +181,13 @@ func TestCameraFailureStopsPreview(t *testing.T) {
 	exchanges[2].response = `{}`
 	exchanges = append(
 		exchanges,
-		rpcExchange{method: fixtureStopPreview, params: `{}`, response: fixtureAcknowledgement, failure: nil},
+		cameraStopExchange(),
 	)
-	session := operationSession(t, exchanges...)
+	session := cameraOperationSession(t, exchanges...)
 
 	_, err := session.OpenCamera(
 		context.Background(),
-		OpenCameraRequest{PatternPassword: "123", SdpOffer: fixtureSDPOffer, Quality: nil},
+		OpenCameraRequest{PatternPassword: "123", SdpOffer: fixtureSDPOffer, Quality: nil, IceCandidates: nil},
 	)
 	if !errors.Is(err, roborockerrors.New(roborockerrors.Protocol, "test", "", nil)) {
 		t.Fatalf("got %v", err)
@@ -125,13 +201,13 @@ func TestCameraCanceledPollingStopsPreview(t *testing.T) {
 	exchanges[4].failure = context.Canceled
 	exchanges = append(
 		exchanges,
-		rpcExchange{method: fixtureStopPreview, params: `{}`, response: fixtureAcknowledgement, failure: nil},
+		cameraStopExchange(),
 	)
-	session := operationSession(t, exchanges...)
+	session := cameraOperationSession(t, exchanges...)
 
 	_, err := session.OpenCamera(
 		context.Background(),
-		OpenCameraRequest{PatternPassword: "123", SdpOffer: fixtureSDPOffer, Quality: nil},
+		OpenCameraRequest{PatternPassword: "123", SdpOffer: fixtureSDPOffer, Quality: nil, IceCandidates: nil},
 	)
 	if !errors.Is(err, context.Canceled) ||
 		!errors.Is(err, roborockerrors.New(roborockerrors.Canceled, "test", "", nil)) {
@@ -144,13 +220,13 @@ func TestDeviceCloseStopsCameraPreview(t *testing.T) {
 
 	exchanges := append(
 		cameraOpeningExchanges(),
-		rpcExchange{method: fixtureStopPreview, params: `{}`, response: fixtureAcknowledgement, failure: nil},
+		cameraStopExchange(),
 	)
-	session := operationSession(t, exchanges...)
+	session := cameraOperationSession(t, exchanges...)
 
 	_, err := session.OpenCamera(
 		context.Background(),
-		OpenCameraRequest{PatternPassword: "123", SdpOffer: fixtureSDPOffer, Quality: nil},
+		OpenCameraRequest{PatternPassword: "123", SdpOffer: fixtureSDPOffer, Quality: nil, IceCandidates: nil},
 	)
 	if err != nil {
 		t.Fatal(err)
@@ -167,16 +243,16 @@ func TestCameraPreviewHasOneOwner(t *testing.T) {
 
 	first := append(
 		cameraOpeningExchanges(),
-		rpcExchange{method: fixtureStopPreview, params: `{}`, response: fixtureAcknowledgement, failure: nil},
+		cameraStopExchange(),
 	)
 	exchanges := first
 	exchanges = append(exchanges, cameraOpeningExchanges()...)
 	exchanges = append(
 		exchanges,
-		rpcExchange{method: fixtureStopPreview, params: `{}`, response: fixtureAcknowledgement, failure: nil},
+		cameraStopExchange(),
 	)
-	session := operationSession(t, exchanges...)
-	request := OpenCameraRequest{PatternPassword: "123", SdpOffer: fixtureSDPOffer, Quality: nil}
+	session := cameraOperationSession(t, exchanges...)
+	request := OpenCameraRequest{PatternPassword: "123", SdpOffer: fixtureSDPOffer, Quality: nil, IceCandidates: nil}
 
 	camera, err := session.OpenCamera(context.Background(), request)
 	if err != nil {
@@ -236,7 +312,7 @@ func (r *cameraBlockingRPC) Call(ctx context.Context, method string, params json
 
 func TestCloseDuringCameraOpeningCancelsReservation(t *testing.T) {
 	t.Parallel()
-	session := operationSession(t, cameraOpeningExchanges()[0])
+	session := cameraOperationSession(t, cameraOpeningExchanges()[0])
 	blocker := &cameraBlockingRPC{deviceRPC: session.rpc, entered: make(chan struct{})}
 	session.rpc = blocker
 	result := make(chan error, 1)
@@ -244,7 +320,7 @@ func TestCloseDuringCameraOpeningCancelsReservation(t *testing.T) {
 	go func() {
 		_, err := session.OpenCamera(
 			context.Background(),
-			OpenCameraRequest{PatternPassword: "123", SdpOffer: fixtureSDPOffer, Quality: nil},
+			OpenCameraRequest{PatternPassword: "123", SdpOffer: fixtureSDPOffer, Quality: nil, IceCandidates: nil},
 		)
 		result <- err
 	}()
@@ -303,7 +379,7 @@ func TestCameraFailurePreservesRPCStageAndTypedCause(t *testing.T) {
 			t.Parallel()
 
 			cause := roborockerrors.New(roborockerrors.Timeout, "Call", "request timed out", context.DeadlineExceeded)
-			session := operationSession(t, rpcExchange{method: string(method), params: `{}`, response: "", failure: cause})
+			session := cameraOperationSession(t, rpcExchange{method: string(method), params: `{}`, response: "", failure: cause})
 			camera := new(CameraSession)
 			camera.device = session
 
@@ -320,5 +396,146 @@ func TestCameraFailurePreservesRPCStageAndTypedCause(t *testing.T) {
 				t.Fatalf("camera RPC diagnostics lost: %v", err)
 			}
 		})
+	}
+}
+
+func TestCameraExhaustedSDPPollingPreservesRPCStage(t *testing.T) {
+	t.Parallel()
+
+	exchanges := cameraOpeningExchanges()[:4]
+	for range cameraSDPPollAttempts {
+		exchanges = append(exchanges, rpcExchange{
+			method: fixtureCameraSDPMethod, params: `{}`, response: `{"dev_sdp":"retry"}`, failure: nil,
+		})
+	}
+
+	exchanges = append(exchanges, cameraStopExchange())
+	session := cameraOperationSession(t, exchanges...)
+	request := OpenCameraRequest{PatternPassword: "123", SdpOffer: fixtureSDPOffer, Quality: nil, IceCandidates: nil}
+	_, err := session.OpenCamera(context.Background(), request)
+
+	var typed *roborockerrors.Error
+
+	if !errors.As(err, &typed) || typed.Operation != fixtureCameraSDPMethod || typed.Kind != roborockerrors.Timeout {
+		t.Fatalf("SDP exhaustion lost its typed stage: %v", err)
+	}
+}
+
+func TestCameraICEPreservesCandidateBatchesAndMediaSections(t *testing.T) {
+	t.Parallel()
+
+	first := base64.StdEncoding.EncodeToString([]byte(
+		`{"candidate":"candidate:video","sdpMid":"video","sdpMLineIndex":0}`,
+	))
+	second := base64.StdEncoding.EncodeToString([]byte(
+		`{"candidate":"candidate:audio","sdpMid":"audio","sdpMLineIndex":1}`,
+	))
+	raw := json.RawMessage(`{"dev_ice":["` + first + `","` + second + `"]}`)
+
+	result, err := decodeCameraICE(raw)
+	if err != nil || len(result.Candidates) != 2 || result.Candidate != "candidate:video" || result.Retry {
+		t.Fatalf("candidate batch lost: %+v, %v", result, err)
+	}
+
+	if result.Candidates[1].SdpMid == nil || *result.Candidates[1].SdpMid != "audio" ||
+		result.Candidates[1].SdpMLineIndex == nil || *result.Candidates[1].SdpMLineIndex != 1 {
+		t.Fatal("second candidate media section was lost")
+	}
+}
+
+func TestCameraICERetryAndMalformedResponses(t *testing.T) {
+	t.Parallel()
+
+	result, err := decodeCameraICE(json.RawMessage(`{"dev_ice":"retry"}`))
+	if err != nil || !result.Retry || len(result.Candidates) != 0 || result.Candidate != "" {
+		t.Fatalf("retry was not preserved: %+v, %v", result, err)
+	}
+
+	for _, raw := range []string{`{}`, `{"dev_ice":42}`, `{"dev_ice":["not base64"]}`, `{"dev_ice":["e30="]}`} {
+		_, err := decodeCameraICE(json.RawMessage(raw))
+
+		var typed *roborockerrors.Error
+
+		if !errors.As(err, &typed) || typed.Operation != "get_device_ice" || typed.Kind != roborockerrors.Protocol {
+			t.Fatalf("malformed signaling lost its typed stage: %v", err)
+		}
+	}
+}
+
+func TestCameraFailedSecondSessionCannotCleanUpFirstPreviewOwner(t *testing.T) {
+	t.Parallel()
+	firstSession := cameraOperationSession(t, append(cameraOpeningExchanges(), cameraStopExchange())...)
+	secondExchanges := cameraOpeningExchanges()[:3]
+	secondExchanges[2].response = `{}`
+	secondSession := cameraOperationSession(t, append(secondExchanges, cameraStopExchange())...)
+	firstSession.auth.ClientID, secondSession.auth.ClientID = "shared-account-client", "shared-account-client"
+	firstSession.deviceID, secondSession.deviceID = "shared-vacuum", "shared-vacuum"
+	request := OpenCameraRequest{PatternPassword: "123", SdpOffer: fixtureSDPOffer, Quality: nil, IceCandidates: nil}
+
+	first, err := firstSession.OpenCamera(context.Background(), request)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, secondErr := secondSession.OpenCamera(context.Background(), request)
+	if secondErr == nil {
+		t.Fatal("expected second preview setup to fail")
+	}
+
+	firstRPC, firstTracked := firstSession.rpc.(*cameraOwnerRPC)
+	if !firstTracked {
+		t.Fatal("first preview fixture lost its owner tracker")
+	}
+
+	secondRPC, secondTracked := secondSession.rpc.(*cameraOwnerRPC)
+	if !secondTracked {
+		t.Fatal("second preview fixture lost its owner tracker")
+	}
+
+	firstOwner, secondOwner := firstRPC.owner, secondRPC.owner
+	if firstOwner == "" || firstOwner == secondOwner {
+		t.Fatal("separate preview lifetimes reused one cleanup identity")
+	}
+
+	select {
+	case <-first.Done():
+		t.Fatal("second preview cleanup canceled the first preview")
+	default:
+	}
+
+	err = first.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestCameraOpenSendsGatheredCandidatesBeforeAwaitingSDP(t *testing.T) {
+	t.Parallel()
+
+	opening := cameraOpeningExchanges()
+	encoded := base64.StdEncoding.EncodeToString([]byte(
+		`{"candidate":"candidate:1","sdpMLineIndex":0,"sdpMid":"0"}`,
+	))
+	exchanges := opening[:4:4]
+	exchanges = append(exchanges, rpcExchange{
+		method: "send_ice_to_robot", params: `{"app_ice":"` + encoded + `"}`,
+		response: fixtureAcknowledgement, failure: nil,
+	})
+	exchanges = append(exchanges, opening[4], cameraStopExchange())
+	session := cameraOperationSession(t, exchanges...)
+	candidates := []ICECandidate{{Candidate: fixtureICECandidate, SdpMid: nil, SdpMLineIndex: nil}}
+	request := OpenCameraRequest{
+		PatternPassword: "123", SdpOffer: fixtureSDPOffer, Quality: nil,
+		IceCandidates: &candidates,
+	}
+
+	camera, err := session.OpenCamera(context.Background(), request)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = camera.Close()
+	if err != nil {
+		t.Fatal(err)
 	}
 }

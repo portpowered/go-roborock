@@ -167,7 +167,7 @@
       "description": "CameraStopPreview for camera signaling.",
       "x-rpc-method": "stop_camera_preview",
       "x-go-request-schema": {
-        "$ref": "#/components/schemas/CameraEmptyParameters"
+        "$ref": "#/components/schemas/CameraPreviewOwnerParameters"
       },
       "reply": {
         "channel": {
@@ -377,12 +377,18 @@
           "quality": {
             "type": "string",
             "description": ""
+          },
+          "client_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Identity owning this preview; the same value is sent when stopping it."
           }
         },
         "additionalProperties": false,
         "required": [
           "password",
-          "quality"
+          "quality",
+          "client_id"
         ]
       },
       "CameraSDPParameters": {
@@ -401,15 +407,15 @@
       "CameraICEParameters": {
         "type": "object",
         "properties": {
-          "ice": {
+          "app_ice": {
             "type": "string",
-            "description": ""
+            "description": "Base64-encoded CameraICECandidate JSON envelope."
           }
         },
-        "additionalProperties": false,
         "required": [
-          "ice"
-        ]
+          "app_ice"
+        ],
+        "additionalProperties": false
       },
       "CameraDeviceSDP": {
         "type": "object",
@@ -441,8 +447,19 @@
             "description": ""
           },
           "dev_ice": {
-            "type": "string",
-            "description": ""
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "x-go-type": "json.RawMessage",
+            "description": "Batch of base64-encoded CameraICECandidate JSON envelopes, or retry."
           }
         },
         "additionalProperties": false
@@ -540,6 +557,44 @@
           "CameraSDPRetryPending"
         ],
         "description": "Device requests bounded polling while answer is not ready."
+      },
+      "CameraPreviewOwnerParameters": {
+        "type": "object",
+        "properties": {
+          "client_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "client_id"
+        ],
+        "additionalProperties": false
+      },
+      "CameraICECandidate": {
+        "type": "object",
+        "properties": {
+          "candidate": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Plain WebRTC candidate attribute."
+          },
+          "sdpMid": {
+            "type": "string",
+            "description": "Media section identifier."
+          },
+          "sdpMLineIndex": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535,
+            "x-go-type": "uint16",
+            "description": "Zero-based media section index."
+          }
+        },
+        "required": [
+          "candidate"
+        ],
+        "additionalProperties": false
       }
     },
     "messages": {
@@ -687,7 +742,7 @@
               ]
             },
             "params": {
-              "$ref": "#/components/schemas/CameraEmptyParameters"
+              "$ref": "#/components/schemas/CameraPreviewOwnerParameters"
             },
             "security": {
               "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"

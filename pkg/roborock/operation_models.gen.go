@@ -9,8 +9,8 @@ import (
 
 // Defines values for CameraQuality.
 const (
-	CameraQualityHD CameraQuality = "hd"
-	CameraQualitySD CameraQuality = "sd"
+	CameraQualityHD CameraQuality = "HD"
+	CameraQualitySD CameraQuality = "SD"
 )
 
 // Defines values for ChargeStatus.
@@ -311,7 +311,7 @@ type CameraDescription struct {
 	TurnServer TURNServer `json:"turn_server"`
 }
 
-// CameraQuality Open camera quality selector. Known values hd and sd. This named inventory lists known constants; field contracts explicitly accept future values.
+// CameraQuality Open camera quality selector. Known values HD and SD. This named inventory lists known constants; field contracts explicitly accept future values.
 type CameraQuality string
 
 // ChargeStatus Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.
@@ -423,8 +423,14 @@ type DeviceErrorCode int64
 
 // DeviceICEResult defines model for DeviceICEResult.
 type DeviceICEResult struct {
-	// Candidate Decoded device ICE candidate; caller adds it to its WebRTC stack.
+	// Candidate First candidate for compatibility; use candidates to consume the complete batch.
 	Candidate string `json:"candidate"`
+
+	// Candidates Complete batch of device candidates, preserving media section identifiers.
+	Candidates []ICECandidate `json:"candidates"`
+
+	// Retry Device has not produced a candidate batch yet.
+	Retry bool `json:"retry"`
 }
 
 // DeviceState Open numeric enum from pinned Python V1 mappings; unknown firmware values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.
@@ -442,11 +448,26 @@ type EmptyRequest = struct{}
 // FanSpeed Open device-dependent numeric enum; future values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.
 type FanSpeed int
 
+// ICECandidate defines model for ICECandidate.
+type ICECandidate struct {
+	// Candidate Plain WebRTC candidate attribute.
+	Candidate string `json:"candidate"`
+
+	// SdpMLineIndex Zero-based media section index.
+	SdpMLineIndex *uint16 `json:"sdp_m_line_index,omitempty"`
+
+	// SdpMid Media section identifier.
+	SdpMid *string `json:"sdp_mid,omitempty"`
+}
+
 // MopMode Open device-dependent numeric enum; future values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.
 type MopMode int
 
 // OpenCameraRequest defines model for OpenCameraRequest.
 type OpenCameraRequest struct {
+	// IceCandidates Already gathered local candidates to send after the offer and before waiting for the device answer.
+	IceCandidates *[]ICECandidate `json:"ice_candidates,omitempty"`
+
 	// PatternPassword Raw pattern digits or a 32-character MD5 digest; never log this value.
 	PatternPassword string `json:"pattern_password"`
 
@@ -472,8 +493,14 @@ type RCMoveRequest struct {
 
 // SendICERequest defines model for SendICERequest.
 type SendICERequest struct {
-	// Candidate Plain ICE candidate from caller-owned WebRTC stack.
+	// Candidate Plain WebRTC candidate attribute.
 	Candidate string `json:"candidate"`
+
+	// SdpMLineIndex Zero-based media section index.
+	SdpMLineIndex *uint16 `json:"sdp_m_line_index,omitempty"`
+
+	// SdpMid Media section identifier.
+	SdpMid *string `json:"sdp_mid,omitempty"`
 }
 
 // SetCleanMotorModeRequest defines model for SetCleanMotorModeRequest.

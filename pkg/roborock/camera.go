@@ -2,8 +2,11 @@ package roborock
 
 import (
 	"context"
+	"crypto/rand"
 	"encoding/base64"
+	"encoding/hex"
 	"encoding/json"
+	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -16,6 +19,7 @@ const (
 	cameraSDPPollInterval = time.Second
 	cameraSDPPollAttempts = 5
 	cameraCleanupTimeout  = 3 * time.Second
+	cameraOwnerBytes      = 16
 )
 
 // CameraSession owns preview signaling and its lifetime. The caller owns the
@@ -29,6 +33,7 @@ type CameraSession struct {
 	closeErr    error
 	preview     atomic.Bool
 	setupDone   chan struct{}
+	clientID    string
 }
 
 // OpenCamera authenticates the pattern, starts preview, retrieves TURN, and
@@ -74,8 +79,16 @@ func (s *DeviceSession) reserveCamera(ctx context.Context, req OpenCameraRequest
 		)
 	}
 
+	owner, err := newCameraOwner()
+	if err != nil {
+		return nil, nil, err
+	}
+
 	camera := new(CameraSession)
 	camera.device = s
+
+	camera.clientID = owner
+
 	camera.life, camera.cancel = context.WithCancel(ctx)
 	camera.setupDone = make(chan struct{})
 
@@ -110,6 +123,17 @@ func (s *DeviceSession) reserveCamera(ctx context.Context, req OpenCameraRequest
 	return camera, stopParent, nil
 }
 
+func newCameraOwner() (string, error) {
+	var data [cameraOwnerBytes]byte
+
+	_, err := rand.Read(data[:])
+	if err != nil {
+		return "", roborockerrors.Wrap(roborockerrors.Unavailable, "OpenCamera", "cannot create preview identity", err)
+	}
+
+	return hex.EncodeToString(data[:]), nil
+}
+
 // Description returns the negotiated SDP answer and TURN credentials.
 // Keep the TURN credential private and pass it only to the caller's WebRTC stack.
 func (c *CameraSession) Description() CameraDescription { return c.description }
@@ -128,7 +152,8 @@ func (c *CameraSession) Close() error {
 		select {
 		case <-c.setupDone:
 			if c.preview.Load() {
-				c.closeErr = c.ack(ctx, dependencymodels.RPCCameraStopPreview, dependencymodels.CameraEmptyParameters{})
+				params := dependencymodels.CameraPreviewOwnerParameters{ClientId: c.clientID}
+				c.closeErr = c.ack(ctx, dependencymodels.RPCCameraStopPreview, params)
 			}
 		case <-ctx.Done():
 			c.closeErr = operationError("CloseCamera", ctx.Err())
@@ -162,10 +187,15 @@ func (c *CameraSession) SendICE(ctx context.Context, req SendICERequest) (Comman
 
 	defer cancel()
 
+	params, err := encodeCameraICE(req)
+	if err != nil {
+		return CommandAcknowledgement{}, err
+	}
+
 	err = c.ack(
 		callCtx,
 		dependencymodels.RPCCameraSendICE,
-		dependencymodels.CameraICEParameters{Ice: base64.StdEncoding.EncodeToString([]byte(req.Candidate))},
+		params,
 	)
 
 	return CommandAcknowledgement{Acknowledged: err == nil, Sent: err == nil}, err
@@ -185,21 +215,7 @@ func (c *CameraSession) GetICE(ctx context.Context, _ EmptyRequest) (DeviceICERe
 		return DeviceICEResult{}, err
 	}
 
-	var wire dependencymodels.CameraDeviceICE
-
-	err = json.Unmarshal(raw, &wire)
-	if err != nil {
-		return DeviceICEResult{}, cameraProtocol("GetICE", err)
-	}
-
-	encoded := firstString(wire.Ice, wire.DevIce)
-
-	decoded, err := base64.StdEncoding.DecodeString(encoded)
-	if err != nil || len(decoded) == 0 {
-		return DeviceICEResult{}, cameraProtocol("GetICE", err)
-	}
-
-	return DeviceICEResult{Candidate: string(decoded)}, nil
+	return decodeCameraICE(raw)
 }
 
 func (c *CameraSession) establish(req OpenCameraRequest) error {
@@ -217,7 +233,14 @@ func (c *CameraSession) establish(req OpenCameraRequest) error {
 		quality = *req.Quality
 	}
 
-	previewParams := dependencymodels.CameraPreviewParameters{Password: password, Quality: string(quality)}
+	if strings.EqualFold(string(quality), string(CameraQualityHD)) ||
+		strings.EqualFold(string(quality), string(CameraQualitySD)) {
+		quality = CameraQuality(strings.ToUpper(string(quality)))
+	}
+
+	previewParams := dependencymodels.CameraPreviewParameters{
+		ClientId: c.clientID, Password: password, Quality: string(quality),
+	}
 	// Mark ownership before dispatch: uncertain acknowledgement still needs cleanup.
 	c.preview.Store(true)
 
@@ -236,12 +259,32 @@ func (c *CameraSession) establish(req OpenCameraRequest) error {
 		return err
 	}
 
+	err = c.sendGatheredICE(req.IceCandidates)
+	if err != nil {
+		return err
+	}
+
 	answer, err := c.waitSDP(c.life)
 	if err != nil {
 		return err
 	}
 
 	c.description = CameraDescription{SdpAnswer: answer, TurnServer: turn}
+
+	return nil
+}
+
+func (c *CameraSession) sendGatheredICE(candidates *[]ICECandidate) error {
+	if candidates == nil {
+		return nil
+	}
+
+	for _, candidate := range *candidates {
+		_, err := c.SendICE(c.life, SendICERequest(candidate))
+		if err != nil {
+			return err
+		}
+	}
 
 	return nil
 }
@@ -303,7 +346,7 @@ func (c *CameraSession) turn(ctx context.Context) (TURNServer, error) {
 
 	err = json.Unmarshal(raw, &wire)
 	if err != nil {
-		return TURNServer{}, cameraProtocol("GetTURN", err)
+		return TURNServer{}, cameraProtocol(string(dependencymodels.RPCCameraGetTURN), err)
 	}
 
 	result := TURNServer{
@@ -312,7 +355,7 @@ func (c *CameraSession) turn(ctx context.Context) (TURNServer, error) {
 		Credential: firstString(wire.Credential, wire.Pwd),
 	}
 	if result.Url == "" || result.Username == "" || result.Credential == "" {
-		return TURNServer{}, cameraProtocol("GetTURN", errResultShape)
+		return TURNServer{}, cameraProtocol(string(dependencymodels.RPCCameraGetTURN), errResultShape)
 	}
 
 	return result, nil
@@ -327,7 +370,7 @@ func (c *CameraSession) waitSDP(ctx context.Context) (string, error) {
 
 		answer, retry, err := decodeCameraSDP(raw)
 		if err != nil {
-			return "", cameraProtocol("GetSDP", err)
+			return "", cameraProtocol(string(dependencymodels.RPCCameraGetSDP), err)
 		}
 
 		if !retry {
@@ -343,10 +386,12 @@ func (c *CameraSession) waitSDP(ctx context.Context) (string, error) {
 		case <-ctx.Done():
 			timer.Stop()
 
-			return "", operationError("GetSDP", ctx.Err())
+			return "", operationError(string(dependencymodels.RPCCameraGetSDP), ctx.Err())
 		case <-timer.C:
 		}
 	}
 
-	return "", roborockerrors.New(roborockerrors.Timeout, "GetSDP", "device SDP polling exhausted", nil)
+	return "", roborockerrors.New(
+		roborockerrors.Timeout, string(dependencymodels.RPCCameraGetSDP), "device SDP polling exhausted", nil,
+	)
 }
