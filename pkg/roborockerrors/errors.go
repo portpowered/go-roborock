@@ -20,6 +20,8 @@ const (
 	RateLimited Kind = "rate_limited"
 	// Unavailable indicates a failed connection or unavailable service.
 	Unavailable Kind = "unavailable"
+	// Busy indicates that another owner is using the requested device resource.
+	Busy Kind = "busy"
 	// Timeout indicates that a request deadline elapsed.
 	Timeout Kind = "timeout"
 	// Canceled indicates caller cancellation.

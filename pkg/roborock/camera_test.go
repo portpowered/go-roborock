@@ -9,8 +9,10 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
+	"strings"
 	"sync"
 	"testing"
+	"time"
 
 	"github.com/portpowered/go-roborock/pkg/dependencymodels"
 	"github.com/portpowered/go-roborock/pkg/roborockerrors"
@@ -19,6 +21,7 @@ import (
 const fixtureCameraOwnerParams = `{"client_id":"synthetic-camera-client"}`
 const fixtureCameraSDPMethod = "get_device_sdp"
 const fixtureCameraStartMethod = "start_camera_preview"
+const fixtureCameraReadyMethod = "get_homesec_connect_status"
 
 var cameraOwnerPattern = regexp.MustCompile(`^[a-f0-9]{32}$`)
 
@@ -98,6 +101,7 @@ func cameraOpeningExchanges() []rpcExchange {
 			response: fixtureAcknowledgement,
 			failure:  nil,
 		},
+		{method: fixtureCameraReadyMethod, params: `[]`, response: `{"status":0,"client_id":"none"}`, failure: nil},
 		{
 			method:   fixtureCameraStartMethod,
 			params:   `{"client_id":"synthetic-camera-client","password":"202cb962ac59075b964b07152d234b70","quality":"HD"}`,
@@ -106,7 +110,7 @@ func cameraOpeningExchanges() []rpcExchange {
 		},
 		{
 			method:   "get_turn_server",
-			params:   `{}`,
+			params:   `[]`,
 			response: `{"url":"turn:relay.example:3478","user":"user","pwd":"credential"}`,
 			failure:  nil,
 		},
@@ -116,7 +120,7 @@ func cameraOpeningExchanges() []rpcExchange {
 			response: fixtureAcknowledgement,
 			failure:  nil,
 		},
-		{method: fixtureCameraSDPMethod, params: `{}`, response: `{"dev_sdp":"` + answer + `"}`, failure: nil},
+		{method: fixtureCameraSDPMethod, params: `[]`, response: `{"dev_sdp":"` + answer + `"}`, failure: nil},
 	}
 }
 
@@ -133,7 +137,7 @@ func TestCameraSignalingAndConcurrentClose(t *testing.T) {
 			response: fixtureAcknowledgement,
 			failure:  nil,
 		},
-		rpcExchange{method: "get_device_ice", params: `{}`, response: `{"dev_ice":["` + candidate + `"]}`, failure: nil},
+		rpcExchange{method: "get_device_ice", params: `[]`, response: `{"dev_ice":["` + candidate + `"]}`, failure: nil},
 		cameraStopExchange(),
 	)
 	session := cameraOperationSession(t, exchanges...)
@@ -177,8 +181,8 @@ func TestCameraSignalingAndConcurrentClose(t *testing.T) {
 func TestCameraFailureStopsPreview(t *testing.T) {
 	t.Parallel()
 
-	exchanges := cameraOpeningExchanges()[:3]
-	exchanges[2].response = `{}`
+	exchanges := cameraOpeningExchanges()[:4]
+	exchanges[3].response = `{}`
 	exchanges = append(
 		exchanges,
 		cameraStopExchange(),
@@ -198,7 +202,7 @@ func TestCameraCanceledPollingStopsPreview(t *testing.T) {
 	t.Parallel()
 
 	exchanges := cameraOpeningExchanges()
-	exchanges[4].failure = context.Canceled
+	exchanges[5].failure = context.Canceled
 	exchanges = append(
 		exchanges,
 		cameraStopExchange(),
@@ -379,7 +383,7 @@ func TestCameraFailurePreservesRPCStageAndTypedCause(t *testing.T) {
 			t.Parallel()
 
 			cause := roborockerrors.New(roborockerrors.Timeout, "Call", "request timed out", context.DeadlineExceeded)
-			session := cameraOperationSession(t, rpcExchange{method: string(method), params: `{}`, response: "", failure: cause})
+			session := cameraOperationSession(t, rpcExchange{method: string(method), params: `[]`, response: "", failure: cause})
 			camera := new(CameraSession)
 			camera.device = session
 
@@ -402,22 +406,56 @@ func TestCameraFailurePreservesRPCStageAndTypedCause(t *testing.T) {
 func TestCameraExhaustedSDPPollingPreservesRPCStage(t *testing.T) {
 	t.Parallel()
 
-	exchanges := cameraOpeningExchanges()[:4]
+	exchanges := cameraOpeningExchanges()[:5]
 	for range cameraSDPPollAttempts {
 		exchanges = append(exchanges, rpcExchange{
-			method: fixtureCameraSDPMethod, params: `{}`, response: `{"dev_sdp":"retry"}`, failure: nil,
+			method: fixtureCameraSDPMethod, params: `[]`, response: `{"dev_sdp":"retry"}`, failure: nil,
 		})
 	}
 
 	exchanges = append(exchanges, cameraStopExchange())
 	session := cameraOperationSession(t, exchanges...)
 	request := OpenCameraRequest{PatternPassword: "123", SdpOffer: fixtureSDPOffer, Quality: nil, IceCandidates: nil}
+	started := time.Now()
 	_, err := session.OpenCamera(context.Background(), request)
 
 	var typed *roborockerrors.Error
 
 	if !errors.As(err, &typed) || typed.Operation != fixtureCameraSDPMethod || typed.Kind != roborockerrors.Timeout {
 		t.Fatalf("SDP exhaustion lost its typed stage: %v", err)
+	}
+
+	if time.Since(started) < cameraSDPPollAttempts*cameraSDPPollInterval {
+		t.Fatal("SDP polling exhausted before the complete reference polling window")
+	}
+}
+
+func TestCameraBusyOrInvalidReadinessNeverStartsOrStopsAnotherPreview(t *testing.T) {
+	t.Parallel()
+
+	for _, test := range []struct {
+		response string
+		kind     roborockerrors.Kind
+	}{
+		{`{"status":1,"client_id":"foreign-private-owner"}`, roborockerrors.Busy},
+		{`{"status":0}`, roborockerrors.Protocol},
+	} {
+		exchanges := cameraOpeningExchanges()[:2:2]
+		exchanges[1].response = test.response
+		session := cameraOperationSession(t, exchanges...)
+		_, err := session.OpenCamera(context.Background(), OpenCameraRequest{
+			PatternPassword: "123", SdpOffer: fixtureSDPOffer, Quality: nil, IceCandidates: nil,
+		})
+
+		var typed *roborockerrors.Error
+
+		if !errors.As(err, &typed) || typed.Kind != test.kind || typed.Operation != fixtureCameraReadyMethod {
+			t.Fatalf("readiness classification lost: %v", err)
+		}
+
+		if strings.Contains(err.Error(), "foreign-private-owner") {
+			t.Fatal("readiness error exposed the other preview owner's identity")
+		}
 	}
 }
 
@@ -465,8 +503,8 @@ func TestCameraICERetryAndMalformedResponses(t *testing.T) {
 func TestCameraFailedSecondSessionCannotCleanUpFirstPreviewOwner(t *testing.T) {
 	t.Parallel()
 	firstSession := cameraOperationSession(t, append(cameraOpeningExchanges(), cameraStopExchange())...)
-	secondExchanges := cameraOpeningExchanges()[:3]
-	secondExchanges[2].response = `{}`
+	secondExchanges := cameraOpeningExchanges()[:4]
+	secondExchanges[3].response = `{}`
 	secondSession := cameraOperationSession(t, append(secondExchanges, cameraStopExchange())...)
 	firstSession.auth.ClientID, secondSession.auth.ClientID = "shared-account-client", "shared-account-client"
 	firstSession.deviceID, secondSession.deviceID = "shared-vacuum", "shared-vacuum"
@@ -516,12 +554,12 @@ func TestCameraOpenSendsGatheredCandidatesBeforeAwaitingSDP(t *testing.T) {
 	encoded := base64.StdEncoding.EncodeToString([]byte(
 		`{"candidate":"candidate:1","sdpMLineIndex":0,"sdpMid":"0"}`,
 	))
-	exchanges := opening[:4:4]
+	exchanges := opening[:5:5]
 	exchanges = append(exchanges, rpcExchange{
 		method: "send_ice_to_robot", params: `{"app_ice":"` + encoded + `"}`,
 		response: fixtureAcknowledgement, failure: nil,
 	})
-	exchanges = append(exchanges, opening[4], cameraStopExchange())
+	exchanges = append(exchanges, opening[5], cameraStopExchange())
 	session := cameraOperationSession(t, exchanges...)
 	candidates := []ICECandidate{{Candidate: fixtureICECandidate, SdpMid: nil, SdpMLineIndex: nil}}
 	request := OpenCameraRequest{

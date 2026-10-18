@@ -7,11 +7,17 @@ import (
 	"encoding/json"
 )
 
+// Defines values for CameraIdleClient.
+const (
+	CameraIdleClientNone CameraIdleClient = "none"
+)
+
 // Defines values for CameraRPCMethod.
 const (
 	RPCCameraCheckPassword CameraRPCMethod = "check_homesec_password"
 	RPCCameraGetICE        CameraRPCMethod = "get_device_ice"
 	RPCCameraGetSDP        CameraRPCMethod = "get_device_sdp"
+	RPCCameraGetStatus     CameraRPCMethod = "get_homesec_connect_status"
 	RPCCameraGetTURN       CameraRPCMethod = "get_turn_server"
 	RPCCameraSendICE       CameraRPCMethod = "send_ice_to_robot"
 	RPCCameraSendSDP       CameraRPCMethod = "send_sdp_to_robot"
@@ -36,6 +42,12 @@ type CameraAcknowledgement = []string
 // CameraCheckPasswordRPCJSONRequestBody defines model for CameraCheckPasswordRPCJSONRequestBody.
 type CameraCheckPasswordRPCJSONRequestBody = CameraPasswordParameters
 
+// CameraConnectionStatus defines model for CameraConnectionStatus.
+type CameraConnectionStatus struct {
+	ClientId string `json:"client_id"`
+	Status   *int   `json:"status,omitempty"`
+}
+
 // CameraDeviceICE defines model for CameraDeviceICE.
 type CameraDeviceICE struct {
 	// DevIce Batch of base64-encoded CameraICECandidate JSON envelopes, or retry.
@@ -50,16 +62,19 @@ type CameraDeviceSDP struct {
 	Sdp    *string `json:"sdp,omitempty"`
 }
 
-// CameraEmptyParameters defines model for CameraEmptyParameters.
-type CameraEmptyParameters = struct{}
+// CameraEmptyParameters Empty positional parameter list used by reference camera reads.
+type CameraEmptyParameters = []string
 
-// CameraGetICERPCJSONRequestBody defines model for CameraGetICERPCJSONRequestBody.
+// CameraGetICERPCJSONRequestBody Empty positional parameter list used by reference camera reads.
 type CameraGetICERPCJSONRequestBody = CameraEmptyParameters
 
-// CameraGetSDPRPCJSONRequestBody defines model for CameraGetSDPRPCJSONRequestBody.
+// CameraGetSDPRPCJSONRequestBody Empty positional parameter list used by reference camera reads.
 type CameraGetSDPRPCJSONRequestBody = CameraEmptyParameters
 
-// CameraGetTURNRPCJSONRequestBody defines model for CameraGetTURNRPCJSONRequestBody.
+// CameraGetStatusRPCJSONRequestBody Empty positional parameter list used by reference camera reads.
+type CameraGetStatusRPCJSONRequestBody = CameraEmptyParameters
+
+// CameraGetTURNRPCJSONRequestBody Empty positional parameter list used by reference camera reads.
 type CameraGetTURNRPCJSONRequestBody = CameraEmptyParameters
 
 // CameraICECandidate defines model for CameraICECandidate.
@@ -79,6 +94,9 @@ type CameraICEParameters struct {
 	// AppIce Base64-encoded CameraICECandidate JSON envelope.
 	AppIce string `json:"app_ice"`
 }
+
+// CameraIdleClient Connection status marker when no viewer owns the preview.
+type CameraIdleClient string
 
 // CameraPasswordParameters defines model for CameraPasswordParameters.
 type CameraPasswordParameters struct {

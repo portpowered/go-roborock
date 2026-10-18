@@ -97,16 +97,17 @@ func TestCameraLifecycleAndOutput(t *testing.T) {
 
 			pairs := [][3]string{
 				{"check_homesec_password", `{"password":"0123456789abcdef0123456789abcdef"}`, fixtureRPCResult},
+				{"get_homesec_connect_status", `[]`, `{"status":0,"client_id":"none"}`},
 				{fixtureStartPreview, `{"client_id":"<preview-owner>","password":"0123456789abcdef0123456789abcdef","quality":"HD"}`, fixtureRPCResult},
 			}
 
 			if success {
 				offer := base64.StdEncoding.EncodeToString([]byte(`{"sdp":"synthetic-offer","type":"offer"}`))
-				pairs = append(pairs, [3]string{"get_turn_server", `{}`, `{"url":"turn:example.invalid","username":"user","credential":"secret"}`},
+				pairs = append(pairs, [3]string{"get_turn_server", `[]`, `{"url":"turn:example.invalid","username":"user","credential":"secret"}`},
 					[3]string{"send_sdp_to_robot", fmt.Sprintf(`{"app_sdp":%q}`, offer), fixtureRPCResult},
-					[3]string{"get_device_sdp", `{}`, `{"sdp":"synthetic-ICE-credential"}`})
+					[3]string{"get_device_sdp", `[]`, `{"sdp":"synthetic-ICE-credential"}`})
 			} else {
-				pairs = append(pairs, [3]string{"get_turn_server", `{}`, `{"unexpected":"synthetic"}`})
+				pairs = append(pairs, [3]string{"get_turn_server", `[]`, `{"unexpected":"synthetic"}`})
 			}
 
 			pairs = append(pairs, [3]string{"stop_camera_preview", `{"client_id":"<preview-owner>"}`, fixtureRPCResult})

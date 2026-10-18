@@ -44,6 +44,9 @@
         },
         "CameraGetICERPCRequest": {
           "$ref": "#/components/messages/CameraGetICERPCRequest"
+        },
+        "CameraGetStatusRPCRequest": {
+          "$ref": "#/components/messages/CameraGetStatusRPCRequest"
         }
       }
     },
@@ -84,6 +87,9 @@
         },
         "CameraGetICERPCResponse": {
           "$ref": "#/components/messages/CameraGetICERPCResponse"
+        },
+        "CameraGetStatusRPCResponse": {
+          "$ref": "#/components/messages/CameraGetStatusRPCResponse"
         }
       }
     }
@@ -344,15 +350,49 @@
           "name": "camera"
         }
       ]
+    },
+    "CameraGetStatusRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/CameraGetStatusRPCRequest"
+        }
+      ],
+      "summary": "Read the current camera preview owner without changing it",
+      "description": "CameraGetStatus for camera signaling.",
+      "x-rpc-method": "get_homesec_connect_status",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/CameraEmptyParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/CameraGetStatusRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "camera"
+        }
+      ]
     }
   },
   "components": {
     "schemas": {
       "CameraEmptyParameters": {
-        "type": "object",
-        "x-go-type": "struct{}",
-        "properties": {},
-        "additionalProperties": false
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "maxItems": 0,
+        "description": "Empty positional parameter list used by reference camera reads."
       },
       "CameraPasswordParameters": {
         "type": "object",
@@ -517,6 +557,7 @@
         "type": "string",
         "enum": [
           "check_homesec_password",
+          "get_homesec_connect_status",
           "start_camera_preview",
           "stop_camera_preview",
           "get_turn_server",
@@ -527,6 +568,7 @@
         ],
         "x-enum-varnames": [
           "RPCCameraCheckPassword",
+          "RPCCameraGetStatus",
           "RPCCameraStartPreview",
           "RPCCameraStopPreview",
           "RPCCameraGetTURN",
@@ -595,6 +637,32 @@
           "candidate"
         ],
         "additionalProperties": false
+      },
+      "CameraConnectionStatus": {
+        "type": "object",
+        "properties": {
+          "client_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "client_id"
+        ],
+        "additionalProperties": false
+      },
+      "CameraIdleClient": {
+        "type": "string",
+        "enum": [
+          "none"
+        ],
+        "x-enum-varnames": [
+          "CameraIdleClientNone"
+        ],
+        "description": "Connection status marker when no viewer owns the preview."
       }
     },
     "messages": {
@@ -1068,6 +1136,66 @@
             },
             "result": {
               "$ref": "#/components/schemas/CameraDeviceICE"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CameraGetStatusRPCRequest": {
+        "name": "CameraGetStatusRPCRequest",
+        "title": "CameraGetStatus for camera signaling",
+        "summary": "CameraGetStatus for camera signaling.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "get_homesec_connect_status"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/CameraEmptyParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CameraGetStatusRPCResponse": {
+        "name": "CameraGetStatusRPCResponse",
+        "summary": "Returns cameraGetStatus for camera signaling.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/CameraConnectionStatus"
             },
             "error": {
               "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
