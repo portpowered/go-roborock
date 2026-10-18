@@ -25,6 +25,7 @@ import (
 )
 
 const fixtureRPCResult = `["ok"]`
+const fixtureStartPreview = "start_camera_preview"
 const fixtureOutputTopic = "rr/m/o/synthetic-user/f8cd4bde/synthetic-device"
 
 const deviceJSON = `{"auth":{"mqtt":{"brokerUrl":"ssl://example.invalid:8883","user":"synthetic-user","secret":"synthetic-secret","key":"synthetic-key"}},"deviceId":"synthetic-device","localKey":"0123456789abcdef","protocol":"1.0"}`
@@ -92,9 +93,11 @@ func TestCameraLifecycleAndOutput(t *testing.T) {
 
 	for _, success := range []bool{false, true} {
 		client, done := rpcTestClient(t, func(conn net.Conn) error {
+			var owner string
+
 			pairs := [][3]string{
 				{"check_homesec_password", `{"password":"0123456789abcdef0123456789abcdef"}`, fixtureRPCResult},
-				{"start_camera_preview", `{"password":"0123456789abcdef0123456789abcdef","quality":"hd"}`, fixtureRPCResult},
+				{fixtureStartPreview, `{"client_id":"<preview-owner>","password":"0123456789abcdef0123456789abcdef","quality":"HD"}`, fixtureRPCResult},
 			}
 
 			if success {
@@ -106,9 +109,9 @@ func TestCameraLifecycleAndOutput(t *testing.T) {
 				pairs = append(pairs, [3]string{"get_turn_server", `{}`, `{"unexpected":"synthetic"}`})
 			}
 
-			pairs = append(pairs, [3]string{"stop_camera_preview", `{}`, fixtureRPCResult})
+			pairs = append(pairs, [3]string{"stop_camera_preview", `{"client_id":"<preview-owner>"}`, fixtureRPCResult})
 			for _, pair := range pairs {
-				err := replyRPC(conn, pair[0], pair[1], pair[2], nil)
+				err := replyRPC(conn, pair[0], pair[1], pair[2], nil, &owner)
 				if err != nil {
 					return err
 				}
@@ -292,7 +295,7 @@ func customerCommandProfile(t *testing.T) string {
 	return profile
 }
 
-func replyRPC(conn net.Conn, method, params, result string, cancel context.CancelFunc) error {
+func replyRPC(conn net.Conn, method, params, result string, cancel context.CancelFunc, owners ...*string) error {
 	header, body, err := readMQTTPacket(conn)
 	if err != nil {
 		return err
@@ -312,7 +315,7 @@ func replyRPC(conn net.Conn, method, params, result string, cancel context.Cance
 		return err
 	}
 
-	identifier, err := matchRPCPlain(plain, method, params)
+	identifier, err := matchRPCPlain(plain, method, params, owners...)
 	if err != nil {
 		return err
 	}
@@ -473,7 +476,7 @@ func readMQTTPacket(reader io.Reader) (byte, []byte, error) {
 
 	return 0, nil, errors.New("malformed MQTT")
 }
-func matchRPCPlain(plain []byte, method, params string) (int64, error) {
+func matchRPCPlain(plain []byte, method, params string, owners ...*string) (int64, error) {
 	var envelope map[string]json.RawMessage
 
 	err := json.Unmarshal(plain, &envelope)
@@ -515,6 +518,13 @@ func matchRPCPlain(plain []byte, method, params string) (int64, error) {
 		return 0, errors.New("identifier mismatch")
 	}
 
+	if len(owners) > 0 && (method == fixtureStartPreview || method == "stop_camera_preview") {
+		request["params"], err = normalizePreviewOwner(request["params"], method, owners[0])
+		if err != nil {
+			return 0, err
+		}
+	}
+
 	if json.Unmarshal(request["method"], &actualMethod) != nil || actualMethod != method || len(request) != 4 || !equalJSON(request["params"], []byte(params)) {
 		return 0, errors.New("RPC request mismatch")
 	}
@@ -525,6 +535,42 @@ func matchRPCPlain(plain []byte, method, params string) (int64, error) {
 	}
 
 	return identifier, nil
+}
+
+// Match the generated preview identity explicitly, retaining exact comparison for every other request field.
+func normalizePreviewOwner(raw json.RawMessage, method string, owner *string) (json.RawMessage, error) {
+	var params map[string]json.RawMessage
+
+	err := json.Unmarshal(raw, &params)
+	if err != nil {
+		return nil, err
+	}
+
+	var identity string
+
+	err = json.Unmarshal(params["client_id"], &identity)
+	if err != nil {
+		return nil, err
+	}
+
+	decoded, err := hex.DecodeString(identity)
+	if err != nil || len(decoded) != 16 {
+		return nil, errors.New("preview owner format mismatch")
+	}
+
+	if method == fixtureStartPreview {
+		if *owner != "" {
+			return nil, errors.New("preview start repeated")
+		}
+
+		*owner = identity
+	} else if *owner != identity {
+		return nil, errors.New("preview cleanup owner mismatch")
+	}
+
+	params["client_id"] = json.RawMessage(`"<preview-owner>"`)
+
+	return json.Marshal(params)
 }
 func matchRPCSecurity(raw json.RawMessage) error {
 	var security map[string]string
