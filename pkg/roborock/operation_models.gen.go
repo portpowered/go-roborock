@@ -311,6 +311,15 @@ type CameraDescription struct {
 	TurnServer TURNServer `json:"turn_server"`
 }
 
+// CameraOfferRequest One caller-owned SDP offer and already gathered candidates for a prepared camera. A negotiation failure closes the preview; an uncertain offer is never retried.
+type CameraOfferRequest struct {
+	// IceCandidates Already gathered local candidates to send after the offer and before waiting for the device answer.
+	IceCandidates *[]ICECandidate `json:"ice_candidates,omitempty"`
+
+	// SdpOffer Plain SDP offer from caller-owned WebRTC stack.
+	SdpOffer string `json:"sdp_offer"`
+}
+
 // CameraQuality Open camera quality selector. Known values HD and SD. This named inventory lists known constants; field contracts explicitly accept future values.
 type CameraQuality string
 
@@ -476,6 +485,15 @@ type OpenCameraRequest struct {
 
 	// SdpOffer Plain SDP offer from caller-owned WebRTC stack.
 	SdpOffer string `json:"sdp_offer"`
+}
+
+// PrepareCameraRequest Authenticate and own a camera preview, returning its private TURN configuration before creating an offer. Close the returned session if negotiation is not completed.
+type PrepareCameraRequest struct {
+	// PatternPassword Raw pattern digits or a 32-character MD5 digest; never log this value.
+	PatternPassword string `json:"pattern_password"`
+
+	// Quality Open CameraQuality value; future firmware values are accepted.
+	Quality *CameraQuality `json:"quality,omitempty"`
 }
 
 // RCMoveRequest defines model for RCMoveRequest.

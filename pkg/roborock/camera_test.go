@@ -577,3 +577,83 @@ func TestCameraOpenSendsGatheredCandidatesBeforeAwaitingSDP(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+func TestPreparedCameraReturnsTURNBeforeSendingOneOffer(t *testing.T) {
+	t.Parallel()
+
+	exchanges := append(cameraOpeningExchanges(), cameraStopExchange())
+	device := cameraOperationSession(t, exchanges...)
+
+	camera, err := device.PrepareCamera(context.Background(), PrepareCameraRequest{PatternPassword: "1-2-3", Quality: nil})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	description := camera.Description()
+	if description.SdpAnswer != "" || description.TurnServer.Url != "turn:relay.example:3478" {
+		t.Fatal("prepared preview must expose TURN without negotiating SDP")
+	}
+
+	description, err = camera.Negotiate(
+		context.Background(), CameraOfferRequest{SdpOffer: fixtureSDPOffer, IceCandidates: nil},
+	)
+	if err != nil || description.SdpAnswer != "v=0 answer" {
+		t.Fatalf("negotiate prepared preview: %v", err)
+	}
+
+	_, err = camera.Negotiate(context.Background(), CameraOfferRequest{SdpOffer: fixtureSDPOffer, IceCandidates: nil})
+	if !errors.Is(err, roborockerrors.New(roborockerrors.Backpressure, "test", "", nil)) {
+		t.Fatalf("second offer must be rejected without an RPC: %v", err)
+	}
+
+	closeCameraConcurrently(t, camera)
+}
+
+func TestPreparedCameraClosesWithoutSubmittingOffer(t *testing.T) {
+	t.Parallel()
+
+	exchanges := cameraOpeningExchanges()[:4]
+	exchanges = append(exchanges, cameraStopExchange())
+	device := cameraOperationSession(t, exchanges...)
+
+	camera, err := device.PrepareCamera(context.Background(), PrepareCameraRequest{PatternPassword: "123", Quality: nil})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	closeCameraConcurrently(t, camera)
+
+	_, err = camera.Negotiate(context.Background(), CameraOfferRequest{SdpOffer: fixtureSDPOffer, IceCandidates: nil})
+	if !errors.Is(err, roborockerrors.New(roborockerrors.Closed, "test", "", nil)) {
+		t.Fatalf("closed prepared preview must reject negotiation: %v", err)
+	}
+}
+
+func TestPreparedCameraFailedOfferClosesOwnedPreview(t *testing.T) {
+	t.Parallel()
+
+	exchanges := cameraOpeningExchanges()[:5]
+	exchanges[4].failure = context.DeadlineExceeded
+	exchanges = append(exchanges, cameraStopExchange())
+	device := cameraOperationSession(t, exchanges...)
+
+	camera, err := device.PrepareCamera(context.Background(), PrepareCameraRequest{PatternPassword: "123", Quality: nil})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, err = camera.Negotiate(context.Background(), CameraOfferRequest{SdpOffer: fixtureSDPOffer, IceCandidates: nil})
+	if err == nil {
+		t.Fatal("uncertain offer must fail")
+	}
+
+	select {
+	case <-camera.Done():
+	default:
+		t.Fatal("failed offer must close the owned preview")
+	}
+
+	if device.camera != nil {
+		t.Fatal("failed offer retained device ownership")
+	}
+}

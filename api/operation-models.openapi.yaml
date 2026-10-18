@@ -1596,6 +1596,53 @@
           "candidate"
         ],
         "additionalProperties": false
+      },
+      "PrepareCameraRequest": {
+        "type": "object",
+        "description": "Authenticate and own a camera preview, returning its private TURN configuration before creating an offer. Close the returned session if negotiation is not completed.",
+        "properties": {
+          "pattern_password": {
+            "type": "string",
+            "description": "Raw pattern digits or a 32-character MD5 digest; never log this value."
+          },
+          "quality": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CameraQuality"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "x-go-type": "CameraQuality",
+            "description": "Open CameraQuality value; future firmware values are accepted."
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "pattern_password"
+        ]
+      },
+      "CameraOfferRequest": {
+        "type": "object",
+        "description": "One caller-owned SDP offer and already gathered candidates for a prepared camera. A negotiation failure closes the preview; an uncertain offer is never retried.",
+        "properties": {
+          "sdp_offer": {
+            "type": "string",
+            "description": "Plain SDP offer from caller-owned WebRTC stack."
+          },
+          "ice_candidates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ICECandidate"
+            },
+            "description": "Already gathered local candidates to send after the offer and before waiting for the device answer."
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "sdp_offer"
+        ]
       }
     }
   }
