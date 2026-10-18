@@ -12,9 +12,10 @@ import (
 )
 
 type mapQuery struct {
-	id     int64
-	prefix byte
-	reply  chan response
+	id      int64
+	prefix  byte
+	reply   chan response
+	release func()
 }
 
 // FetchMapV1 retrieves the current V1 map, decrypting and inflating its payload.
@@ -148,7 +149,7 @@ func (s *Session) beginMap(ctx context.Context, prefix byte) (*mapQuery, error) 
 		return nil, s.closedError()
 	}
 
-	query := &mapQuery{id: 0, reply: make(chan response, 1), prefix: prefix}
+	query := &mapQuery{id: 0, reply: make(chan response, 1), prefix: prefix, release: nil}
 
 	s.mu.Lock()
 	s.mapQuery = query
@@ -159,12 +160,19 @@ func (s *Session) beginMap(ctx context.Context, prefix byte) (*mapQuery, error) 
 
 func (s *Session) endMap() {
 	s.mu.Lock()
-	if query := s.mapQuery; query != nil && query.id != 0 {
+
+	query := s.mapQuery
+	if query != nil && query.id != 0 {
 		delete(s.pending, query.id)
 	}
 
 	s.mapQuery = nil
 	s.mu.Unlock()
+
+	if query != nil && query.release != nil {
+		query.release()
+	}
+
 	<-s.mapGate
 }
 
@@ -174,6 +182,19 @@ func (s *Session) registerMapRPC(query *mapQuery, isQ7 bool) error {
 
 	if len(s.pending) >= maxPendingCommands {
 		return roborockerrors.New(roborockerrors.Backpressure, "mqtt map", "too many pending commands", nil)
+	}
+
+	if !isQ7 {
+		requestID, release, err := v1RequestIDs.acquire()
+		if err != nil {
+			return err
+		}
+
+		query.id = requestID
+		query.release = release
+		s.pending[requestID] = nil
+
+		return nil
 	}
 
 	for range maxPendingCommands + 1 {

@@ -1811,7 +1811,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 134,
+          "line": 135,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01EmptyObjectJSON"
         }
       ]
@@ -1926,7 +1926,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 134,
+          "line": 135,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q10CurrentMapDatapoint"
         }
       ]
@@ -2271,7 +2271,7 @@
         },
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 185,
+          "line": 206,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Q7MessageIDBase"
         }
       ]
@@ -2471,17 +2471,17 @@
         },
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 58,
+          "line": 59,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Version"
         },
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 120,
+          "line": 121,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Version"
         },
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 206,
+          "line": 227,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Version"
         },
         {
@@ -3007,7 +3007,7 @@
         },
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 41,
+          "line": 42,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTEmptyParamsJSON"
         },
         {
@@ -3261,7 +3261,7 @@
         },
         {
           "file": "pkg/dependencies/mqtt/rpc.go",
-          "line": 124,
+          "line": 128,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTFrameRandomOffset"
         }
       ]
@@ -3335,7 +3335,7 @@
         },
         {
           "file": "pkg/dependencies/mqtt/rpc.go",
-          "line": 124,
+          "line": 128,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTFrameTimestampOffset"
         }
       ]
@@ -3724,7 +3724,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/rpc.go",
-          "line": 138,
+          "line": 142,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTProtocolRequest"
         }
       ]
@@ -3959,7 +3959,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/rpc.go",
-          "line": 149,
+          "line": 153,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTRPCMethodPattern"
         }
       ]
@@ -3981,7 +3981,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/rpc.go",
-          "line": 95,
+          "line": 99,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTRPCRequestDatapoint"
         }
       ]
@@ -4556,17 +4556,17 @@
         },
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 22,
+          "line": 23,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTVersionV1"
         },
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 239,
+          "line": 260,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTVersionV1"
         },
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 252,
+          "line": 273,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTVersionV1"
         },
         {
@@ -6914,7 +6914,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 109,
+          "line": 110,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapsQ10CurrentPrefix"
         }
       ]
@@ -6936,7 +6936,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 267,
+          "line": 288,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapsQ10PrefixSize"
         }
       ]
@@ -6958,7 +6958,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 268,
+          "line": 289,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapsQ10PrefixVersion"
         }
       ]
@@ -6980,7 +6980,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 116,
+          "line": 117,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapsQ10TracePrefix"
         }
       ]
@@ -7068,7 +7068,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 257,
+          "line": 278,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapsV1EndpointEnd"
         }
       ]
@@ -7090,7 +7090,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 257,
+          "line": 278,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapsV1EndpointOffset"
         }
       ]
@@ -7112,7 +7112,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 41,
+          "line": 42,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapsV1GetMethod"
         }
       ]
@@ -7134,12 +7134,12 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 240,
+          "line": 261,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapsV1HeaderSize"
         },
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 253,
+          "line": 274,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapsV1HeaderSize"
         }
       ]
@@ -7193,7 +7193,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 258,
+          "line": 279,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapsV1RequestIDEnd"
         }
       ]
@@ -7215,7 +7215,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 258,
+          "line": 279,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapsV1RequestIDOffset"
         }
       ]
@@ -7237,7 +7237,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 182,
+          "line": 203,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapsV1RequestIDRange"
         }
       ]
@@ -15660,7 +15660,7 @@
         },
         {
           "file": "pkg/dependencies/mqtt/rpc.go",
-          "line": 94,
+          "line": 98,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MQTTEnvelope"
         }
       ]
@@ -15707,7 +15707,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/rpc.go",
-          "line": 82,
+          "line": 86,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MQTTRPCRequest"
         }
       ]
@@ -16393,7 +16393,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 77,
+          "line": 78,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsQ7UploadRequest"
         }
       ]
@@ -18732,7 +18732,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/maps.go",
-          "line": 87,
+          "line": 88,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.ServiceUploadByMapid"
         }
       ]
@@ -34715,6 +34715,16 @@
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/mqtt.Q10Zone"
     },
     {
+      "file": "pkg/dependencies/mqtt/request_ids.go",
+      "line": 19,
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/mqtt.requestIDLease"
+    },
+    {
+      "file": "pkg/dependencies/mqtt/request_ids.go",
+      "line": 24,
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/mqtt.requestIDPool"
+    },
+    {
       "file": "pkg/dependencies/mqtt/session.go",
       "line": 22,
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/mqtt.Config"
@@ -36869,7 +36879,7 @@
     {
       "site": {
         "file": "pkg/dependencies/mqtt/maps.go",
-        "line": 41,
+        "line": 42,
         "symbol": "encoding/json.RawMessage"
       },
       "argumentTypes": [
@@ -36879,7 +36889,7 @@
     {
       "site": {
         "file": "pkg/dependencies/mqtt/maps.go",
-        "line": 77,
+        "line": 78,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -36889,7 +36899,7 @@
     {
       "site": {
         "file": "pkg/dependencies/mqtt/maps.go",
-        "line": 134,
+        "line": 135,
         "symbol": "encoding/json.RawMessage"
       },
       "argumentTypes": [
@@ -36899,7 +36909,7 @@
     {
       "site": {
         "file": "pkg/dependencies/mqtt/maps.go",
-        "line": 258,
+        "line": 279,
         "symbol": "encoding/binary.Uint16"
       },
       "argumentTypes": [
@@ -37157,7 +37167,7 @@
     {
       "site": {
         "file": "pkg/dependencies/mqtt/rpc.go",
-        "line": 84,
+        "line": 88,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -37167,7 +37177,7 @@
     {
       "site": {
         "file": "pkg/dependencies/mqtt/rpc.go",
-        "line": 89,
+        "line": 93,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -37177,7 +37187,7 @@
     {
       "site": {
         "file": "pkg/dependencies/mqtt/rpc.go",
-        "line": 98,
+        "line": 102,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -37187,7 +37197,7 @@
     {
       "site": {
         "file": "pkg/dependencies/mqtt/rpc.go",
-        "line": 137,
+        "line": 141,
         "symbol": "encoding/binary.Uint32"
       },
       "argumentTypes": [
