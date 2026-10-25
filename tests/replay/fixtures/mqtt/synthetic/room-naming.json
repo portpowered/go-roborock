@@ -1,0 +1,94 @@
+{
+  "provenance": "synthetic",
+  "source": "Room-name record fields and method from official Roborock a97 plugin6362 static bytecode; expected V1 frames independently built with Python hashlib/cryptography and standard CRC32. Request fields are primary static evidence; standard acknowledgements/errors are synthetic transport examples, not live acceptance. See docs/room-naming-protocol.md.",
+  "cases": [
+    {
+      "name": "accepted",
+      "params": [
+        {
+          "iotRoomId": "1001",
+          "robotRoomId": 16,
+          "robotTagId": 6
+        },
+        {
+          "iotRoomId": "1002",
+          "robotRoomId": 17,
+          "robotTagId": 0
+        },
+        {
+          "iotRoomId": "",
+          "robotRoomId": 18,
+          "robotTagId": 12
+        }
+      ],
+      "errorKind": "",
+      "responseFrameHex": "312e300000002a000030396553f100006600409a8c4ea355e745331e4df19b1a056c60794f85b78fbdb4a3e489f6d91f8d6c1f4ab41487795fce4ffe72f6369b862e6352d7ad87a16b95ec3aa060eb4a3d75157336428f"
+    },
+    {
+      "name": "empty-ack",
+      "params": [
+        {
+          "iotRoomId": "1001",
+          "robotRoomId": 16,
+          "robotTagId": 6
+        },
+        {
+          "iotRoomId": "1002",
+          "robotRoomId": 17,
+          "robotTagId": 0
+        },
+        {
+          "iotRoomId": "",
+          "robotRoomId": 18,
+          "robotTagId": 12
+        }
+      ],
+      "errorKind": "protocol",
+      "responseFrameHex": "312e300000002a000030396553f100006600409a8c4ea355e745331e4df19b1a056c60794f85b78fbdb4a3e489f6d91f8d6c1f7ac04877a87879f973736823ca7cc17d1ab8ebdae690773c65494bf32339595eabf585a0"
+    },
+    {
+      "name": "rejected-ack",
+      "params": [
+        {
+          "iotRoomId": "1001",
+          "robotRoomId": 16,
+          "robotTagId": 6
+        },
+        {
+          "iotRoomId": "1002",
+          "robotRoomId": 17,
+          "robotTagId": 0
+        },
+        {
+          "iotRoomId": "",
+          "robotRoomId": 18,
+          "robotTagId": 12
+        }
+      ],
+      "errorKind": "protocol",
+      "responseFrameHex": "312e300000002a000030396553f100006600509a8c4ea355e745331e4df19b1a056c60794f85b78fbdb4a3e489f6d91f8d6c1f88a973cce22c34d61d678d134ffe1f18eeea869a489fdf66f40128479bb46bd74f9597787c72418e3c708b47356653347dddc3ad"
+    },
+    {
+      "name": "rpc-rejection",
+      "params": [
+        {
+          "iotRoomId": "1001",
+          "robotRoomId": 16,
+          "robotTagId": 6
+        },
+        {
+          "iotRoomId": "1002",
+          "robotRoomId": 17,
+          "robotTagId": 0
+        },
+        {
+          "iotRoomId": "",
+          "robotRoomId": 18,
+          "robotTagId": 12
+        }
+      ],
+      "errorKind": "protocol",
+      "responseFrameHex": "312e300000002a000030396553f100006600709a8c4ea355e745331e4df19b1a056c602a2a27884716a5b9da544c475db85255ba92001398f8f22bc0e2e60d55f8e1bcdc86455f1ce56470f383788f2c5a1b18bd8d9e736b45b3cba28a7c5fda321306fe8143bf1dc69d6a5ac553a440dfa990f3bd50c15f8d1a90dd76737e9fd05fc27d4da418"
+    }
+  ]
+}

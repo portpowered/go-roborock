@@ -164,7 +164,9 @@ func TestV1MapMetadataAndRoomMappings(t *testing.T) {
 	first, second := "1001", "1002"
 
 	wantRooms := MapRoomsResult{Rooms: []MapRoomMapping{
-		{SegmentID: 16, IoTID: &first, Name: nil}, {SegmentID: 17, IoTID: &second, Name: nil}}}
+		{SegmentID: 16, IoTID: &first, Name: nil, RobotTagID: nil},
+		{SegmentID: 17, IoTID: &second, Name: nil, RobotTagID: nil},
+	}}
 
 	if !reflect.DeepEqual(rooms, wantRooms) {
 		t.Fatalf("rooms: %+v %v", rooms, err)
@@ -727,16 +729,29 @@ func TestGetRoomsAcceptsRoomTypeAndNullMapping(t *testing.T) {
 		t.Fatalf("room-type tuples: %+v", rooms)
 	}
 
+	assertObservedRoomTags(t, rooms.Rooms)
+
 	rooms, err = session.GetRooms(t.Context(), EmptyRequest{})
 	if err != nil || len(rooms.Rooms) != 0 {
 		t.Fatalf("null mapping: %+v %v", rooms, err)
 	}
 }
 
+func assertObservedRoomTags(t *testing.T, rooms []MapRoomMapping) {
+	t.Helper()
+
+	if rooms[0].RobotTagID == nil || *rooms[0].RobotTagID != 6 || rooms[1].RobotTagID != nil {
+		t.Fatalf("optional robot tags lost: %+v", rooms)
+	}
+}
+
 func TestGetRoomsRejectsMalformedPairsWithoutPartialResult(t *testing.T) {
 	t.Parallel()
 
-	responses := []string{`[[9]]`, `[[8,"valid"],[9]]`, `[[null,"iot"]]`, `[["nine","iot"]]`}
+	responses := []string{
+		`[[9]]`, `[[8,"valid"],[9]]`, `[[null,"iot"]]`, `[["nine","iot"]]`,
+		`[[16,"iot",null]]`, `[[16,"iot","tag"]]`, `[[16,"iot",6,7]]`,
+	}
 	for _, response := range responses {
 		t.Run(response, func(t *testing.T) {
 			t.Parallel()
@@ -796,5 +811,42 @@ func TestSetCleanMotorModeReportsARejectedMode(t *testing.T) {
 		SetCleanMotorModeRequest{FanSpeed: FanSpeedBalanced, WaterMode: WaterModeOff, MopMode: nil})
 	if !errors.Is(err, roborockerrors.New(roborockerrors.Protocol, "", "", nil)) || ack.Acknowledged {
 		t.Fatalf("rejected mode: %+v %v", ack, err)
+	}
+}
+
+func TestGetRoomsPreservesZeroTagAndUnnamedCloudID(t *testing.T) {
+	t.Parallel()
+
+	session := operationSession(t, rpcExchange{
+		method: fixtureRoomMappingMethod, params: `[]`, response: `[[18,"",0]]`, failure: nil,
+	})
+
+	result, err := session.GetRooms(t.Context(), EmptyRequest{})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(result.Rooms) != 1 {
+		t.Fatalf("unexpected mapping count: %+v", result)
+	}
+
+	room := result.Rooms[0]
+	if room.IoTID == nil || *room.IoTID != "" || room.RobotTagID == nil || *room.RobotTagID != 0 {
+		t.Fatalf("unnamed cloud ID or explicit zero tag lost: %+v", room)
+	}
+}
+
+func TestNameSegmentsRejectsUnsupportedFamilies(t *testing.T) {
+	t.Parallel()
+
+	for _, family := range []DeviceFamily{FamilyB01Q7, FamilyB01Q10, FamilyDyad, FamilyUnknown} {
+		session := familySession(t, family)
+
+		_, err := session.NameSegments(t.Context(), NameSegmentsRequest{Mappings: []RoomNameMapping{
+			{CloudRoomID: "1001", SegmentID: 16, RobotTagID: 6},
+		}})
+		if !errors.Is(err, roborockerrors.New(roborockerrors.Unsupported, "test", "", nil)) {
+			t.Fatalf("unsupported family %s accepted room naming: %v", family, err)
+		}
 	}
 }

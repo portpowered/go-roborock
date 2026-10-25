@@ -1,0 +1,479 @@
+{
+  "provenance": "synthetic",
+  "source": "Original Roborock Android 4.74.04 build100932 IotApi room-create Retrofit declaration and official roborock.vacuum.a97 plugin6362 duplicate/limit branches. SHA256 and locations: docs/room-naming-protocol.md. These paired cases are synthetic, not captured responses; numeric HTTP errors exercise existing transport policy.",
+  "cases": [
+    {
+      "name": "created",
+      "roomId": "9007199254740993",
+      "errorKind": "",
+      "vendorStatus": "",
+      "exchange": {
+        "method": "POST",
+        "origin": "https://api.example.test",
+        "path": "/user/homes/42/rooms",
+        "query": {},
+        "form": {
+          "name": [
+            "Studio + bath & sun/room"
+          ]
+        },
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "hawk": true,
+        "response": {
+          "api": "room.create",
+          "success": true,
+          "status": "ok",
+          "result": "9007199254740993"
+        },
+        "responseStatus": 200,
+        "responseHeaders": {
+          "Content-Type": [
+            "application/json"
+          ]
+        }
+      }
+    },
+    {
+      "name": "duplicate",
+      "roomId": "",
+      "errorKind": "invalid_argument",
+      "vendorStatus": "userinfo.err.duplicate.name",
+      "exchange": {
+        "method": "POST",
+        "origin": "https://api.example.test",
+        "path": "/user/homes/42/rooms",
+        "query": {},
+        "form": {
+          "name": [
+            "Studio + bath & sun/room"
+          ]
+        },
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "hawk": true,
+        "response": {
+          "success": false,
+          "status": "userinfo.err.duplicate.name"
+        },
+        "responseStatus": 200,
+        "responseHeaders": {
+          "Content-Type": [
+            "application/json"
+          ]
+        }
+      }
+    },
+    {
+      "name": "limit",
+      "roomId": "",
+      "errorKind": "invalid_argument",
+      "vendorStatus": "userinfo.err.room.exceed.limit",
+      "exchange": {
+        "method": "POST",
+        "origin": "https://api.example.test",
+        "path": "/user/homes/42/rooms",
+        "query": {},
+        "form": {
+          "name": [
+            "Studio + bath & sun/room"
+          ]
+        },
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "hawk": true,
+        "response": {
+          "success": false,
+          "status": "userinfo.err.room.exceed.limit"
+        },
+        "responseStatus": 200,
+        "responseHeaders": {
+          "Content-Type": [
+            "application/json"
+          ]
+        }
+      }
+    },
+    {
+      "name": "unknown-status",
+      "roomId": "",
+      "errorKind": "protocol",
+      "vendorStatus": "future.room.status",
+      "exchange": {
+        "method": "POST",
+        "origin": "https://api.example.test",
+        "path": "/user/homes/42/rooms",
+        "query": {},
+        "form": {
+          "name": [
+            "Studio + bath & sun/room"
+          ]
+        },
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "hawk": true,
+        "response": {
+          "success": false,
+          "status": "future.room.status"
+        },
+        "responseStatus": 200,
+        "responseHeaders": {
+          "Content-Type": [
+            "application/json"
+          ]
+        }
+      }
+    },
+    {
+      "name": "missing-result",
+      "roomId": "",
+      "errorKind": "protocol",
+      "vendorStatus": "",
+      "exchange": {
+        "method": "POST",
+        "origin": "https://api.example.test",
+        "path": "/user/homes/42/rooms",
+        "query": {},
+        "form": {
+          "name": [
+            "Studio + bath & sun/room"
+          ]
+        },
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "hawk": true,
+        "response": {
+          "success": true
+        },
+        "responseStatus": 200,
+        "responseHeaders": {
+          "Content-Type": [
+            "application/json"
+          ]
+        }
+      }
+    },
+    {
+      "name": "empty-result",
+      "roomId": "",
+      "errorKind": "protocol",
+      "vendorStatus": "",
+      "exchange": {
+        "method": "POST",
+        "origin": "https://api.example.test",
+        "path": "/user/homes/42/rooms",
+        "query": {},
+        "form": {
+          "name": [
+            "Studio + bath & sun/room"
+          ]
+        },
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "hawk": true,
+        "response": {
+          "success": true,
+          "result": ""
+        },
+        "responseStatus": 200,
+        "responseHeaders": {
+          "Content-Type": [
+            "application/json"
+          ]
+        }
+      }
+    },
+    {
+      "name": "null-result",
+      "roomId": "",
+      "errorKind": "protocol",
+      "vendorStatus": "",
+      "exchange": {
+        "method": "POST",
+        "origin": "https://api.example.test",
+        "path": "/user/homes/42/rooms",
+        "query": {},
+        "form": {
+          "name": [
+            "Studio + bath & sun/room"
+          ]
+        },
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "hawk": true,
+        "response": {
+          "success": true,
+          "result": null
+        },
+        "responseStatus": 200,
+        "responseHeaders": {
+          "Content-Type": [
+            "application/json"
+          ]
+        }
+      }
+    },
+    {
+      "name": "numeric-result",
+      "roomId": "",
+      "errorKind": "protocol",
+      "vendorStatus": "",
+      "exchange": {
+        "method": "POST",
+        "origin": "https://api.example.test",
+        "path": "/user/homes/42/rooms",
+        "query": {},
+        "form": {
+          "name": [
+            "Studio + bath & sun/room"
+          ]
+        },
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "hawk": true,
+        "response": {
+          "success": true,
+          "result": 12
+        },
+        "responseStatus": 200,
+        "responseHeaders": {
+          "Content-Type": [
+            "application/json"
+          ]
+        }
+      }
+    },
+    {
+      "name": "missing-success",
+      "roomId": "",
+      "errorKind": "protocol",
+      "vendorStatus": "",
+      "exchange": {
+        "method": "POST",
+        "origin": "https://api.example.test",
+        "path": "/user/homes/42/rooms",
+        "query": {},
+        "form": {
+          "name": [
+            "Studio + bath & sun/room"
+          ]
+        },
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "hawk": true,
+        "response": {
+          "result": "1"
+        },
+        "responseStatus": 200,
+        "responseHeaders": {
+          "Content-Type": [
+            "application/json"
+          ]
+        }
+      }
+    },
+    {
+      "name": "string-success",
+      "roomId": "",
+      "errorKind": "protocol",
+      "vendorStatus": "",
+      "exchange": {
+        "method": "POST",
+        "origin": "https://api.example.test",
+        "path": "/user/homes/42/rooms",
+        "query": {},
+        "form": {
+          "name": [
+            "Studio + bath & sun/room"
+          ]
+        },
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "hawk": true,
+        "response": {
+          "success": "true",
+          "result": "1"
+        },
+        "responseStatus": 200,
+        "responseHeaders": {
+          "Content-Type": [
+            "application/json"
+          ]
+        }
+      }
+    },
+    {
+      "name": "malformed-envelope",
+      "roomId": "",
+      "errorKind": "protocol",
+      "vendorStatus": "",
+      "exchange": {
+        "method": "POST",
+        "origin": "https://api.example.test",
+        "path": "/user/homes/42/rooms",
+        "query": {},
+        "form": {
+          "name": [
+            "Studio + bath & sun/room"
+          ]
+        },
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "hawk": true,
+        "response": "not an object",
+        "responseStatus": 200,
+        "responseHeaders": {
+          "Content-Type": [
+            "application/json"
+          ]
+        }
+      }
+    },
+    {
+      "name": "unauthorized",
+      "roomId": "",
+      "errorKind": "unauthorized",
+      "vendorStatus": "",
+      "exchange": {
+        "method": "POST",
+        "origin": "https://api.example.test",
+        "path": "/user/homes/42/rooms",
+        "query": {},
+        "form": {
+          "name": [
+            "Studio + bath & sun/room"
+          ]
+        },
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "hawk": true,
+        "response": {
+          "success": false
+        },
+        "responseStatus": 401,
+        "responseHeaders": {
+          "Content-Type": [
+            "application/json"
+          ]
+        }
+      }
+    },
+    {
+      "name": "forbidden",
+      "roomId": "",
+      "errorKind": "unauthorized",
+      "vendorStatus": "",
+      "exchange": {
+        "method": "POST",
+        "origin": "https://api.example.test",
+        "path": "/user/homes/42/rooms",
+        "query": {},
+        "form": {
+          "name": [
+            "Studio + bath & sun/room"
+          ]
+        },
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "hawk": true,
+        "response": {
+          "success": false
+        },
+        "responseStatus": 403,
+        "responseHeaders": {
+          "Content-Type": [
+            "application/json"
+          ]
+        }
+      }
+    },
+    {
+      "name": "throttled",
+      "roomId": "",
+      "errorKind": "rate_limited",
+      "vendorStatus": "",
+      "exchange": {
+        "method": "POST",
+        "origin": "https://api.example.test",
+        "path": "/user/homes/42/rooms",
+        "query": {},
+        "form": {
+          "name": [
+            "Studio + bath & sun/room"
+          ]
+        },
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "hawk": true,
+        "response": {
+          "success": false
+        },
+        "responseStatus": 429,
+        "responseHeaders": {
+          "Content-Type": [
+            "application/json"
+          ]
+        }
+      }
+    },
+    {
+      "name": "server-error",
+      "roomId": "",
+      "errorKind": "unavailable",
+      "vendorStatus": "",
+      "exchange": {
+        "method": "POST",
+        "origin": "https://api.example.test",
+        "path": "/user/homes/42/rooms",
+        "query": {},
+        "form": {
+          "name": [
+            "Studio + bath & sun/room"
+          ]
+        },
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "hawk": true,
+        "response": {
+          "success": false
+        },
+        "responseStatus": 503,
+        "responseHeaders": {
+          "Content-Type": [
+            "application/json"
+          ]
+        }
+      }
+    }
+  ]
+}

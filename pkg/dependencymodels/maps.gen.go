@@ -224,6 +224,9 @@ type MapsV1ListResult = []MapsV1List
 // MapsV1LoadRequest defines model for MapsV1LoadRequest.
 type MapsV1LoadRequest = []int64
 
+// MapsV1NameSegmentsRequest Complete current-map segment mapping. Preserve every sibling cloud association and tag.
+type MapsV1NameSegmentsRequest = []MapsV1RoomName
+
 // MapsV1Room defines model for MapsV1Room.
 type MapsV1Room struct {
 	Id        *int    `json:"id,omitempty"`
@@ -232,7 +235,7 @@ type MapsV1Room struct {
 	Tag       *int    `json:"tag,omitempty"`
 }
 
-// MapsV1RoomMappingPair Segment ID, then cloud room ID. Newer firmware appends a room type; extra values are ignored.
+// MapsV1RoomMappingPair Segment ID, cloud room ID, and optional integer robot tag. Unknown additional positions cannot be safely round-tripped.
 type MapsV1RoomMappingPair = []MapsV1RoomMappingValue
 
 // MapsV1RoomMappingValue defines model for MapsV1RoomMappingValue.
@@ -240,6 +243,16 @@ type MapsV1RoomMappingValue = json.RawMessage
 
 // MapsV1RoomMappings defines model for MapsV1RoomMappings.
 type MapsV1RoomMappings = []MapsV1RoomMappingPair
+
+// MapsV1RoomName defines model for MapsV1RoomName.
+type MapsV1RoomName struct {
+	// IotRoomId Cloud directory room ID. Empty for a tagged unnamed segment; never a display name.
+	IotRoomId   string `json:"iotRoomId"`
+	RobotRoomId int64  `json:"robotRoomId"`
+
+	// RobotTagId Existing robot tag, or zero when absent from an older mapping.
+	RobotTagId int64 `json:"robotTagId"`
+}
 
 // MapsV1RoomsResult A list of pairs or a single pair. A null result means the map has no rooms.
 type MapsV1RoomsResult struct {

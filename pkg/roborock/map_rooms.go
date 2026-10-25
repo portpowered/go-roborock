@@ -12,7 +12,10 @@ import (
 	"github.com/portpowered/go-roborock/pkg/roborockerrors"
 )
 
-const roomMappingPairFields = 2
+const (
+	roomMappingPairFields   = 2
+	roomMappingTaggedFields = 3
+)
 
 // GetRooms returns cleaning segment IDs and any reported names. Unknown names remain absent.
 func (s *DeviceSession) GetRooms(ctx context.Context, _ EmptyRequest) (MapRoomsResult, error) {
@@ -41,7 +44,9 @@ func (s *DeviceSession) GetRooms(ctx context.Context, _ EmptyRequest) (MapRoomsR
 
 	for _, room := range snapshot.Rooms {
 		if room.Id != nil {
-			result.Rooms = append(result.Rooms, MapRoomMapping{SegmentID: *room.Id, Name: room.Name, IoTID: nil})
+			result.Rooms = append(result.Rooms, MapRoomMapping{
+				SegmentID: *room.Id, Name: room.Name, IoTID: nil, RobotTagID: nil,
+			})
 		}
 	}
 
@@ -138,8 +143,7 @@ func parseRoomMapping(raw json.RawMessage) (MapRoomsResult, error) {
 }
 
 func parseRoomPair(pair dependencymodels.MapsV1RoomMappingPair) (MapRoomMapping, error) {
-	// Newer firmware appends a room type; only the segment and cloud IDs are used.
-	if len(pair) < roomMappingPairFields {
+	if len(pair) < roomMappingPairFields || len(pair) > roomMappingTaggedFields {
 		return MapRoomMapping{}, roborockerrors.New(roborockerrors.Protocol,
 			"GetRooms", "room mapping must contain segment and cloud IDs", nil)
 	}
@@ -169,7 +173,29 @@ func parseRoomPair(pair dependencymodels.MapsV1RoomMappingPair) (MapRoomMapping,
 		identifier = strconv.FormatInt(numeric, 10)
 	}
 
-	return MapRoomMapping{SegmentID: segment, IoTID: &identifier, Name: nil}, nil
+	var tag *int64
+
+	if len(pair) == roomMappingTaggedFields {
+		value, tagErr := parseRoomTag(pair[roomMappingPairFields])
+		if tagErr != nil {
+			return MapRoomMapping{}, tagErr
+		}
+
+		tag = &value
+	}
+
+	return MapRoomMapping{SegmentID: segment, IoTID: &identifier, Name: nil, RobotTagID: tag}, nil
+}
+
+func parseRoomTag(raw json.RawMessage) (int64, error) {
+	var value int64
+
+	err := json.Unmarshal(raw, &value)
+	if err != nil || bytes.Equal(bytes.TrimSpace(raw), []byte("null")) {
+		return 0, roborockerrors.New(roborockerrors.Protocol, "GetRooms", "invalid robot tag", err)
+	}
+
+	return value, nil
 }
 
 func (s *DeviceSession) roomNames(ctx context.Context, mappings []MapRoomMapping) (map[string]*string, error) {

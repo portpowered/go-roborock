@@ -17,6 +17,25 @@ const (
 	HomeDataVersionV3 HomeDataVersion = 3
 )
 
+// CreateHomeRoomForm defines model for CreateHomeRoomForm.
+type CreateHomeRoomForm struct {
+	// Name Requested cloud room name. Duplicate names can be rejected by the service.
+	Name string `json:"name"`
+}
+
+// CreateHomeRoomResponse defines model for CreateHomeRoomResponse.
+type CreateHomeRoomResponse struct {
+	Api *string `json:"api,omitempty"`
+
+	// Result Created cloud room ID when successful.
+	Result *string `json:"result,omitempty"`
+
+	// Status Open vendor status, including userinfo.err.duplicate.name and userinfo.err.room.exceed.limit.
+	Status               *string                `json:"status,omitempty"`
+	Success              bool                   `json:"success"`
+	AdditionalProperties map[string]interface{} `json:"-"`
+}
+
 // HomeData defines model for HomeData.
 type HomeData struct {
 	Devices              *[]HomeDevice              `json:"devices"`
@@ -333,6 +352,11 @@ type GetHomeRoomsParams struct {
 	Authorization string `json:"Authorization"`
 }
 
+// CreateHomeRoomParams defines parameters for CreateHomeRoom.
+type CreateHomeRoomParams struct {
+	Authorization string `json:"Authorization"`
+}
+
 // GetHomeDatav2Params defines parameters for GetHomeDatav2.
 type GetHomeDatav2Params struct {
 	Authorization string `json:"Authorization"`
@@ -341,6 +365,120 @@ type GetHomeDatav2Params struct {
 // GetHomeDatav3Params defines parameters for GetHomeDatav3.
 type GetHomeDatav3Params struct {
 	Authorization string `json:"Authorization"`
+}
+
+// CreateHomeRoomFormdataRequestBody defines body for CreateHomeRoom for application/x-www-form-urlencoded ContentType.
+type CreateHomeRoomFormdataRequestBody = CreateHomeRoomForm
+
+// Getter for additional properties for CreateHomeRoomResponse. Returns the specified
+// element and whether it was found
+func (a CreateHomeRoomResponse) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for CreateHomeRoomResponse
+func (a *CreateHomeRoomResponse) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]interface{})
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for CreateHomeRoomResponse to handle AdditionalProperties
+func (a *CreateHomeRoomResponse) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["api"]; found {
+		err = json.Unmarshal(raw, &a.Api)
+		if err != nil {
+			return fmt.Errorf("error reading 'api': %w", err)
+		}
+		delete(object, "api")
+	}
+
+	if raw, found := object["result"]; found {
+		err = json.Unmarshal(raw, &a.Result)
+		if err != nil {
+			return fmt.Errorf("error reading 'result': %w", err)
+		}
+		delete(object, "result")
+	}
+
+	if raw, found := object["status"]; found {
+		err = json.Unmarshal(raw, &a.Status)
+		if err != nil {
+			return fmt.Errorf("error reading 'status': %w", err)
+		}
+		delete(object, "status")
+	}
+
+	if raw, found := object["success"]; found {
+		err = json.Unmarshal(raw, &a.Success)
+		if err != nil {
+			return fmt.Errorf("error reading 'success': %w", err)
+		}
+		delete(object, "success")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]interface{})
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for CreateHomeRoomResponse to handle AdditionalProperties
+func (a CreateHomeRoomResponse) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	if a.Api != nil {
+		object["api"], err = json.Marshal(a.Api)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'api': %w", err)
+		}
+	}
+
+	if a.Result != nil {
+		object["result"], err = json.Marshal(a.Result)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'result': %w", err)
+		}
+	}
+
+	if a.Status != nil {
+		object["status"], err = json.Marshal(a.Status)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'status': %w", err)
+		}
+	}
+
+	object["success"], err = json.Marshal(a.Success)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'success': %w", err)
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
 }
 
 // Getter for additional properties for HomeData. Returns the specified

@@ -10,6 +10,8 @@ import (
 	"fmt"
 	"io"
 	"math/big"
+	"net/url"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -49,6 +51,31 @@ func validMercyNonce(s string) bool {
 }
 
 func (c *Client) hawk(request dependencymodels.RRiot, path string) (string, error) {
+	return c.hawkPayload(request, path, "")
+}
+
+func (c *Client) hawkForm(request dependencymodels.RRiot, path string, form url.Values) (string, error) {
+	keys := make([]string, 0, len(form))
+	for key := range form {
+		keys = append(keys, key)
+	}
+
+	sort.Strings(keys)
+
+	values := make([]string, 0, len(form))
+
+	for _, key := range keys {
+		for _, value := range form[key] {
+			values = append(values, key+"="+value)
+		}
+	}
+
+	digest := md5.Sum([]byte(strings.Join(values, "&")))
+
+	return c.hawkPayload(request, path, hex.EncodeToString(digest[:]))
+}
+
+func (c *Client) hawkPayload(request dependencymodels.RRiot, path, payloadDigest string) (string, error) {
 	if request.U == "" || request.S == "" || request.H == "" || strings.ContainsAny(request.U+request.S, "\"\r\n\\") {
 		return "", roborockerrors.New(roborockerrors.InvalidArgument, "hawk", "invalid Hawk credentials", nil)
 	}
@@ -64,7 +91,7 @@ func (c *Client) hawk(request dependencymodels.RRiot, path string) (string, erro
 	timestamp := strconv.FormatInt(c.clock().Unix(), 10)
 	digest := md5.Sum([]byte(path))
 	input := fmt.Sprintf(protocol.RESTHawkMACInputFormat,
-		request.U, request.S, nonce, timestamp, hex.EncodeToString(digest[:]))
+		request.U, request.S, nonce, timestamp, hex.EncodeToString(digest[:]), payloadDigest)
 	mac := hmac.New(sha256.New, []byte(request.H))
 	_, _ = mac.Write([]byte(input))
 

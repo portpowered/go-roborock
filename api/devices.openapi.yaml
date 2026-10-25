@@ -167,6 +167,55 @@
             }
           }
         }
+      },
+      "post": {
+        "operationId": "CreateHomeRoom",
+        "summary": "Create a named home room",
+        "description": "Create a cloud directory room using account Hawk authentication. This does not rebind robot map segments or rename an existing room.",
+        "tags": [
+          "devices"
+        ],
+        "parameters": [
+          {
+            "name": "homeID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateHomeRoomForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cloud room creation result with a string room ID or vendor status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateHomeRoomResponse"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/user/deviceshare/query/{deviceID}/rooms": {
@@ -1196,6 +1245,43 @@
         "additionalProperties": {
           "x-go-type": "json.RawMessage"
         }
+      },
+      "CreateHomeRoomForm": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Requested cloud room name. Duplicate names can be rejected by the service."
+          }
+        }
+      },
+      "CreateHomeRoomResponse": {
+        "type": "object",
+        "required": [
+          "success"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "api": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "description": "Open vendor status, including userinfo.err.duplicate.name and userinfo.err.room.exceed.limit."
+          },
+          "result": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Created cloud room ID when successful."
+          }
+        },
+        "additionalProperties": true
       }
     }
   },
@@ -1204,5 +1290,9 @@
       "name": "devices",
       "description": "Typed Roborock devices operations"
     }
-  ]
+  ],
+  "x-wire-constants": {
+    "RoomStatusDuplicateName": "userinfo.err.duplicate.name",
+    "RoomStatusLimitExceeded": "userinfo.err.room.exceed.limit"
+  }
 }

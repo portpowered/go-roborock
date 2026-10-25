@@ -20,7 +20,7 @@ func TestRoomRequestAuthResolvesSharedCredentialContract(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	for _, name := range []string{"HomeRoomsRequest", "SharedDeviceRoomsRequest"} {
+	for _, name := range []string{"HomeRoomsRequest", "SharedDeviceRoomsRequest", "CreateHomeRoomRequest"} {
 		request := document.Components.Schemas[name].Value
 
 		auth := request.Properties["auth"].Value

@@ -60,6 +60,7 @@ The following expressions are short call examples; `r` denotes `roborock`, `c` a
 | Legacy password login | `c.LoginWithPassword(ctx, r.LoginWithPasswordRequest{Login: login, Password: password})` |
 | Home | `c.GetHome(ctx, r.AccountRequest{Auth: auth})` |
 | Home room names | `c.GetHomeRooms(ctx, r.HomeRoomsRequest{Auth: auth, HomeID: home.ID})` |
+| Create cloud room | `c.CreateHomeRoom(ctx, r.CreateHomeRoomRequest{Auth: auth, HomeID: home.ID, Name: name})` |
 | Shared device room names | `c.GetSharedDeviceRooms(ctx, r.SharedDeviceRoomsRequest{Auth: auth, DeviceID: d.ID})` |
 | Home data | `c.GetHomeData(ctx, r.HomeDataRequest{Auth: auth, HomeID: home.ID, Version: r.HomeDataV3})` |
 | Owned and shared devices | `c.ListDevices(ctx, r.AccountRequest{Auth: auth})` |
@@ -92,6 +93,7 @@ V1 and Q7 acknowledgements establish RPC acceptance, not completed movement or c
 | Saved maps | `s.ListMaps(ctx, r.EmptyRequest{})` |
 | Q7 saved-map content | `s.GetMap(ctx, r.GetMapRequest{MapID: mapID})` |
 | Device room IDs | `s.GetRooms(ctx, r.EmptyRequest{})` |
+| V1 complete room-name bindings | `s.NameSegments(ctx, r.NameSegmentsRequest{Mappings: mappings})` |
 | Q10 trace observation | `s.GetMapTrace(ctx, r.EmptyRequest{})` |
 | World point to pixel | `r.MapToPixel(grid, point)` |
 | Pixel point to world | `r.PixelToMap(grid, point)` |

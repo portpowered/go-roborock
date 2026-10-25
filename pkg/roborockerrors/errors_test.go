@@ -41,13 +41,15 @@ func TestWrapPreservesTypedCauseWithoutDisclosure(t *testing.T) {
 
 	cause := roborockerrors.New(roborockerrors.Unauthorized, "wire", "secret response", nil)
 	cause.Code = 401
+	cause.VendorStatus = "untrusted provider detail"
 	wrapped := roborockerrors.Wrap(roborockerrors.Protocol, "login", "login failed", cause)
 
-	if wrapped.Kind != roborockerrors.Unauthorized || wrapped.Code != cause.Code || !errors.Is(wrapped, cause) {
+	if wrapped.Kind != roborockerrors.Unauthorized || wrapped.Code != cause.Code ||
+		wrapped.VendorStatus != cause.VendorStatus || !errors.Is(wrapped, cause) {
 		t.Fatal("typed classification or cause was lost")
 	}
 
-	if strings.Contains(wrapped.Error(), cause.Message) {
+	if strings.Contains(wrapped.Error(), cause.Message) || strings.Contains(wrapped.Error(), cause.VendorStatus) {
 		t.Fatal("wrapper exposed underlying secret message")
 	}
 

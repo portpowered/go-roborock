@@ -211,7 +211,7 @@ func rpcRejection(rejection dependencymodels.MQTTRPCError) error {
 	}
 
 	return &roborockerrors.Error{
-		Kind: roborockerrors.Protocol, Operation: "mqtt call", Code: code, Message: "device rejected command",
-		Cause: &RPCError{Code: code, Message: message},
+		Kind: roborockerrors.Protocol, Operation: "mqtt call", Code: code, VendorStatus: "",
+		Message: "device rejected command", Cause: &RPCError{Code: code, Message: message},
 	}
 }

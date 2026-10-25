@@ -196,6 +196,7 @@ func generatedArtifact(name string) bool {
 	return generatedModel(name) || slices.Contains([]string{
 		"pkg/dependencymodels/auth_constants.gen.go", "pkg/dependencymodels/devices_constants.gen.go",
 		"internal/protocol/a01-wire.gen.go", "internal/protocol/auth.gen.go", "internal/protocol/client-models.gen.go",
+		"internal/protocol/devices.gen.go",
 		"internal/protocol/mqtt.gen.go", "internal/protocol/rest.gen.go",
 		"internal/protocol/maps.gen.go", "internal/protocol/b01.gen.go", "internal/protocol/map-format.gen.go",
 		"pkg/dependencymodels/vacuum_constants.gen.go", "internal/mapmodel/models_constants.gen.go",

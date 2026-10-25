@@ -7727,11 +7727,33 @@
       ]
     },
     {
-      "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTFormPlatform",
+      "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTFormName",
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
         "line": 11,
+        "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTFormName"
+      },
+      "schema": {
+        "file": "api/devices.openapi.yaml",
+        "pointer": "#/components/schemas/CreateHomeRoomForm/properties/name"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"name\"",
+      "productionUses": [
+        {
+          "file": "pkg/dependencies/rest/room_create.go",
+          "line": 47,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTFormName"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTFormPlatform",
+      "kind": "constant",
+      "definition": {
+        "file": "internal/protocol/rest.gen.go",
+        "line": 12,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTFormPlatform"
       },
       "schema": {
@@ -7753,7 +7775,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 12,
+        "line": 13,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTFormType"
       },
       "schema": {
@@ -7787,7 +7809,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/rest/signing.go",
-          "line": 56,
+          "line": 83,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTHawkEntropyBytes"
         }
       ]
@@ -7809,7 +7831,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/rest/signing.go",
-          "line": 71,
+          "line": 98,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTHawkHeaderFormat"
         }
       ]
@@ -7827,11 +7849,11 @@
         "pointer": "#/x-wire-constants/RESTHawkMACInputFormat"
       },
       "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
-      "value": "\"%s:%s:%s:%s:%s::\"",
+      "value": "\"%s:%s:%s:%s:%s::%s\"",
       "productionUses": [
         {
           "file": "pkg/dependencies/rest/signing.go",
-          "line": 66,
+          "line": 93,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTHawkMACInputFormat"
         }
       ]
@@ -7863,7 +7885,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 13,
+        "line": 14,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTHeaderAuthorization"
       },
       "schema": {
@@ -7881,6 +7903,11 @@
         {
           "file": "pkg/dependencies/rest/devices.go",
           "line": 98,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTHeaderAuthorization"
+        },
+        {
+          "file": "pkg/dependencies/rest/room_create.go",
+          "line": 58,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTHeaderAuthorization"
         },
         {
@@ -7917,7 +7944,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 14,
+        "line": 15,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTHeaderHeaderAppversion"
       },
       "schema": {
@@ -7939,7 +7966,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 15,
+        "line": 16,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTHeaderHeaderClientid"
       },
       "schema": {
@@ -7966,7 +7993,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 16,
+        "line": 17,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTHeaderHeaderClientlang"
       },
       "schema": {
@@ -7988,7 +8015,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 17,
+        "line": 18,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTHeaderHeaderPhonemodel"
       },
       "schema": {
@@ -8010,7 +8037,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 18,
+        "line": 19,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTHeaderHeaderPhonesystem"
       },
       "schema": {
@@ -8032,7 +8059,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 19,
+        "line": 20,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTHeaderXMercyK"
       },
       "schema": {
@@ -8054,7 +8081,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 20,
+        "line": 21,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTHeaderXMercyKs"
       },
       "schema": {
@@ -8137,17 +8164,17 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/rest/signing.go",
-          "line": 24,
+          "line": 26,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTMercyCharacters"
         },
         {
           "file": "pkg/dependencies/rest/signing.go",
-          "line": 32,
+          "line": 34,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTMercyCharacters"
         },
         {
           "file": "pkg/dependencies/rest/signing.go",
-          "line": 43,
+          "line": 45,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTMercyCharacters"
         }
       ]
@@ -8169,13 +8196,35 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/rest/signing.go",
-          "line": 22,
+          "line": 24,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTMercyNonceLength"
         },
         {
           "file": "pkg/dependencies/rest/signing.go",
-          "line": 38,
+          "line": 40,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTMercyNonceLength"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTMethodCreateHomeRoom",
+      "kind": "constant",
+      "definition": {
+        "file": "internal/protocol/rest.gen.go",
+        "line": 22,
+        "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTMethodCreateHomeRoom"
+      },
+      "schema": {
+        "file": "api/devices.openapi.yaml",
+        "pointer": "#/paths/~1user~1homes~1{homeID}~1rooms/post"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"POST\"",
+      "productionUses": [
+        {
+          "file": "pkg/dependencies/rest/room_create.go",
+          "line": 56,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTMethodCreateHomeRoom"
         }
       ]
     },
@@ -8184,7 +8233,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 21,
+        "line": 23,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTMethodGetAgreement"
       },
       "schema": {
@@ -8206,7 +8255,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 22,
+        "line": 24,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTMethodGetHomeDatav1"
       },
       "schema": {
@@ -8228,7 +8277,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 23,
+        "line": 25,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTMethodGetHomeDatav2"
       },
       "schema": {
@@ -8244,7 +8293,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 24,
+        "line": 26,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTMethodGetHomeDatav3"
       },
       "schema": {
@@ -8260,7 +8309,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 25,
+        "line": 27,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTMethodGetHomeDetail"
       },
       "schema": {
@@ -8282,7 +8331,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 26,
+        "line": 28,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTMethodGetHomeRooms"
       },
       "schema": {
@@ -8304,7 +8353,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 27,
+        "line": 29,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTMethodGetSharedDeviceRooms"
       },
       "schema": {
@@ -8326,7 +8375,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 28,
+        "line": 30,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTMethodLoginCode"
       },
       "schema": {
@@ -8348,7 +8397,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 29,
+        "line": 31,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTMethodLoginLegacyCode"
       },
       "schema": {
@@ -8370,7 +8419,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 30,
+        "line": 32,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTMethodLoginPassword"
       },
       "schema": {
@@ -8392,7 +8441,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 31,
+        "line": 33,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTMethodRequestCode"
       },
       "schema": {
@@ -8414,7 +8463,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 32,
+        "line": 34,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTMethodResolveRegion"
       },
       "schema": {
@@ -8436,7 +8485,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 33,
+        "line": 35,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTMethodSignKey"
       },
       "schema": {
@@ -8454,11 +8503,33 @@
       ]
     },
     {
+      "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTPathCreateHomeRoom",
+      "kind": "constant",
+      "definition": {
+        "file": "internal/protocol/rest.gen.go",
+        "line": 36,
+        "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTPathCreateHomeRoom"
+      },
+      "schema": {
+        "file": "api/devices.openapi.yaml",
+        "pointer": "#/paths/~1user~1homes~1{homeID}~1rooms/post"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"/user/homes/{homeID}/rooms\"",
+      "productionUses": [
+        {
+          "file": "pkg/dependencies/rest/room_create.go",
+          "line": 44,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTPathCreateHomeRoom"
+        }
+      ]
+    },
+    {
       "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTPathDeviceID",
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 34,
+        "line": 37,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTPathDeviceID"
       },
       "schema": {
@@ -8480,7 +8551,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 35,
+        "line": 38,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTPathGetAgreement"
       },
       "schema": {
@@ -8502,7 +8573,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 36,
+        "line": 39,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTPathGetHomeDatav1"
       },
       "schema": {
@@ -8524,7 +8595,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 37,
+        "line": 40,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTPathGetHomeDatav2"
       },
       "schema": {
@@ -8546,7 +8617,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 38,
+        "line": 41,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTPathGetHomeDatav3"
       },
       "schema": {
@@ -8568,7 +8639,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 39,
+        "line": 42,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTPathGetHomeDetail"
       },
       "schema": {
@@ -8590,7 +8661,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 40,
+        "line": 43,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTPathGetHomeRooms"
       },
       "schema": {
@@ -8612,7 +8683,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 41,
+        "line": 44,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTPathGetSharedDeviceRooms"
       },
       "schema": {
@@ -8634,7 +8705,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 42,
+        "line": 45,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTPathHomeID"
       },
       "schema": {
@@ -8644,6 +8715,11 @@
       "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
       "value": "\"homeID\"",
       "productionUses": [
+        {
+          "file": "pkg/dependencies/rest/room_create.go",
+          "line": 45,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTPathHomeID"
+        },
         {
           "file": "pkg/dependencies/rest/rooms.go",
           "line": 41,
@@ -8656,7 +8732,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 43,
+        "line": 46,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTPathLoginCode"
       },
       "schema": {
@@ -8678,7 +8754,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 44,
+        "line": 47,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTPathLoginLegacyCode"
       },
       "schema": {
@@ -8700,7 +8776,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 45,
+        "line": 48,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTPathLoginPassword"
       },
       "schema": {
@@ -8722,7 +8798,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 46,
+        "line": 49,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTPathRequestCode"
       },
       "schema": {
@@ -8744,7 +8820,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 47,
+        "line": 50,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTPathResolveRegion"
       },
       "schema": {
@@ -8766,7 +8842,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 48,
+        "line": 51,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTPathSignKey"
       },
       "schema": {
@@ -8788,7 +8864,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 49,
+        "line": 52,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTQueryCountry"
       },
       "schema": {
@@ -8810,7 +8886,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 50,
+        "line": 53,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTQueryEmail"
       },
       "schema": {
@@ -8832,7 +8908,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 51,
+        "line": 54,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTQueryNeedtwostepauth"
       },
       "schema": {
@@ -8859,7 +8935,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 52,
+        "line": 55,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTQueryPassword"
       },
       "schema": {
@@ -8881,7 +8957,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 53,
+        "line": 56,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTQueryS"
       },
       "schema": {
@@ -8903,7 +8979,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 54,
+        "line": 57,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTQueryUsername"
       },
       "schema": {
@@ -8930,7 +9006,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 55,
+        "line": 58,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTQueryVerifycode"
       },
       "schema": {
@@ -8952,7 +9028,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/rest.gen.go",
-        "line": 56,
+        "line": 59,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTQueryVerifycodetype"
       },
       "schema": {
@@ -9008,7 +9084,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 69,
+          "line": 74,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.RPCGetRoomMapping"
         }
       ]
@@ -9032,6 +9108,72 @@
           "file": "pkg/roborock/maps_list.go",
           "line": 231,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.RPCLoadMultiMap"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/internal/protocol.RPCNameSegment",
+      "kind": "constant",
+      "definition": {
+        "file": "internal/protocol/maps.gen.go",
+        "line": 26,
+        "symbol": "github.com/portpowered/go-roborock/internal/protocol.RPCNameSegment"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/x-wire-constants/RPCNameSegment"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"name_segment\"",
+      "productionUses": [
+        {
+          "file": "pkg/roborock/room_names.go",
+          "line": 43,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.RPCNameSegment"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/internal/protocol.RoomStatusDuplicateName",
+      "kind": "constant",
+      "definition": {
+        "file": "internal/protocol/devices.gen.go",
+        "line": 5,
+        "symbol": "github.com/portpowered/go-roborock/internal/protocol.RoomStatusDuplicateName"
+      },
+      "schema": {
+        "file": "api/devices.openapi.yaml",
+        "pointer": "#/x-wire-constants/RoomStatusDuplicateName"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"userinfo.err.duplicate.name\"",
+      "productionUses": [
+        {
+          "file": "pkg/dependencies/rest/room_create.go",
+          "line": 72,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.RoomStatusDuplicateName"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/internal/protocol.RoomStatusLimitExceeded",
+      "kind": "constant",
+      "definition": {
+        "file": "internal/protocol/devices.gen.go",
+        "line": 6,
+        "symbol": "github.com/portpowered/go-roborock/internal/protocol.RoomStatusLimitExceeded"
+      },
+      "schema": {
+        "file": "api/devices.openapi.yaml",
+        "pointer": "#/x-wire-constants/RoomStatusLimitExceeded"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"userinfo.err.room.exceed.limit\"",
+      "productionUses": [
+        {
+          "file": "pkg/dependencies/rest/room_create.go",
+          "line": 72,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.RoomStatusLimitExceeded"
         }
       ]
     },
@@ -12061,6 +12203,77 @@
       "productionUses": []
     },
     {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CreateHomeRoomForm",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 21,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CreateHomeRoomForm"
+      },
+      "schema": {
+        "file": "api/devices.openapi.yaml",
+        "pointer": "#/components/schemas/CreateHomeRoomForm"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CreateHomeRoomFormdataRequestBody",
+      "kind": "alias",
+      "definition": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 371,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CreateHomeRoomFormdataRequestBody"
+      },
+      "schema": {
+        "file": "api/devices.openapi.yaml",
+        "pointer": "#/paths/~1user~1homes~1{homeID}~1rooms/post/requestBody/content/application~1x-www-form-urlencoded/schema"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CreateHomeRoomParams",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 356,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CreateHomeRoomParams"
+      },
+      "schema": {
+        "file": "api/devices.openapi.yaml",
+        "pointer": "#/paths/~1user~1homes~1{homeID}~1rooms/post/parameters"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CreateHomeRoomResponse",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 27,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CreateHomeRoomResponse"
+      },
+      "schema": {
+        "file": "api/devices.openapi.yaml",
+        "pointer": "#/components/schemas/CreateHomeRoomResponse"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": [
+        {
+          "file": "pkg/dependencies/rest/room_create.go",
+          "line": 54,
+          "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CreateHomeRoomResponse"
+        },
+        {
+          "file": "pkg/dependencies/rest/room_create.go",
+          "line": 66,
+          "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CreateHomeRoomResponse"
+        }
+      ]
+    },
+    {
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.DND",
       "kind": "model",
       "definition": {
@@ -14814,7 +15027,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 327,
+        "line": 346,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.GetHomeDatav1Params"
       },
       "schema": {
@@ -14829,7 +15042,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 337,
+        "line": 361,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.GetHomeDatav2Params"
       },
       "schema": {
@@ -14844,7 +15057,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 342,
+        "line": 366,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.GetHomeDatav3Params"
       },
       "schema": {
@@ -14874,7 +15087,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 332,
+        "line": 351,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.GetHomeRoomsParams"
       },
       "schema": {
@@ -14889,7 +15102,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 322,
+        "line": 341,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.GetSharedDeviceRoomsParams"
       },
       "schema": {
@@ -14919,7 +15132,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 21,
+        "line": 40,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.HomeData"
       },
       "schema": {
@@ -14945,7 +15158,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 35,
+        "line": 54,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.HomeDataResponse"
       },
       "schema": {
@@ -14971,7 +15184,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 44,
+        "line": 63,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.HomeDataVersion"
       },
       "schema": {
@@ -15094,7 +15307,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 47,
+        "line": 66,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.HomeDevice"
       },
       "schema": {
@@ -15120,7 +15333,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 87,
+        "line": 106,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.HomeDeviceShareType"
       },
       "schema": {
@@ -15151,7 +15364,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 90,
+        "line": 109,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.HomeDeviceStatus"
       },
       "schema": {
@@ -15166,7 +15379,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 146,
+        "line": 165,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.HomeProduct"
       },
       "schema": {
@@ -15207,7 +15420,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 162,
+        "line": 181,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.HomeRoom"
       },
       "schema": {
@@ -15222,7 +15435,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 169,
+        "line": 188,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.HomeRoomsResponse"
       },
       "schema": {
@@ -15284,7 +15497,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 177,
+        "line": 196,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryBooleanOrInteger"
       },
       "schema": {
@@ -15299,7 +15512,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 182,
+        "line": 201,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryBooleanOrInteger0"
       },
       "schema": {
@@ -15314,7 +15527,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 185,
+        "line": 204,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryBooleanOrInteger1"
       },
       "schema": {
@@ -15329,7 +15542,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 188,
+        "line": 207,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryOTA"
       },
       "schema": {
@@ -15355,7 +15568,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 194,
+        "line": 213,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryOTAData"
       },
       "schema": {
@@ -15370,7 +15583,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 200,
+        "line": 219,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryOTAStatus"
       },
       "schema": {
@@ -15385,7 +15598,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 207,
+        "line": 226,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryProductInfo"
       },
       "schema": {
@@ -15411,7 +15624,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 220,
+        "line": 239,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryProductOBA"
       },
       "schema": {
@@ -15426,7 +15639,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 234,
+        "line": 253,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryProgramState"
       },
       "schema": {
@@ -16491,11 +16704,32 @@
       ]
     },
     {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1NameSegmentsRequest",
+      "kind": "alias",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 228,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1NameSegmentsRequest"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsV1NameSegmentsRequest"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": [
+        {
+          "file": "pkg/roborock/room_names.go",
+          "line": 28,
+          "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1NameSegmentsRequest"
+        }
+      ]
+    },
+    {
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1Room",
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 228,
+        "line": 231,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1Room"
       },
       "schema": {
@@ -16510,7 +16744,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 236,
+        "line": 239,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1RoomMappingPair"
       },
       "schema": {
@@ -16521,12 +16755,12 @@
       "productionUses": [
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 116,
+          "line": 121,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1RoomMappingPair"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 140,
+          "line": 145,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1RoomMappingPair"
         }
       ]
@@ -16536,7 +16770,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 239,
+        "line": 242,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1RoomMappingValue"
       },
       "schema": {
@@ -16551,7 +16785,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 242,
+        "line": 245,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1RoomMappings"
       },
       "schema": {
@@ -16562,8 +16796,29 @@
       "productionUses": [
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 123,
+          "line": 128,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1RoomMappings"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1RoomName",
+      "kind": "model",
+      "definition": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 248,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1RoomName"
+      },
+      "schema": {
+        "file": "api/maps.asyncapi.yaml",
+        "pointer": "#/components/schemas/MapsV1RoomName"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": [
+        {
+          "file": "pkg/roborock/room_names.go",
+          "line": 38,
+          "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1RoomName"
         }
       ]
     },
@@ -16572,7 +16827,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 245,
+        "line": 258,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1RoomsResult"
       },
       "schema": {
@@ -16583,7 +16838,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 107,
+          "line": 112,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1RoomsResult"
         }
       ]
@@ -16727,7 +16982,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 69,
+          "line": 74,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.NoParameters"
         },
         {
@@ -16906,7 +17161,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 240,
+        "line": 259,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.ProductCategory"
       },
       "schema": {
@@ -17001,7 +17256,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 243,
+        "line": 262,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.ProductProperty"
       },
       "schema": {
@@ -17016,7 +17271,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 264,
+        "line": 283,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.ProductPropertyConstraints"
       },
       "schema": {
@@ -17042,7 +17297,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 275,
+        "line": 294,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.ProductPropertyID"
       },
       "schema": {
@@ -17063,7 +17318,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 280,
+        "line": 299,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.ProductPropertyID0"
       },
       "schema": {
@@ -17078,7 +17333,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 283,
+        "line": 302,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.ProductPropertyID1"
       },
       "schema": {
@@ -17093,7 +17348,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 286,
+        "line": 305,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.ProductPropertyMode"
       },
       "schema": {
@@ -17140,7 +17395,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 289,
+        "line": 308,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.ProductPropertyType"
       },
       "schema": {
@@ -17941,7 +18196,7 @@
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 69,
+          "line": 74,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCMethod"
         },
         {
@@ -17952,6 +18207,11 @@
         {
           "file": "pkg/roborock/maps_list.go",
           "line": 231,
+          "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCMethod"
+        },
+        {
+          "file": "pkg/roborock/room_names.go",
+          "line": 43,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCMethod"
         },
         {
@@ -18388,7 +18648,17 @@
         },
         {
           "file": "pkg/dependencies/rest/signing.go",
-          "line": 51,
+          "line": 53,
+          "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RRiot"
+        },
+        {
+          "file": "pkg/dependencies/rest/signing.go",
+          "line": 57,
+          "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RRiot"
+        },
+        {
+          "file": "pkg/dependencies/rest/signing.go",
+          "line": 78,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RRiot"
         },
         {
@@ -18424,7 +18694,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 292,
+        "line": 311,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RefreshedRoom"
       },
       "schema": {
@@ -18879,7 +19149,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 299,
+        "line": 318,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.SharedDeviceRoom"
       },
       "schema": {
@@ -18894,7 +19164,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 308,
+        "line": 327,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.SharedDeviceRoom0"
       },
       "schema": {
@@ -18909,7 +19179,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 311,
+        "line": 330,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.SharedDeviceRoom1"
       },
       "schema": {
@@ -18924,7 +19194,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 314,
+        "line": 333,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.SharedDeviceRoomsResponse"
       },
       "schema": {
@@ -20084,17 +20354,17 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 41,
+          "line": 47,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.AuthContext"
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 45,
+          "line": 51,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.AuthContext"
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 55,
+          "line": 61,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.AuthContext"
         }
       ]
@@ -22053,7 +22323,12 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 71,
+          "line": 77,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
+        },
+        {
+          "file": "pkg/roborock/interface.go",
+          "line": 78,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
@@ -22069,6 +22344,26 @@
         {
           "file": "pkg/roborock/maps_list.go",
           "line": 228,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
+        },
+        {
+          "file": "pkg/roborock/room_names.go",
+          "line": 14,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
+        },
+        {
+          "file": "pkg/roborock/room_names.go",
+          "line": 19,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
+        },
+        {
+          "file": "pkg/roborock/room_names.go",
+          "line": 23,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
+        },
+        {
+          "file": "pkg/roborock/room_names.go",
+          "line": 32,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
@@ -22355,6 +22650,68 @@
       ]
     },
     {
+      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CreateHomeRoomRequest",
+      "kind": "public-projection-model",
+      "definition": {
+        "file": "pkg/roborock/map_client_models.gen.go",
+        "line": 14,
+        "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CreateHomeRoomRequest"
+      },
+      "schema": {
+        "file": "api/map-client-models.openapi.yaml",
+        "pointer": "#/components/schemas/CreateHomeRoomRequest"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": [
+        {
+          "file": "pkg/roborock/interface.go",
+          "line": 21,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CreateHomeRoomRequest"
+        },
+        {
+          "file": "pkg/roborock/room_create.go",
+          "line": 12,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CreateHomeRoomRequest"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CreateHomeRoomResult",
+      "kind": "public-projection-model",
+      "definition": {
+        "file": "pkg/roborock/map_client_models.gen.go",
+        "line": 24,
+        "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CreateHomeRoomResult"
+      },
+      "schema": {
+        "file": "api/map-client-models.openapi.yaml",
+        "pointer": "#/components/schemas/CreateHomeRoomResult"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": [
+        {
+          "file": "pkg/roborock/interface.go",
+          "line": 21,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CreateHomeRoomResult"
+        },
+        {
+          "file": "pkg/roborock/room_create.go",
+          "line": 12,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CreateHomeRoomResult"
+        },
+        {
+          "file": "pkg/roborock/room_create.go",
+          "line": 17,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CreateHomeRoomResult"
+        },
+        {
+          "file": "pkg/roborock/room_create.go",
+          "line": 21,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CreateHomeRoomResult"
+        }
+      ]
+    },
+    {
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.DND",
       "kind": "public-projection-model",
       "definition": {
@@ -22442,12 +22799,12 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 51,
+          "line": 57,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.Device"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 223,
+          "line": 249,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.Device"
         }
       ]
@@ -22457,7 +22814,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/map_client_models.gen.go",
-        "line": 14,
+        "line": 30,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.DeviceCapabilities"
       },
       "schema": {
@@ -22498,7 +22855,7 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 72,
+          "line": 79,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.DeviceCapabilities"
         }
       ]
@@ -26943,27 +27300,27 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 68,
+          "line": 74,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 69,
+          "line": 75,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 70,
+          "line": 76,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 72,
+          "line": 79,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 18,
+          "line": 21,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
@@ -27205,7 +27562,7 @@
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 31,
+          "line": 34,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.FamilyB01Q10"
         },
         {
@@ -27267,7 +27624,7 @@
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 31,
+          "line": 34,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.FamilyB01Q7"
         },
         {
@@ -27408,7 +27765,7 @@
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 27,
+          "line": 30,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.FamilyV1Vacuum"
         },
         {
@@ -27424,6 +27781,11 @@
         {
           "file": "pkg/roborock/maps_list.go",
           "line": 222,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.FamilyV1Vacuum"
+        },
+        {
+          "file": "pkg/roborock/room_names.go",
+          "line": 18,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.FamilyV1Vacuum"
         },
         {
@@ -27622,7 +27984,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/map_client_models.gen.go",
-        "line": 27,
+        "line": 43,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.GetMapRequest"
       },
       "schema": {
@@ -27638,12 +28000,12 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 67,
+          "line": 73,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.GetMapRequest"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 35,
+          "line": 38,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.GetMapRequest"
         },
         {
@@ -27725,7 +28087,7 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 11,
+          "line": 12,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.Home"
         }
       ]
@@ -27761,7 +28123,7 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 12,
+          "line": 13,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.HomeData"
         }
       ]
@@ -27798,7 +28160,7 @@
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 181,
+          "line": 207,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.HomeDataV1"
         }
       ]
@@ -27851,7 +28213,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/interface.go",
-          "line": 47,
+          "line": 53,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.HomeDataVersion"
         }
       ]
@@ -27861,7 +28223,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/map_client_models.gen.go",
-        "line": 33,
+        "line": 49,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.HomeRoomsRequest"
       },
       "schema": {
@@ -27872,12 +28234,12 @@
       "productionUses": [
         {
           "file": "pkg/roborock/interface.go",
-          "line": 13,
+          "line": 20,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.HomeRoomsRequest"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 238,
+          "line": 264,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.HomeRoomsRequest"
         },
         {
@@ -27948,7 +28310,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/map_client_models.gen.go",
-        "line": 40,
+        "line": 56,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ListMapsResult"
       },
       "schema": {
@@ -27969,7 +28331,7 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 69,
+          "line": 75,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ListMapsResult"
         },
         {
@@ -28080,22 +28442,22 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 7,
+          "line": 8,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginContext"
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 23,
-          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginContext"
-        },
-        {
-          "file": "pkg/roborock/interface.go",
-          "line": 30,
+          "line": 29,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginContext"
         },
         {
           "file": "pkg/roborock/interface.go",
           "line": 36,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginContext"
+        },
+        {
+          "file": "pkg/roborock/interface.go",
+          "line": 42,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginContext"
         }
       ]
@@ -28166,12 +28528,12 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 9,
+          "line": 10,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginResult"
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 10,
+          "line": 11,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginResult"
         }
       ]
@@ -28548,7 +28910,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/map_client_models.gen.go",
-        "line": 45,
+        "line": 61,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapInfo"
       },
       "schema": {
@@ -28810,7 +29172,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/map_client_models.gen.go",
-        "line": 55,
+        "line": 71,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomMapping"
       },
       "schema": {
@@ -28821,62 +29183,67 @@
       "productionUses": [
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 40,
+          "line": 43,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomMapping"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 44,
+          "line": 47,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomMapping"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 104,
+          "line": 109,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomMapping"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 126,
+          "line": 131,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomMapping"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 140,
+          "line": 145,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomMapping"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 143,
+          "line": 147,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomMapping"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 148,
+          "line": 152,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomMapping"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 155,
+          "line": 159,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomMapping"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 166,
+          "line": 170,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomMapping"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 172,
+          "line": 181,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomMapping"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 175,
+          "line": 187,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomMapping"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 213,
+          "line": 201,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomMapping"
+        },
+        {
+          "file": "pkg/roborock/map_rooms.go",
+          "line": 239,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomMapping"
         }
       ]
@@ -28886,7 +29253,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/map_client_models.gen.go",
-        "line": 65,
+        "line": 84,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomsResult"
       },
       "schema": {
@@ -28907,27 +29274,22 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 70,
+          "line": 76,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomsResult"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 18,
+          "line": 21,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomsResult"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 24,
+          "line": 27,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomsResult"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 32,
-          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomsResult"
-        },
-        {
-          "file": "pkg/roborock/map_rooms.go",
-          "line": 37,
+          "line": 35,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomsResult"
         },
         {
@@ -28937,12 +29299,12 @@
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 68,
+          "line": 43,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomsResult"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 71,
+          "line": 73,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomsResult"
         },
         {
@@ -28952,37 +29314,42 @@
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 86,
+          "line": 81,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomsResult"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 102,
+          "line": 91,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomsResult"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 104,
+          "line": 107,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomsResult"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 111,
+          "line": 109,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomsResult"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 120,
+          "line": 116,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomsResult"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 126,
+          "line": 125,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomsResult"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
           "line": 131,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomsResult"
+        },
+        {
+          "file": "pkg/roborock/map_rooms.go",
+          "line": 136,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomsResult"
         }
       ]
@@ -29003,12 +29370,12 @@
       "productionUses": [
         {
           "file": "pkg/roborock/interface.go",
-          "line": 67,
+          "line": 73,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapSnapshot"
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 68,
+          "line": 74,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapSnapshot"
         },
         {
@@ -29248,6 +29615,32 @@
       "productionUses": []
     },
     {
+      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.NameSegmentsRequest",
+      "kind": "public-projection-model",
+      "definition": {
+        "file": "pkg/roborock/map_client_models.gen.go",
+        "line": 89,
+        "symbol": "github.com/portpowered/go-roborock/pkg/roborock.NameSegmentsRequest"
+      },
+      "schema": {
+        "file": "api/map-client-models.openapi.yaml",
+        "pointer": "#/components/schemas/NameSegmentsRequest"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": [
+        {
+          "file": "pkg/roborock/interface.go",
+          "line": 77,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.NameSegmentsRequest"
+        },
+        {
+          "file": "pkg/roborock/room_names.go",
+          "line": 14,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.NameSegmentsRequest"
+        }
+      ]
+    },
+    {
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.OpenCameraRequest",
       "kind": "public-projection-model",
       "definition": {
@@ -29458,7 +29851,7 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 60,
+          "line": 66,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ProtocolVersion"
         }
       ]
@@ -29616,11 +30009,26 @@
       ]
     },
     {
+      "symbol": "github.com/portpowered/go-roborock/pkg/roborock.RoomNameMapping",
+      "kind": "public-projection-model",
+      "definition": {
+        "file": "pkg/roborock/map_client_models.gen.go",
+        "line": 95,
+        "symbol": "github.com/portpowered/go-roborock/pkg/roborock.RoomNameMapping"
+      },
+      "schema": {
+        "file": "api/map-client-models.openapi.yaml",
+        "pointer": "#/components/schemas/RoomNameMapping"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.RoomsResult",
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/map_client_models.gen.go",
-        "line": 70,
+        "line": 105,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.RoomsResult"
       },
       "schema": {
@@ -29631,17 +30039,17 @@
       "productionUses": [
         {
           "file": "pkg/roborock/interface.go",
-          "line": 13,
+          "line": 20,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.RoomsResult"
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 14,
+          "line": 22,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.RoomsResult"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 223,
+          "line": 249,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.RoomsResult"
         },
         {
@@ -29681,7 +30089,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/map_client_models.gen.go",
-        "line": 75,
+        "line": 110,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SelectMapRequest"
       },
       "schema": {
@@ -29697,7 +30105,7 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 71,
+          "line": 78,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SelectMapRequest"
         },
         {
@@ -29940,7 +30348,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/map_client_models.gen.go",
-        "line": 81,
+        "line": 116,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SharedDeviceRoomsRequest"
       },
       "schema": {
@@ -29951,12 +30359,12 @@
       "productionUses": [
         {
           "file": "pkg/roborock/interface.go",
-          "line": 14,
+          "line": 22,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SharedDeviceRoomsRequest"
         },
         {
           "file": "pkg/roborock/map_rooms.go",
-          "line": 235,
+          "line": 261,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SharedDeviceRoomsRequest"
         },
         {
@@ -34845,6 +35253,16 @@
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/rest.HomeDataResult"
     },
     {
+      "file": "pkg/dependencies/rest/room_create.go",
+      "line": 18,
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/rest.CreateHomeRoomRequest"
+    },
+    {
+      "file": "pkg/dependencies/rest/room_create.go",
+      "line": 25,
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/rest.CreateHomeRoomResult"
+    },
+    {
       "file": "pkg/dependencies/rest/rooms.go",
       "line": 16,
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/rest.HomeRoomsRequest"
@@ -34886,47 +35304,47 @@
     },
     {
       "file": "pkg/roborock/interface.go",
-      "line": 20,
+      "line": 26,
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ResolveLoginRequest"
     },
     {
       "file": "pkg/roborock/interface.go",
-      "line": 23,
+      "line": 29,
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginCodeRequest"
     },
     {
       "file": "pkg/roborock/interface.go",
-      "line": 26,
+      "line": 32,
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginCodeResult"
     },
     {
       "file": "pkg/roborock/interface.go",
-      "line": 29,
+      "line": 35,
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginWithCodeRequest"
     },
     {
       "file": "pkg/roborock/interface.go",
-      "line": 35,
+      "line": 41,
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginWithPasswordRequest"
     },
     {
       "file": "pkg/roborock/interface.go",
-      "line": 41,
+      "line": 47,
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.AccountRequest"
     },
     {
       "file": "pkg/roborock/interface.go",
-      "line": 44,
+      "line": 50,
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.HomeDataRequest"
     },
     {
       "file": "pkg/roborock/interface.go",
-      "line": 51,
+      "line": 57,
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ListDevicesResult"
     },
     {
       "file": "pkg/roborock/interface.go",
-      "line": 54,
+      "line": 60,
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.OpenDeviceRequest"
     },
     {
@@ -35347,7 +35765,29 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 364,
+        "line": 391,
+        "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.CreateHomeRoomResponse.UnmarshalJSON"
+      },
+      "schema": {
+        "file": "api/devices.openapi.yaml",
+        "pointer": "#/components/schemas/CreateHomeRoomResponse"
+      }
+    },
+    {
+      "definition": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 445,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CreateHomeRoomResponse.MarshalJSON"
+      },
+      "schema": {
+        "file": "api/devices.openapi.yaml",
+        "pointer": "#/components/schemas/CreateHomeRoomResponse"
+      }
+    },
+    {
+      "definition": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 502,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.HomeData.UnmarshalJSON"
       },
       "schema": {
@@ -35358,7 +35798,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 458,
+        "line": 596,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.HomeData.MarshalJSON"
       },
       "schema": {
@@ -35369,7 +35809,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 548,
+        "line": 686,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.HomeDataResponse.UnmarshalJSON"
       },
       "schema": {
@@ -35380,7 +35820,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 602,
+        "line": 740,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.HomeDataResponse.MarshalJSON"
       },
       "schema": {
@@ -35391,7 +35831,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 659,
+        "line": 797,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.HomeDevice.UnmarshalJSON"
       },
       "schema": {
@@ -35402,7 +35842,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 929,
+        "line": 1067,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.HomeDevice.MarshalJSON"
       },
       "schema": {
@@ -35413,7 +35853,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1169,
+        "line": 1307,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.HomeDeviceStatus.UnmarshalJSON"
       },
       "schema": {
@@ -35424,7 +35864,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1599,
+        "line": 1737,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.HomeDeviceStatus.MarshalJSON"
       },
       "schema": {
@@ -35435,7 +35875,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1987,
+        "line": 2125,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.HomeProduct.UnmarshalJSON"
       },
       "schema": {
@@ -35446,7 +35886,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2081,
+        "line": 2219,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.HomeProduct.MarshalJSON"
       },
       "schema": {
@@ -35457,7 +35897,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2167,
+        "line": 2305,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.HomeRoom.UnmarshalJSON"
       },
       "schema": {
@@ -35468,7 +35908,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2205,
+        "line": 2343,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.HomeRoom.MarshalJSON"
       },
       "schema": {
@@ -35479,7 +35919,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2246,
+        "line": 2384,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.HomeRoomsResponse.UnmarshalJSON"
       },
       "schema": {
@@ -35490,7 +35930,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2292,
+        "line": 2430,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.HomeRoomsResponse.MarshalJSON"
       },
       "schema": {
@@ -35501,7 +35941,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2342,
+        "line": 2480,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryOTA.UnmarshalJSON"
       },
       "schema": {
@@ -35512,7 +35952,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2372,
+        "line": 2510,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryOTA.MarshalJSON"
       },
       "schema": {
@@ -35523,7 +35963,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2410,
+        "line": 2548,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryOTAData.UnmarshalJSON"
       },
       "schema": {
@@ -35534,7 +35974,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2440,
+        "line": 2578,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryOTAData.MarshalJSON"
       },
       "schema": {
@@ -35545,7 +35985,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2478,
+        "line": 2616,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryOTAStatus.UnmarshalJSON"
       },
       "schema": {
@@ -35556,7 +35996,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2508,
+        "line": 2646,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryOTAStatus.MarshalJSON"
       },
       "schema": {
@@ -35567,7 +36007,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2546,
+        "line": 2684,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryProductInfo.UnmarshalJSON"
       },
       "schema": {
@@ -35578,7 +36018,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2632,
+        "line": 2770,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryProductInfo.MarshalJSON"
       },
       "schema": {
@@ -35589,7 +36029,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2719,
+        "line": 2857,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryProductOBA.UnmarshalJSON"
       },
       "schema": {
@@ -35600,7 +36040,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2813,
+        "line": 2951,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryProductOBA.MarshalJSON"
       },
       "schema": {
@@ -35611,7 +36051,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2907,
+        "line": 3045,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryProgramState.UnmarshalJSON"
       },
       "schema": {
@@ -35622,7 +36062,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2937,
+        "line": 3075,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryProgramState.MarshalJSON"
       },
       "schema": {
@@ -35633,7 +36073,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2975,
+        "line": 3113,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.ProductProperty.UnmarshalJSON"
       },
       "schema": {
@@ -35644,7 +36084,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3061,
+        "line": 3199,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.ProductProperty.MarshalJSON"
       },
       "schema": {
@@ -35655,7 +36095,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3148,
+        "line": 3286,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.ProductPropertyConstraints.UnmarshalJSON"
       },
       "schema": {
@@ -35666,7 +36106,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3218,
+        "line": 3356,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.ProductPropertyConstraints.MarshalJSON"
       },
       "schema": {
@@ -35677,7 +36117,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3291,
+        "line": 3429,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.RefreshedRoom.UnmarshalJSON"
       },
       "schema": {
@@ -35688,7 +36128,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3329,
+        "line": 3467,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RefreshedRoom.MarshalJSON"
       },
       "schema": {
@@ -35699,7 +36139,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3389,
+        "line": 3527,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.SharedDeviceRoomsResponse.UnmarshalJSON"
       },
       "schema": {
@@ -35710,7 +36150,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3435,
+        "line": 3573,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.SharedDeviceRoomsResponse.MarshalJSON"
       },
       "schema": {
@@ -35721,7 +36161,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3519,
+        "line": 3657,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryBooleanOrInteger.MarshalJSON"
       },
       "schema": {
@@ -35732,7 +36172,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3524,
+        "line": 3662,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryBooleanOrInteger.UnmarshalJSON"
       },
       "schema": {
@@ -35743,7 +36183,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3581,
+        "line": 3719,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.ProductPropertyID.MarshalJSON"
       },
       "schema": {
@@ -35754,7 +36194,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3586,
+        "line": 3724,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.ProductPropertyID.UnmarshalJSON"
       },
       "schema": {
@@ -35765,7 +36205,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3644,
+        "line": 3782,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.SharedDeviceRoom.UnmarshalJSON"
       },
       "schema": {
@@ -35776,7 +36216,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3694,
+        "line": 3832,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.SharedDeviceRoom.MarshalJSON"
       },
       "schema": {
@@ -35787,7 +36227,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 301,
+        "line": 314,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1RoomsResult.MarshalJSON"
       },
       "schema": {
@@ -35798,7 +36238,7 @@
     {
       "definition": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 306,
+        "line": 319,
         "symbol": "*github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1RoomsResult.UnmarshalJSON"
       },
       "schema": {
@@ -39319,7 +39759,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 366,
+        "line": 393,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39330,7 +39770,133 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 372,
+        "line": 399,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "**string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 407,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "**string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 415,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "**string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 423,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "*bool"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 434,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "*interface{}"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 450,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 457,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 464,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 470,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "bool"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 476,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "interface{}"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 481,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "map[string]encoding/json.RawMessage"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 504,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "[]byte",
+        "*map[string]encoding/json.RawMessage"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 510,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39341,7 +39907,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 380,
+        "line": 518,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39352,7 +39918,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 388,
+        "line": 526,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39363,7 +39929,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 396,
+        "line": 534,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39374,7 +39940,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 404,
+        "line": 542,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39385,7 +39951,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 412,
+        "line": 550,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39396,7 +39962,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 420,
+        "line": 558,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39407,7 +39973,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 428,
+        "line": 566,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39418,7 +39984,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 436,
+        "line": 574,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39429,7 +39995,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 447,
+        "line": 585,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39440,7 +40006,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 463,
+        "line": 601,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -39450,7 +40016,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 470,
+        "line": 608,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -39460,7 +40026,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 476,
+        "line": 614,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -39470,7 +40036,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 482,
+        "line": 620,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -39480,7 +40046,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 489,
+        "line": 627,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -39490,7 +40056,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 495,
+        "line": 633,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -39500,7 +40066,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 501,
+        "line": 639,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -39510,7 +40076,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 508,
+        "line": 646,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -39520,7 +40086,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 515,
+        "line": 653,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -39530,7 +40096,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 522,
+        "line": 660,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -39540,7 +40106,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 527,
+        "line": 665,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -39550,7 +40116,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 550,
+        "line": 688,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39561,7 +40127,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 556,
+        "line": 694,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39572,7 +40138,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 564,
+        "line": 702,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39583,7 +40149,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 572,
+        "line": 710,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39594,7 +40160,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 580,
+        "line": 718,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39605,7 +40171,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 591,
+        "line": 729,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39616,7 +40182,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 607,
+        "line": 745,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -39626,7 +40192,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 614,
+        "line": 752,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -39636,7 +40202,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 621,
+        "line": 759,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -39646,7 +40212,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 627,
+        "line": 765,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -39656,7 +40222,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 633,
+        "line": 771,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -39666,7 +40232,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 638,
+        "line": 776,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -39676,7 +40242,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 661,
+        "line": 799,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39687,7 +40253,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 667,
+        "line": 805,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39698,7 +40264,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 675,
+        "line": 813,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39709,7 +40275,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 683,
+        "line": 821,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39720,7 +40286,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 691,
+        "line": 829,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39731,7 +40297,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 699,
+        "line": 837,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39742,7 +40308,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 707,
+        "line": 845,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39753,7 +40319,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 715,
+        "line": 853,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39764,7 +40330,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 723,
+        "line": 861,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39775,7 +40341,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 731,
+        "line": 869,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39786,7 +40352,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 739,
+        "line": 877,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39797,7 +40363,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 747,
+        "line": 885,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39808,7 +40374,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 755,
+        "line": 893,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39819,7 +40385,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 763,
+        "line": 901,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39830,7 +40396,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 771,
+        "line": 909,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39841,7 +40407,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 779,
+        "line": 917,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39852,7 +40418,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 787,
+        "line": 925,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39863,7 +40429,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 795,
+        "line": 933,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39874,7 +40440,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 803,
+        "line": 941,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39885,7 +40451,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 811,
+        "line": 949,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39896,7 +40462,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 819,
+        "line": 957,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39907,7 +40473,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 827,
+        "line": 965,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39918,7 +40484,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 835,
+        "line": 973,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39929,7 +40495,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 843,
+        "line": 981,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39940,7 +40506,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 851,
+        "line": 989,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39951,7 +40517,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 859,
+        "line": 997,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39962,7 +40528,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 867,
+        "line": 1005,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39973,7 +40539,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 875,
+        "line": 1013,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39984,7 +40550,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 883,
+        "line": 1021,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -39995,7 +40561,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 891,
+        "line": 1029,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40006,7 +40572,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 899,
+        "line": 1037,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40017,7 +40583,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 907,
+        "line": 1045,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40028,7 +40594,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 918,
+        "line": 1056,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40039,7 +40605,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 934,
+        "line": 1072,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40049,7 +40615,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 941,
+        "line": 1079,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40059,7 +40625,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 948,
+        "line": 1086,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40069,7 +40635,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 955,
+        "line": 1093,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40079,7 +40645,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 962,
+        "line": 1100,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40089,7 +40655,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 968,
+        "line": 1106,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40099,7 +40665,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 974,
+        "line": 1112,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40109,7 +40675,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 981,
+        "line": 1119,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40119,7 +40685,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 988,
+        "line": 1126,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40129,7 +40695,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 995,
+        "line": 1133,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40139,7 +40705,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1002,
+        "line": 1140,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40149,7 +40715,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1009,
+        "line": 1147,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40159,7 +40725,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1015,
+        "line": 1153,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40169,7 +40735,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1021,
+        "line": 1159,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40179,7 +40745,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1027,
+        "line": 1165,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40189,7 +40755,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1033,
+        "line": 1171,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40199,7 +40765,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1040,
+        "line": 1178,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40209,7 +40775,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1046,
+        "line": 1184,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40219,7 +40785,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1052,
+        "line": 1190,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40229,7 +40795,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1059,
+        "line": 1197,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40239,7 +40805,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1066,
+        "line": 1204,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40249,7 +40815,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1073,
+        "line": 1211,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40259,7 +40825,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1080,
+        "line": 1218,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40269,7 +40835,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1087,
+        "line": 1225,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40279,7 +40845,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1094,
+        "line": 1232,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40289,7 +40855,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1101,
+        "line": 1239,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40299,7 +40865,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1108,
+        "line": 1246,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40309,7 +40875,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1115,
+        "line": 1253,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40319,7 +40885,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1122,
+        "line": 1260,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40329,7 +40895,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1129,
+        "line": 1267,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40339,7 +40905,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1136,
+        "line": 1274,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40349,7 +40915,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1143,
+        "line": 1281,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40359,7 +40925,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1148,
+        "line": 1286,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40369,7 +40935,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1171,
+        "line": 1309,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40380,7 +40946,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1177,
+        "line": 1315,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40391,7 +40957,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1185,
+        "line": 1323,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40402,7 +40968,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1193,
+        "line": 1331,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40413,7 +40979,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1201,
+        "line": 1339,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40424,7 +40990,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1209,
+        "line": 1347,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40435,7 +41001,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1217,
+        "line": 1355,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40446,7 +41012,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1225,
+        "line": 1363,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40457,7 +41023,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1233,
+        "line": 1371,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40468,7 +41034,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1241,
+        "line": 1379,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40479,7 +41045,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1249,
+        "line": 1387,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40490,7 +41056,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1257,
+        "line": 1395,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40501,7 +41067,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1265,
+        "line": 1403,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40512,7 +41078,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1273,
+        "line": 1411,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40523,7 +41089,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1281,
+        "line": 1419,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40534,7 +41100,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1289,
+        "line": 1427,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40545,7 +41111,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1297,
+        "line": 1435,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40556,7 +41122,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1305,
+        "line": 1443,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40567,7 +41133,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1313,
+        "line": 1451,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40578,7 +41144,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1321,
+        "line": 1459,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40589,7 +41155,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1329,
+        "line": 1467,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40600,7 +41166,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1337,
+        "line": 1475,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40611,7 +41177,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1345,
+        "line": 1483,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40622,7 +41188,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1353,
+        "line": 1491,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40633,7 +41199,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1361,
+        "line": 1499,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40644,7 +41210,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1369,
+        "line": 1507,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40655,7 +41221,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1377,
+        "line": 1515,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40666,7 +41232,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1385,
+        "line": 1523,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40677,7 +41243,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1393,
+        "line": 1531,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40688,7 +41254,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1401,
+        "line": 1539,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40699,7 +41265,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1409,
+        "line": 1547,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40710,7 +41276,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1417,
+        "line": 1555,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40721,7 +41287,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1425,
+        "line": 1563,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40732,7 +41298,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1433,
+        "line": 1571,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40743,7 +41309,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1441,
+        "line": 1579,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40754,7 +41320,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1449,
+        "line": 1587,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40765,7 +41331,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1457,
+        "line": 1595,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40776,7 +41342,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1465,
+        "line": 1603,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40787,7 +41353,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1473,
+        "line": 1611,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40798,7 +41364,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1481,
+        "line": 1619,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40809,7 +41375,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1489,
+        "line": 1627,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40820,7 +41386,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1497,
+        "line": 1635,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40831,7 +41397,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1505,
+        "line": 1643,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40842,7 +41408,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1513,
+        "line": 1651,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40853,7 +41419,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1521,
+        "line": 1659,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40864,7 +41430,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1529,
+        "line": 1667,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40875,7 +41441,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1537,
+        "line": 1675,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40886,7 +41452,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1545,
+        "line": 1683,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40897,7 +41463,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1553,
+        "line": 1691,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40908,7 +41474,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1561,
+        "line": 1699,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40919,7 +41485,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1569,
+        "line": 1707,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40930,7 +41496,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1577,
+        "line": 1715,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40941,7 +41507,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1588,
+        "line": 1726,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -40952,7 +41518,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1604,
+        "line": 1742,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40962,7 +41528,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1611,
+        "line": 1749,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40972,7 +41538,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1618,
+        "line": 1756,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40982,7 +41548,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1625,
+        "line": 1763,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -40992,7 +41558,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1632,
+        "line": 1770,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41002,7 +41568,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1639,
+        "line": 1777,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41012,7 +41578,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1646,
+        "line": 1784,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41022,7 +41588,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1653,
+        "line": 1791,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41032,7 +41598,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1660,
+        "line": 1798,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41042,7 +41608,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1667,
+        "line": 1805,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41052,7 +41618,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1674,
+        "line": 1812,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41062,7 +41628,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1681,
+        "line": 1819,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41072,7 +41638,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1688,
+        "line": 1826,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41082,7 +41648,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1695,
+        "line": 1833,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41092,7 +41658,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1702,
+        "line": 1840,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41102,7 +41668,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1709,
+        "line": 1847,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41112,7 +41678,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1716,
+        "line": 1854,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41122,7 +41688,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1723,
+        "line": 1861,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41132,7 +41698,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1730,
+        "line": 1868,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41142,7 +41708,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1737,
+        "line": 1875,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41152,7 +41718,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1744,
+        "line": 1882,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41162,7 +41728,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1751,
+        "line": 1889,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41172,7 +41738,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1758,
+        "line": 1896,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41182,7 +41748,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1765,
+        "line": 1903,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41192,7 +41758,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1772,
+        "line": 1910,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41202,7 +41768,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1779,
+        "line": 1917,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41212,7 +41778,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1786,
+        "line": 1924,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41222,7 +41788,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1793,
+        "line": 1931,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41232,7 +41798,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1800,
+        "line": 1938,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41242,7 +41808,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1807,
+        "line": 1945,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41252,7 +41818,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1814,
+        "line": 1952,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41262,211 +41828,11 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1821,
+        "line": 1959,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
         "*int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1828,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1835,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1842,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryBooleanOrInteger"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1849,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryBooleanOrInteger"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1856,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1863,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1870,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1877,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1884,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryBooleanOrInteger"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1891,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1898,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1905,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1912,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryBooleanOrInteger"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1919,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1926,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryBooleanOrInteger"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1933,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryBooleanOrInteger"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1940,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryBooleanOrInteger"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1947,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryBooleanOrInteger"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1954,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*int64"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1961,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "encoding/json.RawMessage"
       ]
     },
     {
@@ -41476,144 +41842,183 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "map[string]encoding/json.RawMessage"
+        "*int64"
       ]
     },
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1989,
-        "symbol": "encoding/json.Unmarshal"
+        "line": 1973,
+        "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "[]byte",
-        "*map[string]encoding/json.RawMessage"
+        "*int64"
       ]
     },
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 1995,
-        "symbol": "encoding/json.Unmarshal"
+        "line": 1980,
+        "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "encoding/json.RawMessage",
-        "**encoding/json.RawMessage"
+        "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryBooleanOrInteger"
       ]
     },
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2003,
-        "symbol": "encoding/json.Unmarshal"
+        "line": 1987,
+        "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "encoding/json.RawMessage",
-        "**int64"
+        "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryBooleanOrInteger"
       ]
     },
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2011,
-        "symbol": "encoding/json.Unmarshal"
+        "line": 1994,
+        "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "encoding/json.RawMessage",
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.ProductCategory"
+        "*int64"
       ]
     },
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2019,
-        "symbol": "encoding/json.Unmarshal"
+        "line": 2001,
+        "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "encoding/json.RawMessage",
-        "**string"
+        "*int64"
       ]
     },
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2027,
-        "symbol": "encoding/json.Unmarshal"
+        "line": 2008,
+        "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "encoding/json.RawMessage",
-        "**string"
+        "*int64"
       ]
     },
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2035,
-        "symbol": "encoding/json.Unmarshal"
+        "line": 2015,
+        "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "encoding/json.RawMessage",
-        "*string"
+        "*int64"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2022,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryBooleanOrInteger"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2029,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*int64"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2036,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*int64"
       ]
     },
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
         "line": 2043,
-        "symbol": "encoding/json.Unmarshal"
-      },
-      "argumentTypes": [
-        "encoding/json.RawMessage",
-        "*string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2051,
-        "symbol": "encoding/json.Unmarshal"
-      },
-      "argumentTypes": [
-        "encoding/json.RawMessage",
-        "*string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2059,
-        "symbol": "encoding/json.Unmarshal"
-      },
-      "argumentTypes": [
-        "encoding/json.RawMessage",
-        "**[]github.com/portpowered/go-roborock/pkg/dependencymodels.ProductProperty"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2070,
-        "symbol": "encoding/json.Unmarshal"
-      },
-      "argumentTypes": [
-        "encoding/json.RawMessage",
-        "*encoding/json.RawMessage"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2086,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "*encoding/json.RawMessage"
+        "*int64"
       ]
     },
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2093,
+        "line": 2050,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryBooleanOrInteger"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2057,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*int64"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2064,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryBooleanOrInteger"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2071,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryBooleanOrInteger"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2078,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryBooleanOrInteger"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2085,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryBooleanOrInteger"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2092,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41627,83 +42032,13 @@
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
-        "github.com/portpowered/go-roborock/pkg/dependencymodels.ProductCategory"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2105,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2112,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2118,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2123,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2128,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2134,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*[]github.com/portpowered/go-roborock/pkg/dependencymodels.ProductProperty"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2141,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
         "encoding/json.RawMessage"
       ]
     },
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2146,
+        "line": 2104,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41713,7 +42048,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2169,
+        "line": 2127,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -41724,7 +42059,238 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2175,
+        "line": 2133,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "**encoding/json.RawMessage"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2141,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "**int64"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2149,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "*github.com/portpowered/go-roborock/pkg/dependencymodels.ProductCategory"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2157,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "**string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2165,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "**string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2173,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "*string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2181,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "*string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2189,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "*string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2197,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "**[]github.com/portpowered/go-roborock/pkg/dependencymodels.ProductProperty"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2208,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "*encoding/json.RawMessage"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2224,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*encoding/json.RawMessage"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2231,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*int64"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2237,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "github.com/portpowered/go-roborock/pkg/dependencymodels.ProductCategory"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2243,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2250,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2256,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2261,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2266,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2272,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*[]github.com/portpowered/go-roborock/pkg/dependencymodels.ProductProperty"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2279,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2284,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "map[string]encoding/json.RawMessage"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2307,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "[]byte",
+        "*map[string]encoding/json.RawMessage"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2313,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -41735,7 +42301,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2183,
+        "line": 2321,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -41746,7 +42312,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2194,
+        "line": 2332,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -41757,7 +42323,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2209,
+        "line": 2347,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41767,7 +42333,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2214,
+        "line": 2352,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41777,7 +42343,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2220,
+        "line": 2358,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41787,7 +42353,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2225,
+        "line": 2363,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41797,7 +42363,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2248,
+        "line": 2386,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -41808,7 +42374,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2254,
+        "line": 2392,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -41819,7 +42385,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2262,
+        "line": 2400,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -41830,7 +42396,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2270,
+        "line": 2408,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -41841,7 +42407,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2281,
+        "line": 2419,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -41852,7 +42418,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2297,
+        "line": 2435,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41862,7 +42428,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2304,
+        "line": 2442,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41872,7 +42438,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2310,
+        "line": 2448,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41882,7 +42448,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2316,
+        "line": 2454,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41892,7 +42458,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2321,
+        "line": 2459,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41902,7 +42468,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2344,
+        "line": 2482,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -41913,7 +42479,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2350,
+        "line": 2488,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -41924,7 +42490,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2361,
+        "line": 2499,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -41935,7 +42501,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2377,
+        "line": 2515,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41945,7 +42511,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2384,
+        "line": 2522,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41955,7 +42521,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2389,
+        "line": 2527,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -41965,7 +42531,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2412,
+        "line": 2550,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -41976,7 +42542,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2418,
+        "line": 2556,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -41987,7 +42553,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2429,
+        "line": 2567,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -41998,7 +42564,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2445,
+        "line": 2583,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42008,7 +42574,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2452,
+        "line": 2590,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42018,7 +42584,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2457,
+        "line": 2595,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42028,7 +42594,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2480,
+        "line": 2618,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42039,7 +42605,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2486,
+        "line": 2624,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42050,7 +42616,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2497,
+        "line": 2635,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42061,7 +42627,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2513,
+        "line": 2651,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42071,7 +42637,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2520,
+        "line": 2658,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42081,7 +42647,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2525,
+        "line": 2663,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42091,7 +42657,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2548,
+        "line": 2686,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42102,7 +42668,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2554,
+        "line": 2692,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42113,7 +42679,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2562,
+        "line": 2700,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42124,7 +42690,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2570,
+        "line": 2708,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42135,7 +42701,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2578,
+        "line": 2716,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42146,7 +42712,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2586,
+        "line": 2724,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42157,7 +42723,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2594,
+        "line": 2732,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42168,7 +42734,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2602,
+        "line": 2740,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42179,173 +42745,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2610,
-        "symbol": "encoding/json.Unmarshal"
-      },
-      "argumentTypes": [
-        "encoding/json.RawMessage",
-        "**string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2621,
-        "symbol": "encoding/json.Unmarshal"
-      },
-      "argumentTypes": [
-        "encoding/json.RawMessage",
-        "*encoding/json.RawMessage"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2637,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2644,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2651,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryProductOBA"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2658,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2665,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*int"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2672,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2679,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2686,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2693,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "encoding/json.RawMessage"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2698,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "map[string]encoding/json.RawMessage"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2721,
-        "symbol": "encoding/json.Unmarshal"
-      },
-      "argumentTypes": [
-        "[]byte",
-        "*map[string]encoding/json.RawMessage"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2727,
-        "symbol": "encoding/json.Unmarshal"
-      },
-      "argumentTypes": [
-        "encoding/json.RawMessage",
-        "**string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2735,
-        "symbol": "encoding/json.Unmarshal"
-      },
-      "argumentTypes": [
-        "encoding/json.RawMessage",
-        "**string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2743,
-        "symbol": "encoding/json.Unmarshal"
-      },
-      "argumentTypes": [
-        "encoding/json.RawMessage",
-        "**string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2751,
+        "line": 2748,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42361,24 +42761,124 @@
       },
       "argumentTypes": [
         "encoding/json.RawMessage",
-        "**string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2767,
-        "symbol": "encoding/json.Unmarshal"
-      },
-      "argumentTypes": [
-        "encoding/json.RawMessage",
-        "**string"
+        "*encoding/json.RawMessage"
       ]
     },
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
         "line": 2775,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2782,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2789,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*github.com/portpowered/go-roborock/pkg/dependencymodels.InventoryProductOBA"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2796,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2803,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*int"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2810,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2817,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2824,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2831,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2836,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "map[string]encoding/json.RawMessage"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2859,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "[]byte",
+        "*map[string]encoding/json.RawMessage"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2865,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42389,161 +42889,18 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2783,
+        "line": 2873,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
         "encoding/json.RawMessage",
         "**string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2791,
-        "symbol": "encoding/json.Unmarshal"
-      },
-      "argumentTypes": [
-        "encoding/json.RawMessage",
-        "**string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2802,
-        "symbol": "encoding/json.Unmarshal"
-      },
-      "argumentTypes": [
-        "encoding/json.RawMessage",
-        "*encoding/json.RawMessage"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2818,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2825,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2832,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2839,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2846,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2853,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2860,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2867,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2874,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "*string"
       ]
     },
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
         "line": 2881,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "encoding/json.RawMessage"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2886,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "map[string]encoding/json.RawMessage"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2909,
-        "symbol": "encoding/json.Unmarshal"
-      },
-      "argumentTypes": [
-        "[]byte",
-        "*map[string]encoding/json.RawMessage"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2915,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42554,7 +42911,73 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2926,
+        "line": 2889,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "**string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2897,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "**string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2905,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "**string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2913,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "**string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2921,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "**string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2929,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "**string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2940,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42565,7 +42988,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2942,
+        "line": 2956,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42575,7 +42998,87 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2949,
+        "line": 2963,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2970,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2977,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2984,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2991,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 2998,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 3005,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 3012,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 3019,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42585,7 +43088,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2954,
+        "line": 3024,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42595,7 +43098,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2977,
+        "line": 3047,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42606,7 +43109,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2983,
+        "line": 3053,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42617,7 +43120,59 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2991,
+        "line": 3064,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "*encoding/json.RawMessage"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 3080,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "*string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 3087,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 3092,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "map[string]encoding/json.RawMessage"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 3115,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "[]byte",
+        "*map[string]encoding/json.RawMessage"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 3121,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42628,7 +43183,18 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 2999,
+        "line": 3129,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
+        "**string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/devices.gen.go",
+        "line": 3137,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42639,7 +43205,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3007,
+        "line": 3145,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42650,7 +43216,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3015,
+        "line": 3153,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42661,7 +43227,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3023,
+        "line": 3161,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42672,7 +43238,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3031,
+        "line": 3169,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42683,7 +43249,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3039,
+        "line": 3177,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42694,7 +43260,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3050,
+        "line": 3188,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42705,7 +43271,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3066,
+        "line": 3204,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42715,7 +43281,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3073,
+        "line": 3211,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42725,7 +43291,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3080,
+        "line": 3218,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42735,7 +43301,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3087,
+        "line": 3225,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42745,7 +43311,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3094,
+        "line": 3232,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42755,7 +43321,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3101,
+        "line": 3239,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42765,7 +43331,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3108,
+        "line": 3246,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42775,7 +43341,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3115,
+        "line": 3253,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42785,7 +43351,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3122,
+        "line": 3260,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42795,7 +43361,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3127,
+        "line": 3265,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42805,7 +43371,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3150,
+        "line": 3288,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42816,7 +43382,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3156,
+        "line": 3294,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42827,7 +43393,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3164,
+        "line": 3302,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42838,7 +43404,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3172,
+        "line": 3310,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42849,7 +43415,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3180,
+        "line": 3318,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42860,7 +43426,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3188,
+        "line": 3326,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42871,7 +43437,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3196,
+        "line": 3334,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42882,7 +43448,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3207,
+        "line": 3345,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42893,7 +43459,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3223,
+        "line": 3361,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42903,7 +43469,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3230,
+        "line": 3368,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42913,7 +43479,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3237,
+        "line": 3375,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42923,7 +43489,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3244,
+        "line": 3382,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42933,7 +43499,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3251,
+        "line": 3389,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42943,7 +43509,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3258,
+        "line": 3396,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42953,7 +43519,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3265,
+        "line": 3403,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42963,7 +43529,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3270,
+        "line": 3408,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -42973,7 +43539,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3293,
+        "line": 3431,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42984,7 +43550,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3299,
+        "line": 3437,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -42995,7 +43561,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3307,
+        "line": 3445,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43006,7 +43572,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3318,
+        "line": 3456,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43017,7 +43583,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3333,
+        "line": 3471,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43027,7 +43593,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3339,
+        "line": 3477,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43037,7 +43603,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3346,
+        "line": 3484,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43047,7 +43613,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3351,
+        "line": 3489,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43057,7 +43623,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3391,
+        "line": 3529,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43068,7 +43634,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3397,
+        "line": 3535,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43079,7 +43645,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3405,
+        "line": 3543,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43090,7 +43656,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3413,
+        "line": 3551,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43101,7 +43667,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3424,
+        "line": 3562,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43112,7 +43678,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3440,
+        "line": 3578,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43122,7 +43688,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3447,
+        "line": 3585,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43132,7 +43698,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3453,
+        "line": 3591,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43142,7 +43708,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3459,
+        "line": 3597,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43152,7 +43718,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3464,
+        "line": 3602,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43162,7 +43728,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3470,
+        "line": 3608,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43173,7 +43739,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3476,
+        "line": 3614,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43183,7 +43749,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3483,
+        "line": 3621,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43193,7 +43759,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3496,
+        "line": 3634,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43204,7 +43770,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3502,
+        "line": 3640,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43214,7 +43780,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3509,
+        "line": 3647,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43224,7 +43790,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3520,
+        "line": 3658,
         "symbol": "encoding/json.MarshalJSON"
       },
       "argumentTypes": []
@@ -43232,7 +43798,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3525,
+        "line": 3663,
         "symbol": "encoding/json.UnmarshalJSON"
       },
       "argumentTypes": [
@@ -43242,7 +43808,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3532,
+        "line": 3670,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43253,7 +43819,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3538,
+        "line": 3676,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43263,7 +43829,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3545,
+        "line": 3683,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43273,7 +43839,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3558,
+        "line": 3696,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43284,7 +43850,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3564,
+        "line": 3702,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43294,7 +43860,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3571,
+        "line": 3709,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43304,7 +43870,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3582,
+        "line": 3720,
         "symbol": "encoding/json.MarshalJSON"
       },
       "argumentTypes": []
@@ -43312,7 +43878,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3587,
+        "line": 3725,
         "symbol": "encoding/json.UnmarshalJSON"
       },
       "argumentTypes": [
@@ -43322,7 +43888,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3594,
+        "line": 3732,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43333,7 +43899,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3600,
+        "line": 3738,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43343,7 +43909,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3607,
+        "line": 3745,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43353,7 +43919,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3620,
+        "line": 3758,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43364,7 +43930,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3626,
+        "line": 3764,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43374,7 +43940,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3633,
+        "line": 3771,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43384,7 +43950,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3645,
+        "line": 3783,
         "symbol": "encoding/json.UnmarshalJSON"
       },
       "argumentTypes": [
@@ -43394,7 +43960,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3650,
+        "line": 3788,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43405,7 +43971,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3656,
+        "line": 3794,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43416,7 +43982,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3664,
+        "line": 3802,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43427,7 +43993,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3672,
+        "line": 3810,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43438,7 +44004,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3683,
+        "line": 3821,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43449,7 +44015,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3696,
+        "line": 3834,
         "symbol": "encoding/json.MarshalJSON"
       },
       "argumentTypes": []
@@ -43457,7 +44023,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3702,
+        "line": 3840,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43468,7 +44034,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3709,
+        "line": 3847,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43478,7 +44044,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3716,
+        "line": 3854,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43488,7 +44054,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3723,
+        "line": 3861,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43498,7 +44064,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3730,
+        "line": 3868,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43508,7 +44074,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/devices.gen.go",
-        "line": 3735,
+        "line": 3873,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43518,7 +44084,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 252,
+        "line": 265,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43529,17 +44095,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 258,
-        "symbol": "encoding/json.Marshal"
-      },
-      "argumentTypes": [
-        "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1RoomMappingPair"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 265,
+        "line": 271,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43550,6 +44106,16 @@
       "site": {
         "file": "pkg/dependencymodels/maps.gen.go",
         "line": 278,
+        "symbol": "encoding/json.Marshal"
+      },
+      "argumentTypes": [
+        "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1RoomMappingPair"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencymodels/maps.gen.go",
+        "line": 291,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -43560,7 +44126,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 284,
+        "line": 297,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43570,7 +44136,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 291,
+        "line": 304,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -43580,7 +44146,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 302,
+        "line": 315,
         "symbol": "encoding/json.MarshalJSON"
       },
       "argumentTypes": []
@@ -43588,7 +44154,7 @@
     {
       "site": {
         "file": "pkg/dependencymodels/maps.gen.go",
-        "line": 307,
+        "line": 320,
         "symbol": "encoding/json.UnmarshalJSON"
       },
       "argumentTypes": [
@@ -46503,7 +47069,7 @@
     {
       "site": {
         "file": "pkg/roborock/map_rooms.go",
-        "line": 109,
+        "line": 114,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46514,7 +47080,7 @@
     {
       "site": {
         "file": "pkg/roborock/map_rooms.go",
-        "line": 153,
+        "line": 157,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46525,7 +47091,7 @@
     {
       "site": {
         "file": "pkg/roborock/map_rooms.go",
-        "line": 160,
+        "line": 164,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -46536,11 +47102,22 @@
     {
       "site": {
         "file": "pkg/roborock/map_rooms.go",
-        "line": 164,
+        "line": 168,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
         "github.com/portpowered/go-roborock/pkg/dependencymodels.MapsV1RoomMappingValue",
+        "*int64"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/roborock/map_rooms.go",
+        "line": 193,
+        "symbol": "encoding/json.Unmarshal"
+      },
+      "argumentTypes": [
+        "encoding/json.RawMessage",
         "*int64"
       ]
     },

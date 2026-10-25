@@ -4,7 +4,7 @@ package protocol
 const (
 	RESTHawkEntropyBytes   = 6
 	RESTHawkHeaderFormat   = "Hawk id=\"%s\",s=\"%s\",ts=\"%s\",nonce=\"%s\",mac=\"%s\""
-	RESTHawkMACInputFormat = "%s:%s:%s:%s:%s::"
+	RESTHawkMACInputFormat = "%s:%s:%s:%s:%s::%s"
 	RESTHeaderAccept       = "Accept"
 	RESTHeaderContentType  = "Content-Type"
 	RESTMediaForm          = "application/x-www-form-urlencoded"
