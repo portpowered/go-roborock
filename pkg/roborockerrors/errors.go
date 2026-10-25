@@ -42,8 +42,10 @@ type Error struct {
 	Kind      Kind
 	Operation string
 	Code      int
-	Message   string
-	Cause     error
+	// VendorStatus preserves an open string status without exposing it in Error's message.
+	VendorStatus string
+	Message      string
+	Cause        error
 }
 
 func (e *Error) Error() string {
@@ -62,7 +64,7 @@ func (e *Error) Is(target error) bool {
 
 // New creates a failure with a caller-safe message and retained cause.
 func New(kind Kind, operation, message string, cause error) *Error {
-	return &Error{Kind: kind, Operation: operation, Code: 0, Message: message, Cause: cause}
+	return &Error{Kind: kind, Operation: operation, Code: 0, VendorStatus: "", Message: message, Cause: cause}
 }
 
 // Wrap preserves a typed failure's classification and code with a caller-safe operation.
@@ -75,6 +77,7 @@ func Wrap(fallback Kind, operation, message string, cause error) *Error {
 	if errors.As(cause, &typed) {
 		wrapped.Kind = typed.Kind
 		wrapped.Code = typed.Code
+		wrapped.VendorStatus = typed.VendorStatus
 	}
 
 	return wrapped

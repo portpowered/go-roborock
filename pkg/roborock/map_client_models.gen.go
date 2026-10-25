@@ -10,6 +10,22 @@ type CloudRoom struct {
 	Name *string `json:"name,omitempty"`
 }
 
+// CreateHomeRoomRequest defines model for CreateHomeRoomRequest.
+type CreateHomeRoomRequest struct {
+	// Auth Caller-owned account credentials.
+	Auth   AuthContext `json:"auth"`
+	HomeID int64       `json:"homeId"`
+
+	// Name Requested cloud directory name. Does not rename an existing directory entry.
+	Name string `json:"name"`
+}
+
+// CreateHomeRoomResult defines model for CreateHomeRoomResult.
+type CreateHomeRoomResult struct {
+	// RoomID Created cloud room ID, preserved as the vendor string.
+	RoomID string `json:"roomId"`
+}
+
 // DeviceCapabilities defines model for DeviceCapabilities.
 type DeviceCapabilities struct {
 	MapContent   bool `json:"mapContent"`
@@ -57,6 +73,9 @@ type MapRoomMapping struct {
 	IoTID *string `json:"iotId,omitempty"`
 	Name  *string `json:"name,omitempty"`
 
+	// RobotTagID Optional third V1 mapping value. Preserve it when writing the complete segment mapping.
+	RobotTagID *int64 `json:"robotTagId,omitempty"`
+
 	// SegmentID Device room or segment identifier accepted by CleanSegments.
 	SegmentID int64 `json:"segmentId"`
 }
@@ -64,6 +83,22 @@ type MapRoomMapping struct {
 // MapRoomsResult defines model for MapRoomsResult.
 type MapRoomsResult struct {
 	Rooms []MapRoomMapping `json:"rooms"`
+}
+
+// NameSegmentsRequest defines model for NameSegmentsRequest.
+type NameSegmentsRequest struct {
+	// Mappings Complete current-map mapping, including unchanged siblings. The caller owns map freshness and readback.
+	Mappings []RoomNameMapping `json:"mappings"`
+}
+
+// RoomNameMapping defines model for RoomNameMapping.
+type RoomNameMapping struct {
+	// CloudRoomID Cloud directory ID; empty for a tagged unnamed segment. Never a display name.
+	CloudRoomID string `json:"cloudRoomId"`
+
+	// RobotTagID Preserve the observed tag; use zero only when absent in the read mapping.
+	RobotTagID int64 `json:"robotTagId"`
+	SegmentID  int64 `json:"segmentId"`
 }
 
 // RoomsResult defines model for RoomsResult.

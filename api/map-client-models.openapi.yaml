@@ -34,6 +34,23 @@ components:
         segmentId: {type: integer, x-go-name: SegmentID, format: int64, description: Device room or segment identifier accepted by CleanSegments.}
         name: {type: string}
         iotId: {type: string, x-go-name: IoTID, description: Optional V1 cloud room identity; unrelated to a map ID.}
+        robotTagId: {type: integer, format: int64, x-go-name: RobotTagID, description: Optional third V1 mapping value. Preserve it when writing the complete segment mapping.}
+    RoomNameMapping:
+      type: object
+      required: [cloudRoomId, segmentId, robotTagId]
+      properties:
+        cloudRoomId: {type: string, x-go-name: CloudRoomID, description: Cloud directory ID; empty for a tagged unnamed segment. Never a display name.}
+        segmentId: {type: integer, format: int64, x-go-name: SegmentID}
+        robotTagId: {type: integer, format: int64, x-go-name: RobotTagID, description: Preserve the observed tag; use zero only when absent in the read mapping.}
+    NameSegmentsRequest:
+      type: object
+      required: [mappings]
+      properties:
+        mappings:
+          type: array
+          minItems: 1
+          description: Complete current-map mapping, including unchanged siblings. The caller owns map freshness and readback.
+          items: {$ref: '#/components/schemas/RoomNameMapping'}
     MapRoomsResult:
       type: object
       required: [rooms]
@@ -60,6 +77,22 @@ components:
           allOf:
             - $ref: './client-models.openapi.yaml#/components/schemas/AuthContext'
         homeId: {type: integer, format: int64, x-go-name: HomeID}
+    CreateHomeRoomRequest:
+      type: object
+      required: [auth, homeId, name]
+      properties:
+        auth:
+          x-go-type: AuthContext
+          description: Caller-owned account credentials.
+          allOf:
+            - $ref: './client-models.openapi.yaml#/components/schemas/AuthContext'
+        homeId: {type: integer, format: int64, x-go-name: HomeID}
+        name: {type: string, minLength: 1, description: Requested cloud directory name. Does not rename an existing directory entry.}
+    CreateHomeRoomResult:
+      type: object
+      required: [roomId]
+      properties:
+        roomId: {type: string, minLength: 1, x-go-name: RoomID, description: "Created cloud room ID, preserved as the vendor string."}
     SharedDeviceRoomsRequest:
       type: object
       required: [auth, deviceId]

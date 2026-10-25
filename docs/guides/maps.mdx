@@ -31,6 +31,22 @@ The active map, saved-map list, and room list have different purposes. Map conte
 
 Selecting a saved map is an explicit device change, separate from reading it. Where selection is supported, wait for the device to report the new active map and fetch it again before sending coordinates or room IDs. The SDK does not implicitly switch floors for cleaning.
 
+## Name V1 Rooms
+
+V1 room names come from a cloud directory. `CreateHomeRoom(ctx, roborock.CreateHomeRoomRequest{Auth: auth, HomeID: home.ID, Name: name})` creates an entry and returns a string `RoomID`; it does not rename an existing entry or modify the robot. `NameSegments` explicitly associates the active map's segments with those directory IDs. B01 naming and saved-map renaming are unsupported.
+
+Read the current map and all `GetRooms` mappings first. Verify the active map before writing. Build `[]roborock.RoomNameMapping` for every segment, preserving each `IoTID` and optional `RobotTagID` (use zero only when the tag was absent). Change only the intended segment's `CloudRoomID` to the chosen directory ID. An unnamed tagged segment keeps an empty cloud ID and its existing tag. Never send the display name as a cloud ID or omit unchanged siblings.
+
+```go
+ack, err := session.NameSegments(ctx, roborock.NameSegmentsRequest{Mappings: mappings})
+if err != nil { return err }
+// ack is command acceptance, not proof of a completed name change.
+```
+
+Do not reuse a directory name already assigned to another segment. The service can reject duplicate names or its room limit; typed errors preserve the open `VendorStatus` string. Creation and rebinding are separate writes and are not atomic. They do not retry automatically, select another map, or delete the old directory entry. Other maps or devices may still reference that old entry.
+
+After writing, read the device mapping and explicitly refresh `GetHomeRooms`. `GetRooms` can reuse cached inventory names, so it alone cannot confirm a rename. Verify the selected segment's new association, fresh directory label, unchanged siblings and active map. The [protocol evidence](https://github.com/portpowered/go-roborock/blob/main/docs/room-naming-protocol.md) distinguishes static vendor evidence from synthetic replay and unverified live behavior.
+
 `MapSnapshot` exposes optional `Grid`, `Robot`, and `Dock`, plus `Paths`, `Rooms`, `CurrentZones`, `Restrictions`, `Walls`, and unknown-block metadata. Missing geometry stays absent. Grid cells are semantic bytes; the SDK does not render an image or invent room outlines.
 
 Use the coordinate frame and transform reported by the map. A screen pixel needs the image scale, origin, and axis direction before it becomes a world coordinate. Do not copy a V1 transform to Q7 or Q10, or multiply Q7 meter values by 1000 without checking the target frame.
@@ -63,6 +79,7 @@ The family-specific MQTT references show the payloads used by these calls:
 | V1 saved-map list | [ListV1Maps](/docs/asyncapi/maps/ListV1Maps) |
 | V1 device room mapping | [GetV1Rooms](/docs/asyncapi/maps/GetV1Rooms) |
 | V1 active-map selection | [LoadV1Map](/docs/asyncapi/maps/LoadV1Map) |
+| V1 complete room-name bindings | [NameV1Segments](/docs/asyncapi/maps/NameV1Segments) |
 | Q7 saved-map list | [RequestQ7MapList](/docs/asyncapi/maps/RequestQ7MapList) |
 | Q7 current or selected map download | [UploadQ7Map](/docs/asyncapi/maps/UploadQ7Map) |
 | Q10 saved-map list | [QueryQ10MapList](/docs/asyncapi/maps/QueryQ10MapList) and [observed list result](/docs/asyncapi/maps/ReceiveQ10MapList) |

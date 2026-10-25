@@ -40,7 +40,15 @@ func (p *pairedSDKRooms) Do(request *http.Request) (*http.Response, error) {
 	p.paired.index++
 	p.paired.verifyRequest(request, expected)
 	p.paired.verifyBody(request, expected)
-	verifySDKRoomHawk(p.paired.t, request.Header.Get("Authorization"), expected.Path, account.Mqtt)
+
+	payloadDigest := ""
+
+	if expected.Form != nil {
+		// Independently calculated MD5 of the raw name=Studio + bath & sun/room form value.
+		payloadDigest = "459ce29215a94bc2eced769b7036ac06"
+	}
+
+	verifySDKRoomHawk(p.paired.t, request.Header.Get("Authorization"), expected.Path, payloadDigest, account.Mqtt)
 
 	if p.failure != nil {
 		return nil, p.failure
@@ -49,7 +57,7 @@ func (p *pairedSDKRooms) Do(request *http.Request) (*http.Response, error) {
 	return pairedFixtureResponse(p.paired.t, expected.ResponseStatus, expected.ResponseHeaders, expected.Response), nil
 }
 
-func verifySDKRoomHawk(t *testing.T, header, path string, account roborock.MQTTAuth) {
+func verifySDKRoomHawk(t *testing.T, header, path, payloadDigest string, account roborock.MQTTAuth) {
 	t.Helper()
 
 	pattern := regexp.MustCompile(`^Hawk id="([^"]+)",s="([^"]+)",ts="([0-9]+)",` +
@@ -65,7 +73,7 @@ func verifySDKRoomHawk(t *testing.T, header, path string, account roborock.MQTTA
 	}
 
 	message := strings.Join(
-		[]string{account.User, account.Secret, match[4], match[3], roomPathDigest(t, path), "", ""}, ":",
+		[]string{account.User, account.Secret, match[4], match[3], roomPathDigest(t, path), "", payloadDigest}, ":",
 	)
 	mac := hmac.New(sha256.New, []byte(account.SigningKey))
 	_, _ = mac.Write([]byte(message))

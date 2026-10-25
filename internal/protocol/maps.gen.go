@@ -23,4 +23,5 @@ const (
 	RPCGetMultiMapsList   = "get_multi_maps_list"
 	RPCGetRoomMapping     = "get_room_mapping"
 	RPCLoadMultiMap       = "load_multi_map"
+	RPCNameSegment        = "name_segment"
 )

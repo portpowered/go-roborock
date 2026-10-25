@@ -4,16 +4,22 @@ import "context"
 
 // ClientAPI lists account operations together. Credentials always belong to requests.
 type ClientAPI interface {
+	RoomOperations
 	ResolveLogin(ctx context.Context, request ResolveLoginRequest) (LoginContext, error)
 	RequestLoginCode(ctx context.Context, request LoginCodeRequest) (LoginCodeResult, error)
 	LoginWithCode(ctx context.Context, request LoginWithCodeRequest) (LoginResult, error)
 	LoginWithPassword(ctx context.Context, request LoginWithPasswordRequest) (LoginResult, error)
 	GetHome(ctx context.Context, request AccountRequest) (Home, error)
 	GetHomeData(ctx context.Context, request HomeDataRequest) (HomeData, error)
-	GetHomeRooms(ctx context.Context, request HomeRoomsRequest) (RoomsResult, error)
-	GetSharedDeviceRooms(ctx context.Context, request SharedDeviceRoomsRequest) (RoomsResult, error)
 	ListDevices(ctx context.Context, request AccountRequest) (ListDevicesResult, error)
 	OpenDevice(ctx context.Context, request OpenDeviceRequest) (*DeviceSession, error)
+}
+
+// RoomOperations lists account-scoped cloud directory operations independently of device maps.
+type RoomOperations interface {
+	GetHomeRooms(ctx context.Context, request HomeRoomsRequest) (RoomsResult, error)
+	CreateHomeRoom(ctx context.Context, request CreateHomeRoomRequest) (CreateHomeRoomResult, error)
+	GetSharedDeviceRooms(ctx context.Context, request SharedDeviceRoomsRequest) (RoomsResult, error)
 }
 
 // ResolveLoginRequest discovers a regional login origin for an account.
@@ -68,6 +74,7 @@ type MapOperations interface {
 	GetMapTrace(ctx context.Context, request EmptyRequest) (MapSnapshot, error)
 	ListMaps(ctx context.Context, request EmptyRequest) (ListMapsResult, error)
 	GetRooms(ctx context.Context, request EmptyRequest) (MapRoomsResult, error)
+	NameSegments(ctx context.Context, request NameSegmentsRequest) (CommandAcknowledgement, error)
 	SelectMap(ctx context.Context, request SelectMapRequest) (CommandAcknowledgement, error)
 	GetCapabilities(ctx context.Context, request EmptyRequest) (DeviceCapabilities, error)
 }

@@ -32,8 +32,8 @@ func TestRoomRequestsReuseLocalAuthType(t *testing.T) {
 		return true
 	})
 
-	if seen != 2 {
-		t.Fatal("both room operations must reuse AuthContext")
+	if seen != 3 {
+		t.Fatal("all room operations must reuse AuthContext")
 	}
 }
 
@@ -44,7 +44,9 @@ func checkRoomAuthType(t *testing.T, named *ast.TypeSpec) bool {
 		t.Fatal("room models duplicated the shared credential type")
 	}
 
-	if named.Name.Name != "HomeRoomsRequest" && named.Name.Name != "SharedDeviceRoomsRequest" {
+	switch named.Name.Name {
+	case "HomeRoomsRequest", "SharedDeviceRoomsRequest", "CreateHomeRoomRequest":
+	default:
 		return false
 	}
 

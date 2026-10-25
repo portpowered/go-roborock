@@ -77,8 +77,8 @@ func TestCustomerMapAndRoomTablesPreserveIDsAndUnknownMetadata(t *testing.T) {
 		{ID: "floor-3", Name: nil, Current: nil},
 	}}
 	rooms := roborock.MapRoomsResult{Rooms: []roborock.MapRoomMapping{
-		{SegmentID: 0, Name: &name, IoTID: nil},
-		{SegmentID: 4294967295, Name: nil, IoTID: nil},
+		{SegmentID: 0, Name: &name, IoTID: nil, RobotTagID: nil},
+		{SegmentID: 4294967295, Name: nil, IoTID: nil, RobotTagID: nil},
 	}}
 
 	var output bytes.Buffer
