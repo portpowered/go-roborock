@@ -27,14 +27,25 @@ type CreateHomeRoomForm struct {
 type CreateHomeRoomResponse struct {
 	Api *string `json:"api,omitempty"`
 
-	// Result Created cloud room ID when successful.
-	Result *string `json:"result,omitempty"`
+	// Result Created cloud room identifier, returned as a string or a positive signed 64-bit integer. Numeric identifiers are normalized losslessly to decimal strings by the public client.
+	Result *CreatedRoomID `json:"result,omitempty"`
 
 	// Status Open vendor status, including userinfo.err.duplicate.name and userinfo.err.room.exceed.limit.
 	Status               *string                `json:"status,omitempty"`
 	Success              bool                   `json:"success"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
+// CreatedRoomID Created cloud room identifier, returned as a string or a positive signed 64-bit integer. Numeric identifiers are normalized losslessly to decimal strings by the public client.
+type CreatedRoomID struct {
+	union json.RawMessage
+}
+
+// CreatedRoomID0 defines model for .
+type CreatedRoomID0 = string
+
+// CreatedRoomID1 defines model for .
+type CreatedRoomID1 = int64
 
 // HomeData defines model for HomeData.
 type HomeData struct {
@@ -3600,6 +3611,68 @@ func (a SharedDeviceRoomsResponse) MarshalJSON() ([]byte, error) {
 		}
 	}
 	return json.Marshal(object)
+}
+
+// AsCreatedRoomID0 returns the union data inside the CreatedRoomID as a CreatedRoomID0
+func (t CreatedRoomID) AsCreatedRoomID0() (CreatedRoomID0, error) {
+	var body CreatedRoomID0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromCreatedRoomID0 overwrites any union data inside the CreatedRoomID as the provided CreatedRoomID0
+func (t *CreatedRoomID) FromCreatedRoomID0(v CreatedRoomID0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeCreatedRoomID0 performs a merge with any union data inside the CreatedRoomID, using the provided CreatedRoomID0
+func (t *CreatedRoomID) MergeCreatedRoomID0(v CreatedRoomID0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsCreatedRoomID1 returns the union data inside the CreatedRoomID as a CreatedRoomID1
+func (t CreatedRoomID) AsCreatedRoomID1() (CreatedRoomID1, error) {
+	var body CreatedRoomID1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromCreatedRoomID1 overwrites any union data inside the CreatedRoomID as the provided CreatedRoomID1
+func (t *CreatedRoomID) FromCreatedRoomID1(v CreatedRoomID1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeCreatedRoomID1 performs a merge with any union data inside the CreatedRoomID, using the provided CreatedRoomID1
+func (t *CreatedRoomID) MergeCreatedRoomID1(v CreatedRoomID1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t CreatedRoomID) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *CreatedRoomID) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
 }
 
 // AsInventoryBooleanOrInteger0 returns the union data inside the InventoryBooleanOrInteger as a InventoryBooleanOrInteger0

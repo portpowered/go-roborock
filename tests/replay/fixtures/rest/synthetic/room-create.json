@@ -1,6 +1,6 @@
 {
   "provenance": "synthetic",
-  "source": "Original Roborock Android 4.74.04 build100932 IotApi room-create Retrofit declaration and official roborock.vacuum.a97 plugin6362 duplicate/limit branches. SHA256 and locations: docs/room-naming-protocol.md. These paired cases are synthetic, not captured responses; numeric HTTP errors exercise existing transport policy.",
+  "source": "Original Roborock Android 4.74.04 build100932 IotApi room-create Retrofit declaration and official roborock.vacuum.a97 plugin6362 duplicate/limit branches. Numeric result shape observed through bounded live schema diagnostics on 2026-10-28; no response values captured. SHA256 and locations: docs/room-naming-protocol.md. These paired cases are synthetic, not captured responses; numeric HTTP errors exercise existing transport policy.",
   "cases": [
     {
       "name": "created",
@@ -229,8 +229,8 @@
     },
     {
       "name": "numeric-result",
-      "roomId": "",
-      "errorKind": "protocol",
+      "roomId": "12",
+      "errorKind": "",
       "vendorStatus": "",
       "exchange": {
         "method": "POST",

@@ -32,6 +32,15 @@ type roomCreationFixture struct {
 func TestPublicCreateHomeRoomPairedProtocol(t *testing.T) {
 	t.Parallel()
 
+	fixture := loadRoomCreationFixture(t)
+	for _, replay := range fixture.Cases {
+		t.Run(replay.Name, func(t *testing.T) { t.Parallel(); replayRoomCreation(t, replay) })
+	}
+}
+
+func loadRoomCreationFixture(t *testing.T) roomCreationFixture {
+	t.Helper()
+
 	data, err := os.ReadFile("fixtures/rest/synthetic/room-create.json")
 	if err != nil {
 		t.Fatal(err)
@@ -48,8 +57,60 @@ func TestPublicCreateHomeRoomPairedProtocol(t *testing.T) {
 		t.Fatal("missing room creation provenance or cases")
 	}
 
-	for _, replay := range fixture.Cases {
-		t.Run(replay.Name, func(t *testing.T) { t.Parallel(); replayRoomCreation(t, replay) })
+	return fixture
+}
+
+func TestCreatedRoomIdentifierEncodingsAreLosslessAndNeverRetry(t *testing.T) {
+	t.Parallel()
+
+	fixture := loadRoomCreationFixture(t)
+	protocolKind := string(roborockerrors.Protocol)
+	invalidKind := string(roborockerrors.InvalidArgument)
+
+	cases := []struct{ name, body, roomID, errorKind, vendorStatus string }{
+		{"numeric", `{"success":true,"result":12}`, "12", "", ""},
+		{"above float precision", `{"success":true,"result":9007199254740993}`, "9007199254740993", "", ""},
+		{"signed maximum", `{"success":true,"result":9223372036854775807}`, "9223372036854775807", "", ""},
+		{"string above float precision", `{"success":true,"result":"9007199254740993"}`, "9007199254740993", "", ""},
+		{"opaque string", `{"success":true,"result":"room-001"}`, "room-001", "", ""},
+		{"padded opaque string", `{"success":true,"result":" room-001 "}`, " room-001 ", "", ""},
+		{"leading zero string", `{"success":true,"result":"0012"}`, "0012", "", ""},
+		{"fraction", `{"success":true,"result":12.5}`, "", protocolKind, ""},
+		{"decimal integer", `{"success":true,"result":12.0}`, "", protocolKind, ""},
+		{"exponent", `{"success":true,"result":12e2}`, "", protocolKind, ""},
+		{"zero", `{"success":true,"result":0}`, "", protocolKind, ""},
+		{"negative", `{"success":true,"result":-1}`, "", protocolKind, ""},
+		{"overflow", `{"success":true,"result":9223372036854775808}`, "", protocolKind, ""},
+		{"null", `{"success":true,"result":null}`, "", protocolKind, ""},
+		{"boolean", `{"success":true,"result":true}`, "", protocolKind, ""},
+		{"object", `{"success":true,"result":{"id":12}}`, "", protocolKind, ""},
+		{"array", `{"success":true,"result":[12]}`, "", protocolKind, ""},
+		{"empty", `{"success":true,"result":""}`, "", protocolKind, ""},
+		{"blank", `{"success":true,"result":"  "}`, "", protocolKind, ""},
+		{"missing", `{"success":true}`, "", protocolKind, ""},
+		{"missing success", `{"result":12}`, "", protocolKind, ""},
+		{"null success", `{"success":null,"result":12}`, "", protocolKind, ""},
+		{"duplicate with numeric result", `{"success":false,"status":"userinfo.err.duplicate.name","result":12}`,
+			"", invalidKind, "userinfo.err.duplicate.name"},
+		{"limit with numeric result", `{"success":false,"status":"userinfo.err.room.exceed.limit","result":12}`,
+			"", invalidKind, "userinfo.err.room.exceed.limit"},
+		{"unknown rejection", `{"success":false,"status":"future.rejection","result":12}`,
+			"", protocolKind, "future.rejection"},
+		{"duplicate with invalid result", `{"success":false,"status":"userinfo.err.duplicate.name","result":0}`,
+			"", protocolKind, ""},
+		{"duplicate with object result", `{"success":false,"status":"userinfo.err.duplicate.name","result":{}}`,
+			"", protocolKind, ""},
+	}
+
+	for _, test := range cases {
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+
+			replay := fixture.Cases[0]
+			replay.Exchange.Response = json.RawMessage(test.body)
+			replay.RoomID, replay.ErrorKind, replay.VendorStatus = test.roomID, test.errorKind, test.vendorStatus
+			replayRoomCreation(t, replay)
+		})
 	}
 }
 
