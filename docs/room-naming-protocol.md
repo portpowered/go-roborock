@@ -1,6 +1,6 @@
 # Room Naming Protocol Evidence
 
-The room-creation and V1 `name_segment` primitives follow static analysis of the original Roborock Android app and an official device plugin. No app or plugin was executed, no room mutation was captured, and no successful live rename is claimed. The fixtures are synthetic protocol mimics and independently encrypted V1 vectors. They verify the SDK boundary, not hardware compatibility.
+The room-creation and V1 `name_segment` primitives follow static analysis of the original Roborock Android app and an official device plugin. The creation result also supports a numeric encoding observed through bounded response-shape diagnostics on 2026-10-28. No raw response was captured, and no successful live rename is claimed. The fixtures are synthetic protocol mimics and independently encrypted V1 vectors. They verify the SDK boundary, not hardware compatibility.
 
 ## Artifact Provenance
 
@@ -31,7 +31,9 @@ The Roborock branch uses cloud IDs, not display names. The separate Xiaomi branc
 
 ## SDK Boundary and Verification
 
-`Client.CreateHomeRoom` uses the existing account API origin and Hawk signing. It preserves the returned string ID, classifies duplicate/limit statuses as invalid arguments, and retains unknown status strings through `roborockerrors.Error.VendorStatus` without logging them in the error message. HTTP authentication, rate and server failures use existing typed classifications.
+`Client.CreateHomeRoom` uses the existing account API origin and Hawk signing. It preserves the returned string ID and losslessly normalizes a positive signed 64-bit numeric ID to a decimal string. Bounded live schema diagnostics observed `result` as a JSON number rather than the APK-declared string; no response values, account identifiers or credentials are included in this evidence. Generated union decoding reads the original JSON token directly into `int64`, so identifiers beyond the exact `float64` range retain every digit. Fractional/exponent numeric tokens, nonpositive or overflowing integers, missing/blank IDs and unrelated JSON types fail. Existing nonblank string identifiers remain opaque and unchanged.
+
+Creation still requires `success: true`; HTTP 200 alone is insufficient. For schema-valid envelopes, duplicate/limit statuses remain invalid arguments, and unknown statuses remain available through `roborockerrors.Error.VendorStatus` without logging them in the error message. Malformed envelopes still fail protocol validation before business-status mapping, including a rejected creation carrying an invalid result type or identifier. HTTP authentication, rate and server failures retain their existing typed classifications. Neither decoding failure nor vendor rejection triggers a request retry; a rejected response does not establish whether a directory side effect occurred.
 
 Form POST signing adds the MD5 of sorted, unescaped `key=value` pairs to the final Hawk MAC component; the query component is empty. This matches the primary [python-roborock implementation at revision 1868810d431cafede1ab5236d2935b21f045aeab](https://github.com/Python-roborock/python-roborock/blob/1868810d431cafede1ab5236d2935b21f045aeab/roborock/web_api.py#L799). The encoded HTTP form and raw signing input differ when the name contains spaces, plus signs, ampersands or slashes. Paired creation replay independently verifies that digest, while existing directory GET signatures retain empty payload components.
 

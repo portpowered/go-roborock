@@ -1276,12 +1276,25 @@
             "description": "Open vendor status, including userinfo.err.duplicate.name and userinfo.err.room.exceed.limit."
           },
           "result": {
-            "type": "string",
-            "minLength": 1,
-            "description": "Created cloud room ID when successful."
+            "$ref": "#/components/schemas/CreatedRoomID"
           }
         },
         "additionalProperties": true
+      },
+      "CreatedRoomID": {
+        "description": "Created cloud room identifier, returned as a string or a positive signed 64-bit integer. Numeric identifiers are normalized losslessly to decimal strings by the public client.",
+        "oneOf": [
+          {
+            "type": "string",
+            "minLength": 1
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 1,
+            "maximum": 9223372036854775807
+          }
+        ]
       }
     }
   },

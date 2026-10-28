@@ -21,7 +21,7 @@ type CreateHomeRoomRequest struct {
 	Name   string
 }
 
-// CreateHomeRoomResult preserves the vendor's string room identity.
+// CreateHomeRoomResult preserves string IDs and losslessly normalizes numeric IDs.
 type CreateHomeRoomResult struct{ RoomID string }
 
 // CreateHomeRoom creates a cloud room with account-scoped Hawk signing. It does not retry.
@@ -77,10 +77,26 @@ func createdRoom(out dependencymodels.CreateHomeRoomResponse) (CreateHomeRoomRes
 		return CreateHomeRoomResult{}, failure
 	}
 
-	if out.Result == nil || strings.TrimSpace(*out.Result) == "" {
+	if out.Result == nil {
 		return CreateHomeRoomResult{}, roborockerrors.New(roborockerrors.Protocol,
 			createHomeRoomOperation, "missing created room ID", nil)
 	}
 
-	return CreateHomeRoomResult{RoomID: *out.Result}, nil
+	text, err := out.Result.AsCreatedRoomID0()
+	if err == nil {
+		if strings.TrimSpace(text) == "" {
+			return CreateHomeRoomResult{}, roborockerrors.New(roborockerrors.Protocol,
+				createHomeRoomOperation, "missing created room ID", nil)
+		}
+
+		return CreateHomeRoomResult{RoomID: text}, nil
+	}
+
+	numeric, err := out.Result.AsCreatedRoomID1()
+	if err != nil || numeric <= 0 {
+		return CreateHomeRoomResult{}, roborockerrors.New(roborockerrors.Protocol,
+			createHomeRoomOperation, "invalid created room ID", err)
+	}
+
+	return CreateHomeRoomResult{RoomID: strconv.FormatInt(numeric, 10)}, nil
 }
