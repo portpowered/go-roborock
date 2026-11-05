@@ -11,6 +11,8 @@ A typed Go client for Roborock cloud accounts and explicit device sessions. Cred
 [![License](https://img.shields.io/github/license/portpowered/go-roborock)](LICENSE)
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://portpowered.github.io/go-roborock/docs/guides)
 
+To use Roborock vacuums from ChatGPT, Claude or another AI assistant without writing code, see [Roborock MCP](https://github.com/portpowered/port-os-smart-home-cloud-mcp/blob/main/providers/roborock-mcp.md) in Port OS Smart Home Cloud MCP.
+
 ## Install and authenticate
 
 ```sh
