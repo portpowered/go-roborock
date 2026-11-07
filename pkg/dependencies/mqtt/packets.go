@@ -99,13 +99,21 @@ func connectPacket(clientID, username, password string) []byte {
 	return packet(protocol.MQTTConnect, body)
 }
 
-func subscribePacket(topic string) []byte {
-	var identifier [protocol.MQTTUint16Size]byte
+func subscribePacket(identifier uint16, topic string) []byte {
+	var encoded [protocol.MQTTUint16Size]byte
 
-	binary.BigEndian.PutUint16(identifier[:], protocol.MQTTSubscribeIdentifier)
-	body := append(identifier[:], mqttString(topic)...)
+	binary.BigEndian.PutUint16(encoded[:], identifier)
+	body := append(encoded[:], mqttString(topic)...)
 
 	return packet(protocol.MQTTSubscribe, append(body, protocol.MQTTQoSAtMostOnce))
+}
+
+func unsubscribePacket(identifier uint16, topic string) []byte {
+	var encoded [protocol.MQTTUint16Size]byte
+
+	binary.BigEndian.PutUint16(encoded[:], identifier)
+
+	return packet(protocol.MQTTUnsubscribe, append(encoded[:], mqttString(topic)...))
 }
 
 func publishPacket(topic string, payload []byte) []byte {

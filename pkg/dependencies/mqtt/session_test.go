@@ -1075,13 +1075,13 @@ func openTestSession(t *testing.T, version string, exchange func(broker) error) 
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	session, err := Open(ctx, testConfig(version), func(_ context.Context, network, address string) (net.Conn, error) {
+	session, err := newTestHub(func(_ context.Context, network, address string) (net.Conn, error) {
 		if network != "tcp" || address != "broker.example:8883" {
 			return nil, fmt.Errorf("%w: dial mismatch", errSyntheticBroker)
 		}
 
 		return client, nil
-	})
+	}).Open(ctx, testConfig(version))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1363,9 +1363,9 @@ func TestOpenCancellationDuringHandshake(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Millisecond)
 	defer cancel()
 
-	_, err := Open(ctx, testConfig(protocol.MQTTVersionV1), func(context.Context, string, string) (net.Conn, error) {
+	_, err := newTestHub(func(context.Context, string, string) (net.Conn, error) {
 		return counted, nil
-	})
+	}).Open(ctx, testConfig(protocol.MQTTVersionV1))
 
 	if !errors.Is(err, context.DeadlineExceeded) {
 		t.Fatalf("expected deadline, got %v", err)
@@ -1382,11 +1382,11 @@ func TestOpenRejectsPlaintext(t *testing.T) {
 	config := testConfig(protocol.MQTTVersionV1)
 	config.BrokerURL = "tcp://broker.example:1883"
 
-	_, err := Open(context.Background(), config, func(context.Context, string, string) (net.Conn, error) {
+	_, err := newTestHub(func(context.Context, string, string) (net.Conn, error) {
 		t.Fatal("unexpected dial")
 
 		return nil, errSyntheticBroker
-	})
+	}).Open(context.Background(), config)
 	if err == nil {
 		t.Fatal("plaintext accepted")
 	}
@@ -1545,9 +1545,9 @@ func TestOpenRejectsUnauthorizedConnAck(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 			defer cancel()
 
-			_, err := Open(ctx, testConfig(protocol.MQTTVersionV1), func(context.Context, string, string) (net.Conn, error) {
+			_, err := newTestHub(func(context.Context, string, string) (net.Conn, error) {
 				return client, nil
-			})
+			}).Open(ctx, testConfig(protocol.MQTTVersionV1))
 			_ = assertErrorKind(t, err, roborockerrors.Unauthorized)
 
 			err = <-completed
@@ -1650,7 +1650,7 @@ func assertSessionClosed(t *testing.T, session *Session, expected bool) {
 func TestIncomingMapFailuresAreProtocol(t *testing.T) {
 	t.Parallel()
 
-	session := new(Session)
+	session := bareSession()
 	session.config = testConfig(protocol.MQTTVersionV1)
 
 	_, err := session.matchesMap([]byte{1}, &mapQuery{id: 1, prefix: 0, reply: nil, release: nil})
@@ -1692,7 +1692,7 @@ func (*zeroMapReader) Read(value []byte) (int, error) {
 func TestQ10ListRejectsMissingIdentifier(t *testing.T) {
 	t.Parallel()
 
-	session := new(Session)
+	session := bareSession()
 
 	session.q10Query = &q10Query{reply: make(chan response, 1)}
 
@@ -1735,7 +1735,7 @@ func TestQ10ListRejectsMissingIdentifier(t *testing.T) {
 func TestKnownB01MalformedResponseIsProtocol(t *testing.T) {
 	t.Parallel()
 
-	session := new(Session)
+	session := bareSession()
 	for _, raw := range []string{
 		`{"msgId":"100000000005","code":"bad"}`,
 		`{"msgId":[],"code":0}`,
@@ -1760,7 +1760,7 @@ func TestKnownB01MalformedResponseIsProtocol(t *testing.T) {
 func TestKnownB01NullFieldsAreProtocol(t *testing.T) {
 	t.Parallel()
 
-	session := new(Session)
+	session := bareSession()
 	for _, raw := range []string{
 		`{"msgId":null,"code":0}`,
 		`{"msgId":"","code":0}`,
@@ -1784,7 +1784,7 @@ func TestKnownB01NullFieldsAreProtocol(t *testing.T) {
 func TestB01ResponseRequiresCanonicalIdentifier(t *testing.T) {
 	t.Parallel()
 
-	session := new(Session)
+	session := bareSession()
 	session.mapQuery = &mapQuery{id: 100000000005, prefix: 0, reply: make(chan response, 1), release: nil}
 
 	for _, identifier := range []string{

@@ -120,7 +120,8 @@ func loadFamilyReplay(t *testing.T, path string) familyReplayFixture {
 
 func familyReplayAuth(account mqttFixture) roborock.AuthContext {
 	return roborock.AuthContext{
-		BaseURL: familyIOTOrigin, ClientID: "sdk-client", Token: "synthetic-token",
+		BaseURL: familyIOTOrigin, ClientID: replayDeviceIdentifier, Token: "synthetic-token",
+		DeviceIdentifier: replayDeviceIdentifier,
 		Mqtt: roborock.MQTTAuth{
 			APIURL: "https://api.example.test", BrokerURL: account.Broker,
 			User: account.User, Secret: account.Secret, Key: account.Key, SigningKey: "synthetic-hawk-key",
@@ -210,6 +211,7 @@ func familySDKClient(t *testing.T, doer *familyReplayHTTP, connection net.Conn, 
 	t.Helper()
 
 	client, err := roborock.NewClient(roborock.WithHTTPClient(doer),
+		roborock.WithMQTTIdleTimeout(time.Millisecond),
 		roborock.WithMQTTDial(func(_ context.Context, network, address string) (net.Conn, error) {
 			if rejectDial || network != mqttReplayNetwork || address != mqttReplayAddress {
 				return nil, mqttMismatch("unexpected SDK MQTT dial: %s %s", network, address)

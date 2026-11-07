@@ -2,6 +2,8 @@ package roborock
 
 import (
 	"context"
+	"crypto/md5" //nolint:gosec // Roborock's mandated client identity uses MD5.
+	"encoding/base64"
 	"strconv"
 
 	"github.com/portpowered/go-roborock/pkg/dependencies/rest"
@@ -12,8 +14,10 @@ import (
 // ResolveLogin resolves an email at the explicitly configured regional origin.
 // It returns country settings and origin without saving account state.
 func (c *Client) ResolveLogin(ctx context.Context, request ResolveLoginRequest) (LoginContext, error) {
-	if request.ClientID == "" {
-		return LoginContext{}, roborockerrors.New(roborockerrors.InvalidArgument, "resolve_login", "client ID required", nil)
+	if request.DeviceIdentifier == "" || request.Email == "" {
+		return LoginContext{}, roborockerrors.New(
+			roborockerrors.InvalidArgument, "resolve_login", "email and device identifier required", nil,
+		)
 	}
 
 	out, err := c.rest.ResolveRegion(ctx, rest.RegionRequest{Email: request.Email,
@@ -41,10 +45,11 @@ func (c *Client) ResolveLogin(ctx context.Context, request ResolveLoginRequest) 
 	}
 
 	return LoginContext{Email: request.Email,
-		ClientID:    request.ClientID,
-		BaseURL:     &out.Region.Url,
-		Country:     valueOrZero(out.Region.Country),
-		CountryCode: countryCode,
+		DeviceIdentifier: request.DeviceIdentifier,
+		ClientID:         clientIDFor(request.Email, request.DeviceIdentifier),
+		BaseURL:          &out.Region.Url,
+		Country:          valueOrZero(out.Region.Country),
+		CountryCode:      countryCode,
 	}, nil
 }
 
@@ -104,6 +109,15 @@ func (c *Client) LoginWithPassword(ctx context.Context, request LoginWithPasswor
 	return c.loginProjection(request.Login, out.User), nil
 }
 
+// clientIDFor derives the REST header_clientid the way python-roborock does:
+// base64(md5(email + device identifier)). The identifier is the caller's, so the
+// same email yields a distinct identity per link.
+func clientIDFor(email, deviceIdentifier string) string {
+	digest := md5.Sum([]byte(email + deviceIdentifier)) //nolint:gosec // Roborock's mandated client identity uses MD5.
+
+	return base64.StdEncoding.EncodeToString(digest[:])
+}
+
 func loginWire(l LoginContext) rest.LoginContext {
 	return rest.LoginContext{Email: l.Email,
 		ClientID:    l.ClientID,
@@ -123,8 +137,9 @@ func (c *Client) loginProjection(login LoginContext, user dependencymodels.UserD
 	return LoginResult{Nickname: valueOrZero(user.Nickname),
 		UserID: valueOrZero(user.Uid),
 		Auth: AuthContext{Token: valueOrZero(user.Token),
-			ClientID: login.ClientID,
-			BaseURL:  baseURL,
+			DeviceIdentifier: login.DeviceIdentifier,
+			ClientID:         login.ClientID,
+			BaseURL:          baseURL,
 			Mqtt: MQTTAuth{User: user.Rriot.U,
 				Secret:     user.Rriot.S,
 				Key:        user.Rriot.K,

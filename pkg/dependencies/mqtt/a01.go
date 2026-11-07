@@ -113,7 +113,7 @@ func newA01Query(datapoints []int) (*a01Query, json.RawMessage, error) {
 	return query, encoded, nil
 }
 
-func (s *Session) endA01Query() {
+func (s *device) endA01Query() {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -140,7 +140,7 @@ func (s *Session) awaitA01(ctx context.Context, query *a01Query) (map[int]json.R
 	}
 }
 
-func (s *Session) queryResult(query *a01Query) map[int]json.RawMessage {
+func (s *device) queryResult(query *a01Query) map[int]json.RawMessage {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -150,7 +150,7 @@ func (s *Session) queryResult(query *a01Query) map[int]json.RawMessage {
 	return values
 }
 
-func (s *Session) sendA01(ctx context.Context, dps map[string]json.RawMessage) error {
+func (s *device) sendA01(ctx context.Context, dps map[string]json.RawMessage) error {
 	payload, err := json.Marshal(dependencymodels.MQTTEnvelope{Dps: dps, T: time.Now().Unix()})
 	if err != nil {
 		return transportError("A01 envelope", err)
@@ -164,7 +164,7 @@ func (s *Session) sendA01(ctx context.Context, dps map[string]json.RawMessage) e
 	return nil
 }
 
-func (s *Session) deliverA01(dps map[string]json.RawMessage) error {
+func (s *device) deliverA01(dps map[string]json.RawMessage) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 

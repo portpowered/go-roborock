@@ -70,6 +70,8 @@ const (
 	MQTTTimestampPermutation        = "56371204"
 	MQTTUint16Size                  = 2
 	MQTTUnknownMethodResult         = "unknown_method"
+	MQTTUnsubAck                    = 176
+	MQTTUnsubscribe                 = 162
 	MQTTUsernameDigestHexEnd        = 10
 	MQTTUsernameDigestHexStart      = 2
 	MQTTVarintBase                  = 128

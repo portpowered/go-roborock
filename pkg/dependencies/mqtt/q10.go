@@ -69,13 +69,13 @@ func (s *Session) QueryMapListQ10(ctx context.Context) (dependencymodels.MapsQ10
 	}
 }
 
-func (s *Session) endQ10() {
+func (s *device) endQ10() {
 	s.mu.Lock()
 	s.q10Query = nil
 	s.mu.Unlock()
 }
 
-func (s *Session) deliverQ10(dps map[string]json.RawMessage) error {
+func (s *device) deliverQ10(dps map[string]json.RawMessage) error {
 	err := expandQ10DPS(dps)
 	if err != nil {
 		return protocolError("Q10 map list shape", err)
@@ -99,7 +99,7 @@ func expandQ10DPS(dps map[string]json.RawMessage) error {
 	return nil
 }
 
-func (s *Session) deliverQ10List(value json.RawMessage) error {
+func (s *device) deliverQ10List(value json.RawMessage) error {
 	if value == nil {
 		return nil
 	}

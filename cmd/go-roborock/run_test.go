@@ -36,13 +36,13 @@ type customerFixture struct {
 func (fixture *customerFixture) ResolveLogin(ctx context.Context, request roborock.ResolveLoginRequest) (roborock.LoginContext, error) {
 	fixture.t.Helper()
 
-	if ctx.Err() != nil || request.Email != fixtureAccountEmail || len(request.ClientID) != 32 {
+	if ctx.Err() != nil || request.Email != fixtureAccountEmail || len(request.DeviceIdentifier) != 32 {
 		fixture.t.Fatal("login email or generated identity mismatch")
 	}
 
 	fixture.steps = append(fixture.steps, "resolve")
 
-	fixture.login = roborock.LoginContext{Email: request.Email, ClientID: request.ClientID, Country: "us", CountryCode: "1", BaseURL: nil}
+	fixture.login = roborock.LoginContext{Email: request.Email, DeviceIdentifier: request.DeviceIdentifier, ClientID: request.DeviceIdentifier, Country: "us", CountryCode: "1", BaseURL: nil}
 
 	return fixture.login, nil
 }
@@ -381,7 +381,7 @@ func TestResolveLoginPairedHTTP(t *testing.T) {
 
 	var stdout, stderr bytes.Buffer
 
-	err := run(context.Background(), []string{"resolve-login"}, strings.NewReader(`{"email":"customer@example.invalid","clientId":"synthetic-id"}`), &stdout, &stderr, noEnvironment, newTestClient(t, transport))
+	err := run(context.Background(), []string{"resolve-login"}, strings.NewReader(`{"email":"customer@example.invalid","deviceIdentifier":"synthetic-id"}`), &stdout, &stderr, noEnvironment, newTestClient(t, transport))
 	if err != nil {
 		t.Fatal(err)
 	}

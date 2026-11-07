@@ -125,19 +125,16 @@ func controlledSession(t *testing.T) (*Session, net.Conn, chan time.Time, *deadl
 	client, server := net.Pipe()
 	connection := &deadlineConnection{Conn: client, armed: make(chan time.Time, 4), closes: atomic.Int32{}}
 
-	session, _, _, err := newSession(connection, testConfig(protocol.MQTTVersionV1))
-	if err != nil {
-		t.Fatal(err)
-	}
-
+	config := testConfig(protocol.MQTTVersionV1)
+	session, active := adoptConnection(t, newTestHub(nil), connection, config)
 	ticks := make(chan time.Time, 1)
 
-	go session.readLoop(context.Background())
-	go session.keepaliveTicks(context.Background(), ticks)
+	go active.readLoop(context.Background())
+	go active.keepaliveTicks(context.Background(), ticks)
 
 	t.Cleanup(func() { _ = server.Close(); closeLifecycle(t, session) })
 
-	err = server.SetDeadline(time.Now().Add(lifecycleTestTimeout))
+	err := server.SetDeadline(time.Now().Add(lifecycleTestTimeout))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -172,8 +169,8 @@ func closeLifecycle(t *testing.T, session *Session) {
 		t.Fatal(err)
 	}
 
-	awaitLifecycle(t, session.stopped, nil)
-	awaitLifecycle(t, session.keepaliveStopped, nil)
+	awaitLifecycle(t, session.conn.stopped, nil)
+	awaitLifecycle(t, session.conn.keepaliveStopped, nil)
 }
 
 // This synthetic ordered transcript rejects any unexpected bytes without a fallback pong.

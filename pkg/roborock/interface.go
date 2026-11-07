@@ -22,8 +22,10 @@ type RoomOperations interface {
 	GetSharedDeviceRooms(ctx context.Context, request SharedDeviceRoomsRequest) (RoomsResult, error)
 }
 
-// ResolveLoginRequest discovers a regional login origin for an account.
-type ResolveLoginRequest struct{ Email, ClientID string }
+// ResolveLoginRequest discovers a regional login origin for an account. DeviceIdentifier is
+// a random per-link value the caller generates once and persists; the REST client
+// identity is derived from the email and it, as in python-roborock.
+type ResolveLoginRequest struct{ Email, DeviceIdentifier string }
 
 // LoginCodeRequest requests a code using a stable caller-owned identity.
 type LoginCodeRequest struct{ Login LoginContext }

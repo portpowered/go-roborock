@@ -194,7 +194,9 @@ func customerRequestCode(
 ) (roborock.LoginContext, error) {
 	operation, cancel := context.WithTimeout(ctx, options.timeout)
 
-	loginContext, err := client.ResolveLogin(operation, roborock.ResolveLoginRequest{Email: email, ClientID: identity})
+	loginContext, err := client.ResolveLogin(
+		operation, roborock.ResolveLoginRequest{Email: email, DeviceIdentifier: identity},
+	)
 
 	cancel()
 

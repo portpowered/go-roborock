@@ -2,6 +2,8 @@ package main
 
 import (
 	"bytes"
+	"crypto/md5" //nolint:gosec // Vendor client identity derivation.
+	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"io"
@@ -129,7 +131,7 @@ func (fixture *customerAuthHTTP) matchHeaders(request *http.Request, expected cu
 		case "sdk-client":
 			if fixture.identity == "" {
 				fixture.identity = request.Header.Get(key)
-				if !regexp.MustCompile(`^[0-9a-f]{32}$`).MatchString(fixture.identity) {
+				if !regexp.MustCompile(`^[A-Za-z0-9+/]{22}==$`).MatchString(fixture.identity) {
 					fixture.t.Fatal("invalid generated customer client identity")
 				}
 			}
@@ -141,7 +143,7 @@ func (fixture *customerAuthHTTP) matchHeaders(request *http.Request, expected cu
 		}
 
 		if request.Header.Get(key) != value {
-			fixture.t.Fatalf("authentication header %s mismatch", key)
+			fixture.t.Fatalf("authentication header %s mismatch: got %q want %q", key, request.Header.Get(key), value)
 		}
 	}
 
@@ -226,7 +228,20 @@ func TestCustomerLoginCompleteHTTPExchange(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	wanted := roborock.AuthContext{ClientID: fixture.identity, Token: "synthetic-token",
+	if !regexp.MustCompile(`^[0-9a-f]{32}$`).MatchString(auth.DeviceIdentifier) {
+		t.Fatal("saved login did not keep a generated device identifier")
+	}
+
+	identity := "one@example.test" + auth.DeviceIdentifier
+
+	derived := md5.Sum([]byte(identity)) //nolint:gosec // Vendor client identity derivation.
+
+	if base64.StdEncoding.EncodeToString(derived[:]) != fixture.identity {
+		t.Fatal("client identity is not derived from the email and device identifier")
+	}
+
+	wanted := roborock.AuthContext{
+		DeviceIdentifier: auth.DeviceIdentifier, ClientID: fixture.identity, Token: "synthetic-token",
 		BaseURL: "https://iot.example.test", Mqtt: roborock.MQTTAuth{
 			User: fixtureCustomerMQTTUser, Secret: "synthetic-secret", Key: "synthetic-mqtt-key",
 			SigningKey: "synthetic-hawk-key", APIURL: "https://api.example.test",
@@ -279,7 +294,7 @@ func prepareCustomerAuthProfile(t *testing.T, profile string, existing bool) []b
 		return nil
 	}
 
-	auth := roborock.AuthContext{ClientID: "previous-client", Token: "previous-token",
+	auth := roborock.AuthContext{DeviceIdentifier: "previous-link", ClientID: "previous-client", Token: "previous-token",
 		BaseURL: "https://iot.example.test", Mqtt: roborock.MQTTAuth{
 			BrokerURL: "ssl://broker.example.test:8883", User: "previous-user", Secret: "previous-secret",
 			Key: "previous-key", SigningKey: "previous-signing", APIURL: "https://api.example.test",

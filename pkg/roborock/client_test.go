@@ -65,7 +65,7 @@ func TestAccountRequestsRejectMissingInputs(t *testing.T) {
 	)
 
 	_, err = client.ResolveLogin(ctx, roborock.ResolveLoginRequest{Email: "one@example.test",
-		ClientID: "",
+		DeviceIdentifier: "",
 	})
 	if err == nil {
 		t.Fatal("missing identity accepted")
@@ -108,7 +108,7 @@ func TestCanceledAccountRequestsPreserveCause(t *testing.T) {
 	ctx, cancel := context.WithCancel(t.Context())
 	cancel()
 
-	login := roborock.LoginContext{Email: "one@example.test",
+	login := roborock.LoginContext{Email: "one@example.test", DeviceIdentifier: "synthetic-link",
 		ClientID:    "synthetic",
 		Country:     "US",
 		CountryCode: "1",
@@ -116,7 +116,7 @@ func TestCanceledAccountRequestsPreserveCause(t *testing.T) {
 	}
 
 	_, err = client.ResolveLogin(ctx, roborock.ResolveLoginRequest{Email: login.Email,
-		ClientID: login.ClientID})
+		DeviceIdentifier: "synthetic-identifier"})
 
 	if !errors.Is(err, context.Canceled) {
 		t.Fatalf("resolve: %v", err)

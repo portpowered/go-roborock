@@ -28,7 +28,8 @@ func TestRoomRequestAuthResolvesSharedCredentialContract(t *testing.T) {
 			t.Fatalf("%s must use the shared credential contract", name)
 		}
 
-		complete := map[string]any{"token": synthetic, "clientId": synthetic, "baseUrl": "https://example.invalid",
+		complete := map[string]any{"token": synthetic, "clientId": synthetic, "deviceIdentifier": synthetic,
+			"baseUrl": "https://example.invalid",
 			"mqtt": map[string]any{"user": synthetic, "secret": synthetic, "key": synthetic,
 				"brokerUrl": "ssl://example.invalid:8883", "apiUrl": "https://example.invalid", "signingKey": synthetic}}
 

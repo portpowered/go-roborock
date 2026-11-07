@@ -85,15 +85,15 @@ func TestPairedMQTTSessionRPC(t *testing.T) {
 	ctx, cancel := context.WithDeadline(context.Background(), deadline)
 	defer cancel()
 
-	session, err := mqtt.Open(ctx, mqtt.Config{
-		BrokerURL: fixture.Broker, User: fixture.User, Secret: fixture.Secret, Key: fixture.Key,
-		DeviceID: fixture.DeviceID, LocalKey: fixture.LocalKey, Protocol: "1.0",
-	}, func(_ context.Context, network, address string) (net.Conn, error) {
+	session, err := mqtt.NewHub(func(_ context.Context, network, address string) (net.Conn, error) {
 		if network != mqttReplayNetwork || address != mqttReplayAddress {
 			return nil, mqttMismatch("unexpected dial: %s %s", network, address)
 		}
 
 		return client, nil
+	}, mqtt.WithIdleTimeout(time.Millisecond)).Open(ctx, mqtt.Config{
+		BrokerURL: fixture.Broker, User: fixture.User, Secret: fixture.Secret, Key: fixture.Key,
+		DeviceID: fixture.DeviceID, LocalKey: fixture.LocalKey, Protocol: "1.0",
 	})
 	if err != nil {
 		t.Fatal(err)

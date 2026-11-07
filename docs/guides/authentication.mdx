@@ -3,7 +3,7 @@ title: Authentication
 description: Resolve the account region and explicitly exchange credentials.
 ---
 
-Create the client with `roborock.NewClient()`. Resolve a regional origin with `ResolveLogin(ctx, ResolveLoginRequest{Email: email, ClientID: identity})`. Keep the returned `LoginContext` and reuse its caller-owned identity across the following calls.
+Create the client with `roborock.NewClient()`. Resolve a regional origin with `ResolveLogin(ctx, ResolveLoginRequest{Email: email, DeviceIdentifier: identifier})`. The identifier is a random per-link value the caller generates once and persists; the library never invents it. The client identity sent to Roborock is derived from the email and that identifier, so the code request and the exchange must use the same one. Keep the returned `LoginContext` and reuse it across the following calls.
 
 ```go
 _, err := client.RequestLoginCode(ctx, roborock.LoginCodeRequest{Login: login})

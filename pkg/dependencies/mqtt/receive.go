@@ -1,8 +1,6 @@
 package mqtt
 
 import (
-	"context"
-	"encoding/binary"
 	"encoding/json"
 
 	"github.com/portpowered/go-roborock/internal/protocol"
@@ -10,58 +8,7 @@ import (
 	"github.com/portpowered/go-roborock/pkg/roborockerrors"
 )
 
-func (s *Session) receivePublish(owner context.Context, header byte, body []byte) error {
-	if len(body) < protocol.MQTTUint16Size {
-		return errTruncatedMQTTTopic
-	}
-
-	topicLength := int(binary.BigEndian.Uint16(body[:protocol.MQTTUint16Size]))
-	if topicLength > len(body)-protocol.MQTTUint16Size {
-		return errTruncatedMQTTTopic
-	}
-
-	topic := string(body[protocol.MQTTUint16Size : protocol.MQTTUint16Size+topicLength])
-
-	payload, err := s.acknowledgePublish(owner, header, body[protocol.MQTTUint16Size+topicLength:])
-	if err != nil {
-		return err
-	}
-
-	if topic != s.subscribeTopic {
-		return nil
-	}
-
-	return s.receiveDeviceFrames(payload)
-}
-
-func (s *Session) acknowledgePublish(owner context.Context, header byte, payload []byte) ([]byte, error) {
-	qos := (header >> protocol.MQTTQoSShift) & protocol.MQTTQoSMask
-	if qos > protocol.MQTTQoSAtLeastOnce {
-		return nil, errUnsupportedIncomingMQTTQoS
-	}
-
-	if qos == protocol.MQTTQoSAtMostOnce {
-		return payload, nil
-	}
-
-	if len(payload) < protocol.MQTTUint16Size {
-		return nil, errTruncatedMQTTPacketIdentifier
-	}
-
-	ack := packet(protocol.MQTTPubAck, payload[:protocol.MQTTUint16Size])
-
-	ctx, cancel := context.WithTimeout(owner, handshakeTimeout)
-	defer cancel()
-
-	err := s.write(ctx, ack)
-	if err != nil {
-		return nil, err
-	}
-
-	return payload[protocol.MQTTUint16Size:], nil
-}
-
-func (s *Session) receiveDeviceFrames(payload []byte) error {
+func (s *device) receiveDeviceFrames(payload []byte) error {
 	for len(payload) > 0 {
 		frame, consumed, err := decodeFrame(payload, s.config.LocalKey)
 		if err != nil {
@@ -92,7 +39,7 @@ func (s *Session) receiveDeviceFrames(payload []byte) error {
 	return nil
 }
 
-func (s *Session) deliver(payload []byte) error {
+func (s *device) deliver(payload []byte) error {
 	if s.config.Protocol == protocol.B01Version {
 		return s.deliverB01(payload)
 	}
@@ -127,7 +74,7 @@ func (s *Session) deliver(payload []byte) error {
 	return nil
 }
 
-func (s *Session) deliverReply(requestID int64, reply response) {
+func (s *device) deliverReply(requestID int64, reply response) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 

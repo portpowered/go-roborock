@@ -48,7 +48,7 @@ Use --json for machine-readable lists. Run go-roborock help advanced for JSON co
 const advancedHelpText = `Usage: go-roborock COMMAND [--input PATH|-] [--export PATH] [--timeout 30s]
 
 Commands:
-  resolve-login  Discover login region (email, clientId)
+  resolve-login  Discover login region (email, deviceIdentifier)
   request-code   Request an email login code (login)
   login-code     Exchange a one-time code (login, code)
   login-password Exchange a password (login, password)
@@ -197,7 +197,9 @@ func resolveLogin(
 	input CommandInput,
 	path string,
 ) (roborock.LoginContext, error) {
-	result, err := client.ResolveLogin(ctx, roborock.ResolveLoginRequest{Email: input.Email, ClientID: input.ClientID})
+	result, err := client.ResolveLogin(
+		ctx, roborock.ResolveLoginRequest{Email: input.Email, DeviceIdentifier: input.DeviceIdentifier},
+	)
 
 	if err == nil && path != "" {
 		err = exportCredentials(path, CredentialExport{Login: &result, Auth: nil})

@@ -30,7 +30,7 @@ func TestDeviceFailureClosesConnection(t *testing.T) {
 		completed <- replayEstablishment(server)
 	}()
 
-	client, err := roborock.NewClient(roborock.WithMQTTDial(func(_ context.Context, network, address string) (net.Conn, error) {
+	client, err := roborock.NewClient(roborock.WithMQTTIdleTimeout(time.Millisecond), roborock.WithMQTTDial(func(_ context.Context, network, address string) (net.Conn, error) {
 		if network != "tcp" || address != "example.invalid:8883" {
 			return nil, errors.New("dial mismatch")
 		}
