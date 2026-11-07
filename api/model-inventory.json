@@ -3768,7 +3768,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/connection.go",
-          "line": 362,
+          "line": 369,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTPubAck"
         }
       ]
@@ -3834,7 +3834,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/connection.go",
-          "line": 350,
+          "line": 357,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTQoSAtLeastOnce"
         }
       ]
@@ -3861,7 +3861,7 @@
         },
         {
           "file": "pkg/dependencies/mqtt/connection.go",
-          "line": 354,
+          "line": 361,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTQoSAtMostOnce"
         },
         {
@@ -3888,7 +3888,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/connection.go",
-          "line": 349,
+          "line": 356,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTQoSMask"
         }
       ]
@@ -3910,7 +3910,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/connection.go",
-          "line": 349,
+          "line": 356,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTQoSShift"
         }
       ]
@@ -4285,22 +4285,7 @@
         },
         {
           "file": "pkg/dependencies/mqtt/connection.go",
-          "line": 318,
-          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
-        },
-        {
-          "file": "pkg/dependencies/mqtt/connection.go",
-          "line": 322,
-          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
-        },
-        {
-          "file": "pkg/dependencies/mqtt/connection.go",
-          "line": 323,
-          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
-        },
-        {
-          "file": "pkg/dependencies/mqtt/connection.go",
-          "line": 327,
+          "line": 325,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
         },
         {
@@ -4310,17 +4295,32 @@
         },
         {
           "file": "pkg/dependencies/mqtt/connection.go",
-          "line": 358,
+          "line": 330,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
         },
         {
           "file": "pkg/dependencies/mqtt/connection.go",
-          "line": 362,
+          "line": 334,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
         },
         {
           "file": "pkg/dependencies/mqtt/connection.go",
-          "line": 372,
+          "line": 336,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
+        },
+        {
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 365,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
+        },
+        {
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 369,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
+        },
+        {
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 379,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
         },
         {
@@ -37527,7 +37527,7 @@
     {
       "site": {
         "file": "pkg/dependencies/mqtt/connection.go",
-        "line": 322,
+        "line": 329,
         "symbol": "encoding/binary.Uint16"
       },
       "argumentTypes": [
