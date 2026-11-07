@@ -120,7 +120,7 @@ func (s *Session) awaitRPC(ctx context.Context, reply <-chan response) (json.Raw
 		default:
 		}
 
-		return nil, s.closedError()
+		return nil, s.closedOr(ctx, "call")
 	}
 }
 

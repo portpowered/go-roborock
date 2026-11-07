@@ -65,7 +65,7 @@ func (s *Session) QueryMapListQ10(ctx context.Context) (dependencymodels.MapsQ10
 
 		return result, transportError("Q10 maps", ctx.Err())
 	case <-s.done:
-		return result, s.closedError()
+		return result, s.closedOr(ctx, "Q10 maps")
 	}
 }
 

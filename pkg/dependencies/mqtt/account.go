@@ -394,6 +394,14 @@ func (a *account) drop(held *device, err error, unsubscribe bool) {
 	conn := held.conn
 	last := len(a.devices) == 0 && a.conn == conn
 
+	if last {
+		// The connection ends with its last subscription. It stops being the
+		// account's connection now, so an operation that begins the moment this
+		// device's callers are released dials afresh instead of subscribing on a
+		// socket that is about to close.
+		a.conn = nil
+	}
+
 	a.mu.Unlock()
 
 	held.finish(err)
