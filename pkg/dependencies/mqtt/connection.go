@@ -298,7 +298,14 @@ func (c *connection) subscribe(ctx context.Context, topic string) error {
 	case <-ctx.Done():
 		return transportError("subscribe", ctx.Err())
 	case <-c.done:
-		return c.closedError()
+		// A grant that arrived just before the connection ended still counts: the
+		// device sees the loss on its first call rather than the opener retrying.
+		select {
+		case err = <-reply:
+			return err
+		default:
+			return c.closedError()
+		}
 	}
 }
 
