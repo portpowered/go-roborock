@@ -59,15 +59,15 @@ func TestPairedMQTTA01FragmentedQuery(t *testing.T) {
 	ctx, cancel := context.WithDeadline(context.Background(), deadline)
 	defer cancel()
 
-	session, err := mqtt.Open(ctx, mqtt.Config{
-		BrokerURL: account.Broker, User: account.User, Secret: account.Secret, Key: account.Key,
-		DeviceID: account.DeviceID, LocalKey: account.LocalKey, Protocol: "A01",
-	}, func(_ context.Context, network, address string) (net.Conn, error) {
+	session, err := mqtt.NewHub(func(_ context.Context, network, address string) (net.Conn, error) {
 		if network != mqttReplayNetwork || address != mqttReplayAddress {
-			return nil, mqttMismatch("unexpected dial")
+			return nil, mqttMismatch("unexpected dial: %s %s", network, address)
 		}
 
 		return client, nil
+	}, mqtt.WithIdleTimeout(time.Millisecond)).Open(ctx, mqtt.Config{
+		BrokerURL: account.Broker, User: account.User, Secret: account.Secret, Key: account.Key,
+		DeviceID: account.DeviceID, LocalKey: account.LocalKey, Protocol: "A01",
 	})
 	if err != nil {
 		t.Fatal(err)

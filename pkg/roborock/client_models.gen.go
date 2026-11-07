@@ -40,9 +40,12 @@ type AuthContext struct {
 	// BaseURL Regional IoT HTTPS origin.
 	BaseURL string `json:"baseUrl"`
 
-	// ClientID Login identity that produced these credentials.
-	ClientID string   `json:"clientId"`
-	Mqtt     MQTTAuth `json:"mqtt"`
+	// ClientID Login identity derived from the email and deviceIdentifier that produced these credentials.
+	ClientID string `json:"clientId"`
+
+	// DeviceIdentifier Caller-owned identifier the link was created with; keep it with the credentials.
+	DeviceIdentifier string   `json:"deviceIdentifier"`
+	Mqtt             MQTTAuth `json:"mqtt"`
 
 	// Token Current account token; caller owns storage and replacement.
 	Token string `json:"token"`
@@ -104,7 +107,7 @@ type LoginContext struct {
 	// BaseURL Optional explicit regional HTTPS origin.
 	BaseURL *string `json:"baseUrl,omitempty"`
 
-	// ClientID Stable caller-owned login identity; reuse it across code request and exchange.
+	// ClientID Derived REST header_clientid, base64(md5(email + deviceIdentifier)).
 	ClientID string `json:"clientId"`
 
 	// Country Country code returned by region resolution or selected by the caller.
@@ -112,6 +115,9 @@ type LoginContext struct {
 
 	// CountryCode Calling code required by the login endpoint.
 	CountryCode string `json:"countryCode"`
+
+	// DeviceIdentifier Caller-owned random identifier for this account link, as python-roborock's device_identifier; persist it and reuse it across code request and exchange.
+	DeviceIdentifier string `json:"deviceIdentifier"`
 
 	// Email Account email address.
 	Email string `json:"email"`

@@ -158,7 +158,7 @@ func (s *Session) beginMap(ctx context.Context, prefix byte) (*mapQuery, error) 
 	return query, nil
 }
 
-func (s *Session) endMap() {
+func (s *device) endMap() {
 	s.mu.Lock()
 
 	query := s.mapQuery
@@ -176,7 +176,7 @@ func (s *Session) endMap() {
 	<-s.mapGate
 }
 
-func (s *Session) registerMapRPC(query *mapQuery, isQ7 bool) error {
+func (s *device) registerMapRPC(query *mapQuery, isQ7 bool) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -235,7 +235,7 @@ func (s *Session) awaitMap(ctx context.Context, query *mapQuery) ([]byte, error)
 	}
 }
 
-func (s *Session) deliverMap(payload []byte) error {
+func (s *device) deliverMap(payload []byte) error {
 	s.mu.Lock()
 
 	query := s.mapQuery
@@ -269,7 +269,7 @@ func (s *Session) deliverMap(payload []byte) error {
 	return nil
 }
 
-func (s *Session) matchesMap(payload []byte, query *mapQuery) (bool, error) {
+func (s *device) matchesMap(payload []byte, query *mapQuery) (bool, error) {
 	if s.config.Protocol == protocol.MQTTVersionV1 {
 		if len(payload) < protocol.MapsV1HeaderSize {
 			return false, transportError("V1 map header", errTruncatedDevicePayload)

@@ -2,6 +2,8 @@
 package replay_test
 
 import (
+	"crypto/md5" //nolint:gosec // Vendor client identity derivation.
+	"encoding/base64"
 	"encoding/json"
 	"io"
 	"mime"
@@ -17,6 +19,9 @@ import (
 )
 
 const accountFixtureProvenance = "synthetic"
+
+// replayDeviceIdentifier is the per-link identifier the recorded account fixtures were captured with.
+const replayDeviceIdentifier = "sdk-client"
 
 type exchange struct {
 	Method          string            `json:"method"`
@@ -92,6 +97,13 @@ func (p *pairedHTTP) matchHeaders(request *http.Request, headers map[string]stri
 	p.t.Helper()
 
 	for key, value := range headers {
+		if key == "header_clientid" && value == replayDeviceIdentifier {
+			// The SDK derives the identity as base64(md5(email + device identifier)).
+			digest := md5.Sum( //nolint:gosec // Vendor client identity derivation.
+				[]byte("one@example.test" + replayDeviceIdentifier))
+			value = base64.StdEncoding.EncodeToString(digest[:])
+		}
+
 		if value == "<nonce>" {
 			value = p.nonce
 		}
@@ -176,7 +188,7 @@ func TestAccountWorkflow(t *testing.T) {
 	}
 
 	login, err := client.ResolveLogin(t.Context(), roborock.ResolveLoginRequest{
-		Email: "one@example.test", ClientID: "sdk-client",
+		Email: "one@example.test", DeviceIdentifier: replayDeviceIdentifier,
 	})
 	if err != nil {
 		t.Fatal(err)

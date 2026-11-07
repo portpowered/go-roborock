@@ -99,7 +99,7 @@
       "productionUses": [
         {
           "file": "cmd/go-roborock/customer.go",
-          "line": 319,
+          "line": 321,
           "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CommandInput"
         },
         {
@@ -174,12 +174,12 @@
         },
         {
           "file": "cmd/go-roborock/run.go",
-          "line": 212,
+          "line": 214,
           "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CommandInput"
         },
         {
           "file": "cmd/go-roborock/run.go",
-          "line": 232,
+          "line": 234,
           "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CommandInput"
         }
       ]
@@ -210,12 +210,12 @@
         },
         {
           "file": "cmd/go-roborock/run.go",
-          "line": 203,
+          "line": 205,
           "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CredentialExport"
         },
         {
           "file": "cmd/go-roborock/run.go",
-          "line": 249,
+          "line": 251,
           "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.CredentialExport"
         }
       ]
@@ -236,12 +236,12 @@
       "productionUses": [
         {
           "file": "cmd/go-roborock/run.go",
-          "line": 234,
+          "line": 236,
           "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.LoginIdentity"
         },
         {
           "file": "cmd/go-roborock/run.go",
-          "line": 252,
+          "line": 254,
           "symbol": "github.com/portpowered/go-roborock/cmd/go-roborock.LoginIdentity"
         }
       ]
@@ -2491,7 +2491,7 @@
         },
         {
           "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 96,
+          "line": 43,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.B01Version"
         }
       ]
@@ -2710,13 +2710,13 @@
       "value": "\"%s:%s\"",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 115,
+          "file": "pkg/dependencies/mqtt/hub.go",
+          "line": 184,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTAccountDigestInputFormat"
         },
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 116,
+          "file": "pkg/dependencies/mqtt/hub.go",
+          "line": 185,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTAccountDigestInputFormat"
         }
       ]
@@ -2737,8 +2737,8 @@
       "value": "4",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 181,
+          "file": "pkg/dependencies/mqtt/account.go",
+          "line": 260,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTBadUsernamePassword"
         }
       ]
@@ -2803,8 +2803,8 @@
       "value": "8",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 140,
+          "file": "pkg/dependencies/mqtt/account.go",
+          "line": 220,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTClientRandomBytes"
         }
       ]
@@ -2825,8 +2825,8 @@
       "value": "32",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 176,
+          "file": "pkg/dependencies/mqtt/account.go",
+          "line": 255,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTConnAck"
         }
       ]
@@ -2847,8 +2847,8 @@
       "value": "0",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 185,
+          "file": "pkg/dependencies/mqtt/account.go",
+          "line": 264,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTConnAckAccepted"
         }
       ]
@@ -2869,8 +2869,8 @@
       "value": "2",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 176,
+          "file": "pkg/dependencies/mqtt/account.go",
+          "line": 255,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTConnAckLength"
         }
       ]
@@ -2891,8 +2891,8 @@
       "value": "0",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 185,
+          "file": "pkg/dependencies/mqtt/account.go",
+          "line": 264,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTConnAckNoSession"
         }
       ]
@@ -2913,8 +2913,8 @@
       "value": "1",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 180,
+          "file": "pkg/dependencies/mqtt/account.go",
+          "line": 259,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTConnAckReturnCodeOffset"
         }
       ]
@@ -2935,8 +2935,8 @@
       "value": "0",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 185,
+          "file": "pkg/dependencies/mqtt/account.go",
+          "line": 264,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTConnAckSessionOffset"
         }
       ]
@@ -3378,8 +3378,8 @@
       "value": "3",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/io.go",
-          "line": 144,
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 222,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTKindPublish"
         }
       ]
@@ -3400,8 +3400,8 @@
       "value": "4",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/io.go",
-          "line": 144,
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 222,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTKindShift"
         }
       ]
@@ -3520,8 +3520,8 @@
       "value": "\"tcp\"",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 38,
+          "file": "pkg/dependencies/mqtt/account.go",
+          "line": 172,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTNetwork"
         }
       ]
@@ -3542,8 +3542,8 @@
       "value": "5",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 181,
+          "file": "pkg/dependencies/mqtt/account.go",
+          "line": 260,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTNotAuthorized"
         }
       ]
@@ -3613,8 +3613,8 @@
       "value": "16",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 120,
+          "file": "pkg/dependencies/mqtt/hub.go",
+          "line": 189,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTPasswordDigestHexStart"
         }
       ]
@@ -3635,8 +3635,8 @@
       "value": "192",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/io.go",
-          "line": 109,
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 167,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTPingReq"
         }
       ]
@@ -3657,8 +3657,8 @@
       "value": "208",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/io.go",
-          "line": 140,
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 212,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTPingResp"
         }
       ]
@@ -3746,7 +3746,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 75,
+          "line": 22,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTProtocolResponse"
         }
       ]
@@ -3767,8 +3767,8 @@
       "value": "64",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 51,
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 362,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTPubAck"
         }
       ]
@@ -3790,7 +3790,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/packets.go",
-          "line": 112,
+          "line": 120,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTPublish"
         }
       ]
@@ -3811,8 +3811,8 @@
       "value": "\"rr/m/i/%s/%s/%s\"",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 108,
+          "file": "pkg/dependencies/mqtt/session.go",
+          "line": 62,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTPublishTopicFormat"
         }
       ]
@@ -3833,8 +3833,8 @@
       "value": "1",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 39,
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 350,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTQoSAtLeastOnce"
         }
       ]
@@ -3855,18 +3855,18 @@
       "value": "0",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 198,
+          "file": "pkg/dependencies/mqtt/account.go",
+          "line": 277,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTQoSAtMostOnce"
+        },
+        {
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 354,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTQoSAtMostOnce"
         },
         {
           "file": "pkg/dependencies/mqtt/packets.go",
           "line": 108,
-          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTQoSAtMostOnce"
-        },
-        {
-          "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 43,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTQoSAtMostOnce"
         }
       ]
@@ -3887,8 +3887,8 @@
       "value": "3",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 38,
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 349,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTQoSMask"
         }
       ]
@@ -3909,8 +3909,8 @@
       "value": "1",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 38,
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 349,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTQoSShift"
         }
       ]
@@ -4003,7 +4003,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 115,
+          "line": 62,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTRPCResponseDatapoint"
         }
       ]
@@ -4024,8 +4024,8 @@
       "value": "14",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 104,
+          "file": "pkg/dependencies/mqtt/session.go",
+          "line": 66,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTSecurityEndpointDigestEnd"
         }
       ]
@@ -4046,8 +4046,8 @@
       "value": "8",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 104,
+          "file": "pkg/dependencies/mqtt/session.go",
+          "line": 66,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTSecurityEndpointDigestStart"
         }
       ]
@@ -4068,8 +4068,8 @@
       "value": "16",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 94,
+          "file": "pkg/dependencies/mqtt/session.go",
+          "line": 52,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTSecurityNonceBytes"
         }
       ]
@@ -4090,8 +4090,18 @@
       "value": "144",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 193,
+          "file": "pkg/dependencies/mqtt/account.go",
+          "line": 272,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTSubAck"
+        },
+        {
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 216,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTSubAck"
+        },
+        {
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 272,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTSubAck"
         }
       ]
@@ -4112,8 +4122,8 @@
       "value": "3",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 193,
+          "file": "pkg/dependencies/mqtt/account.go",
+          "line": 272,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTSubAckLength"
         }
       ]
@@ -4156,13 +4166,13 @@
       "value": "1",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 198,
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 235,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTSubscribeIdentifier"
         },
         {
-          "file": "pkg/dependencies/mqtt/packets.go",
-          "line": 105,
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 239,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTSubscribeIdentifier"
         }
       ]
@@ -4183,13 +4193,13 @@
       "value": "\"rr/m/o/%s/%s/%s\"",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/config.go",
-          "line": 64,
+          "file": "pkg/dependencies/mqtt/account.go",
+          "line": 61,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTSubscribeTopicFormat"
         },
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 109,
+          "file": "pkg/dependencies/mqtt/config.go",
+          "line": 64,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTSubscribeTopicFormat"
         }
       ]
@@ -4254,13 +4264,63 @@
       "value": "2",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 197,
+          "file": "pkg/dependencies/mqtt/account.go",
+          "line": 276,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
         },
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 198,
+          "file": "pkg/dependencies/mqtt/account.go",
+          "line": 277,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
+        },
+        {
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 257,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
+        },
+        {
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 261,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
+        },
+        {
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 318,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
+        },
+        {
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 322,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
+        },
+        {
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 323,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
+        },
+        {
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 327,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
+        },
+        {
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 329,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
+        },
+        {
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 358,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
+        },
+        {
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 362,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
+        },
+        {
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 372,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
         },
         {
@@ -4284,43 +4344,8 @@
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
         },
         {
-          "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 14,
-          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
-        },
-        {
-          "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 18,
-          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
-        },
-        {
-          "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 19,
-          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
-        },
-        {
-          "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 23,
-          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
-        },
-        {
-          "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 25,
-          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
-        },
-        {
-          "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 47,
-          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
-        },
-        {
-          "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 51,
-          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
-        },
-        {
-          "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 61,
+          "file": "pkg/dependencies/mqtt/packets.go",
+          "line": 112,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUint16Size"
         }
       ]
@@ -4342,13 +4367,57 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 193,
+          "line": 140,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUnknownMethodResult"
         },
         {
           "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 198,
+          "line": 145,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUnknownMethodResult"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUnsubAck",
+      "kind": "constant",
+      "definition": {
+        "file": "internal/protocol/mqtt.gen.go",
+        "line": 73,
+        "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUnsubAck"
+      },
+      "schema": {
+        "file": "api/mqtt.asyncapi.yaml",
+        "pointer": "#/x-wire-constants/MQTTUnsubAck"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "176",
+      "productionUses": [
+        {
+          "file": "pkg/dependencies/mqtt/connection.go",
+          "line": 216,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUnsubAck"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUnsubscribe",
+      "kind": "constant",
+      "definition": {
+        "file": "internal/protocol/mqtt.gen.go",
+        "line": 74,
+        "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUnsubscribe"
+      },
+      "schema": {
+        "file": "api/mqtt.asyncapi.yaml",
+        "pointer": "#/x-wire-constants/MQTTUnsubscribe"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "162",
+      "productionUses": [
+        {
+          "file": "pkg/dependencies/mqtt/packets.go",
+          "line": 116,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUnsubscribe"
         }
       ]
     },
@@ -4357,7 +4426,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/mqtt.gen.go",
-        "line": 73,
+        "line": 75,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUsernameDigestHexEnd"
       },
       "schema": {
@@ -4373,8 +4442,8 @@
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUsernameDigestHexEnd"
         },
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 119,
+          "file": "pkg/dependencies/mqtt/hub.go",
+          "line": 188,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUsernameDigestHexEnd"
         }
       ]
@@ -4384,7 +4453,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/mqtt.gen.go",
-        "line": 74,
+        "line": 76,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUsernameDigestHexStart"
       },
       "schema": {
@@ -4400,8 +4469,8 @@
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUsernameDigestHexStart"
         },
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 119,
+          "file": "pkg/dependencies/mqtt/hub.go",
+          "line": 188,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTUsernameDigestHexStart"
         }
       ]
@@ -4411,7 +4480,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/mqtt.gen.go",
-        "line": 75,
+        "line": 77,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTVarintBase"
       },
       "schema": {
@@ -4443,7 +4512,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/mqtt.gen.go",
-        "line": 76,
+        "line": 78,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTVarintContinuation"
       },
       "schema": {
@@ -4470,7 +4539,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/mqtt.gen.go",
-        "line": 77,
+        "line": 79,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTVarintMask"
       },
       "schema": {
@@ -4492,7 +4561,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/mqtt.gen.go",
-        "line": 78,
+        "line": 80,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTVersionA01"
       },
       "schema": {
@@ -4524,7 +4593,7 @@
         },
         {
           "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 111,
+          "line": 58,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTVersionA01"
         }
       ]
@@ -4534,7 +4603,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/mqtt.gen.go",
-        "line": 79,
+        "line": 81,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTVersionV1"
       },
       "schema": {
@@ -4560,6 +4629,11 @@
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTVersionV1"
         },
         {
+          "file": "pkg/dependencies/mqtt/hub.go",
+          "line": 136,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTVersionV1"
+        },
+        {
           "file": "pkg/dependencies/mqtt/maps.go",
           "line": 23,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTVersionV1"
@@ -4575,11 +4649,6 @@
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTVersionV1"
         },
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 28,
-          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTVersionV1"
-        },
-        {
           "file": "pkg/dependencies/mqtt/rpc.go",
           "line": 19,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTVersionV1"
@@ -4591,7 +4660,7 @@
       "kind": "constant",
       "definition": {
         "file": "internal/protocol/mqtt.gen.go",
-        "line": 80,
+        "line": 82,
         "symbol": "github.com/portpowered/go-roborock/internal/protocol.MQTTWireSalt"
       },
       "schema": {
@@ -6897,7 +6966,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 82,
+          "line": 29,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapsProtocolResponse"
         }
       ]
@@ -7584,7 +7653,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/client.go",
-          "line": 87,
+          "line": 105,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.RESTDefaultOrigin"
         }
       ]
@@ -15918,7 +15987,7 @@
         },
         {
           "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 100,
+          "line": 47,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MQTTEnvelope"
         },
         {
@@ -15949,7 +16018,7 @@
         },
         {
           "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 201,
+          "line": 148,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MQTTRPCError"
         }
       ]
@@ -15991,17 +16060,17 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 151,
+          "line": 98,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MQTTRPCResponse"
         },
         {
           "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 153,
+          "line": 100,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MQTTRPCResponse"
         },
         {
           "file": "pkg/dependencies/mqtt/receive.go",
-          "line": 174,
+          "line": 121,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MQTTRPCResponse"
         }
       ]
@@ -16021,13 +16090,13 @@
       "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
       "productionUses": [
         {
-          "file": "pkg/dependencies/mqtt/open.go",
-          "line": 102,
+          "file": "pkg/dependencies/mqtt/session.go",
+          "line": 34,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MQTTRPCSecurity"
         },
         {
           "file": "pkg/dependencies/mqtt/session.go",
-          "line": 61,
+          "line": 64,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.MQTTRPCSecurity"
         }
       ]
@@ -18708,7 +18777,7 @@
         },
         {
           "file": "pkg/roborock/accounts.go",
-          "line": 143,
+          "line": 158,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RRiot"
         }
       ]
@@ -18729,7 +18798,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/accounts.go",
-          "line": 147,
+          "line": 162,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RRiotReference"
         }
       ]
@@ -19540,7 +19609,7 @@
         },
         {
           "file": "pkg/roborock/accounts.go",
-          "line": 116,
+          "line": 130,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.UserData"
         }
       ]
@@ -20384,32 +20453,32 @@
         },
         {
           "file": "pkg/roborock/accounts.go",
-          "line": 125,
-          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.AuthContext"
-        },
-        {
-          "file": "pkg/roborock/accounts.go",
           "line": 139,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.AuthContext"
         },
         {
+          "file": "pkg/roborock/accounts.go",
+          "line": 154,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.AuthContext"
+        },
+        {
           "file": "pkg/roborock/client.go",
-          "line": 134,
+          "line": 161,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.AuthContext"
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 47,
+          "line": 49,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.AuthContext"
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 51,
+          "line": 53,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.AuthContext"
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 61,
+          "line": 63,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.AuthContext"
         }
       ]
@@ -22368,12 +22437,12 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 77,
+          "line": 79,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 78,
+          "line": 80,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
@@ -22808,7 +22877,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/client_models.gen.go",
-        "line": 52,
+        "line": 55,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.Device"
       },
       "schema": {
@@ -22819,12 +22888,12 @@
       "productionUses": [
         {
           "file": "cmd/go-roborock/customer.go",
-          "line": 359,
+          "line": 361,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.Device"
         },
         {
           "file": "cmd/go-roborock/customer.go",
-          "line": 360,
+          "line": 362,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.Device"
         },
         {
@@ -22844,7 +22913,7 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 57,
+          "line": 59,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.Device"
         },
         {
@@ -22900,7 +22969,7 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 79,
+          "line": 81,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.DeviceCapabilities"
         }
       ]
@@ -23773,7 +23842,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/client_models.gen.go",
-        "line": 83,
+        "line": 86,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.DeviceFamily"
       },
       "schema": {
@@ -23784,7 +23853,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/client.go",
-          "line": 131,
+          "line": 158,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.DeviceFamily"
         },
         {
@@ -27345,22 +27414,22 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 74,
-          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
-        },
-        {
-          "file": "pkg/roborock/interface.go",
-          "line": 75,
-          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
-        },
-        {
-          "file": "pkg/roborock/interface.go",
           "line": 76,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 79,
+          "line": 77,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
+        },
+        {
+          "file": "pkg/roborock/interface.go",
+          "line": 78,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
+        },
+        {
+          "file": "pkg/roborock/interface.go",
+          "line": 81,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
@@ -28045,7 +28114,7 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 73,
+          "line": 75,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.GetMapRequest"
         },
         {
@@ -28101,7 +28170,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/client_models.gen.go",
-        "line": 86,
+        "line": 89,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.Home"
       },
       "schema": {
@@ -28142,7 +28211,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/client_models.gen.go",
-        "line": 93,
+        "line": 96,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.HomeData"
       },
       "schema": {
@@ -28247,7 +28316,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/client_models.gen.go",
-        "line": 100,
+        "line": 103,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.HomeDataVersion"
       },
       "schema": {
@@ -28258,7 +28327,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/interface.go",
-          "line": 53,
+          "line": 55,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.HomeDataVersion"
         }
       ]
@@ -28376,7 +28445,7 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 75,
+          "line": 77,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ListMapsResult"
         },
         {
@@ -28431,7 +28500,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/client_models.gen.go",
-        "line": 103,
+        "line": 106,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginContext"
       },
       "schema": {
@@ -28452,37 +28521,37 @@
         },
         {
           "file": "pkg/roborock/accounts.go",
-          "line": 14,
-          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginContext"
-        },
-        {
-          "file": "pkg/roborock/accounts.go",
           "line": 16,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginContext"
         },
         {
           "file": "pkg/roborock/accounts.go",
-          "line": 22,
+          "line": 18,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginContext"
         },
         {
           "file": "pkg/roborock/accounts.go",
-          "line": 34,
+          "line": 26,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginContext"
         },
         {
           "file": "pkg/roborock/accounts.go",
-          "line": 43,
+          "line": 38,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginContext"
         },
         {
           "file": "pkg/roborock/accounts.go",
-          "line": 107,
+          "line": 47,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginContext"
         },
         {
           "file": "pkg/roborock/accounts.go",
-          "line": 116,
+          "line": 121,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginContext"
+        },
+        {
+          "file": "pkg/roborock/accounts.go",
+          "line": 130,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginContext"
         },
         {
@@ -28492,17 +28561,17 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 29,
+          "line": 31,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginContext"
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 36,
+          "line": 38,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginContext"
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 42,
+          "line": 44,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginContext"
         }
       ]
@@ -28512,7 +28581,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/client_models.gen.go",
-        "line": 121,
+        "line": 127,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginResult"
       },
       "schema": {
@@ -28523,22 +28592,17 @@
       "productionUses": [
         {
           "file": "cmd/go-roborock/run.go",
-          "line": 236,
+          "line": 238,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginResult"
         },
         {
           "file": "pkg/roborock/accounts.go",
-          "line": 65,
+          "line": 70,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginResult"
         },
         {
           "file": "pkg/roborock/accounts.go",
-          "line": 67,
-          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginResult"
-        },
-        {
-          "file": "pkg/roborock/accounts.go",
-          "line": 76,
+          "line": 72,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginResult"
         },
         {
@@ -28548,27 +28612,32 @@
         },
         {
           "file": "pkg/roborock/accounts.go",
-          "line": 90,
+          "line": 86,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginResult"
         },
         {
           "file": "pkg/roborock/accounts.go",
-          "line": 97,
+          "line": 95,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginResult"
         },
         {
           "file": "pkg/roborock/accounts.go",
-          "line": 101,
+          "line": 102,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginResult"
         },
         {
           "file": "pkg/roborock/accounts.go",
-          "line": 116,
+          "line": 106,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginResult"
         },
         {
           "file": "pkg/roborock/accounts.go",
-          "line": 123,
+          "line": 130,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginResult"
+        },
+        {
+          "file": "pkg/roborock/accounts.go",
+          "line": 137,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginResult"
         },
         {
@@ -28588,7 +28657,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/client_models.gen.go",
-        "line": 128,
+        "line": 134,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MQTTAuth"
       },
       "schema": {
@@ -28599,7 +28668,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/accounts.go",
-          "line": 128,
+          "line": 143,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MQTTAuth"
         }
       ]
@@ -29319,7 +29388,7 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 76,
+          "line": 78,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapRoomsResult"
         },
         {
@@ -29415,12 +29484,12 @@
       "productionUses": [
         {
           "file": "pkg/roborock/interface.go",
-          "line": 73,
+          "line": 75,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapSnapshot"
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 74,
+          "line": 76,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapSnapshot"
         },
         {
@@ -29675,7 +29744,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/interface.go",
-          "line": 77,
+          "line": 79,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.NameSegmentsRequest"
         },
         {
@@ -29870,7 +29939,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/client_models.gen.go",
-        "line": 149,
+        "line": 155,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ProtocolVersion"
       },
       "schema": {
@@ -29896,7 +29965,7 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 66,
+          "line": 68,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ProtocolVersion"
         }
       ]
@@ -29953,7 +30022,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/client_models.gen.go",
-        "line": 152,
+        "line": 158,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.Region"
       },
       "schema": {
@@ -30032,7 +30101,7 @@
       "kind": "public-projection-model",
       "definition": {
         "file": "pkg/roborock/client_models.gen.go",
-        "line": 155,
+        "line": 161,
         "symbol": "github.com/portpowered/go-roborock/pkg/roborock.Room"
       },
       "schema": {
@@ -30150,7 +30219,7 @@
         },
         {
           "file": "pkg/roborock/interface.go",
-          "line": 78,
+          "line": 80,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SelectMapRequest"
         },
         {
@@ -35153,6 +35222,16 @@
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/mqtt.a01Query"
     },
     {
+      "file": "pkg/dependencies/mqtt/account.go",
+      "line": 24,
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/mqtt.account"
+    },
+    {
+      "file": "pkg/dependencies/mqtt/connection.go",
+      "line": 16,
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/mqtt.connection"
+    },
+    {
       "file": "pkg/dependencies/mqtt/errors.go",
       "line": 63,
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/mqtt.RPCError"
@@ -35161,6 +35240,26 @@
       "file": "pkg/dependencies/mqtt/frame_sequence.go",
       "line": 19,
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/mqtt.frameSequence"
+    },
+    {
+      "file": "pkg/dependencies/mqtt/hub.go",
+      "line": 37,
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/mqtt.Config"
+    },
+    {
+      "file": "pkg/dependencies/mqtt/hub.go",
+      "line": 51,
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/mqtt.timing"
+    },
+    {
+      "file": "pkg/dependencies/mqtt/hub.go",
+      "line": 82,
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/mqtt.accountKey"
+    },
+    {
+      "file": "pkg/dependencies/mqtt/hub.go",
+      "line": 86,
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/mqtt.Hub"
     },
     {
       "file": "pkg/dependencies/mqtt/maps.go",
@@ -35189,17 +35288,17 @@
     },
     {
       "file": "pkg/dependencies/mqtt/session.go",
-      "line": 22,
-      "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/mqtt.Config"
-    },
-    {
-      "file": "pkg/dependencies/mqtt/session.go",
-      "line": 36,
+      "line": 19,
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/mqtt.response"
     },
     {
       "file": "pkg/dependencies/mqtt/session.go",
-      "line": 42,
+      "line": 27,
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/mqtt.device"
+    },
+    {
+      "file": "pkg/dependencies/mqtt/session.go",
+      "line": 165,
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencies/mqtt.Session"
     },
     {
@@ -35334,12 +35433,12 @@
     },
     {
       "file": "pkg/roborock/client.go",
-      "line": 35,
+      "line": 39,
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.Client"
     },
     {
       "file": "pkg/roborock/client.go",
-      "line": 128,
+      "line": 155,
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.DeviceSession"
     },
     {
@@ -35349,47 +35448,47 @@
     },
     {
       "file": "pkg/roborock/interface.go",
-      "line": 26,
+      "line": 28,
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ResolveLoginRequest"
     },
     {
       "file": "pkg/roborock/interface.go",
-      "line": 29,
+      "line": 31,
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginCodeRequest"
     },
     {
       "file": "pkg/roborock/interface.go",
-      "line": 32,
+      "line": 34,
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginCodeResult"
     },
     {
       "file": "pkg/roborock/interface.go",
-      "line": 35,
+      "line": 37,
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginWithCodeRequest"
     },
     {
       "file": "pkg/roborock/interface.go",
-      "line": 41,
+      "line": 43,
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.LoginWithPasswordRequest"
     },
     {
       "file": "pkg/roborock/interface.go",
-      "line": 47,
+      "line": 49,
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.AccountRequest"
     },
     {
       "file": "pkg/roborock/interface.go",
-      "line": 50,
+      "line": 52,
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.HomeDataRequest"
     },
     {
       "file": "pkg/roborock/interface.go",
-      "line": 57,
+      "line": 59,
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ListDevicesResult"
     },
     {
       "file": "pkg/roborock/interface.go",
-      "line": 60,
+      "line": 62,
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.OpenDeviceRequest"
     },
     {
@@ -36670,7 +36769,7 @@
     {
       "site": {
         "file": "cmd/go-roborock/customer.go",
-        "line": 429,
+        "line": 431,
         "symbol": "encoding/json.Encode"
       },
       "argumentTypes": [
@@ -36680,7 +36779,7 @@
     {
       "site": {
         "file": "cmd/go-roborock/customer.go",
-        "line": 429,
+        "line": 431,
         "symbol": "encoding/json.NewEncoder"
       },
       "argumentTypes": [
@@ -37135,6 +37234,28 @@
     },
     {
       "site": {
+        "file": "pkg/dependencies/mqtt/account.go",
+        "line": 246,
+        "symbol": "crypto/tls.DialContext"
+      },
+      "argumentTypes": [
+        "context.Context",
+        "string",
+        "string"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencies/mqtt/account.go",
+        "line": 276,
+        "symbol": "encoding/binary.Uint16"
+      },
+      "argumentTypes": [
+        "[]byte"
+      ]
+    },
+    {
+      "site": {
         "file": "pkg/dependencies/mqtt/b01.go",
         "line": 57,
         "symbol": "encoding/json.RawMessage"
@@ -37385,9 +37506,29 @@
     },
     {
       "site": {
-        "file": "pkg/dependencies/mqtt/io.go",
-        "line": 70,
+        "file": "pkg/dependencies/mqtt/connection.go",
+        "line": 128,
         "symbol": "net.Write"
+      },
+      "argumentTypes": [
+        "[]byte"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencies/mqtt/connection.go",
+        "line": 261,
+        "symbol": "encoding/binary.Uint16"
+      },
+      "argumentTypes": [
+        "[]byte"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencies/mqtt/connection.go",
+        "line": 322,
+        "symbol": "encoding/binary.Uint16"
       },
       "argumentTypes": [
         "[]byte"
@@ -37427,38 +37568,6 @@
       "site": {
         "file": "pkg/dependencies/mqtt/maps.go",
         "line": 279,
-        "symbol": "encoding/binary.Uint16"
-      },
-      "argumentTypes": [
-        "[]byte"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencies/mqtt/open.go",
-        "line": 38,
-        "symbol": "injected mqtt.DialFunc"
-      },
-      "argumentTypes": [
-        "github.com/portpowered/go-roborock/pkg/dependencies/mqtt.DialFunc"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencies/mqtt/open.go",
-        "line": 131,
-        "symbol": "crypto/tls.DialContext"
-      },
-      "argumentTypes": [
-        "context.Context",
-        "string",
-        "string"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencies/mqtt/open.go",
-        "line": 197,
         "symbol": "encoding/binary.Uint16"
       },
       "argumentTypes": [
@@ -37524,6 +37633,17 @@
       "site": {
         "file": "pkg/dependencies/mqtt/packets.go",
         "line": 105,
+        "symbol": "encoding/binary.PutUint16"
+      },
+      "argumentTypes": [
+        "[]byte",
+        "uint16"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencies/mqtt/packets.go",
+        "line": 114,
         "symbol": "encoding/binary.PutUint16"
       },
       "argumentTypes": [
@@ -37610,17 +37730,7 @@
     {
       "site": {
         "file": "pkg/dependencies/mqtt/receive.go",
-        "line": 18,
-        "symbol": "encoding/binary.Uint16"
-      },
-      "argumentTypes": [
-        "[]byte"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencies/mqtt/receive.go",
-        "line": 102,
+        "line": 49,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -37631,7 +37741,7 @@
     {
       "site": {
         "file": "pkg/dependencies/mqtt/receive.go",
-        "line": 157,
+        "line": 104,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -37642,7 +37752,7 @@
     {
       "site": {
         "file": "pkg/dependencies/mqtt/receive.go",
-        "line": 162,
+        "line": 109,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -37653,7 +37763,7 @@
     {
       "site": {
         "file": "pkg/dependencies/mqtt/receive.go",
-        "line": 193,
+        "line": 140,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [

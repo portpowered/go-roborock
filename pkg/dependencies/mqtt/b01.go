@@ -106,7 +106,7 @@ func (s *Session) SetQ10Clean(ctx context.Context, command dependencymodels.Q10C
 	return s.sendB01DPS(ctx, protocol.B01Q10StartCleanDatapoint, value)
 }
 
-func (s *Session) sendB01DPS(ctx context.Context, key string, value json.RawMessage) error {
+func (s *device) sendB01DPS(ctx context.Context, key string, value json.RawMessage) error {
 	payload, err := json.Marshal(dependencymodels.B01Envelope{Dps: map[string]json.RawMessage{key: value}})
 	if err != nil {
 		return transportError("B01 datapoints", err)
@@ -115,7 +115,7 @@ func (s *Session) sendB01DPS(ctx context.Context, key string, value json.RawMess
 	return s.send(ctx, payload)
 }
 
-func (s *Session) deliverB01(payload []byte) error {
+func (s *device) deliverB01(payload []byte) error {
 	// Q7 replies may carry the inner JSON padding; Q10 replies do not.
 	if !json.Valid(payload) && len(payload) != 0 {
 		unpadded, err := unpadPayload(payload)
@@ -148,7 +148,7 @@ func (s *Session) deliverB01(payload []byte) error {
 	return s.deliverQ10(envelope.Dps)
 }
 
-func (s *Session) deliverB01RPC(value []byte) error {
+func (s *device) deliverB01RPC(value []byte) error {
 	object, known := knownB01RPCResponse(value)
 	if !known {
 		return nil

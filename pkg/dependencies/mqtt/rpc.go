@@ -57,7 +57,7 @@ func (s *Session) Call(ctx context.Context, method string, params json.RawMessag
 	return s.awaitRPC(ctx, reply)
 }
 
-func (s *Session) beginRPC(requestID int64) (chan response, error) {
+func (s *device) beginRPC(requestID int64) (chan response, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -75,14 +75,14 @@ func (s *Session) beginRPC(requestID int64) (chan response, error) {
 	return reply, nil
 }
 
-func (s *Session) endRPC(requestID int64) {
+func (s *device) endRPC(requestID int64) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
 	delete(s.pending, requestID)
 }
 
-func (s *Session) rpcPayload(requestID int64, method string, params json.RawMessage) ([]byte, error) {
+func (s *device) rpcPayload(requestID int64, method string, params json.RawMessage) ([]byte, error) {
 	request := dependencymodels.MQTTRPCRequest{Id: requestID, Method: method, Params: params, Security: s.security}
 
 	inner, err := json.Marshal(request)
@@ -124,7 +124,7 @@ func (s *Session) awaitRPC(ctx context.Context, reply <-chan response) (json.Raw
 	}
 }
 
-func (s *Session) send(ctx context.Context, payload []byte) error {
+func (s *device) send(ctx context.Context, payload []byte) error {
 	var random [protocol.MQTTFrameTimestampOffset - protocol.MQTTFrameRandomOffset]byte
 
 	_, err := rand.Read(random[:])

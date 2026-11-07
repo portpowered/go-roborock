@@ -299,6 +299,8 @@
     "MQTTPubAck": 64,
     "MQTTSubscribe": 130,
     "MQTTSubAck": 144,
+    "MQTTUnsubscribe": 162,
+    "MQTTUnsubAck": 176,
     "MQTTPingReq": 192,
     "MQTTPingResp": 208,
     "MQTTQoSAtMostOnce": 0,

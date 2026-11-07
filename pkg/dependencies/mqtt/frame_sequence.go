@@ -45,7 +45,7 @@ func (sequence *frameSequence) next() uint32 {
 	}
 }
 
-func (s *Session) nextFrameSequence() uint32 {
+func (s *device) nextFrameSequence() uint32 {
 	if s.config.Protocol == protocol.MQTTVersionV1 {
 		return v1Frames.next()
 	}

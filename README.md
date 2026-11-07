@@ -25,7 +25,7 @@ import "github.com/portpowered/go-roborock/pkg/roborock"
 client, err := roborock.NewClient()
 // Check err after every call. ctx must have a deadline.
 login, err := client.ResolveLogin(ctx, roborock.ResolveLoginRequest{
-    Email: email, ClientID: stableClientID,
+    Email: email, DeviceIdentifier: linkIdentifier,
 })
 _, err = client.RequestLoginCode(ctx, roborock.LoginCodeRequest{Login: login})
 // Read the emailed code separately; reuse the same login identity.
@@ -56,7 +56,7 @@ The following expressions are short call examples; `r` denotes `roborock`, `c` a
 
 | Account operation | Example |
 | --- | --- |
-| Resolve region | `c.ResolveLogin(ctx, r.ResolveLoginRequest{Email: email, ClientID: id})` |
+| Resolve region | `c.ResolveLogin(ctx, r.ResolveLoginRequest{Email: email, DeviceIdentifier: id})` |
 | Request email code | `c.RequestLoginCode(ctx, r.LoginCodeRequest{Login: login})` |
 | Exchange email code | `c.LoginWithCode(ctx, r.LoginWithCodeRequest{Login: login, Code: code})` |
 | Legacy password login | `c.LoginWithPassword(ctx, r.LoginWithPasswordRequest{Login: login, Password: password})` |

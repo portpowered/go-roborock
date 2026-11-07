@@ -29,12 +29,16 @@ type clientOptions struct {
 	baseURL string
 	http    HTTPDoer
 	dial    mqtt.DialFunc
+	hub     []mqtt.HubOption
 }
 
-// Client owns immutable configuration. It retains no account tokens or connections.
+// Client owns immutable configuration and the shared MQTT connections of the
+// accounts it opens devices for. It retains no account tokens: each connection
+// is keyed by the credentials of the request that opened it, and it closes
+// when its last device session has been idle for a minute or on Close.
 type Client struct {
 	rest    *rest.Client
-	dial    mqtt.DialFunc
+	hub     *mqtt.Hub
 	baseURL string
 }
 
@@ -78,13 +82,27 @@ func WithMQTTDial(dial mqtt.DialFunc) Option {
 	}
 }
 
+// WithMQTTIdleTimeout sets how long a device subscription outlives its last session.
+// The default is one minute; the account's connection closes with its last subscription.
+func WithMQTTIdleTimeout(idle time.Duration) Option {
+	return func(o *clientOptions) error {
+		if idle <= 0 {
+			return roborockerrors.New(roborockerrors.InvalidArgument, "configure", "MQTT idle timeout must be positive", nil)
+		}
+
+		o.hub = append(o.hub, mqtt.WithIdleTimeout(idle))
+
+		return nil
+	}
+}
+
 // NewClient validates functional options without accessing the network.
 func NewClient(options ...Option) (*Client, error) {
 	var defaultHTTP http.Client
 
 	defaultHTTP.Timeout = defaultRequestTimeout
 	defaultHTTP.CheckRedirect = func(_ *http.Request, _ []*http.Request) error { return http.ErrUseLastResponse }
-	settings := clientOptions{baseURL: protocol.RESTDefaultOrigin, http: &defaultHTTP, dial: nil}
+	settings := clientOptions{baseURL: protocol.RESTDefaultOrigin, http: &defaultHTTP, dial: nil, hub: nil}
 
 	for _, option := range options {
 		if option == nil {
@@ -108,7 +126,15 @@ func NewClient(options ...Option) (*Client, error) {
 		return nil, roborockerrors.Wrap(roborockerrors.InvalidArgument, "configure", "client configuration failed", err)
 	}
 
-	return &Client{rest: restClient, dial: settings.dial, baseURL: settings.baseURL}, nil
+	return &Client{rest: restClient, hub: mqtt.NewHub(settings.dial, settings.hub...), baseURL: settings.baseURL}, nil
+}
+
+// Close ends every MQTT connection and device session the client holds. The client
+// stays usable and reconnects on the next OpenDevice.
+func (c *Client) Close() error {
+	c.hub.Close()
+
+	return nil
 }
 
 type deviceRPC interface {
@@ -123,8 +149,9 @@ type deviceLifecycle interface {
 	Err() error
 }
 
-// DeviceSession owns a single account-bound device connection and its pending requests.
-// Close releases the connection; canceling the opening context also closes the session.
+// DeviceSession is one borrow of a device on its account's shared MQTT connection,
+// with its own pending requests. Close returns the borrow and the shared connection
+// closes once the account has been idle; canceling the opening context also closes the session.
 type DeviceSession struct {
 	rpc         deviceRPC
 	protocol    string
@@ -143,7 +170,11 @@ type DeviceSession struct {
 	camera      *CameraSession
 }
 
-// OpenDevice opens a fresh connection; it never reuses another account's session.
+// OpenDevice borrows the device on the account's shared MQTT connection, connecting
+// when the account has none; it never reuses another account's connection.
+// The broker refusing the account's credentials is terminal for those credentials:
+// OpenDevice then returns an Unauthorized error without contacting the broker until
+// the caller supplies different credentials.
 func (c *Client) OpenDevice(ctx context.Context, request OpenDeviceRequest) (*DeviceSession, error) {
 	if request.Protocol == "" {
 		return nil, roborockerrors.New(roborockerrors.InvalidArgument, "open_device", "device protocol is required", nil)
@@ -156,14 +187,14 @@ func (c *Client) OpenDevice(ctx context.Context, request OpenDeviceRequest) (*De
 
 	auth := request.Auth.Mqtt
 
-	rpc, err := mqtt.Open(ctx, mqtt.Config{BrokerURL: auth.BrokerURL,
+	rpc, err := c.hub.Open(ctx, mqtt.Config{BrokerURL: auth.BrokerURL,
 		User:     auth.User,
 		Secret:   auth.Secret,
 		Key:      auth.Key,
 		DeviceID: request.DeviceID,
 		LocalKey: request.LocalKey,
 		Protocol: string(request.Protocol),
-	}, c.dial)
+	})
 	if err != nil {
 		return nil, roborockerrors.Wrap(roborockerrors.Unavailable, "open_device", "device connection failed", err)
 	}
@@ -228,7 +259,8 @@ func (s *DeviceSession) Err() error {
 	return nil
 }
 
-// Close cancels pending requests and releases the owned connection. Repeated calls are safe.
+// Close cancels this session's pending requests and returns its borrow of the shared
+// connection. Repeated calls are safe.
 func (s *DeviceSession) Close() error {
 	s.closeOnce.Do(func() {
 		terminal := roborockerrors.New(roborockerrors.Closed, "device_session", "device session closed", nil)

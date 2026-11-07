@@ -16,9 +16,9 @@
             "type": "string",
             "x-go-type-skip-optional-pointer": true
           },
-          "clientId": {
+          "deviceIdentifier": {
             "type": "string",
-            "x-go-name": "ClientID",
+            "x-go-name": "DeviceIdentifier",
             "x-go-type-skip-optional-pointer": true
           },
           "code": {

@@ -160,7 +160,7 @@ func rpcTestClient(
 		done <- replayEstablishment(server, exchange)
 	}()
 
-	options = append(options, roborock.WithMQTTDial(func(_ context.Context, network, address string) (net.Conn, error) {
+	options = append(options, roborock.WithMQTTIdleTimeout(time.Millisecond), roborock.WithMQTTDial(func(_ context.Context, network, address string) (net.Conn, error) {
 		if network != "tcp" || address != "example.invalid:8883" {
 			return nil, errors.New("dial mismatch")
 		}
@@ -716,7 +716,7 @@ func TestInvalidZonesNeverOpenDevice(t *testing.T) {
 		`null`,
 	}
 	for _, zones := range cases {
-		client, err := roborock.NewClient(roborock.WithMQTTDial(func(_ context.Context, _, _ string) (net.Conn, error) {
+		client, err := roborock.NewClient(roborock.WithMQTTIdleTimeout(time.Millisecond), roborock.WithMQTTDial(func(_ context.Context, _, _ string) (net.Conn, error) {
 			t.Error("invalid zones opened MQTT connection")
 
 			return nil, errors.New("unexpected dial")
