@@ -37,7 +37,7 @@ func (s *Session) QueryA01(ctx context.Context, datapoints []int) (map[int]json.
 	case <-ctx.Done():
 		return nil, transportError("query", ctx.Err())
 	case <-s.done:
-		return nil, s.closedError()
+		return nil, s.closedOr(ctx, "query")
 	}
 
 	defer func() { <-s.a01Gate }()
@@ -136,7 +136,7 @@ func (s *Session) awaitA01(ctx context.Context, query *a01Query) (map[int]json.R
 		default:
 		}
 
-		return nil, s.closedError()
+		return nil, s.closedOr(ctx, "query")
 	}
 }
 

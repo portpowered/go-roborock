@@ -209,6 +209,19 @@ func (s *Session) closedError() error {
 	return transportError("session", s.failure)
 }
 
+// closedOr reports why a wait ended once the session is over. A caller whose own
+// context has ended is told so: the session may have ended because of that same
+// expiry (an interrupted write takes the connection down), and the two outcomes
+// race, so reporting the caller's deadline keeps the classification stable.
+func (s *Session) closedOr(ctx context.Context, operation string) error {
+	err := ctx.Err()
+	if err != nil {
+		return transportError(operation, err)
+	}
+
+	return s.closedError()
+}
+
 // fail retires the device for every borrower. Operations without request IDs
 // use it so a late reply cannot satisfy a later request.
 func (s *Session) fail(err error) { s.account.retire(s.device, err) }

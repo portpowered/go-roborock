@@ -146,7 +146,7 @@ func (s *Session) beginMap(ctx context.Context, prefix byte) (*mapQuery, error) 
 	case <-ctx.Done():
 		return nil, transportError("map", ctx.Err())
 	case <-s.done:
-		return nil, s.closedError()
+		return nil, s.closedOr(ctx, "map")
 	}
 
 	query := &mapQuery{id: 0, reply: make(chan response, 1), prefix: prefix, release: nil}
@@ -231,7 +231,7 @@ func (s *Session) awaitMap(ctx context.Context, query *mapQuery) ([]byte, error)
 
 		return nil, transportError("map", ctx.Err())
 	case <-s.done:
-		return nil, s.closedError()
+		return nil, s.closedOr(ctx, "map")
 	}
 }
 
