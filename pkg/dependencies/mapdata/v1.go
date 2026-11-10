@@ -22,34 +22,49 @@ func decodeV1(payload []byte, snapshot *mapmodel.MapSnapshot) error {
 
 	snapshot.MapId = pointer(int64(binary.LittleEndian.Uint32(payload[protocol.MapV1MapIDOffset:])))
 
+	// A robot with no map loaded (status map_present 0) still answers with an image block, but it is
+	// empty: 0 by 0 cells. That is a valid map with no raster, not a damaged payload; its robot block is
+	// a placeholder, so callers must treat a missing Grid as "no pose from this map".
+	sawImage, err := decodeV1Blocks(payload, start, snapshot)
+	if err != nil {
+		return err
+	}
+
+	if !sawImage {
+		return fmt.Errorf("V1 grid missing: %w", ErrMalformed)
+	}
+
+	return nil
+}
+
+func decodeV1Blocks(payload []byte, start int, snapshot *mapmodel.MapSnapshot) (bool, error) {
+	sawImage := false
+
 	for start < len(payload) {
 		if len(payload)-start < protocol.MapBlockHeaderMinimum {
-			return fmt.Errorf("V1 truncated block header: %w", ErrMalformed)
+			return false, fmt.Errorf("V1 truncated block header: %w", ErrMalformed)
 		}
 
 		header, length, err := v1BlockBounds(payload[start:])
 		if err != nil {
-			return err
+			return false, err
 		}
 
 		kind := binary.LittleEndian.Uint16(payload[start : start+protocol.MapBlockTypeSize])
 		block := payload[start : start+header]
+		sawImage = sawImage || kind == protocol.MapBlockImage
 
 		data := payload[start+header : start+header+int(length)]
 
 		err = v1Block(kind, block, data, start, snapshot)
 		if err != nil {
-			return err
+			return false, err
 		}
 
 		start += header + int(length)
 	}
 
-	if snapshot.Grid == nil {
-		return fmt.Errorf("V1 grid missing: %w", ErrMalformed)
-	}
-
-	return nil
+	return sawImage, nil
 }
 
 func v1Block(kind uint16, header, data []byte, offset int, snapshot *mapmodel.MapSnapshot) error {
@@ -131,6 +146,10 @@ func v1Grid(header, data []byte, snapshot *mapmodel.MapSnapshot) error {
 	fields := header[len(header)-protocol.MapV1ImageFieldsLength:]
 	width := int(binary.LittleEndian.Uint32(fields[protocol.MapV1ImageWidthOffset:]))
 	height := int(binary.LittleEndian.Uint32(fields[protocol.MapV1ImageHeightOffset:]))
+
+	if width == 0 && height == 0 && len(data) == 0 {
+		return nil
+	}
 
 	count, err := cells(width, height)
 	if err != nil {

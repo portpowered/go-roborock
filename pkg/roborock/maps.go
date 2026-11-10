@@ -94,7 +94,9 @@ func (s *DeviceSession) fetchMap(
 func decodeMap(format mapmodel.MapFormat, payload []byte, operation string) (MapSnapshot, error) {
 	parsed, err := mapdata.Decode(format, payload)
 	if err != nil {
-		return MapSnapshot{}, roborockerrors.New(roborockerrors.Protocol, operation, "malformed device map", err)
+		message := "malformed device map: " + err.Error()
+
+		return MapSnapshot{}, roborockerrors.New(roborockerrors.Protocol, operation, message, err)
 	}
 
 	return *parsed, nil

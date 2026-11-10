@@ -268,7 +268,7 @@
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 190,
+          "line": 209,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.Degrees"
         }
       ]
@@ -314,7 +314,7 @@
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 103,
+          "line": 118,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapArea"
         }
       ]
@@ -335,7 +335,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 226,
+          "line": 245,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKind"
         }
       ]
@@ -357,7 +357,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 229,
+          "line": 248,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindCurrent"
         }
       ]
@@ -401,7 +401,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 241,
+          "line": 260,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindNoCarpet"
         }
       ]
@@ -423,7 +423,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 235,
+          "line": 254,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindNoGo"
         }
       ]
@@ -445,7 +445,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 238,
+          "line": 257,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindNoMop"
         }
       ]
@@ -489,7 +489,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 233,
+          "line": 252,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapAreaKindWall"
         }
       ]
@@ -557,7 +557,7 @@
         },
         {
           "file": "pkg/roborock/maps.go",
-          "line": 123,
+          "line": 125,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapFormatQ10"
         }
       ]
@@ -781,27 +781,27 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 107,
+          "line": 122,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapFrameV1World"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 156,
+          "line": 175,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapFrameV1World"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 178,
+          "line": 197,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapFrameV1World"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 220,
+          "line": 239,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapFrameV1World"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 291,
+          "line": 310,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapFrameV1World"
         }
       ]
@@ -867,7 +867,7 @@
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 148,
+          "line": 167,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapGrid"
         }
       ]
@@ -918,7 +918,7 @@
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 216,
+          "line": 235,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPath"
         }
       ]
@@ -960,7 +960,7 @@
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 207,
+          "line": 226,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPathKindClean"
         }
       ]
@@ -982,7 +982,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 209,
+          "line": 228,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPathKindGoto"
         }
       ]
@@ -1004,7 +1004,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 213,
+          "line": 232,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPathKindPredicted"
         }
       ]
@@ -1207,42 +1207,42 @@
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 78,
+          "line": 93,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPoint"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 79,
+          "line": 94,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPoint"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 81,
+          "line": 96,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPoint"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 144,
+          "line": 163,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPoint"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 173,
+          "line": 192,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPoint"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 248,
+          "line": 267,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPoint"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 260,
+          "line": 279,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPoint"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 271,
+          "line": 290,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPoint"
         }
       ]
@@ -1288,7 +1288,7 @@
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 172,
+          "line": 191,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapPose"
         }
       ]
@@ -1359,12 +1359,12 @@
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 249,
+          "line": 268,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapRectangle"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 266,
+          "line": 285,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapRectangle"
         }
       ]
@@ -1410,7 +1410,7 @@
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 287,
+          "line": 306,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapRoom"
         }
       ]
@@ -1511,32 +1511,37 @@
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 55,
+          "line": 40,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapSnapshot"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 90,
+          "line": 70,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapSnapshot"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 126,
+          "line": 105,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapSnapshot"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 167,
+          "line": 141,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapSnapshot"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 202,
+          "line": 186,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapSnapshot"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 248,
+          "line": 221,
+          "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapSnapshot"
+        },
+        {
+          "file": "pkg/dependencies/mapdata/v1.go",
+          "line": 267,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapSnapshot"
         }
       ]
@@ -1640,27 +1645,27 @@
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 106,
+          "line": 121,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapUnitMillimeters"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 155,
+          "line": 174,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapUnitMillimeters"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 177,
+          "line": 196,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapUnitMillimeters"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 219,
+          "line": 238,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapUnitMillimeters"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 290,
+          "line": 309,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapUnitMillimeters"
         }
       ]
@@ -1713,7 +1718,7 @@
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 67,
+          "line": 82,
           "symbol": "github.com/portpowered/go-roborock/internal/mapmodel.MapUnknownBlock"
         }
       ]
@@ -4699,7 +4704,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 59,
+          "line": 74,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockCharger"
         }
       ]
@@ -4721,12 +4726,12 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 63,
+          "line": 78,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockCurrentZones"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 114,
+          "line": 129,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockCurrentZones"
         }
       ]
@@ -4748,7 +4753,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 305,
+          "line": 324,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockDataLengthOffset"
         }
       ]
@@ -4786,12 +4791,12 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 61,
+          "line": 76,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockGotoPath"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 208,
+          "line": 227,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockGotoPath"
         }
       ]
@@ -4861,12 +4866,12 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 26,
+          "line": 44,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockHeaderMinimum"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 307,
+          "line": 326,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockHeaderMinimum"
         }
       ]
@@ -4888,7 +4893,12 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 57,
+          "line": 55,
+          "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockImage"
+        },
+        {
+          "file": "pkg/dependencies/mapdata/v1.go",
+          "line": 72,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockImage"
         }
       ]
@@ -4910,12 +4920,12 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 64,
+          "line": 79,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockNoCarpet"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 240,
+          "line": 259,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockNoCarpet"
         }
       ]
@@ -4937,12 +4947,12 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 63,
+          "line": 78,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockNoGo"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 234,
+          "line": 253,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockNoGo"
         }
       ]
@@ -4964,12 +4974,12 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 64,
+          "line": 79,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockNoMop"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 237,
+          "line": 256,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockNoMop"
         }
       ]
@@ -4991,7 +5001,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 61,
+          "line": 76,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockPath"
         }
       ]
@@ -5013,12 +5023,12 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 61,
+          "line": 76,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockPredictedPath"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 212,
+          "line": 231,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockPredictedPath"
         }
       ]
@@ -5040,12 +5050,12 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 59,
+          "line": 74,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockRobot"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 193,
+          "line": 212,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockRobot"
         }
       ]
@@ -5099,7 +5109,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 35,
+          "line": 53,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockTypeSize"
         }
       ]
@@ -5121,17 +5131,17 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 63,
+          "line": 78,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockWalls"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 116,
+          "line": 131,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockWalls"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 232,
+          "line": 251,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapBlockWalls"
         }
       ]
@@ -6217,7 +6227,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 91,
+          "line": 106,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1AreaCountHeaderLength"
         }
       ]
@@ -6239,7 +6249,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 97,
+          "line": 112,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1AreaCountOffset"
         }
       ]
@@ -6277,7 +6287,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 254,
+          "line": 273,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1CellKindMask"
         }
       ]
@@ -6299,7 +6309,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 252,
+          "line": 271,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1CellLegacyFloor"
         }
       ]
@@ -6321,12 +6331,12 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 253,
+          "line": 272,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1CellScan"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 254,
+          "line": 273,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1CellScan"
         }
       ]
@@ -6348,12 +6358,12 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 174,
+          "line": 193,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1CoordinateSize"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 175,
+          "line": 194,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1CoordinateSize"
         }
       ]
@@ -6385,7 +6395,7 @@
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 303,
+          "line": 322,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1HeaderLengthOffset"
         }
       ]
@@ -6450,12 +6460,12 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 185,
+          "line": 204,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1HeadingMask"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 186,
+          "line": 205,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1HeadingMask"
         }
       ]
@@ -6477,7 +6487,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 186,
+          "line": 205,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1HeadingWrap"
         }
       ]
@@ -6499,7 +6509,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 131,
+          "line": 146,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1ImageFieldsLength"
         }
       ]
@@ -6521,7 +6531,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 127,
+          "line": 142,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1ImageHeaderMinimum"
         }
       ]
@@ -6543,7 +6553,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 133,
+          "line": 148,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1ImageHeightOffset"
         }
       ]
@@ -6565,7 +6575,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 145,
+          "line": 164,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1ImageLeftOffset"
         }
       ]
@@ -6587,7 +6597,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 146,
+          "line": 165,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1ImageTopOffset"
         }
       ]
@@ -6609,7 +6619,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 132,
+          "line": 147,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1ImageWidthOffset"
         }
       ]
@@ -6691,7 +6701,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 203,
+          "line": 222,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1PathHeaderLength"
         }
       ]
@@ -6713,12 +6723,12 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 82,
+          "line": 97,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1PointCoordinateSize"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 83,
+          "line": 98,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1PointCoordinateSize"
         }
       ]
@@ -6740,17 +6750,17 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 79,
+          "line": 94,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1PointStride"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 80,
+          "line": 95,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1PointStride"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 203,
+          "line": 222,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1PointStride"
         }
       ]
@@ -6772,17 +6782,17 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 236,
+          "line": 255,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1PolygonStride"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 239,
+          "line": 258,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1PolygonStride"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 242,
+          "line": 261,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1PolygonStride"
         }
       ]
@@ -6804,12 +6814,12 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 168,
+          "line": 187,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1PoseHeadingLength"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 183,
+          "line": 202,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1PoseHeadingLength"
         }
       ]
@@ -6831,7 +6841,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 184,
+          "line": 203,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1PoseHeadingOffset"
         }
       ]
@@ -6853,12 +6863,12 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 168,
+          "line": 187,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1PoseLength"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 175,
+          "line": 194,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1PoseLength"
         }
       ]
@@ -6880,27 +6890,27 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 145,
+          "line": 164,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1Resolution"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 146,
+          "line": 165,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1Resolution"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 154,
+          "line": 173,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1Resolution"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 261,
+          "line": 280,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1Resolution"
         },
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 262,
+          "line": 281,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1Resolution"
         }
       ]
@@ -6922,7 +6932,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 258,
+          "line": 277,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1RoomIDShift"
         }
       ]
@@ -6944,7 +6954,7 @@
       "productionUses": [
         {
           "file": "pkg/dependencies/mapdata/v1.go",
-          "line": 227,
+          "line": 246,
           "symbol": "github.com/portpowered/go-roborock/internal/protocol.MapV1ZoneStride"
         }
       ]
@@ -27553,12 +27563,12 @@
         },
         {
           "file": "pkg/roborock/maps.go",
-          "line": 105,
+          "line": 107,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
           "file": "pkg/roborock/maps.go",
-          "line": 131,
+          "line": 133,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
@@ -27800,7 +27810,7 @@
         },
         {
           "file": "pkg/roborock/maps.go",
-          "line": 109,
+          "line": 111,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.FamilyB01Q10"
         },
         {
@@ -29149,12 +29159,12 @@
       "productionUses": [
         {
           "file": "pkg/roborock/maps.go",
-          "line": 139,
+          "line": 141,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapInfo"
         },
         {
           "file": "pkg/roborock/maps.go",
-          "line": 140,
+          "line": 142,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapInfo"
         },
         {
@@ -29628,27 +29638,27 @@
         },
         {
           "file": "pkg/roborock/maps.go",
-          "line": 97,
+          "line": 99,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapSnapshot"
         },
         {
           "file": "pkg/roborock/maps.go",
-          "line": 105,
+          "line": 107,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapSnapshot"
         },
         {
           "file": "pkg/roborock/maps.go",
-          "line": 110,
+          "line": 112,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapSnapshot"
         },
         {
           "file": "pkg/roborock/maps.go",
-          "line": 115,
+          "line": 117,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapSnapshot"
         },
         {
           "file": "pkg/roborock/maps.go",
-          "line": 120,
+          "line": 122,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.MapSnapshot"
         }
       ]
@@ -37179,27 +37189,7 @@
     {
       "site": {
         "file": "pkg/dependencies/mapdata/v1.go",
-        "line": 35,
-        "symbol": "encoding/binary.Uint16"
-      },
-      "argumentTypes": [
-        "[]byte"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencies/mapdata/v1.go",
-        "line": 82,
-        "symbol": "encoding/binary.Uint16"
-      },
-      "argumentTypes": [
-        "[]byte"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencies/mapdata/v1.go",
-        "line": 83,
+        "line": 53,
         "symbol": "encoding/binary.Uint16"
       },
       "argumentTypes": [
@@ -37219,77 +37209,7 @@
     {
       "site": {
         "file": "pkg/dependencies/mapdata/v1.go",
-        "line": 132,
-        "symbol": "encoding/binary.Uint32"
-      },
-      "argumentTypes": [
-        "[]byte"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencies/mapdata/v1.go",
-        "line": 133,
-        "symbol": "encoding/binary.Uint32"
-      },
-      "argumentTypes": [
-        "[]byte"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencies/mapdata/v1.go",
-        "line": 145,
-        "symbol": "encoding/binary.Uint32"
-      },
-      "argumentTypes": [
-        "[]byte"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencies/mapdata/v1.go",
-        "line": 146,
-        "symbol": "encoding/binary.Uint32"
-      },
-      "argumentTypes": [
-        "[]byte"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencies/mapdata/v1.go",
-        "line": 174,
-        "symbol": "encoding/binary.Uint32"
-      },
-      "argumentTypes": [
-        "[]byte"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencies/mapdata/v1.go",
-        "line": 175,
-        "symbol": "encoding/binary.Uint32"
-      },
-      "argumentTypes": [
-        "[]byte"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencies/mapdata/v1.go",
-        "line": 184,
-        "symbol": "encoding/binary.Uint32"
-      },
-      "argumentTypes": [
-        "[]byte"
-      ]
-    },
-    {
-      "site": {
-        "file": "pkg/dependencies/mapdata/v1.go",
-        "line": 303,
+        "line": 98,
         "symbol": "encoding/binary.Uint16"
       },
       "argumentTypes": [
@@ -37299,7 +37219,97 @@
     {
       "site": {
         "file": "pkg/dependencies/mapdata/v1.go",
-        "line": 305,
+        "line": 112,
+        "symbol": "encoding/binary.Uint16"
+      },
+      "argumentTypes": [
+        "[]byte"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencies/mapdata/v1.go",
+        "line": 147,
+        "symbol": "encoding/binary.Uint32"
+      },
+      "argumentTypes": [
+        "[]byte"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencies/mapdata/v1.go",
+        "line": 148,
+        "symbol": "encoding/binary.Uint32"
+      },
+      "argumentTypes": [
+        "[]byte"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencies/mapdata/v1.go",
+        "line": 164,
+        "symbol": "encoding/binary.Uint32"
+      },
+      "argumentTypes": [
+        "[]byte"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencies/mapdata/v1.go",
+        "line": 165,
+        "symbol": "encoding/binary.Uint32"
+      },
+      "argumentTypes": [
+        "[]byte"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencies/mapdata/v1.go",
+        "line": 193,
+        "symbol": "encoding/binary.Uint32"
+      },
+      "argumentTypes": [
+        "[]byte"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencies/mapdata/v1.go",
+        "line": 194,
+        "symbol": "encoding/binary.Uint32"
+      },
+      "argumentTypes": [
+        "[]byte"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencies/mapdata/v1.go",
+        "line": 203,
+        "symbol": "encoding/binary.Uint32"
+      },
+      "argumentTypes": [
+        "[]byte"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencies/mapdata/v1.go",
+        "line": 322,
+        "symbol": "encoding/binary.Uint16"
+      },
+      "argumentTypes": [
+        "[]byte"
+      ]
+    },
+    {
+      "site": {
+        "file": "pkg/dependencies/mapdata/v1.go",
+        "line": 324,
         "symbol": "encoding/binary.Uint32"
       },
       "argumentTypes": [
