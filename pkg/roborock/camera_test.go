@@ -34,7 +34,9 @@ type cameraOwnerRPC struct {
 }
 
 func (r *cameraOwnerRPC) Call(ctx context.Context, method string, params json.RawMessage) (json.RawMessage, error) {
-	if method != fixtureCameraStartMethod && method != fixtureStopPreview {
+	switch method {
+	case fixtureCameraStartMethod, fixtureStopPreview, fixtureStartVoiceChat, fixtureStopVoiceChat:
+	default:
 		return r.forward(ctx, method, params)
 	}
 
@@ -655,5 +657,141 @@ func TestPreparedCameraFailedOfferClosesOwnedPreview(t *testing.T) {
 
 	if device.camera != nil {
 		t.Fatal("failed offer retained device ownership")
+	}
+}
+
+// Voice chat exchanges are synthetic: the method names come from the Python
+// reference command list and the owner parameters are inferred, not captured.
+const (
+	fixtureStartVoiceChat = "start_voice_chat"
+	fixtureStopVoiceChat  = "stop_voice_chat"
+)
+
+var errSyntheticVoiceTransport = errors.New("synthetic voice chat transport failure")
+
+func voiceChatExchange(method string) rpcExchange {
+	return rpcExchange{method: method, params: fixtureCameraOwnerParams, response: fixtureAcknowledgement, failure: nil}
+}
+
+func openVoiceCamera(t *testing.T, exchanges ...rpcExchange) *CameraSession {
+	t.Helper()
+
+	session := cameraOperationSession(t, append(cameraOpeningExchanges(), exchanges...)...)
+
+	camera, err := session.OpenCamera(
+		context.Background(),
+		OpenCameraRequest{PatternPassword: "123", SdpOffer: fixtureSDPOffer, Quality: nil, IceCandidates: nil},
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return camera
+}
+
+func TestCameraCloseStopsVoiceChatBeforePreview(t *testing.T) {
+	t.Parallel()
+
+	camera := openVoiceCamera(
+		t,
+		voiceChatExchange(fixtureStartVoiceChat),
+		voiceChatExchange(fixtureStopVoiceChat),
+		cameraStopExchange(),
+	)
+
+	ack, err := camera.StartVoiceChat(context.Background())
+	if err != nil || !ack.Acknowledged || !ack.Sent {
+		t.Fatalf("start voice chat %+v %v", ack, err)
+	}
+
+	err = camera.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestCameraStoppedVoiceChatIsNotStoppedAgain(t *testing.T) {
+	t.Parallel()
+
+	camera := openVoiceCamera(
+		t,
+		voiceChatExchange(fixtureStartVoiceChat),
+		voiceChatExchange(fixtureStopVoiceChat),
+		cameraStopExchange(),
+	)
+
+	_, err := camera.StartVoiceChat(context.Background())
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ack, err := camera.StopVoiceChat(context.Background())
+	if err != nil || !ack.Acknowledged {
+		t.Fatalf("stop voice chat %+v %v", ack, err)
+	}
+
+	err = camera.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestCameraUncertainVoiceChatStartIsStoppedOnClose(t *testing.T) {
+	t.Parallel()
+
+	start := voiceChatExchange(fixtureStartVoiceChat)
+	start.failure = errSyntheticVoiceTransport
+	camera := openVoiceCamera(t, start, voiceChatExchange(fixtureStopVoiceChat), cameraStopExchange())
+
+	ack, err := camera.StartVoiceChat(context.Background())
+	if ack.Acknowledged || ack.Sent ||
+		!errors.Is(err, errSyntheticVoiceTransport) {
+		t.Fatalf("uncertain start %+v %v", ack, err)
+	}
+
+	err = camera.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestCameraFailedVoiceChatStopStillStopsPreview(t *testing.T) {
+	t.Parallel()
+
+	stop := voiceChatExchange(fixtureStopVoiceChat)
+	stop.failure = errSyntheticVoiceTransport
+	camera := openVoiceCamera(t, voiceChatExchange(fixtureStartVoiceChat), stop, cameraStopExchange())
+
+	_, err := camera.StartVoiceChat(context.Background())
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = camera.Close()
+	if !errors.Is(err, errSyntheticVoiceTransport) {
+		t.Fatalf("close error %v", err)
+	}
+}
+
+func TestCameraVoiceChatAfterCloseIsRejected(t *testing.T) {
+	t.Parallel()
+
+	camera := openVoiceCamera(t, cameraStopExchange())
+
+	err := camera.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	closed := roborockerrors.New(roborockerrors.Closed, "test", "", nil)
+
+	_, err = camera.StartVoiceChat(context.Background())
+	if !errors.Is(err, closed) {
+		t.Fatalf("start after close %v", err)
+	}
+
+	_, err = camera.StopVoiceChat(context.Background())
+	if !errors.Is(err, closed) {
+		t.Fatalf("stop after close %v", err)
 	}
 }

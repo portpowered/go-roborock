@@ -116,6 +116,7 @@ V1, Q7, and Q10 support map reads and room cleaning. Rectangle cleaning supports
 | Negotiate a prepared preview | `camera.Negotiate(ctx, r.CameraOfferRequest{SdpOffer: offer})`; one offer per preview, with cleanup on negotiation failure |
 | Camera description | `camera.Description()` |
 | Send, get ICE | `camera.SendICE(ctx, r.SendICERequest{Candidate: candidate})`; `camera.GetICE(ctx, r.EmptyRequest{})` |
+| Robot microphone audio (inferred, unverified) | `camera.StartVoiceChat(ctx)`; `camera.StopVoiceChat(ctx)` |
 | Camera lifetime and close | `<-camera.Done()`; `camera.Close()` |
 
 A01 write success means MQTT publication. Camera signaling currently uses V1. Camera sessions own preview signaling; the caller's WebRTC stack owns media. See [A01](https://portpowered.github.io/go-roborock/docs/guides/a01) and [camera](https://portpowered.github.io/go-roborock/docs/guides/camera).

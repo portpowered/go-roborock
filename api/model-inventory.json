@@ -9875,7 +9875,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 40,
+        "line": 42,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraAcknowledgement"
       },
       "schema": {
@@ -9890,7 +9890,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 43,
+        "line": 45,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraCheckPasswordRPCJSONRequestBody"
       },
       "schema": {
@@ -9905,7 +9905,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 46,
+        "line": 48,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraConnectionStatus"
       },
       "schema": {
@@ -9916,7 +9916,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 362,
+          "line": 399,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraConnectionStatus"
         }
       ]
@@ -9926,7 +9926,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 52,
+        "line": 54,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraDeviceICE"
       },
       "schema": {
@@ -9952,7 +9952,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 59,
+        "line": 61,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraDeviceSDP"
       },
       "schema": {
@@ -9973,7 +9973,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 66,
+        "line": 68,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraEmptyParameters"
       },
       "schema": {
@@ -9984,7 +9984,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 409,
+          "line": 446,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraEmptyParameters"
         }
       ]
@@ -9994,7 +9994,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 69,
+        "line": 71,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraGetICERPCJSONRequestBody"
       },
       "schema": {
@@ -10009,7 +10009,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 72,
+        "line": 74,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraGetSDPRPCJSONRequestBody"
       },
       "schema": {
@@ -10024,7 +10024,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 75,
+        "line": 77,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraGetStatusRPCJSONRequestBody"
       },
       "schema": {
@@ -10039,7 +10039,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 78,
+        "line": 80,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraGetTURNRPCJSONRequestBody"
       },
       "schema": {
@@ -10054,7 +10054,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 81,
+        "line": 83,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraICECandidate"
       },
       "schema": {
@@ -10080,7 +10080,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 93,
+        "line": 95,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraICEParameters"
       },
       "schema": {
@@ -10111,7 +10111,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 99,
+        "line": 101,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraIdleClient"
       },
       "schema": {
@@ -10138,7 +10138,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 373,
+          "line": 410,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraIdleClientNone"
         }
       ]
@@ -10148,7 +10148,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 102,
+        "line": 104,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraPasswordParameters"
       },
       "schema": {
@@ -10159,7 +10159,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 308,
+          "line": 345,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraPasswordParameters"
         }
       ]
@@ -10169,7 +10169,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 107,
+        "line": 109,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraPreviewOwnerParameters"
       },
       "schema": {
@@ -10180,7 +10180,12 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 184,
+          "line": 463,
+          "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraPreviewOwnerParameters"
+        },
+        {
+          "file": "pkg/roborock/camera.go",
+          "line": 464,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraPreviewOwnerParameters"
         }
       ]
@@ -10190,7 +10195,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 112,
+        "line": 114,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraPreviewParameters"
       },
       "schema": {
@@ -10216,7 +10221,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 120,
+        "line": 122,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraRPCMethod"
       },
       "schema": {
@@ -10227,12 +10232,12 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 407,
+          "line": 444,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraRPCMethod"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 417,
+          "line": 454,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraRPCMethod"
         }
       ]
@@ -10242,7 +10247,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 123,
+        "line": 125,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraSDPEnvelope"
       },
       "schema": {
@@ -10253,7 +10258,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 384,
+          "line": 421,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraSDPEnvelope"
         },
         {
@@ -10268,7 +10273,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 131,
+        "line": 133,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraSDPParameters"
       },
       "schema": {
@@ -10279,7 +10284,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 389,
+          "line": 426,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraSDPParameters"
         }
       ]
@@ -10289,7 +10294,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 136,
+        "line": 138,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraSDPRetry"
       },
       "schema": {
@@ -10304,7 +10309,7 @@
       "kind": "constant",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 30,
+        "line": 32,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraSDPRetryPending"
       },
       "schema": {
@@ -10331,7 +10336,7 @@
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 139,
+        "line": 141,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraSDPType"
       },
       "schema": {
@@ -10346,7 +10351,7 @@
       "kind": "constant",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 35,
+        "line": 37,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraSDPTypeAnswer"
       },
       "schema": {
@@ -10368,7 +10373,7 @@
       "kind": "constant",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 36,
+        "line": 38,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraSDPTypeOffer"
       },
       "schema": {
@@ -10380,7 +10385,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 384,
+          "line": 421,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraSDPTypeOffer"
         }
       ]
@@ -10390,7 +10395,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 142,
+        "line": 144,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraSendICERPCJSONRequestBody"
       },
       "schema": {
@@ -10405,7 +10410,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 145,
+        "line": 147,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraSendSDPRPCJSONRequestBody"
       },
       "schema": {
@@ -10420,7 +10425,7 @@
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 148,
+        "line": 150,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraStartPreviewRPCJSONRequestBody"
       },
       "schema": {
@@ -10431,11 +10436,26 @@
       "productionUses": []
     },
     {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraStartVoiceChatRPCJSONRequestBody",
+      "kind": "alias",
+      "definition": {
+        "file": "pkg/dependencymodels/camera.gen.go",
+        "line": 153,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraStartVoiceChatRPCJSONRequestBody"
+      },
+      "schema": {
+        "file": "api/camera.asyncapi.yaml",
+        "pointer": "#/operations/CameraStartVoiceChatRPC/x-go-request-schema"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraStopPreviewRPCJSONRequestBody",
       "kind": "alias",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 151,
+        "line": 156,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraStopPreviewRPCJSONRequestBody"
       },
       "schema": {
@@ -10446,11 +10466,26 @@
       "productionUses": []
     },
     {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraStopVoiceChatRPCJSONRequestBody",
+      "kind": "alias",
+      "definition": {
+        "file": "pkg/dependencymodels/camera.gen.go",
+        "line": 159,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraStopVoiceChatRPCJSONRequestBody"
+      },
+      "schema": {
+        "file": "api/camera.asyncapi.yaml",
+        "pointer": "#/operations/CameraStopVoiceChatRPC/x-go-request-schema"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "productionUses": []
+    },
+    {
       "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraTURN",
       "kind": "model",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 154,
+        "line": 162,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraTURN"
       },
       "schema": {
@@ -10461,7 +10496,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 436,
+          "line": 492,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.CameraTURN"
         }
       ]
@@ -17867,7 +17902,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 310,
+          "line": 347,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraCheckPassword"
         }
       ]
@@ -17889,7 +17924,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 242,
+          "line": 279,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraGetICE"
         },
         {
@@ -17926,22 +17961,22 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 462,
+          "line": 518,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraGetSDP"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 466,
+          "line": 522,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraGetSDP"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 473,
+          "line": 529,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraGetSDP"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 482,
+          "line": 538,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraGetSDP"
         }
       ]
@@ -17963,22 +17998,22 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 357,
+          "line": 394,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraGetStatus"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 366,
+          "line": 403,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraGetStatus"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 370,
+          "line": 407,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraGetStatus"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 375,
+          "line": 412,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraGetStatus"
         }
       ]
@@ -18000,17 +18035,17 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 431,
+          "line": 487,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraGetTURN"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 440,
+          "line": 496,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraGetTURN"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 449,
+          "line": 505,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraGetTURN"
         }
       ]
@@ -18059,7 +18094,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 391,
+          "line": 428,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraSendSDP"
         }
       ]
@@ -18081,8 +18116,30 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 324,
+          "line": 361,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraStartPreview"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraStartVoiceChat",
+      "kind": "constant",
+      "definition": {
+        "file": "pkg/dependencymodels/camera.gen.go",
+        "line": 25,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraStartVoiceChat"
+      },
+      "schema": {
+        "file": "api/camera.asyncapi.yaml",
+        "pointer": "#/components/schemas/CameraRPCMethod"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"start_voice_chat\"",
+      "productionUses": [
+        {
+          "file": "pkg/roborock/camera.go",
+          "line": 247,
+          "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraStartVoiceChat"
         }
       ]
     },
@@ -18091,7 +18148,7 @@
       "kind": "constant",
       "definition": {
         "file": "pkg/dependencymodels/camera.gen.go",
-        "line": 25,
+        "line": 26,
         "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraStopPreview"
       },
       "schema": {
@@ -18103,8 +18160,35 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 185,
+          "line": 476,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraStopPreview"
+        }
+      ]
+    },
+    {
+      "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraStopVoiceChat",
+      "kind": "constant",
+      "definition": {
+        "file": "pkg/dependencymodels/camera.gen.go",
+        "line": 27,
+        "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraStopVoiceChat"
+      },
+      "schema": {
+        "file": "api/camera.asyncapi.yaml",
+        "pointer": "#/components/schemas/CameraRPCMethod"
+      },
+      "generator": "go run ./tools/generate (oapi-codegen v2.5.1 models; schema constants)",
+      "value": "\"stop_voice_chat\"",
+      "productionUses": [
+        {
+          "file": "pkg/roborock/camera.go",
+          "line": 262,
+          "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraStopVoiceChat"
+        },
+        {
+          "file": "pkg/roborock/camera.go",
+          "line": 472,
+          "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCCameraStopVoiceChat"
         }
       ]
     },
@@ -18300,12 +18384,12 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 409,
+          "line": 446,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCMethod"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 418,
+          "line": 455,
           "symbol": "github.com/portpowered/go-roborock/pkg/dependencymodels.RPCMethod"
         },
         {
@@ -20499,47 +20583,47 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 28,
+          "line": 29,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CameraDescription"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 163,
+          "line": 165,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CameraDescription"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 253,
+          "line": 290,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CameraDescription"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 255,
+          "line": 292,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CameraDescription"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 262,
+          "line": 299,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CameraDescription"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 268,
+          "line": 305,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CameraDescription"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 283,
+          "line": 320,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CameraDescription"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 288,
+          "line": 325,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CameraDescription"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 293,
+          "line": 330,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CameraDescription"
         }
       ]
@@ -20560,12 +20644,12 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 52,
+          "line": 54,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CameraOfferRequest"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 253,
+          "line": 290,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CameraOfferRequest"
         }
       ]
@@ -22331,6 +22415,36 @@
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
         },
         {
+          "file": "pkg/roborock/camera.go",
+          "line": 236,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
+        },
+        {
+          "file": "pkg/roborock/camera.go",
+          "line": 239,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
+        },
+        {
+          "file": "pkg/roborock/camera.go",
+          "line": 249,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
+        },
+        {
+          "file": "pkg/roborock/camera.go",
+          "line": 254,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
+        },
+        {
+          "file": "pkg/roborock/camera.go",
+          "line": 257,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
+        },
+        {
+          "file": "pkg/roborock/camera.go",
+          "line": 267,
+          "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
+        },
+        {
           "file": "pkg/roborock/family_cleaning.go",
           "line": 15,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CommandAcknowledgement"
@@ -23894,17 +24008,17 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 234,
+          "line": 271,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.DeviceICEResult"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 237,
+          "line": 274,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.DeviceICEResult"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 244,
+          "line": 281,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.DeviceICEResult"
         },
         {
@@ -27404,7 +27518,7 @@
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 234,
+          "line": 271,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.EmptyRequest"
         },
         {
@@ -28379,7 +28493,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 341,
+          "line": 378,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ICECandidate"
         },
         {
@@ -29770,7 +29884,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 42,
+          "line": 44,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.OpenCameraRequest"
         }
       ]
@@ -29791,22 +29905,22 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 47,
+          "line": 49,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.PrepareCameraRequest"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 63,
+          "line": 65,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.PrepareCameraRequest"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 98,
+          "line": 100,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.PrepareCameraRequest"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 305,
+          "line": 342,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.PrepareCameraRequest"
         }
       ]
@@ -29904,7 +30018,7 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 64,
+          "line": 66,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.ProtocolV1"
         },
         {
@@ -30250,7 +30364,7 @@
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 347,
+          "line": 384,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.SendICERequest"
         },
         {
@@ -30566,27 +30680,27 @@
       "productionUses": [
         {
           "file": "pkg/roborock/camera.go",
-          "line": 430,
+          "line": 486,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.TURNServer"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 433,
+          "line": 489,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.TURNServer"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 440,
+          "line": 496,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.TURNServer"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 443,
+          "line": 499,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.TURNServer"
         },
         {
           "file": "pkg/roborock/camera.go",
-          "line": 449,
+          "line": 505,
           "symbol": "github.com/portpowered/go-roborock/pkg/roborock.TURNServer"
         }
       ]
@@ -35423,7 +35537,7 @@
     },
     {
       "file": "pkg/roborock/camera.go",
-      "line": 26,
+      "line": 27,
       "symbol": "github.com/portpowered/go-roborock/pkg/roborock.CameraSession"
     },
     {
@@ -47188,7 +47302,7 @@
     {
       "site": {
         "file": "pkg/roborock/camera.go",
-        "line": 364,
+        "line": 401,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [
@@ -47199,7 +47313,7 @@
     {
       "site": {
         "file": "pkg/roborock/camera.go",
-        "line": 384,
+        "line": 421,
         "symbol": "encoding/json.Marshal"
       },
       "argumentTypes": [
@@ -47209,7 +47323,7 @@
     {
       "site": {
         "file": "pkg/roborock/camera.go",
-        "line": 438,
+        "line": 494,
         "symbol": "encoding/json.Unmarshal"
       },
       "argumentTypes": [

@@ -30,6 +30,12 @@
         "CameraStopPreviewRPCRequest": {
           "$ref": "#/components/messages/CameraStopPreviewRPCRequest"
         },
+        "CameraStartVoiceChatRPCRequest": {
+          "$ref": "#/components/messages/CameraStartVoiceChatRPCRequest"
+        },
+        "CameraStopVoiceChatRPCRequest": {
+          "$ref": "#/components/messages/CameraStopVoiceChatRPCRequest"
+        },
         "CameraGetTURNRPCRequest": {
           "$ref": "#/components/messages/CameraGetTURNRPCRequest"
         },
@@ -72,6 +78,12 @@
         },
         "CameraStopPreviewRPCResponse": {
           "$ref": "#/components/messages/CameraStopPreviewRPCResponse"
+        },
+        "CameraStartVoiceChatRPCResponse": {
+          "$ref": "#/components/messages/CameraStartVoiceChatRPCResponse"
+        },
+        "CameraStopVoiceChatRPCResponse": {
+          "$ref": "#/components/messages/CameraStopVoiceChatRPCResponse"
         },
         "CameraGetTURNRPCResponse": {
           "$ref": "#/components/messages/CameraGetTURNRPCResponse"
@@ -182,6 +194,70 @@
         "messages": [
           {
             "$ref": "#/channels/responses/messages/CameraStopPreviewRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "camera"
+        }
+      ]
+    },
+    "CameraStartVoiceChatRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/CameraStartVoiceChatRPCRequest"
+        }
+      ],
+      "summary": "CameraStartVoiceChat for camera signaling",
+      "description": "Inferred and unverified: asks the robot to send microphone audio on the preview's WebRTC audio track; parameters mirror stop_camera_preview.",
+      "x-rpc-method": "start_voice_chat",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/CameraPreviewOwnerParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/CameraStartVoiceChatRPCResponse"
+          }
+        ]
+      },
+      "tags": [
+        {
+          "name": "camera"
+        }
+      ]
+    },
+    "CameraStopVoiceChatRPC": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/requests"
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/requests/messages/CameraStopVoiceChatRPCRequest"
+        }
+      ],
+      "summary": "CameraStopVoiceChat for camera signaling",
+      "description": "Inferred and unverified: stops robot microphone audio for the preview owner; parameters mirror stop_camera_preview.",
+      "x-rpc-method": "stop_voice_chat",
+      "x-go-request-schema": {
+        "$ref": "#/components/schemas/CameraPreviewOwnerParameters"
+      },
+      "reply": {
+        "channel": {
+          "$ref": "#/channels/responses"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/responses/messages/CameraStopVoiceChatRPCResponse"
           }
         ]
       },
@@ -560,6 +636,8 @@
           "get_homesec_connect_status",
           "start_camera_preview",
           "stop_camera_preview",
+          "start_voice_chat",
+          "stop_voice_chat",
           "get_turn_server",
           "send_sdp_to_robot",
           "get_device_sdp",
@@ -571,6 +649,8 @@
           "RPCCameraGetStatus",
           "RPCCameraStartPreview",
           "RPCCameraStopPreview",
+          "RPCCameraStartVoiceChat",
+          "RPCCameraStopVoiceChat",
           "RPCCameraGetTURN",
           "RPCCameraSendSDP",
           "RPCCameraGetSDP",
@@ -824,6 +904,126 @@
       "CameraStopPreviewRPCResponse": {
         "name": "CameraStopPreviewRPCResponse",
         "summary": "Returns cameraStopPreview for camera signaling.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/CameraAcknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CameraStartVoiceChatRPCRequest": {
+        "name": "CameraStartVoiceChatRPCRequest",
+        "title": "CameraStartVoiceChat for camera signaling",
+        "summary": "Inferred and unverified: asks the robot to send microphone audio on the preview's WebRTC audio track; parameters mirror stop_camera_preview.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "start_voice_chat"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/CameraPreviewOwnerParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CameraStartVoiceChatRPCResponse": {
+        "name": "CameraStartVoiceChatRPCResponse",
+        "summary": "Returns cameraStartVoiceChat for camera signaling; acknowledgement shape inferred from stop_camera_preview.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "result": {
+              "$ref": "#/components/schemas/CameraAcknowledgement"
+            },
+            "error": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCError"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CameraStopVoiceChatRPCRequest": {
+        "name": "CameraStopVoiceChatRPCRequest",
+        "title": "CameraStopVoiceChat for camera signaling",
+        "summary": "Inferred and unverified: stops robot microphone audio for the preview owner; parameters mirror stop_camera_preview.",
+        "payload": {
+          "type": "object",
+          "required": [
+            "id",
+            "method",
+            "params",
+            "security"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "stop_voice_chat"
+              ]
+            },
+            "params": {
+              "$ref": "#/components/schemas/CameraPreviewOwnerParameters"
+            },
+            "security": {
+              "$ref": "./mqtt.asyncapi.yaml#/components/schemas/MQTTRPCSecurity"
+            }
+          }
+        },
+        "correlationId": {
+          "location": "$message.payload#/id"
+        }
+      },
+      "CameraStopVoiceChatRPCResponse": {
+        "name": "CameraStopVoiceChatRPCResponse",
+        "summary": "Returns cameraStopVoiceChat for camera signaling; acknowledgement shape inferred from stop_camera_preview.",
         "payload": {
           "type": "object",
           "required": [

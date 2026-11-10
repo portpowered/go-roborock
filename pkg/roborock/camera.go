@@ -6,6 +6,7 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -33,6 +34,7 @@ type CameraSession struct {
 	closeOnce     sync.Once
 	closeErr      error
 	preview       atomic.Bool
+	voiceChat     atomic.Bool
 	setupDone     chan struct{}
 	clientID      string
 }
@@ -171,6 +173,7 @@ func (c *CameraSession) Description() CameraDescription {
 func (c *CameraSession) Done() <-chan struct{} { return c.life.Done() }
 
 // Close cancels pending signaling and stops preview once with bounded cleanup.
+// When voice chat may be on, Close stops it before stopping preview.
 func (c *CameraSession) Close() error {
 	c.closeOnce.Do(func() {
 		c.cancel()
@@ -180,10 +183,7 @@ func (c *CameraSession) Close() error {
 
 		select {
 		case <-c.setupDone:
-			if c.preview.Load() {
-				params := dependencymodels.CameraPreviewOwnerParameters{ClientId: c.clientID}
-				c.closeErr = c.ack(ctx, dependencymodels.RPCCameraStopPreview, params)
-			}
+			c.closeErr = c.stopOwned(ctx)
 		case <-ctx.Done():
 			c.closeErr = operationError("CloseCamera", ctx.Err())
 		}
@@ -226,6 +226,43 @@ func (c *CameraSession) SendICE(ctx context.Context, req SendICERequest) (Comman
 		dependencymodels.RPCCameraSendICE,
 		params,
 	)
+
+	return CommandAcknowledgement{Acknowledged: err == nil, Sent: err == nil}, err
+}
+
+// StartVoiceChat asks the device to send its microphone audio on the preview's
+// WebRTC audio track. It sends the preview owner identity without retries.
+// The parameters are inferred from preview ownership and unverified on devices.
+func (c *CameraSession) StartVoiceChat(ctx context.Context) (CommandAcknowledgement, error) {
+	callCtx, cancel, err := c.context(ctx)
+	if err != nil {
+		return CommandAcknowledgement{}, err
+	}
+
+	defer cancel()
+
+	// Mark before dispatch: an uncertain acknowledgement still needs cleanup on Close.
+	c.voiceChat.Store(true)
+
+	err = c.ack(callCtx, dependencymodels.RPCCameraStartVoiceChat, c.ownerParameters())
+
+	return CommandAcknowledgement{Acknowledged: err == nil, Sent: err == nil}, err
+}
+
+// StopVoiceChat asks the device to stop sending microphone audio without
+// stopping preview. Close also stops voice chat when it may still be on.
+func (c *CameraSession) StopVoiceChat(ctx context.Context) (CommandAcknowledgement, error) {
+	callCtx, cancel, err := c.context(ctx)
+	if err != nil {
+		return CommandAcknowledgement{}, err
+	}
+
+	defer cancel()
+
+	err = c.ack(callCtx, dependencymodels.RPCCameraStopVoiceChat, c.ownerParameters())
+	if err == nil {
+		c.voiceChat.Store(false)
+	}
 
 	return CommandAcknowledgement{Acknowledged: err == nil, Sent: err == nil}, err
 }
@@ -421,6 +458,25 @@ func (c *CameraSession) ack(ctx context.Context, method dependencymodels.CameraR
 	}
 
 	return nil
+}
+
+func (c *CameraSession) ownerParameters() dependencymodels.CameraPreviewOwnerParameters {
+	return dependencymodels.CameraPreviewOwnerParameters{ClientId: c.clientID}
+}
+
+// stopOwned stops voice chat, then preview, attempting each owned stop once.
+func (c *CameraSession) stopOwned(ctx context.Context) error {
+	var voiceErr, previewErr error
+
+	if c.voiceChat.Load() {
+		voiceErr = c.ack(ctx, dependencymodels.RPCCameraStopVoiceChat, c.ownerParameters())
+	}
+
+	if c.preview.Load() {
+		previewErr = c.ack(ctx, dependencymodels.RPCCameraStopPreview, c.ownerParameters())
+	}
+
+	return errors.Join(voiceErr, previewErr)
 }
 
 func cameraProtocol(operation string, cause error) error {

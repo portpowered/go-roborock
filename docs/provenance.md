@@ -12,6 +12,8 @@ Source contracts and generated declarations are audited independently of test co
 
 Camera preview ownership, uppercase quality and ICE envelope/batch corrections follow [go2rtc's Roborock implementation at af7509e](https://github.com/AlexxIT/go2rtc/blob/af7509ebaf9841fe94860850ee1369633a5f5cb3/pkg/roborock/client.go). These are reference-derived contracts, not a vendor specification or a live-device capture. Synthetic tests match the corrected request and response shapes and preserve media-section identifiers; they do not establish successful live playback.
 
+Camera voice chat (`start_voice_chat`, `stop_voice_chat`) is inferred. The method names come from the pinned Python reference command list, which documents no parameters; a closed upstream pull request (python-roborock #764) reports that the preview audio track sends no frames until `start_voice_chat` is called. The `{"client_id": <preview owner>}` parameters and list acknowledgement mirror `stop_camera_preview` and are neither captured nor verified on a device. Synthetic unit tests cover only the SDK's request shape, ordering and cleanup.
+
 Focused MQTT liveness tests live beside the transport so they can control its
 private ticker seam without exposing timing controls to customers. They replay
 the ordered synthetic ping/pong and unanswered-ping fixture in

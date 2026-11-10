@@ -14,15 +14,17 @@ const (
 
 // Defines values for CameraRPCMethod.
 const (
-	RPCCameraCheckPassword CameraRPCMethod = "check_homesec_password"
-	RPCCameraGetICE        CameraRPCMethod = "get_device_ice"
-	RPCCameraGetSDP        CameraRPCMethod = "get_device_sdp"
-	RPCCameraGetStatus     CameraRPCMethod = "get_homesec_connect_status"
-	RPCCameraGetTURN       CameraRPCMethod = "get_turn_server"
-	RPCCameraSendICE       CameraRPCMethod = "send_ice_to_robot"
-	RPCCameraSendSDP       CameraRPCMethod = "send_sdp_to_robot"
-	RPCCameraStartPreview  CameraRPCMethod = "start_camera_preview"
-	RPCCameraStopPreview   CameraRPCMethod = "stop_camera_preview"
+	RPCCameraCheckPassword  CameraRPCMethod = "check_homesec_password"
+	RPCCameraGetICE         CameraRPCMethod = "get_device_ice"
+	RPCCameraGetSDP         CameraRPCMethod = "get_device_sdp"
+	RPCCameraGetStatus      CameraRPCMethod = "get_homesec_connect_status"
+	RPCCameraGetTURN        CameraRPCMethod = "get_turn_server"
+	RPCCameraSendICE        CameraRPCMethod = "send_ice_to_robot"
+	RPCCameraSendSDP        CameraRPCMethod = "send_sdp_to_robot"
+	RPCCameraStartPreview   CameraRPCMethod = "start_camera_preview"
+	RPCCameraStartVoiceChat CameraRPCMethod = "start_voice_chat"
+	RPCCameraStopPreview    CameraRPCMethod = "stop_camera_preview"
+	RPCCameraStopVoiceChat  CameraRPCMethod = "stop_voice_chat"
 )
 
 // Defines values for CameraSDPRetry.
@@ -147,8 +149,14 @@ type CameraSendSDPRPCJSONRequestBody = CameraSDPParameters
 // CameraStartPreviewRPCJSONRequestBody defines model for CameraStartPreviewRPCJSONRequestBody.
 type CameraStartPreviewRPCJSONRequestBody = CameraPreviewParameters
 
+// CameraStartVoiceChatRPCJSONRequestBody defines model for CameraStartVoiceChatRPCJSONRequestBody.
+type CameraStartVoiceChatRPCJSONRequestBody = CameraPreviewOwnerParameters
+
 // CameraStopPreviewRPCJSONRequestBody defines model for CameraStopPreviewRPCJSONRequestBody.
 type CameraStopPreviewRPCJSONRequestBody = CameraPreviewOwnerParameters
+
+// CameraStopVoiceChatRPCJSONRequestBody defines model for CameraStopVoiceChatRPCJSONRequestBody.
+type CameraStopVoiceChatRPCJSONRequestBody = CameraPreviewOwnerParameters
 
 // CameraTURN defines model for CameraTURN.
 type CameraTURN struct {
