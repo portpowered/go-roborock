@@ -457,6 +457,15 @@ type EmptyRequest = struct{}
 // FanSpeed Open device-dependent numeric enum; future values are preserved. This named inventory lists known constants; field contracts explicitly accept future values.
 type FanSpeed int
 
+// GoToTargetRequest defines model for GoToTargetRequest.
+type GoToTargetRequest struct {
+	// X Target X in map millimeters in the V1 world frame; zero or greater.
+	X int64 `json:"x"`
+
+	// Y Target Y in map millimeters in the V1 world frame; zero or greater.
+	Y int64 `json:"y"`
+}
+
 // ICECandidate defines model for ICECandidate.
 type ICECandidate struct {
 	// Candidate Plain WebRTC candidate attribute.

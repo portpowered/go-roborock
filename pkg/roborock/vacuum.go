@@ -36,6 +36,8 @@ type DeviceOperations interface {
 	CleanZones(ctx context.Context, req CleanZonesRequest) (CommandAcknowledgement, error)
 	CleanSegments(ctx context.Context, req CleanSegmentsRequest) (CommandAcknowledgement, error)
 	RCMove(ctx context.Context, req RCMoveRequest) (CommandAcknowledgement, error)
+	GoToTarget(ctx context.Context, req GoToTargetRequest) (CommandAcknowledgement, error)
+	StopGoToTarget(ctx context.Context) (CommandAcknowledgement, error)
 }
 
 // StartCleaning sends the device command once without automatic retries.
@@ -217,4 +219,29 @@ func (s *DeviceSession) RCMove(ctx context.Context, req RCMoveRequest) (CommandA
 			},
 		},
 	)
+}
+
+// GoToTarget drives a V1 vacuum to a point in the map frame, in millimetres, and is sent once
+// without automatic retries. Captured on an S8 (2026-11-11): app_goto_target with [25400,25300]
+// replied ["ok"], status reported state 16 (DeviceStateGoingToTarget) with in_cleaning 0 while
+// travelling and state 3 (idle) on arrival about 55 mm from the target; the robot did not return
+// to the dock. The acknowledgement does not prove arrival.
+func (s *DeviceSession) GoToTarget(ctx context.Context, req GoToTargetRequest) (CommandAcknowledgement, error) {
+	if req.X < 0 || req.Y < 0 {
+		return CommandAcknowledgement{}, roborockerrors.New(
+			roborockerrors.InvalidArgument,
+			"GoToTarget",
+			"coordinates must be zero or greater millimetres",
+			nil,
+		)
+	}
+
+	return s.command(ctx, dependencymodels.RPCGoToTarget, dependencymodels.GoToTargetParameters{req.X, req.Y})
+}
+
+// StopGoToTarget asks a V1 vacuum to cancel a go-to-target trip and is sent once without
+// automatic retries. Synthetic: stop_goto_target was not captured on hardware, so the
+// acknowledgement and the resulting state are unverified.
+func (s *DeviceSession) StopGoToTarget(ctx context.Context) (CommandAcknowledgement, error) {
+	return s.command(ctx, dependencymodels.RPCStopGoToTarget, dependencymodels.NoParameters{})
 }

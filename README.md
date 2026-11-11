@@ -84,6 +84,7 @@ The following expressions are short call examples; `r` denotes `roborock`, `c` a
 | Zones, segments (family-dependent) | `s.CleanZones(ctx, r.CleanZonesRequest{Zones: zones})`; `s.CleanSegments(ctx, r.CleanSegmentsRequest{Segments: segments, Repeats: 1})` |
 | Remote control lifecycle | `s.RCStart(ctx, r.EmptyRequest{})`; `s.RCStop(ctx, r.EmptyRequest{})`; `s.RCEnd(ctx, r.EmptyRequest{})` |
 | Remote movement | `s.RCMove(ctx, r.RCMoveRequest{Velocity: 0.1, Duration: 500, Sequence: 1})` |
+| Drive to a map point (V1) | `s.GoToTarget(ctx, r.GoToTargetRequest{X: 25400, Y: 25300})` (map millimetres); cancel with `s.StopGoToTarget(ctx)` |
 | Session lifetime and close | `<-s.Done()`; `s.Err()`; `s.Close()` |
 
 V1 and Q7 acknowledgements establish RPC acceptance, not completed movement or cleaning. Q10 cleaning success establishes MQTT publication only. Observe V1 status or the B01 device/app after an acknowledgement; do not automatically retry uncertain movement. Mode values depend on the model and remain forward compatible. [Vacuum guide](https://portpowered.github.io/go-roborock/docs/guides/vacuum) and [remote control guide](https://portpowered.github.io/go-roborock/docs/guides/remote-control).
