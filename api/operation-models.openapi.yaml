@@ -875,6 +875,28 @@
           "sequence"
         ]
       },
+      "GoToTargetRequest": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "description": "Target X in map millimeters in the V1 world frame; zero or greater."
+          },
+          "y": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "description": "Target Y in map millimeters in the V1 world frame; zero or greater."
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "x",
+          "y"
+        ]
+      },
       "CleanRecordResult": {
         "type": "object",
         "required": [

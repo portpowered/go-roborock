@@ -308,6 +308,7 @@ const (
 	RPCGetConsumables      RPCMethod = "get_consumable"
 	RPCGetDND              RPCMethod = "get_dnd_timer"
 	RPCGetStatus           RPCMethod = "get_status"
+	RPCGoToTarget          RPCMethod = "app_goto_target"
 	RPCPauseCleaning       RPCMethod = "app_pause"
 	RPCRCEnd               RPCMethod = "app_rc_end"
 	RPCRCMove              RPCMethod = "app_rc_move"
@@ -325,6 +326,7 @@ const (
 	RPCStartMopWashing     RPCMethod = "app_start_wash"
 	RPCStopCleaning        RPCMethod = "app_stop"
 	RPCStopDustCollection  RPCMethod = "app_stop_collect_dust"
+	RPCStopGoToTarget      RPCMethod = "stop_goto_target"
 	RPCStopMopWashing      RPCMethod = "app_stop_wash"
 )
 
@@ -517,6 +519,12 @@ type GetDNDRPCJSONRequestBody = NoParameters
 // GetStatusRPCJSONRequestBody defines model for GetStatusRPCJSONRequestBody.
 type GetStatusRPCJSONRequestBody = NoParameters
 
+// GoToTargetParameters Target point [x, y] in millimetres in the V1 map frame, as zone cleaning coordinates.
+type GoToTargetParameters = []int64
+
+// GoToTargetRPCJSONRequestBody Target point [x, y] in millimetres in the V1 map frame, as zone cleaning coordinates.
+type GoToTargetRPCJSONRequestBody = GoToTargetParameters
+
 // IntegerParameters defines model for IntegerParameters.
 type IntegerParameters = []int64
 
@@ -692,6 +700,9 @@ type StopCleaningRPCJSONRequestBody = NoParameters
 
 // StopDustCollectionRPCJSONRequestBody defines model for StopDustCollectionRPCJSONRequestBody.
 type StopDustCollectionRPCJSONRequestBody = NoParameters
+
+// StopGoToTargetRPCJSONRequestBody defines model for StopGoToTargetRPCJSONRequestBody.
+type StopGoToTargetRPCJSONRequestBody = NoParameters
 
 // StopMopWashingRPCJSONRequestBody defines model for StopMopWashingRPCJSONRequestBody.
 type StopMopWashingRPCJSONRequestBody = NoParameters

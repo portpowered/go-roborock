@@ -15,4 +15,16 @@ Velocity is meters per second in −0.3 through 0.3; omega is radians per second
 
 Call `RCStop` to stop movement, then `RCEnd` to leave remote mode. Give cleanup its own bounded context if the movement context has already expired. Always close the device session afterward. Acknowledgement does not prove the robot moved or stopped; no movement command is automatically retried after uncertainty.
 
+## Drive to a map point
+
+`GoToTarget` sends the robot to a point in the V1 map frame, in millimetres, without entering remote mode. Coordinates must be zero or greater, and the call returns `InvalidArgument` without sending otherwise. It is V1 only.
+
+```go
+_, err := session.GoToTarget(ctx, roborock.GoToTargetRequest{X: 25400, Y: 25300})
+```
+
+Captured on an S8 (2026-11-11): `app_goto_target` with `[25400,25300]` replied `["ok"]`. While travelling, status reported state 16 (`DeviceStateGoingToTarget`) with `in_cleaning` 0. On arrival it reported state 3 (idle) about 55 mm from the target, and the robot did not return to the dock by itself. Poll status to observe arrival; the acknowledgement does not prove it.
+
+`StopGoToTarget(ctx)` sends `stop_goto_target` to cancel the trip. That command is synthetic here: it was not captured on hardware, so its acknowledgement and resulting state are unverified. Neither command is retried automatically.
+
 See [session errors](/docs/guides/lifecycle) and the [generated reference](/docs/asyncapi/vacuum/RCMoveRPC).

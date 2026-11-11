@@ -850,3 +850,68 @@ func TestNameSegmentsRejectsUnsupportedFamilies(t *testing.T) {
 		}
 	}
 }
+func TestGoToTargetCaptured(t *testing.T) {
+	t.Parallel()
+	session := operationSession(t,
+		rpcExchange{method: "app_goto_target", params: `[25400,25300]`, response: fixtureAcknowledgement, failure: nil})
+
+	ack, err := session.GoToTarget(t.Context(), GoToTargetRequest{X: 25400, Y: 25300})
+	if err != nil || !ack.Sent || !ack.Acknowledged {
+		t.Fatalf("ack %+v err %v", ack, err)
+	}
+}
+
+// TestStopGoToTargetSynthetic uses a synthetic reply: stop_goto_target was not captured.
+func TestStopGoToTargetSynthetic(t *testing.T) {
+	t.Parallel()
+	session := operationSession(t,
+		rpcExchange{method: "stop_goto_target", params: `[]`, response: fixtureAcknowledgement, failure: nil})
+
+	ack, err := session.StopGoToTarget(t.Context())
+	if err != nil || !ack.Sent || !ack.Acknowledged {
+		t.Fatalf("ack %+v err %v", ack, err)
+	}
+}
+
+func TestGoToTargetRejectsNegativeCoordinatesWithoutSending(t *testing.T) {
+	t.Parallel()
+
+	for _, req := range []GoToTargetRequest{{X: -1, Y: 0}, {X: 0, Y: -1}} {
+		session := operationSession(t)
+
+		_, err := session.GoToTarget(t.Context(), req)
+		if !errors.Is(err, roborockerrors.New(roborockerrors.InvalidArgument, "test", "", nil)) {
+			t.Fatalf("request %+v: %v", req, err)
+		}
+	}
+}
+
+func TestGoToTargetRejectsUncertainAcknowledgement(t *testing.T) {
+	t.Parallel()
+	session := operationSession(t,
+		rpcExchange{method: "app_goto_target", params: `[1,2]`, response: `["failed"]`, failure: nil})
+
+	ack, err := session.GoToTarget(t.Context(), GoToTargetRequest{X: 1, Y: 2})
+	if ack.Acknowledged || !errors.Is(err, roborockerrors.New(roborockerrors.Protocol, "test", "", nil)) {
+		t.Fatalf("ack %+v err %v", ack, err)
+	}
+}
+
+func TestGoToTargetRejectsNonV1(t *testing.T) {
+	t.Parallel()
+
+	for _, family := range []DeviceFamily{FamilyB01Q7, FamilyB01Q10, FamilyDyad, FamilyUnknown} {
+		session := familySession(t, family)
+		session.protocol = "B01"
+
+		_, err := session.GoToTarget(t.Context(), GoToTargetRequest{X: 1, Y: 2})
+		if !errors.Is(err, roborockerrors.New(roborockerrors.Unsupported, "test", "", nil)) {
+			t.Fatalf("family %s GoToTarget: %v", family, err)
+		}
+
+		_, err = session.StopGoToTarget(t.Context())
+		if !errors.Is(err, roborockerrors.New(roborockerrors.Unsupported, "test", "", nil)) {
+			t.Fatalf("family %s StopGoToTarget: %v", family, err)
+		}
+	}
+}
