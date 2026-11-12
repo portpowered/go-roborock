@@ -227,6 +227,8 @@ func (s *Session) awaitMap(ctx context.Context, query *mapQuery) ([]byte, error)
 		if s.config.Protocol == protocol.B01Version {
 			// An uncorrelated late response must not satisfy another map fetch.
 			s.fail(ctx.Err())
+		} else {
+			s.retireAfterDeadline(ctx)
 		}
 
 		return nil, transportError("map", ctx.Err())

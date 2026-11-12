@@ -89,8 +89,8 @@ linters:
       - path: '^cmd[\\/]go-roborock[\\/](rpc|discovery)_test\.go$'
         text: 'G(401|501):'
         linters: [gosec]
-      # LIB-05/GO-10: These named codec/session tests inject private framing and lifecycle seams under the race detector.
-      - path: '^pkg[\\/]dependencies[\\/]mqtt[\\/](codec|session|hub|hub_helpers)_test\.go$'
+      # LIB-05/GO-10: These named codec/session/stall tests inject private framing and lifecycle seams under the race detector.
+      - path: '^pkg[\\/]dependencies[\\/]mqtt[\\/](codec|session|hub|hub_helpers|stall)_test\.go$'
         linters: [testpackage]
       # LIB-08: Unsubscribing a dropped device topic is best effort and must outlive the caller whose
       # context triggered the drop, so it deliberately runs under its own short deadline.

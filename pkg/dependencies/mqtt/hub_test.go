@@ -204,6 +204,11 @@ func (b *hubBroker) answer(server net.Conn, body []byte) error {
 		return fmt.Errorf("%w: encode: %w", errSyntheticBroker, err)
 	}
 
+	if command.Method == "silent" {
+		// A stalled subscription: the request is published and no reply ever comes.
+		return nil
+	}
+
 	if command.Method == "poison" {
 		frame.Version = protocol.MQTTVersionA01
 	}
