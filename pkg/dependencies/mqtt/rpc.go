@@ -5,6 +5,7 @@ import (
 	"crypto/rand"
 	"encoding/binary"
 	"encoding/json"
+	"errors"
 	"math"
 	"regexp"
 	"time"
@@ -112,6 +113,8 @@ func (s *Session) awaitRPC(ctx context.Context, reply <-chan response) (json.Raw
 	case result := <-reply:
 		return result.value, result.err
 	case <-ctx.Done():
+		s.retireAfterDeadline(ctx)
+
 		return nil, transportError("call", ctx.Err())
 	case <-s.done:
 		select {
@@ -121,6 +124,18 @@ func (s *Session) awaitRPC(ctx context.Context, reply <-chan response) (json.Raw
 		}
 
 		return nil, s.closedOr(ctx, "call")
+	}
+}
+
+// retireAfterDeadline ends the device subscription when a reply missed its deadline. A
+// subscription that stops delivering replies does not recover on its own: the broker
+// keeps the stalled connection open until the read deadline ends it, so every call
+// in that window would fail too. Retiring it lets the next operation subscribe again,
+// on a fresh connection when it was the account's last device. A caller's own
+// cancellation says nothing about the device and keeps the subscription.
+func (s *Session) retireAfterDeadline(ctx context.Context) {
+	if errors.Is(ctx.Err(), context.DeadlineExceeded) {
+		s.fail(ctx.Err())
 	}
 }
 
